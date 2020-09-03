@@ -1,0 +1,6 @@
+Name,Units ,Input Type,Subsystem
+tsiVoltage,V,Voltage,TSI
+mcVoltage,V,Voltage,TSI
+pack1Voltage,V,Voltage,Batteries
+pack1Temp,C,Temperature,Batteries
+packCurent,A,Current,Batteries
