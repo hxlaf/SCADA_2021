@@ -1,0 +1,9 @@
+[Service]
+WorkingDirectory=/usr/etc/scada
+ExecStart=/usr/bin/scada_sorter.py
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=scada_sorter
+User=root
+Group=root
