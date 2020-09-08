@@ -11,9 +11,11 @@ import utils
 from utils import object_dictionary
 from utils import messages
 
+#create a bus using the config file and a notifier with no listeners?
 bus = utils.bus(config.get('bus_info'))
 notifier = can.Notifier(bus, [])
 
+#makes an object dictionary of parameters for the accumulator management system
 od = object_dictionary.ObjectDictionary()
 
 od.add_key('voltage')
@@ -72,16 +74,20 @@ maxval = 85
 def ramp(t):
 	return t % maxval
 
+#period of time for soc to decrease by 1
 x = 37
 y = 23
+#state of charge values
 soc1 = 67
 soc2 = 74
 def update():
 	global time, x, y, soc1, soc2
 	
+	#set up to count up to 84 from 0 and reset (essentially a sawtooth)
 	od.set('AMBIENT_TEMP', ramp(time))
 	time = time + 1
 	
+	#lowers soc after certain periods of time
 	if x == 0:
 		soc1 = soc1 - 1
 		od.set('SOC_1', soc1)
