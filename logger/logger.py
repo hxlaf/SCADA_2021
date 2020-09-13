@@ -1,4 +1,4 @@
-# THIS IS THE ONE I COMMENTED -Harry
+# NOTE: comments added after Connor's marked with name of commentor.
 
 #!/usr/bin/python3
 
