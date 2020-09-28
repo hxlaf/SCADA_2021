@@ -5,13 +5,16 @@ import time
 bus = smbus2.SMBus(1)
 c= 1
 while True:
-    
-    b = bus.read_byte_data(0x77, 0xD0, force=None)
-    print("ID" ,b)
-    time.sleep(0.2)
-    
-    print("Afer Sleep", c)
-    c=c+1 
+    try:
+        a = bus.read_byte_data(0x77, 0x88, force=None)
+        b = bus.read_byte_data(0x77, 0x89, force = None)
+        print("Temp" ,(a<<8)+b, " a: ", a, " b: ", b, end = '\r')
+        time.sleep(0.25)
+        
+        #print("After Sleep", c)
+        #c=c+1
+    except IOError:
+        time.sleep(.002)
 # c= bus.read_byte_data(0x77, 0xF8, force=None)
 # print("LSB",c)
 # #
