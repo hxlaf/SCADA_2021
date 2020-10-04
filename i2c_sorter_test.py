@@ -1,19 +1,23 @@
 import sys, os,time
-import smbus2
+import smbus
 import time
 
-bus = smbus2.SMBUS(1)
-data = ''
-reg_address = [0x05, 0x04, 0x03]
+bus = smbus.SMBus(1)
+
+reg_address = [0x03 ,0x04, 0x05]
 address = 0x68
 
- try:
-    for i in range(len(reg_address)):
-        data = str(bus.read_byte(address,reg_address[i]) << (8 * i-1))+data
-    print(data)
-except IOError:
-    time.sleep(.0001)
-    
+while True:
+    data = 0
+    try:
+        #for i in range(len(reg_address)):
+            #data = (bus.read_byte_data(address,reg_address[i]) << (8 * i)) | data
+            print(hex(bus.read_byte_data(address,0x03)))  
+        #print(data)
+            time.sleep(1)
+    except IOError:
+        time.sleep(2)
+    time.sleep(1)
 # t = time.localtime()
 # current_time = time.strftime("%H:%M:%S", t)
 # print(current_time)
