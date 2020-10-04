@@ -33,11 +33,19 @@ class i2c_sorter:
             time.sleep(.0001)
 
     def read_rtc(Sensor)
-        data = 0
-        for i in range(len(Sensor.reg_address)-1):
-            busval = bus.read_byte_data(Sensor.address, Sensor.reg_address[i])
-            data = data + (busval & 0xF) + (busval & 0xF0)
-        return data
+        data = ""
+        seconds_data = ""
+        mins_data = ""
+        hours_data= ""
+        for i in range(len(Sensor.reg_address)):
+            busval = bus.read_byte_data(Sensor.address,Sensor.reg_address[i])
+            if (i == 0):
+                seconds_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF))) 
+            if (i == 1):
+                mins_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
+            if (i == 2):
+                hours_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
+        return (hours_data + ":" + mins_data + ":" + seconds_data).replace("0x","")
         
 
 
