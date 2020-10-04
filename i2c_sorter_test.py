@@ -8,14 +8,14 @@ reg_address = [0x03 ,0x04, 0x05]
 address = 0x68
 
 while True:
-    data = 0
+    
     try:
         
-      data = 0
-        for i in range(len(reg_address)-1):
-            busval = bus.read_byte_data(address, reg_address[i])
-            data = data + (busval & 0xF) + (busval & 0xF0)
-        print(data)
+        data = ""
+        #for i in range(len(reg_address)-1):
+        busval = bus.read_byte_data(address, reg_address[0])
+        data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF))) 
+        print(data.replace("0x",""))
         
 
 
@@ -26,7 +26,7 @@ while True:
         time.sleep(1)
     except IOError:
         time.sleep(2)
-    time.sleep(1)
+    
 # t = time.localtime()
 # current_time = time.strftime("%H:%M:%S", t)
 # print(current_time)
