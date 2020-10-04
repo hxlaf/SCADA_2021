@@ -11,13 +11,12 @@ while True:
     data = 0
     try:
         
-        data = 0
-        
+      data = 0
         for i in range(len(reg_address)-1):
-            busval = bus.read_byte_data(address,reg_address[i])
-            data = data + (busval & (0xF << (i*4)))
+            busval = bus.read_byte_data(address, reg_address[i])
+            data = data + (busval & 0xF) + (busval & 0xF0)
         print(data)
-
+        
 
 
         #for i in range(len(reg_address)):

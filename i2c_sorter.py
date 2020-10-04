@@ -20,7 +20,7 @@ class i2c_sorter:
         except IOError:
             time.sleep(.0001)
            # for x in range(start, stop, step)
-           
+
     def write(Sensor, Value):
         try:
             for i in range(len(str(hex(Value)).replace("0x",""))-1):
@@ -34,9 +34,9 @@ class i2c_sorter:
 
     def read_rtc(Sensor)
         data = 0
-        busval = bus.read_byte(Sensor.address, Sensor.reg_address[i])
-        for i in range(len(Sensor.address)-1):
-            data = data + (busval & (0xF << (i*4)))
+        for i in range(len(Sensor.reg_address)-1):
+            busval = bus.read_byte_data(Sensor.address, Sensor.reg_address[i])
+            data = data + (busval & 0xF) + (busval & 0xF0)
         return data
         
 
