@@ -10,6 +10,16 @@ address = 0x68
 while True:
     data = 0
     try:
+        
+        def read_rtc(Sensor)
+        data = 0
+        busval = bus.read_byte(Sensor.address, Sensor.reg_address[i])
+        for i in range(len(Sensor.address)-1):
+            data = data + (busval & (0xF << (i*4)))
+        return data
+
+
+
         #for i in range(len(reg_address)):
             #data = (bus.read_byte_data(address,reg_address[i]) << (8 * i)) | data
             print(hex(bus.read_byte_data(address,0x03)))  
