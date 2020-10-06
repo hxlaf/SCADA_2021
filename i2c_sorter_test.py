@@ -15,6 +15,7 @@ try:
     
      # 'YR:MO:DD:HR:MI:SS' How we want value to be inputted
         val=Value.split(:)
+        print(val)
         bus.write_byte_data(reg_address[0],0,val[0]) #Year
         bus.write_byte_data(reg_address[1],0,val[1]) #Month
         bus.write_byte_data(reg_address[2],0,val[2]) #Day
