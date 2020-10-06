@@ -4,21 +4,21 @@ import time
 
 bus = smbus.SMBus(1)
 
-reg_address = [0xF4 0xF5] #Temprature
+reg_address = [0xF4,0xF5] #Temprature
 address = 0x77
 Value = 9988
 
-while True:
+#while True:
     
     
-        try:
+try:
             #Take out in future if not need 2 reg to write to
-            for i in range(len(str(hex(Value)).replace("0x",""))-1):
+    for i in range(len(str(hex(Value)).replace("0x",""))-1):
                 #bus.write_byte(Sensor.reg_address[i/2],str(hex(Value))[i-1]+str(hex(Value))[i])
-                bus.write_byte_data(Sensor.reg_address[i],hex(((0xFF << i*8)&Value)>>i*8))
+        bus.write_byte_data(reg_address[i],0,((0xFF << i*8)&Value)>>i*8)
                 # print(str(hex(Value))[i-1]+str(hex(Value))[i])
-        
-        print("Expected Data: " + str(bus.read_byte_data(0xF5)) + str(bus.read_byte_data(0xF4))
+            
+    print("Expected Data: " + str(bus.read_byte_data(0xF5)) + str(bus.read_byte_data(0xF4)))
                     
         
 
@@ -48,8 +48,8 @@ while True:
             #data = (bus.read_byte_data(address,reg_address[i]) << (8 * i)) | data
             #print(hex(bus.read_byte_data(address,0x03)))  
         #print(data)
-    except IOError:
-        time.sleep(1)
+except IOError:
+    time.sleep(1)
     
 # t = time.localtime()
 # current_time = time.strftime("%H:%M:%S", t)
