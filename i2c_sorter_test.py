@@ -4,24 +4,24 @@ import time
 
 bus = smbus.SMBus(1)
 
-reg_address = [0xF4,0xF5] #Temprature
-address = 0x77
-Value = 20:10:06:03:44:00
-reg_address[0x09,0x08,0x06,0x05,0x04,0x03]
+#reg_address = [0xF4,0xF5] #Temprature
+address = 0x68
+Value = "20:10:06:03:50:00"
+reg_address=[0x09,0x08,0x06,0x05,0x04,0x03]
 #while True:
     
     
 try:
     
      # 'YR:MO:DD:HR:MI:SS' How we want value to be inputted
-        val=Value.split(:)
+        val=Value.split(":")
         print(val)
-        bus.write_byte_data(reg_address[0],0,val[0]) #Year
-        bus.write_byte_data(reg_address[1],0,val[1]) #Month
-        bus.write_byte_data(reg_address[2],0,val[2]) #Day
-        bus.write_byte_data(reg_address[3],0,val[3]) #Hours
-        bus.write_byte_data(reg_address[4],0,val[4]) #Minutes
-        bus.write_byte_data(reg_address[5],0,val[5]) #Seconds
+        bus.write_byte_data(reg_address[0],0,int(val[0])) #Year
+        bus.write_byte_data(reg_address[1],0,int(val[1])) #Month
+        bus.write_byte_data(reg_address[2],0,int(val[2])) #Day
+        bus.write_byte_data(reg_address[3],0,int(val[3])) #Hours
+        bus.write_byte_data(reg_address[4],0,int(val[4])) #Minutes
+        bus.write_byte_data(reg_address[5],0,int(val[5])) #Seconds
                     
         
 
