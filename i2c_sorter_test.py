@@ -6,19 +6,21 @@ bus = smbus.SMBus(1)
 
 reg_address = [0xF4,0xF5] #Temprature
 address = 0x77
-Value = 9988
-
+Value = 20:10:06:03:44:00
+reg_address[0x09,0x08,0x06,0x05,0x04,0x03]
 #while True:
     
     
 try:
-            #Take out in future if not need 2 reg to write to
-    for i in range(len(str(hex(Value)).replace("0x",""))-1):
-                #bus.write_byte(Sensor.reg_address[i/2],str(hex(Value))[i-1]+str(hex(Value))[i])
-        bus.write_byte_data(reg_address[i],0,((0xFF << i*8)&Value)>>i*8)
-                # print(str(hex(Value))[i-1]+str(hex(Value))[i])
-            
-    print("Expected Data: " + str(bus.read_byte_data(0xF5)) + str(bus.read_byte_data(0xF4)))
+    
+     # 'YR:MO:DD:HR:MI:SS' How we want value to be inputted
+        val=Value.split(:)
+        bus.write_byte_data(reg_address[0],0,val[0]) #Year
+        bus.write_byte_data(reg_address[1],0,val[1]) #Month
+        bus.write_byte_data(reg_address[2],0,val[2]) #Day
+        bus.write_byte_data(reg_address[3],0,val[3]) #Hours
+        bus.write_byte_data(reg_address[4],0,val[4]) #Minutes
+        bus.write_byte_data(reg_address[5],0,val[5]) #Seconds
                     
         
 
