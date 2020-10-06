@@ -4,11 +4,12 @@ import time
 
 bus = smbus.SMBus(1)
 
-reg_address = [0xF4,0xF5] #Temprature
-address = 0x77
+#reg_address = [0xF4,0xF5] #Temprature
+address = 0x68
 Value = 20:10:06:03:44:00
 reg_address[0x09,0x08,0x06,0x05,0x04,0x03]
-#while True:
+
+
     
     
 try:
@@ -22,8 +23,39 @@ try:
         bus.write_byte_data(reg_address[3],0,val[3]) #Hours
         bus.write_byte_data(reg_address[4],0,val[4]) #Minutes
         bus.write_byte_data(reg_address[5],0,val[5]) #Seconds
-                    
         
+        time.sleep(1)
+                    
+except IOError:
+    time.sleep(1)
+
+while(True) 
+    try:       
+        data = ""
+        seconds_data = ""
+        mins_data = ""
+        hours_data= ""
+        days_data = ""
+        months_data = ""
+        years_data = ""
+        for i in range(len(reg_address)):
+            busval = bus.read_byte_data(address,reg_address[i])
+            if (i == 0):
+                seconds_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF))) 
+            if (i == 1):
+                mins_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
+            if (i == 2):
+                hours_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
+            if (i == 3):
+                days_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF))) 
+            if (i == 4):
+                months_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
+            if (i == 5):
+                years_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
+        
+        #Save to redis
+        print(years_data + ":" + months_data + ":" + days_data + ":" + hours_data + ":" + mins_data + ":" + seconds_data).replace("0x","")
+        time.sleep(1)
 
         #reg_address = [0x03 ,0x04, 0x05]
         #address = 0x68
@@ -51,8 +83,8 @@ try:
             #data = (bus.read_byte_data(address,reg_address[i]) << (8 * i)) | data
             #print(hex(bus.read_byte_data(address,0x03)))  
         #print(data)
-except IOError:
-    time.sleep(1)
+    except IOError:
+        time.sleep(1)
     
 # t = time.localtime()
 # current_time = time.strftime("%H:%M:%S", t)
