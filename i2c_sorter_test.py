@@ -4,28 +4,37 @@ import time
 
 bus = smbus.SMBus(1)
 
-reg_address = [0x03 ,0x04, 0x05]
-address = 0x68
+reg_address = [0xFA 0xFB] #Temprature
+address = 0x77
 
 while True:
     
     try:
-        
-        data = ""
-        seconds_data = ""
-        mins_data = ""
-        hours_data= ""
+        data = 0
         for i in range(len(reg_address)):
-            busval = bus.read_byte_data(address, reg_address[i])
-            if (i == 0):
-                seconds_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF))) 
-            if (i == 1):
-                mins_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
-            if (i == 2):
-                hours_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
-                #print("Hours Data: " +hours_data)
+            data = data + bus.read_byte(address, reg_address[i]) << (8 * i)
+            # data = str(bus.read_byte(address,reg_address[i]) << (8 * i))+data
+        print(data)
+        time.sleep(1)
+
+        #reg_address = [0x03 ,0x04, 0x05]
+        #address = 0x68
+           # for x in range(start, stop, step)
+        # data = ""
+        # seconds_data = ""
+        # mins_data = ""
+        # hours_data= ""
+        # for i in range(len(reg_address)):
+        #     busval = bus.read_byte_data(address, reg_address[i])
+        #     if (i == 0):
+        #         seconds_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF))) 
+        #     if (i == 1):
+        #         mins_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
+        #     if (i == 2):
+        #         hours_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
+        #         #print("Hours Data: " +hours_data)
                 
-        print((hours_data + ":" + mins_data + ":" + seconds_data).replace("0x",""))
+        # print((hours_data + ":" + mins_data + ":" + seconds_data).replace("0x",""))
         #print(bus.read_byte_data(address, reg_address[2]))
         
 
@@ -34,9 +43,8 @@ while True:
             #data = (bus.read_byte_data(address,reg_address[i]) << (8 * i)) | data
             #print(hex(bus.read_byte_data(address,0x03)))  
         #print(data)
-        time.sleep(1)
     except IOError:
-        time.sleep(2)
+        time.sleep(1)
     
 # t = time.localtime()
 # current_time = time.strftime("%H:%M:%S", t)
@@ -60,3 +68,5 @@ while True:
 #         print(hex(((0xFF << i*4)&Value)>>i*4))
         #bus.write_byte(Sensor.reg_address[i/2],hex(((0xFF << i*4)&Value)>>i*4))        
         
+
+

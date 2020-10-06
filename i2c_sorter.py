@@ -45,7 +45,10 @@ class i2c_sorter:
                 mins_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
             if (i == 2):
                 hours_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
+        #Save to redis
         return (hours_data + ":" + mins_data + ":" + seconds_data).replace("0x","")
+
+    
         
 
 
