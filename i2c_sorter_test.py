@@ -4,7 +4,7 @@ import time
 
 bus = smbus.SMBus(1)
 
-reg_address = [0xFA 0xFB] #Temprature
+reg_address = [0xFB,0xFA] #Temprature
 address = 0x77
 
 while True:
@@ -12,7 +12,7 @@ while True:
     try:
         data = 0
         for i in range(len(reg_address)):
-            data = data + bus.read_byte(address, reg_address[i]) << (8 * i)
+            data = data + bus.read_byte_data(address, reg_address[i]) << (8 * i)
             # data = str(bus.read_byte(address,reg_address[i]) << (8 * i))+data
         print(data)
         time.sleep(1)
