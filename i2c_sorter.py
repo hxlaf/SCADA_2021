@@ -1,10 +1,13 @@
-
+#Try catch IOErrors are because the I2C bus sometimes disappears and there would be an IOError that cannot be fixed
 import sys, os
 import config
 import smbus2
 import redis
 import utils
 import time
+
+
+
 class i2c_sorter:
     #make bus number configurable
     bus = smbus2.SMBUS(1)
@@ -18,19 +21,18 @@ class i2c_sorter:
                 #adds the values for each byte of the sensor together to get the overall result of the sensor
                 for i in range(len(Sensor.reg_address)):
                     data = data + bus.read_byte_data(Sensor.address,Sensor.reg_address[i]) << (8 * i)
+                                    
                 return data
         except IOError:
             time.sleep(.0001)
-           # for x in range(start, stop, step)
 
     def write(Sensor, Value):
         try:
             if(Sensor.address == 0x68):
                 return write_rtc(Sensor,Value)
             else:
-            #Take out in future if not need 2 reg to write to
+                #currently only writes to one register, meant to be used multiple times if multiple registers need to be written to
                 bus.write_byte_data(Sensor.address,Sensor.reg_address,Value)
-                # print(str(hex(Value))[i-1]+str(hex(Value))[i])  
         except IOError:
             time.sleep(.0001)
     
@@ -56,7 +58,8 @@ class i2c_sorter:
                 months_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
             if (i == 5):
                 years_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
-            
+
+       
         #Save to redis
         return (years_data + ":" + months_data + ":" + days_data + ":" + hours_data + ":" + mins_data + ":" + seconds_data).replace("0x","")
     
@@ -71,11 +74,11 @@ class i2c_sorter:
         print(val)
     try:
         bus.write_byte_data(0x68,Sensor.reg_address[0],int(val[0],16)) #Year
-        bus.write_byte_data(0x68,Sensor.reg_address[1],int(val[1],16))
-        bus.write_byte_data(0x68,Sensor.reg_address[2],int(val[2],16))
-        bus.write_byte_data(0x68,Sensor.reg_address[3],int(val[3],16))
-        bus.write_byte_data(0x68,Sensor.reg_address[4],int(val[4],16))
-        bus.write_byte_data(0x68,Sensor.reg_address[5],int(val[5],16))
+        bus.write_byte_data(0x68,Sensor.reg_address[1],int(val[1],16)) #Month
+        bus.write_byte_data(0x68,Sensor.reg_address[2],int(val[2],16)) #Day
+        bus.write_byte_data(0x68,Sensor.reg_address[3],int(val[3],16)) #Hours
+        bus.write_byte_data(0x68,Sensor.reg_address[4],int(val[4],16)) #Minutes
+        bus.write_byte_data(0x68,Sensor.reg_address[5],int(val[5],16)) #Second
 
         ##Conguring the Date
 
