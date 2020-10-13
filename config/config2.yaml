@@ -194,6 +194,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'GLV'
     input_targets: ['glv:voltage:raw'] #this does not exist yet
     cal_function: 'x0' #not final
+    bus_type: Can
+    bus_addr: 
     ## maybe make a boolean variable 
     ## bus type 
     ## bus address 
@@ -206,6 +208,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'GLV'
     input_targets: ['glv:current:raw'] #this does not exist yet
     cal_function: 'x0' #not final
+    bus_type: Can
+    bus_addr: 
 
   GLV_Power:
     output_target: 'glv:power'
@@ -215,6 +219,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     input_targets: ['glv:current', 'glv:voltage'] #this does not exist yet
     cal_function: 'x0*x1' #not final
     subsystem: 'GLV'
+    bus_type: Can
+    bus_addr: 
 
 
   GLV_Temp:
@@ -225,6 +231,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     input_targets: ['glv:temp:raw'] #this does not exist yet
     cal_function: 'x0' #not final
     subsystem: 'GLV'
+    bus_type: Can
+    bus_addr: 
 
         
   #TSI
@@ -236,6 +244,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'TSI'
     input_targets: ['tsi:state:int'] 
     cal_function: 'x0' #not final
+    bus_type: Can
+    bus_addr: 
 
   TSI_MC_Voltage:
     output_target: 'tsi:mc_voltage'
@@ -244,7 +254,9 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     oprange: []
     subsystem: 'TSI'
     input_targets: ['tsi:mc_voltage:raw'] 
-    cal_function: '(((x0/255) * 5) -1.28) *61' 
+    cal_function: '(((x0/255) * 5) -1.28) *61'
+    bus_type: Can 
+    bus_addr: 
 
   TSI TS Voltage:
     output_target: 'tsi:voltage'
@@ -254,6 +266,9 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'TSI'
     input_targets: ['tsi:voltage:raw'] 
     cal_function: '(((x0/255) * 5) -1.28) *61' 
+    bus_type: Can
+    bus_addr: 
+
 
   TSI Current:
     output_target: 'tsi:current'
@@ -263,6 +278,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'TSI'
     input_targets: ['tsi:current:raw'] 
     cal_function: 'x0'
+    bus_type: Can
+    bus_addr: 
 
   TSI Flow Rate:
     output_target: 'tsi:flow_rate'
@@ -272,6 +289,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'TSI'
     input_targets: ['tsi:flow_rate:raw'] 
     cal_function: '0.0535 + 757.5 * (1/x0)'
+    bus_type: Can
+    bus_addr: 
 
   TSI Throttle:
     output_target: 'tsi:throttle'
@@ -281,6 +300,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'TSI'
     input_targets: ['tsi:throttle:raw'] 
     cal_function: '(((x0 / 255) * 3.3)*33)/18'
+    bus_type: Can
+    bus_addr: 
     
 #Cooling: *** FULLY NOT DONE YET DIDNT EVEN TOUCH 
 ## there are no sensors dedicated for these? im confused  
@@ -292,6 +313,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     input_targets: ''
     subsystem: 'Cooling'
     cal_function: ''
+    bus_type: Can
+    bus_addr: 
 
   Cool Temp2:
     output_target: 'cool:temp2'
@@ -301,6 +324,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     input_targets: ''
     subsystem: 'Cooling'
     cal_function: ''
+    bus_type: Can
+    bus_addr: 
 
   Cool Flow Rate:
     output_target: 'cool:flowRate'
@@ -310,6 +335,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     input_targets: ''
     subsystem: 'Cooling'
     cal_function: ''
+    bus_type: Can
+    bus_addr: 
 
   Cool Pump:
     output_target: 'cool:pump'
@@ -319,6 +346,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     input_targets: ''
     subsystem: 'Cooling'
     cal_function: ''
+    bus_type: Can
+    bus_addr: 
 
   Cool Fan:
     output_target: 'cool:fan'
@@ -328,6 +357,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     input_targets: ''
     subsystem: 'Cooling'
     cal_function: ''
+    bus_type: Can
+    bus_addr: 
     
 #################################
 
@@ -343,6 +374,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor:status']  ###  motor 1
     cal_function: 'x0' #idk
+    bus_type: Can
+    bus_addr: 
   
   Motor Torque:
     output_target: 'motor:torque' 
@@ -352,6 +385,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor:torque']  ###  motor 1
     cal_function: 'x0'            # Need to fix 
+    bus_type: Can
+    bus_addr: 
   
   ## MOTOR 2
   Motor Voltage:
@@ -362,6 +397,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-2:dc_link_voltage'] ## motor-2
     cal_function: 'x0'
+    bus_type: Can
+    bus_addr: 
 
   Motor Temp:
     output_target: 'motor:motor_temp'
@@ -371,6 +408,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-2:motor_temp'] ## motor 2
     cal_function: 'x0'
+    bus_type: Can
+    bus_addr: 
 
   Motor Controller Temp:
     output_target: 'motor:controller_temp'
@@ -380,6 +419,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-2:controller_temp'] ###  motor 2 should this be differnt
     cal_function: 'x0'
+    bus_type: Can
+    bus_addr: 
 
   Motor Warning:
     output_target: 'motor:warning' 
@@ -389,6 +430,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-2:warning']  ###  motor 2
     cal_function: 'x0'            # Need to fix 
+    bus_type: Can
+    bus_addr: 
 
   Motor Current Demand:
     output_target: 'motor:current_demand' 
@@ -398,6 +441,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-2:current_demand']  ###  motor 2
     cal_function: 'x0'            # Need to fix 
+    bus_type: Can
+    bus_addr: 
 
 
 ## motor 3 
@@ -409,6 +454,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor:throttle-byte0', motor:throttle-byte1]  ###  motor 3
     cal_function: 'x0 * x1 * 256' #taken care of in Cal_funtion 1
+    bus_type: Can
+    bus_addr: 
 
   Motor Aux:
     output_target: 'motor:aux' 
@@ -418,6 +465,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-3:aux']  ###  motor 3
     cal_function: 'x0'            # Need to fix 
+    bus_type: Can
+    bus_addr: 
 
   Motor Brake:
     output_target: 'motor:brake' 
@@ -427,6 +476,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-3:brake']  ###  motor 3
     cal_function: 'x0'            # Need to fix 
+    bus_type: Can
+    bus_addr: 
 
   Motor Phaseb Current:
     output_target: 'motor:brake' 
@@ -436,6 +487,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-3:phaseb_current']  ###  motor 3
     cal_function: 'x0'            # Need to fix 
+    bus_type: Can
+    bus_addr: 
   
   ## MOTOR 4 
   Motor RPM:
@@ -446,6 +499,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-4:velocity'] ###  motor 4??
     cal_function: 'x0'
+    bus_type: Can
+    bus_addr: 
 
   Motor Torque Regulator:
     output_target: 'motor:torque_regulator' 
@@ -455,6 +510,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-4:torque_regulator']  ###  motor 4
     cal_function: 'x0'            # Need to fix 
+    bus_type: Can
+    bus_addr: 
 
   Motor Flux Regulator:
     output_target: 'motor:flux_regulator' 
@@ -464,6 +521,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-4:flux_regulator']  ###  motor 4
     cal_function: 'x0'            # Need to fix 
+    bus_type: Can
+    bus_addr: 
 
   Motor Velocity:
     output_target: 'motor:velocity' 
@@ -473,6 +532,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Motor'
     input_targets: ['motor-4:velocity']  ###  motor 4
     cal_function: 'x0'            # Need to fix 
+    bus_type: Can
+    bus_addr: 
 #############################
     
   #Pack 1:
@@ -483,7 +544,9 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     oprange: [10, 20, 100, 105]
     subsystem: 'Pack1'
     input_targets: ['PACK1:state_of_charge_01','PACK1:state_of_charge_02']  
-    cal_function: 'x0, x1'           
+    cal_function: 'x0, x1'   
+    bus_type: Can   
+    bus_addr:      
 
   Pack 1 Voltage:
     output_target: 'PACK1: VOLTAGE'
@@ -492,7 +555,9 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     oprange: [Null, Null, 250, 300]
     subsystem: 'Pack1'
     input_targets: ['PACK1:voltage']  
-    cal_function: 'x0'          
+    cal_function: 'x0'  
+    bus_type: Can   
+    bus_addr:      
 
   Pack 1 Current:
     output_target: 'PACK1: CURRENT'
@@ -502,6 +567,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Pack1'
     input_targets: ['PACK1:current']  
     cal_function: 'x0'  
+    bus_type: Can
+    bus_addr: 
 
   Pack 1 Ambient Temp:
     output_target: 'PACK1: AMBIENT_TEMP'
@@ -511,6 +578,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Pack1'
     input_targets: ['PACK1:cells:temp:min', 'PACK1:cells:temp:avg', 'PACK1:cells:temp:max']  
     cal_function: '(x0 * (9/5) +32)'
+    bus_type: Can
+    bus_addr: 
     
   #Pack 2:
   Pack 2 SOC:
@@ -521,6 +590,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Pack2'
     input_targets: ['PACK2:state_of_charge_01','PACK2:state_of_charge_02']  
     cal_function: 'x0, x1'   
+    bus_type: Can
+    bus_addr: 
 
   Pack 2 Voltage:
     output_target: 'PACK2: VOLTAGE'
@@ -530,6 +601,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Pack2'
     input_targets: ['PACK2:voltage']  
     cal_function: 'x0'  
+    bus_type: Can
+    bus_addr: 
 
   Pack 2 Current:
     output_target: 'PACK2: CURRENT'
@@ -539,6 +612,8 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     subsystem: 'Pack2'
     input_targets: ['PACK2:current']  
     cal_function: 'x0'  
+    bus_type: Can
+    bus_addr: 
     
   Pack 2 Ambient Temp:
     output_target: 'PACK2: AMBIENT_TEMP'
@@ -547,5 +622,6 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     oprange: [Null, Null, 250, 300]
     subsystem: 'Pack2'
     input_targets: ['PACK2:cells:temp:min', 'PACK2:cells:temp:avg', 'PACK2:cells:temp:max']  
-    cal_function: '(x0 * (9/5) +32)' ## shoudl we just use the avergae?? 
-                                    ## why does he have all 3 ?? 
+    cal_function: '(x0 * (9/5) +32)' ## shoudl we just use the avergae?? ## why does he have all 3 ?? 
+    bus_type: Can       
+    bus_addr:                          
