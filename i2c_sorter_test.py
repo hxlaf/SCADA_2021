@@ -73,39 +73,13 @@ while True:
         time.sleep(1)
         #Calling method to print out retrive data from Redis
 
-        pop_data= r.lpop(Sensor_name)
-        print('Time Data from Redis' + str(pop_data))
+        print(p.get_message()['data'])
 
-        #reg_address = [0x03 ,0x04, 0x05]
-        #address = 0x68
-           # for x in range(start, stop, step)
-        # data = ""
-        # seconds_data = ""
-        # mins_data = ""
-        # hours_data= ""
-        # for i in range(len(reg_address)):
-        #     busval = bus.read_byte_data(address, reg_address[i])
-        #     if (i == 0):
-        #         seconds_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF))) 
-        #     if (i == 1):
-        #         mins_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
-        #     if (i == 2):
-        #         hours_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
-        #         #print("Hours Data: " +hours_data)
-                
-        # print((hours_data + ":" + mins_data + ":" + seconds_data).replace("0x",""))
-        #print(bus.read_byte_data(address, reg_address[2]))
-
-        print(p.get_message())
-
-        
+             
     except IOError:
         time.sleep(1)
 
 
-# def ReadfromRedis():
-#     pop_data= r.lpop(Sensor_name)
-#     print('Time Data from Redis' + pop_data)
 
 
     
