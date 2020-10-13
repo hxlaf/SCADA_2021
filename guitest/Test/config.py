@@ -6,6 +6,7 @@ import logging
 __config = {}
 __loaded = False
 
+#THIS STUFF IS GONNNA NEED TO CHANGE
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
 
@@ -25,7 +26,7 @@ def load(forceLoad = False):
 		return
 	
 	#Harry: I changed this from having the config path to not
-	with open(config_path + "/" + yaml_name, 'r') as stream:
+	with open(yaml_name, 'r') as stream:
 	# with open(os.eniron[])
 		try:
 			__config = yaml.safe_load(stream)
