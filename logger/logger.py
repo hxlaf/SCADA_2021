@@ -1,12 +1,5 @@
-# NOTE: comments added after Connor's marked with name of commentor.
-
 #!/usr/bin/python3
 
-import datetime
-import time
-import psycopg2
-import redis
-import config
 import sys
 import os
 
@@ -16,12 +9,18 @@ config_path = '/usr/etc/scada/config'
 sys.path.append(lib_path)
 sys.path.append(config_path)
 
-# Harry: import dependent python libraries
+# import dependent python libraries
+import datetime
+import time
+import psycopg2
+import redis
+import config
 
-# Harry: creates instance of Redis
+
+# creates instance of Redis
 car_state = redis.Redis(host='localhost', port=6379,
                         db=0, decode_responses=True)
-# Harry: connection object that connects to Postrges database
+# connection object that connects to Postrges database
 database = psycopg2.connect(
 	user='fsae',
 	password='cables',
@@ -30,15 +29,15 @@ database = psycopg2.connect(
 	database='demo'
 )
 
-# Harry: creates Publish/Subscribe Redis object called 'p'
+# creates Publish/Subscribe Redis object called 'p'
 p = car_state.pubsub()
-# Harry: p subscribes to get messages from 3 channels in Redis
+# p subscribes to get messages from 3 channels in Redis
 p.subscribe('bus_data')
 p.subscribe('calculated_data')
 p.subscribe('new-session')
 
-# Harry: create Postrgres database cursor
-# Harry: a cursor is like a dummy user in a database that executes commands and retrieves results
+# create Postrgres database cursor
+#  a cursor is like a dummy user in a database that executes commands and retrieves results
 cursor = database.cursor()
 
 # Uncomment this to wipe the database on startup of
@@ -69,11 +68,11 @@ CREATE TABLE IF NOT EXISTS sensors(
 );
 """)
 
-# Harry: commits transactions above to the database
+# commits transactions above to the database
 database.commit()
 
 
-# Harry: FOR SOME REASON METHOD DEFINITIONS ARE IN THE MIDDLE OF THIS FILE
+# FOR SOME REASON METHOD DEFINITIONS ARE IN THE MIDDLE OF THIS FILE
 
 def delimit_session():
 	"""
@@ -142,16 +141,16 @@ def update(message, key):
 			ON CONFLICT (redis_key) DO NOTHING
 		""", [key])
 		
-		#Harry: adds data to data table
+		# adds data to data table
 		cursor.execute("""
 			INSERT INTO data (sensor_id, value)
 			VALUES (%s, %s)
 		""", [key, car_state.get(key)])
 
-		# Harry: updates previous value/timestamp for check_update_ready method on next loop
+		# updates previous value/timestamp for check_update_ready method on next loop
 		previous_values[key] = (car_state.get(key), datetime.datetime.now())
 
-		# Hary: I think this method should call "database.commit()" here
+		# I think this method should call "database.commit()" here
 
 # Harry: THIS IS THE ACTUAL CODE THAT RUNS
 

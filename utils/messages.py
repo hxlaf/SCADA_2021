@@ -69,7 +69,7 @@ def sdo_write(node_id, index, subindex=0xFF, value=0):
 
 	return can_message('SDO-WRITE', node_id, data)
 
-
+# takes in can message and spits out node id and function id 
 def get_info(message):
 	#Attribtion ID - frame identifier used for arbitration on the bus
 	cob_id = message.arbitration_id

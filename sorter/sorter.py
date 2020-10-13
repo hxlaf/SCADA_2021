@@ -29,6 +29,7 @@ class Listener(can.Listener):
 		# infer the CANOpen protocol used and node id of sender
 		#Calling a method in the messages class that returns function id
 		# which is the protocol and the node id
+		# message.get_info ===> from the utils folder 
 		protocol, node_id = messages.get_info(msg)
 
 #		if protocol == 'SDO-WRITE':
@@ -78,7 +79,7 @@ class Listener(can.Listener):
 			pipe = data.pipeline()
 
 			for index, byte in enumerate(msg.data, start=0):
-				##### What does this line mean?
+				## creating the key name for redis
 				key = '{}:{}'.format(node, pdo_structure[index])
 				#Python String Method that makes everything lowercase
 				key = key.lower()
