@@ -64,7 +64,7 @@ while True:
         time.sleep(1)
         #Calling method to print out retrive data from Redis
         ReadfromRedis()
-
+        RTC [12,23,24,2333]
         #reg_address = [0x03 ,0x04, 0x05]
         #address = 0x68
            # for x in range(start, stop, step)
