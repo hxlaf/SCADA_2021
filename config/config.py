@@ -9,21 +9,25 @@ __loaded = False
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
 
+#Harry: I ADDED THIS
+yaml_name = 'config2.yaml'
+
 sys.path.append(lib_path)
 sys.path.append(config_path)
 
 # Loads the YAML config file in a config structure
-def load():
+
+#HARRY: MADE IMPORTANT EDIT HERE
+def load(forceLoad = False):
 	global __config, __loaded
-
-	if __loaded:
+	
+	if __loaded and not forceLoad:
 		return
-
-	#Note: i changed this
-	with open(config_path + '/config2.yaml', 'r') as stream:
+	
+	#Harry: I changed this from having the config path to not
+	with open(config_path + "/" + yaml_name, 'r') as stream:
 	# with open(os.eniron[])
 		try:
-			#Loading config yaml file details into config dictionary
 			__config = yaml.safe_load(stream)
 			__loaded = True
 			logging.info('Successfully loaded config file')
@@ -34,18 +38,34 @@ def load():
 # Returns the value associated with the given key in the config structure
 def get(key, default=None):
 	global __config, __loaded
-
+	
 	if not __loaded:
 		load()
-
+	
 	return __config.get(key, default)
 
 
 # Returns a string dump of the entire config structure
 def string_dump():
 	global __config, __loaded
+	
+	if not __loaded:
+		load()
+	
+	return yaml.dump(__config)
+
+#HARRY: I ADDED THIS WHOLE THING
+def write(key, value):
+	global __config, __loaded
 
 	if not __loaded:
 		load()
 
-	return yaml.dump(__config)
+	with open('new_' + yaml_name, 'w') as stream:
+	# with open(os.eniron[])
+		try:
+			__config[key] = value
+			yaml.dump(__config, stream)
+		except yaml.YAMLError as exc:
+			print(exc)
+	
