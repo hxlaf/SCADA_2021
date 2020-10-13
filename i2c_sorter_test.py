@@ -8,26 +8,26 @@ bus = smbus.SMBus(1)
 r= redis.Redis(host='localhost',port=6379, db=0) 
 #reg_address = [0xF4,0xF5] #Temprature
 address = 0x68
-Sensor_name= RTC
+Sensor_name= 'RTC'
 Value = "20:10:06:05:14:00"
 reg_address=[0x09,0x08,0x06,0x05,0x04,0x03]
 #while True:
     
 # try:
-    
+#     
 #      # 'YR:MO:DD:HR:MI:SS' How we want value to be inputted
 #         val=Value.split(":")
 #         print(val)
-
+# 
 #         bus.write_byte_data(0x68,reg_address[0],int(val[0],16)) #Year
 #         bus.write_byte_data(0x68,reg_address[1],int(val[1],16))
 #         bus.write_byte_data(0x68,reg_address[2],int(val[2],16))
 #         bus.write_byte_data(0x68,reg_address[3],int(val[3],16))
 #         bus.write_byte_data(0x68,reg_address[4],int(val[4],16))
 #         bus.write_byte_data(0x68,reg_address[5],int(val[5],16))
-        
+#         
 #         time.sleep(1)
-
+# 
 # except IOError:
 #     time.sleep(1)
 
@@ -63,7 +63,8 @@ while True:
         r.rpush(Sensor_name,time_data)
         time.sleep(1)
         #Calling method to print out retrive data from Redis
-        ReadfromRedis()
+        pop_data= r.lpop(Sensor_name)
+        print('Time Data from Redis' + str(pop_data))
 
         #reg_address = [0x03 ,0x04, 0x05]
         #address = 0x68
@@ -94,9 +95,9 @@ while True:
     except IOError:
         time.sleep(1)
 
-def ReadfromRedis()
-    pop_data= r.lpop(Sensor_name)
-    print('Time Data from Redis' + pop_data)
+# def ReadfromRedis():
+#     pop_data= r.lpop(Sensor_name)
+#     print('Time Data from Redis' + pop_data)
 
     
 # t = time.localtime()
