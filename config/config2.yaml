@@ -7,7 +7,7 @@ bus_info:
 
 emulate_nodes: yes
 
-# enable specific node emulation
+# enable spec ific node emulation
 emulate_tsi: no
 emulate_packs: no
 emulate_cockpit: no
