@@ -29,11 +29,17 @@ class NewGUI(tk.Frame):
         self.defualt = 1
 
 
-        Name_button = tk.Button(self, text = "Name", fg = "black", command = lambda: self.sort_list_byName("Name"))
-        Name_button.grid(row = 0, column = 0, sticky = "nsew")
+        # Name_button = tk.Button(self, text = "Name", fg = "black", command = lambda: self.sort_list_byName("Name"))
+        # Name_button.grid(row = 0, column = 0, sticky = "nsew")
+
+        name_label = tk.Label(self, text = "Name", font= LARGE_FONT )
+        name_label.grid(row = 0 , column = 0, sticky = "nsew")
         
-        subsystem_button = tk.Button(self, text = "Subsystem", fg = "black", command = lambda: self.sort_list_byName("Subsystem"))
-        subsystem_button.grid(row = 0, column = 2, sticky = "nsew")
+        # subsystem_button = tk.Button(self, text = "Subsystem", fg = "black", command = lambda: self.sort_list_byName("Subsystem"))
+        # subsystem_button.grid(row = 0, column = 2, sticky = "nsew")
+
+        subsystem_label = tk.Label(self, text = "Subsystem", font= LARGE_FONT )
+        subsystem_label.grid(row = 0 , column = 0, sticky = "nsew")
 
         data_label = tk.Label(self, text = "Data", font= LARGE_FONT )
         data_label.grid(row = 0 , column = 3, sticky = "nsew")
