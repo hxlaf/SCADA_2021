@@ -28,10 +28,10 @@ p.subscribe('Sensor_data')
 def execute(Sensor_val):
 		
 	#Retrieve Calibration Function From Yaml Configuration File
-	calibration_func = config.get(Sensor_val(0)[1:-1]).get(cal_function)
+	calibration_func = config.get(Sensor_val(0)[1:-1].get(cal_function))
 
 	#Replacing Input Targets x0,x1, etc w/ raw values for calibration calc
-	for i in config.get(Sensor_val(0)[1:-1]).get(input_targets)
+	for i in range(len(config.get(Sensor_val(0)[1:-1].get(input_targets))))
 		calibration_func.replace("x"+i,Sensor_val[1][1:-1])
 	
 	return eval(calibration_func) 
