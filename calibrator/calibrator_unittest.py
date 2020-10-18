@@ -13,6 +13,7 @@ config_path = 'C:/Users/irwin/Desktop/scadafsae/config'
 #Harry: I ADDED THIS
 yaml_name = 'config2.yaml'
 
+a = "Test"
 #sys.path.append(lib_path)
 sys.path.append(config_path)
 
