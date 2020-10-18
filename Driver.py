@@ -21,6 +21,8 @@ data.subscribe('Sensor_data')
             data = can_sorter.read(Sensor)
         elif(Sensor.protocol == 'USB'):
             data= usb_sorter.read(Sensor)
+        elif(Sensor.protocol == 'Virtual')
+            data= 0;
         else:
             return 'Sensor Protocol Not Found'
          #Redis Write Command 
