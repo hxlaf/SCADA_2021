@@ -6,6 +6,7 @@ import logging
 __config = {}
 __loaded = False
 
+#THIS STUFF IS GONNNA NEED TO CHANGE
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
 
