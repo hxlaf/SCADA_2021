@@ -137,6 +137,14 @@ sensor_metadata:
 
 ### list ther sensors you would like to dislay on the screen
 Display:
+  - Pack 1 SOC
+  - Pack 1 Voltage
+  - Pack 1 Current
+  - Pack 1 Ambient Temp
+  - Pack 2 SOC
+  - Pack 2 Voltage
+  - Pack 2 Current
+  - Pack 2 Ambient Temp
   - GLV_Voltage
   - GLV_Current
   - GLV_Power
@@ -167,14 +175,46 @@ Display:
   - Motor Torque Regulator
   - Motor Flux Regulator
   - Motor Velocity
-  - Pack 1 SOC
-  - Pack 1 Voltage
-  - Pack 1 Current
-  - Pack 1 Ambient Temp
-  - Pack 2 SOC
-  - Pack 2 Voltage
-  - Pack 2 Current
-  - Pack 2 Ambient Temp
+
+### list ther sensors you would like to dislay on the screen
+Display_2:
+  Group_1: # group names must be differetn from eachoteh 
+    - GLV_Voltage
+    - GLV_Current
+    - GLV_Power
+    - GLV_Temp
+  Group_2: 
+    - TSI_Drive_State
+    - TSI_MC_Voltage
+    - TSI TS Voltage
+    - TSI Current
+    - TSI Flow Rate
+    - TSI Throttle
+  Group_3: 
+    - Cool Temp1
+    - Cool Temp2
+    - Cool Flow Rate
+    - Cool Fan
+    - Cool Pump
+  Group_4: 
+    - Motor Status
+    - Motor Torque
+    - Motor Voltage
+    - Motor Controller Temp
+    - Motor Temp
+    - Motor Warning
+    - Motor Current Demand
+    - Motor Throttle
+    - Motor Aux
+    - Motor Brake
+    - Motor Phaseb Current
+    - Motor RPM
+    - Motor Torque Regulator
+    - Motor Flux Regulator
+    - Motor Velocity
+
+
+
 
 
 
