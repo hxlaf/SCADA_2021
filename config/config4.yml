@@ -176,10 +176,6 @@ Display:
   - Motor Flux Regulator
   - Motor Velocity
 
-#Run_State: continuous ## continuous = no touch screen, switch between frames every few seconds
-#Run_State: not # touch screen = press buttons to change screens
-Run_State: continuous ## means no touch screen
-
 ### list ther sensors you would like to dislay on the screen
 Display_2:
   Group_1: # group names must be differetn from eachoteh 
@@ -208,35 +204,14 @@ Display_2:
     - Motor Temp
     - Motor Warning
     - Motor Current Demand
-
-  Group_5: 
-    - Pack 1 SOC
-    - Pack 1 Voltage
-    - Pack 1 Current
-    - Pack 1 Ambient Temp
-    - Pack 2 SOC
-    - Pack 2 Voltage
-    - Pack 2 Current
-    - Pack 2 Ambient Temp
-
-  Group_6: 
-    - Pack 1 SOC
-    - Motor Status
-    - Motor Torque
-    - TSI Flow Rate
-
-  Group_7: 
-    - Pack 1 SOC
-    - Pack 1 Voltage
-    - Pack 1 Current
-    - Pack 1 Ambient Temp
-    - Pack 2 SOC
-    - Pack 2 Voltage
-    - Pack 2 Current
-    - Pack 2 Ambient Temp
-
-
-
+    - Motor Throttle
+    - Motor Aux
+    - Motor Brake
+    - Motor Phaseb Current
+    - Motor RPM
+    - Motor Torque Regulator
+    - Motor Flux Regulator
+    - Motor Velocity
 
 
 
@@ -247,20 +222,6 @@ Display_2:
 
 ### if you would liek to add a sensor add it here with the follwong 7 attributes
 ## if one of the attributes is not used please fill n NOn in the field 
-
-
-#Example Sensor
-
-  #Subsytem_Name-Data_name: #this is the sensor name
-  # unit:
-  # inputs:
-    #varName1: sensor1_name
-    #varName2: sensor2_name
-  # cal_function: "varName1 * varName2"
-  # bus_type: I2C
-  # primary_address: 0x01
-  # secondary_address: [0x68,0x69]
-  # description: "description of the data being stored"
 
 
 Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
@@ -280,13 +241,13 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
 
  #### make sure all sensor names contain data type in begining
   #GLV
-  GLV-Voltage: 
+  GLV_Voltage: 
     output_target: 'glv-voltage' #this does not exist yet
     data_type: 'voltage'
     unit: 'V'
     input_targets: 
       v: 'glv:voltage:raw' #this does not exist yet
-    cal_function: 'v*5/255' #not final
+    cal_function: 'x0*5/255' #not final
     bus_type: CAN
     bus_addr: 
     ## maybe make a boolean variable 
@@ -309,7 +270,7 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     data_type: 'power'
     unit: 'W'
     oprange: [10, 15, 65, 70] #not final
-    input_targets: ['glv:current', 'glv:voltage'] #this does not exist yet
+    input_targets: ['GLV_Current', 'GLV_Voltage'] #this does not exist yet
     cal_function: 'x0*x1' #not final
     subsystem: 'GLV'
     bus_type: Can

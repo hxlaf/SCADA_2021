@@ -19,7 +19,7 @@ import datetime
 
 # TODO: reintroduce verbose logging
 
-# Configure Redis interface
+# Configure Redis interface For Raw Sensors Data
 data = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 p = data.pubsub()
 p.subscribe('bus_data')
@@ -58,9 +58,8 @@ def update():
 			pass
 			#print(f'failed to calibrate "{target}", cal_function failed with message: "{err}"')
 			# log.warning(f'failed to calibrate "{target}", cal_function failed with message: "{err}"')
-
 while True:
-	message = p.get_message()
+	message = p.get_message() 
 	if message:
 		update()
 	else:

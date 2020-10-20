@@ -133,7 +133,7 @@ class NewGUI(tk.Frame):
                     target = key
                     value = data.get(target) ## get from redis
                     if(value != None):
-                        roundNum = round(value, 4)
+                        #roundNum = round(value, 4)
                         value = str(value)
                         value = value.replace("b'", "")
                         value = value.replace("'", "")
@@ -148,8 +148,8 @@ class NewGUI(tk.Frame):
 
                     entry_ = tk.Entry(self, width = 10)
                     
-
-                    entry_.insert(0, str(roundNum))
+                    entry_.insert(0, str(value))
+                    # entry_.insert(0, str(roundNum))
                     rowPlace = 2 + count
                     entry_.grid( row = rowPlace, column = self.column_place)
                     #num_of_rows = num_of_rows + 1
