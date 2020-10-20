@@ -23,11 +23,11 @@ import datetime
 data = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 p = data.pubsub()
 p.subscribe('Sensor_data')
-#Configuring Redis Subscription 
 
 
-#
+#Local Dictionary storing values of Calibrated Sensors used for Virtual Sensors
 last_calc_vals = {}
+
 #Performs Calibration on Raw Sensor Values
 def execute(Sensor_val):
 		
@@ -41,28 +41,22 @@ def execute(Sensor_val):
 	return(output)
 
 #Method to peform calibration function on virtual sensors 
-def Virtual_execute(Sensor_val)
-	calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
-	for i in range(len(config.get('Sensors').get(Sensor_val[0]).get('input_targets'))):
-		calibration_func = calibration_func.replace("x"+str(i),last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('input_targets')[i]]) #<--- this sensor_val thing needs to change
-	output = eval(calibration_func)
-	last_calc_vals[Sensor_val[0]] = output
-	return(output)
+def Virtual_execute(Sensor_val):
+    calibration_func = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('cal_function')
+    for i in range(len(__config.get('Sensors').get(Sensor_val[0][1:-1]).get('input_targets'))):
+        calibration_func = calibration_func.replace("x"+str(i),str(last_calc_vals[__config.get('Sensors').get(Sensor_val[0][1:-1]).get('input_targets')[i]])) #<--- this sensor_val thing needs to change
+    output = eval(calibration_func)
+    last_calc_vals[Sensor_val[0][1:-1]] = output
+    return(output)
 			
-
-
-
-
-		
+#Method publishes calibrated data to the calculated data channel		
 def update(sensor_key):
-	#publishes calibrated data to the calculated data channel
-	split_key = sensor_key.split(":")
-	if len(config.get('Sensors').get(split_key[0]).get('input_targets')) == 1:
-		data.publish('calculated_data', '{}:{}'.format(split_key[0], execute(split_key)))
-	else:
-		data.publish('calculated_data', '{}:{}'.format(split_key[0], Virtual_execute(split_key)))
+     split_key = sensor_key.split(":")
+    if len((__config.get('Sensors').get(split_key[0][1:-1])).get('input_targets')) == 1:
+        data.publish('calculated_data', '{}:{}'.format(split_key[0], str('{' + str(execute(split_key)) + '}')))
+    else:
+    	data.publish('calculated_data', '{}:{}'.format(split_key[0],str('{'+ str(Virtual_execute(split_key)) + '}')))
 		
-
 
 while True:
 	message = p.get_message() 
