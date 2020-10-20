@@ -1,24 +1,11 @@
+## UPDATED CONFIG AS OF 10/20/2020
+## version number 
 ############### PART 1: HARDWARE CONFIGURATION #################### 
 
 bus_info:
   bustype: socketcan
   channel: vcan0
   bitrate: 125000
-
-emulate_nodes: yes
-
-# enable spec ific node emulation
-emulate_tsi: no
-emulate_packs: no
-emulate_cockpit: no
-emulate_motorcontroller: no
-
-## Sort By data to View on the Real Time GUI: 
-Sort_Data: 
-  data_type:
-  subsystem: 
-
-
 
 ############# PART 1A: CAN CONFIGURATION #############
 
@@ -29,160 +16,18 @@ can_nodes:
   4: PACK1
   5: PACK2
 
-
-### CAN PROTOCOL: PDO ###
-
-# structure of data in PDOs
-# NOTE: PDO length cannot exceed 8 bytes, if a 
-#       list has less than 8 elements, the remaining
-#       bytes will be ignored
-
-# ***TODO: THESE SHOULD ALL BE IN QUOTES I THINK
-process_data:
-
-  MOTOR:   [ status, dummy2, torque, dummy4, dummy5, dummy6, dummy7, dummy9 ]
-  MOTOR-2: [ motor_temp, controller_temp, dc_link_voltage, warning, current_demand, test ]
-  MOTOR-3: [ throttle-byte0, throttle-byte1,  aux, brake, phaseb_current, dummy5, dummy6, dummy7 ]
-  MOTOR-4: [ torque_regulator, flux_regulator, velocity ]
-
-  TSI:    [ conditions, 'mc_voltage:raw', 'voltage:raw', 'cooling_temp:raw', 'throttle:raw', 'flow_rate:raw', 'state:int', 'current:raw' ]
-  PACK1:  [ voltage, current, state_of_charge_01, state_of_charge_02, temp, 'cells:temp:min', 'cells:temp:avg', 'cells:temp:max' ]
-  PACK2:  [ voltage, current, state_of_charge_01, state_of_charge_02, temp, 'cells:temp:min', 'cells:temp:avg', 'cells:temp:max' ]
-
-## RTC: 
-  #I2C Address: [this is where the user would add the value ] 
-  #Registers hours: [all registers stored here]
-  #Registers seconds: [all registers stored here]
-  #Registers mintutes: [all registers stored here]
-  
-
-### CAN PROTOCOL: SDO ###
-# NOT YET IMPLEMENTED
-
-# Other data to keep track of
-# need to poll this data manually
-# service_data:
-
-#   Cell1Temp:
-#     node_id: 2
-#     index: 2011
-#     poll_rate: 10
-
-#   MotorTemp:
-#     node_id: 1
-#     index: 2010
-#     subindex: 0
-#     poll_rate: 0.5
-
-
 # a list of keys to be ignored by the logger
-dont_log: ['*:raw', 'motor:*', 'emulator:*']
-
-sensor_metadata:
-    'tsi:throttle':
-        unit: 'V'
-        oprange: [0, 0, 5, 5]
+dont_log: ['*-raw','emulator-*']
 
 
-# \/                             \/
-# \/  GUI Configuration Options  \/
-# \/                             \/
-
-# NOTE: if sensor is string, it is ignored during update loop
-#       if sensor is a list treat first value as the label,
-#       second value as the data key, and third value as the unit
-#
-#       Format for oprange (sensor operating range):
-#           [lower_error, lower_warning, upper_warning, upper_error]
-
-
-########### PART 2: DASHBOARD CONFIGURATION
-# Not yet implemented
-
-# Display:
-#   TSI:
-#     TractiveSystemVoltage:
-#       redis_key: 'tsi:voltage'
-#       unit: 'V'
-#       oprange: [90, 90, 110, 110]
-
-#     MotorControllerVoltage:
-#       redis_key: 'tsi:mc_voltage'
-#       unit: 'V'
-#       oprange: [90, 90, 110, 110]
-
-  
-#   Drive States: # List of car drive states that are in the state FSM
-#     - GLV Off
-#     - GLV On
-#     - Precharge
-#     - TS Energized
-#     - Ready to Drive
-#     - AMS Fault
-#     - IMD Fault
-#     - Brake Overtravel
-#   Safety Loop Systems: # All digital systems that can open the safety loop
-#     - TSI
-#     - Pack 1
-#     - Pack 2
-#     - SCADA
-#   Safety Loop Nodes: # All nodes on the safety loop that are measurable and reportable to SCADA
-#     - TSI, S1
-#     - TSI, S2
-#     - Pack 1, S1
-#     - Pack 1, S2
-#     - Pack 2, S1
-#     - Pack 2, S2
-
+Run_State: continuous ## means no touch screen
+  #Run_State: continuous ## continuous = no touch screen, switch between frames every few seconds
+  #Run_State: not # touch screen = press buttons to change screens
 
 ### list ther sensors you would like to dislay on the screen
 Display:
-  - Pack 1 SOC
-  - Pack 1 Voltage
-  - Pack 1 Current
-  - Pack 1 Ambient Temp
-  - Pack 2 SOC
-  - Pack 2 Voltage
-  - Pack 2 Current
-  - Pack 2 Ambient Temp
-  - GLV_Voltage
-  - GLV_Current
-  - GLV_Power
-  - GLV_Temp
-  - TSI_Drive_State
-  - TSI_MC_Voltage
-  - TSI TS Voltage
-  - TSI Current
-  - TSI Flow Rate
-  - TSI Throttle
-  - Cool Temp1
-  - Cool Temp2
-  - Cool Flow Rate
-  - Cool Fan
-  - Cool Pump
-  - Motor Status
-  - Motor Torque
-  - Motor Voltage
-  - Motor Controller Temp
-  - Motor Temp
-  - Motor Warning
-  - Motor Current Demand
-  - Motor Throttle
-  - Motor Aux
-  - Motor Brake
-  - Motor Phaseb Current
-  - Motor RPM
-  - Motor Torque Regulator
-  - Motor Flux Regulator
-  - Motor Velocity
-
-#Run_State: continuous ## continuous = no touch screen, switch between frames every few seconds
-#Run_State: not # touch screen = press buttons to change screens
-Run_State: continuous ## means no touch screen
-
-### list ther sensors you would like to dislay on the screen
-Display_2:
-  Group_1: # group names must be differetn from eachoteh 
+  Group_1: # group names must be different from eachother 
+    # display place 
     - GLV_Voltage
     - GLV_Current
     - GLV_Power
@@ -208,7 +53,6 @@ Display_2:
     - Motor Temp
     - Motor Warning
     - Motor Current Demand
-
   Group_5: 
     - Pack 1 SOC
     - Pack 1 Voltage
@@ -218,13 +62,11 @@ Display_2:
     - Pack 2 Voltage
     - Pack 2 Current
     - Pack 2 Ambient Temp
-
   Group_6: 
     - Pack 1 SOC
     - Motor Status
     - Motor Torque
     - TSI Flow Rate
-
   Group_7: 
     - Pack 1 SOC
     - Pack 1 Voltage
@@ -235,18 +77,6 @@ Display_2:
     - Pack 2 Current
     - Pack 2 Ambient Temp
 
-
-
-
-
-
-
-
-
-
-
-### if you would liek to add a sensor add it here with the follwong 7 attributes
-## if one of the attributes is not used please fill n NOn in the field 
 
 
 #Example Sensor
@@ -262,9 +92,36 @@ Display_2:
   # secondary_address: [0x68,0x69]
   # description: "description of the data being stored"
 
+##EXAMPLES
+Sensors:
+  glv-voltage: 
+    unit: 'V'
+    inputs:
+      vin: glv-voltage-raw
+    cal_function: 'vin * 44/255'
+    bus_type: CAN
+    primary_address: 0x0125
+    secondary_address: [0x01]
+    description: "This is the ground low voltage in volts"
+    # Byte length 
+    # display variable 
+    # rounding 
+    # sampling rate defualt?
 
-Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
-  #GLV
+  imu-temp: 
+    unit: 'C'
+    inputs:
+      tempIn: imu-temp-raw
+    cal_function: 'tempIn'
+    bus_type: I2C
+    primary_address: 0x29
+    secondary_address: [0x15, 0x16]
+    description: "This is the temperature from the IMU"
+
+
+
+### Old implementation 
+Sensors: 
   GLV_Voltage: 
     output_target: 'glv:voltage' #this does not exist yet
     data_type: 'voltage'
@@ -275,9 +132,6 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     cal_function: 'x0' #not final
     bus_type: Can
     bus_addr: 
-    ## maybe make a boolean variable 
-    ## bus type 
-    ## bus address 
 
   GLV_Current:
     output_target: 'glv:current'
