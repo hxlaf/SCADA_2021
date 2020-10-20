@@ -270,7 +270,7 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     data_type: 'power'
     unit: 'W'
     oprange: [10, 15, 65, 70] #not final
-    input_targets: ['glv:current', 'glv:voltage'] #this does not exist yet
+    input_targets: ['GLV_Current', 'GLV_Voltage'] #this does not exist yet
     cal_function: 'x0*x1' #not final
     subsystem: 'GLV'
     bus_type: Can
