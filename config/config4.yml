@@ -241,13 +241,13 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
 
  #### make sure all sensor names contain data type in begining
   #GLV
-  GLV-Voltage: 
+  GLV_Voltage: 
     output_target: 'glv-voltage' #this does not exist yet
     data_type: 'voltage'
     unit: 'V'
     input_targets: 
       v: 'glv:voltage:raw' #this does not exist yet
-    cal_function: 'v*5/255' #not final
+    cal_function: 'x0*5/255' #not final
     bus_type: CAN
     bus_addr: 
     ## maybe make a boolean variable 
