@@ -1,5 +1,14 @@
 ## UPDATED CONFIG AS OF 10/20/2020
 ## version number 
+
+Sensor_defaults:
+  precision: 2
+  inputs:
+    in: 
+  cal_function:
+  sample_rate: 1
+  description: 'This is the default description of a sensor'
+  
 ############### PART 1: HARDWARE CONFIGURATION #################### 
 
 bus_info:
@@ -26,56 +35,70 @@ Run_State: continuous ## means no touch screen
 
 ### list ther sensors you would like to dislay on the screen
 Display:
-  Group_1: # group names must be different from eachother 
-    # display place 
-    - GLV_Voltage
-    - GLV_Current
-    - GLV_Power
-    - GLV_Temp
-  Group_2: 
-    - TSI_Drive_State
-    - TSI_MC_Voltage
-    - TSI TS Voltage
-    - TSI Current
-    - TSI Flow Rate
-    - TSI Throttle
-  Group_3: 
-    - Cool Temp1
-    - Cool Temp2
-    - Cool Flow Rate
-    - Cool Fan
-    - Cool Pump
-  Group_4: 
-    - Motor Status
-    - Motor Torque
-    - Motor Voltage
-    - Motor Controller Temp
-    - Motor Temp
-    - Motor Warning
-    - Motor Current Demand
-  Group_5: 
-    - Pack 1 SOC
-    - Pack 1 Voltage
-    - Pack 1 Current
-    - Pack 1 Ambient Temp
-    - Pack 2 SOC
-    - Pack 2 Voltage
-    - Pack 2 Current
-    - Pack 2 Ambient Temp
-  Group_6: 
-    - Pack 1 SOC
-    - Motor Status
-    - Motor Torque
-    - TSI Flow Rate
-  Group_7: 
-    - Pack 1 SOC
-    - Pack 1 Voltage
-    - Pack 1 Current
-    - Pack 1 Ambient Temp
-    - Pack 2 SOC
-    - Pack 2 Voltage
-    - Pack 2 Current
-    - Pack 2 Ambient Temp
+  Pages:
+  #max of 3 groups per page
+    1:
+      - Group_1
+      - Group_2
+      - Group_3
+
+    2: 
+      - Group_4
+      - Group_5
+      - Group_6
+
+  Groups: 
+  # max 22 sensor per 1 group
+    Group_1: # group names must be different from eachother 
+          # display place 
+      - GLV_Voltage
+      - GLV_Current
+      - GLV_Power
+      - GLV_Temp
+    Group_2: 
+      - TSI_Drive_State
+      - TSI_MC_Voltage
+      - TSI TS Voltage
+      - TSI Current
+      - TSI Flow Rate
+      - TSI Throttle
+    Group_3: 
+      - Cool Temp1
+      - Cool Temp2
+      - Cool Flow Rate
+      - Cool Fan
+      - Cool Pump
+    Group_4: 
+      - Motor Status
+      - Motor Torque
+      - Motor Voltage
+      - Motor Controller Temp
+      - Motor Temp
+      - Motor Warning
+      - Motor Current Demand
+    Group_5: 
+      - Pack 1 SOC
+      - Pack 1 Voltage
+      - Pack 1 Current
+      - Pack 1 Ambient Temp
+      - Pack 2 SOC
+      - Pack 2 Voltage
+      - Pack 2 Current
+      - Pack 2 Ambient Temp
+    Group_6: 
+      - Pack 1 SOC
+      - Motor Status
+      - Motor Torque
+      - TSI Flow Rate
+    Group_7: 
+      - Pack 1 SOC
+      - Pack 1 Voltage
+      - Pack 1 Current
+      - Pack 1 Ambient Temp
+      - Pack 2 SOC
+      - Pack 2 Voltage
+      - Pack 2 Current
+      - Pack 2 Ambient Temp
 
 
 
@@ -86,11 +109,29 @@ Display:
   # inputs:
     #varName1: sensor1_name
     #varName2: sensor2_name
-  # cal_function: "varName1 * varName2"
+  # cal_function: "varName1 * varName2" <-- number calibration (display_variable is boolean or number)
+  # cal function:                       <-- state calibration (display_variable must be enum)
+    # 1: OFF
+    # 2: STANDBY
+    # 3: DRIVE-READY
+    # 4: DRIVE
   # bus_type: I2C
   # primary_address: 0x01
   # secondary_address: [0x68,0x69]
+  # precision:
+  # display_variable: float
+  # sample_rate:
+  #  bit_length: 16 #probably don't need this
   # description: "description of the data being stored"
+  #
+  
+#cal function for sensors that need it 
+#  cal_function:
+    # 1: OFF
+    # 2: STANDBY
+    # 3: DRIVE-READY
+    # 4: DRIVE
+
 
 ##EXAMPLES
 Sensors:
@@ -102,11 +143,13 @@ Sensors:
     bus_type: CAN
     primary_address: 0x0125
     secondary_address: [0x01]
+    precision: 2
+    display_variable: number 
     description: "This is the ground low voltage in volts"
-    # Byte length 
-    # display variable 
-    # rounding 
-    # sampling rate defualt?
+    bit_length: 16 #probably don't need this
+    sample_rate: 1 #sample rate in Hz
+    
+
 
   imu-temp: 
     unit: 'C'
