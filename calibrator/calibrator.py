@@ -7,7 +7,7 @@ config_path = '/usr/etc/scada/config'
 sys.path.append(lib_path)
 sys.path.append(config_path)
 
-import config # Config Py Class Where YAML File is extracted into cide
+import config
 import redis
 
 import utils
@@ -22,54 +22,45 @@ import datetime
 # Configure Redis interface For Raw Sensors Data
 data = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 p = data.pubsub()
-p.subscribe('Sensor_data')
-#Configuring Redis Subscription 
+p.subscribe('bus_data')
 
-
-#
-last_calc_vals = {}
-#Performs Calibration on Raw Sensor Values
-def execute(Sensor_val):
+def execute(cal_function):
+	argument_keys = calibration.get_arguments(cal_function)
+	arguments = []
+	for key in argument_keys:
+		value = data.get(key)
+		value = float(value)
+#		if hasattr(value, 'decode'): 
+#			value = value.decode()
+#			value = int(value)
+#			print(key + ' ' + str(value))
+		arguments.append(value)
 		
-	#Retrieve Calibration Function From Yaml Configuration File
-	calibration_func = config.get('Sensors').get(Sensor_val[0][1:-1]).get('cal_function')
-
-	#Replacing Input Targets x0,x1, etc w/ raw values for calibration calc
-	calibration_func = calibration_func.replace("x0",Sensor_val[1][1:-1])
-	output = eval(calibration_func)
-	last_calc_vals[Sensor_val[0][1:-1]] = output
-	return(output)
-
-#Method to peform calibration function on virtual sensors 
-def Virtual_execute(Sensor_val)
-	calibration_func = config.get('Sensors').get(Sensor_val[0][1:-1]).get('cal_function')
-	for i in range(len(config.get('Sensors').get(Sensor_val[0][1:-1]).get('input_targets'))):
-		calibration_func = calibration_func.replace("x"+str(i),last_calc_vals[config.get('Sensors').get(Sensor_val[0][1:-1]).get('input_targets')[i]]) #<--- this sensor_val thing needs to change
-	output = eval(calibration_func)
-	last_calc_vals[Sensor_val[0][1:-1]] = output
-	return(output)
-			
-
-
-
-
+	function = calibration.get_function(cal_function)
+	result = function(arguments)
+	print()
+	print(cal_function)
+	print(arguments)
+	print(result)
+	print()
+	return result
 		
-def update(sensor_key):
-	#publishes calibrated data to the calculated data channel
-	split_key = sensor_key.split(":")
-	if len(config.get('Sensors').get(split_key[0][1:-1]).get('input_targets')) == 1:
-		data.publish('calculated_data', '{}:{}'.format(split_key[0], execute(split_key)))
-	else:
-		data.publish('calculated_data', '{}:{}'.format(split_key[0], Virtual_execute(split_key)))
-		
-
-
+def update():
+	for cal_function in calibration.get_function_names():
+		try:
+			print(cal_function)
+			result = execute(cal_function)
+			data.setex(cal_function, 10, result)	
+			data.publish('calculated_data', cal_function)
+		except Exception as e: 
+			print(e)
+			print()
+			pass
+			#print(f'failed to calibrate "{target}", cal_function failed with message: "{err}"')
+			# log.warning(f'failed to calibrate "{target}", cal_function failed with message: "{err}"')
 while True:
 	message = p.get_message() 
 	if message:
-		update(message['data'])
+		update()
 	else:
 		time.sleep(0.1)
-
-
-
