@@ -68,10 +68,11 @@ def execute(Sensor_val):
     return(output)
 
 #Method to peform calibration function on virtual sensors 
+# {ddd}:{ddd}
 def Virtual_execute(Sensor_val):
     calibration_func = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('cal_function')
-    for i in range(len(__config.get('Sensors').get(Sensor_val[0][1:-1]).get('input_targets'))):
-        calibration_func = calibration_func.replace("x"+str(i),str(last_calc_vals[__config.get('Sensors').get(Sensor_val[0][1:-1]).get('input_targets')[i]])) #<--- this sensor_val thing needs to change
+    for key in __config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs'))):
+        calibration_func = calibration_func.replace(key,str(last_calc_vals[__config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs').get(key)
     output = eval(calibration_func)
     last_calc_vals[Sensor_val[0][1:-1]] = output
     #Added for Debugging

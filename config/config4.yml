@@ -241,6 +241,54 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
 
  #### make sure all sensor names contain data type in begining
   #GLV
+
+  
+  glv-voltage: 
+    unit: 'V'
+    inputs:
+      vin: glv-voltage
+    cal_function: 'vin * 44/255'
+    bus_type: CAN
+    primary_address: 0x0125
+    secondary_address: [0x01]
+    precision: 2
+    display_variable: number 
+    description: "This is the ground low voltage in volts"
+    bit_length: 16 #probably don't need this
+    sample_rate: 1 #sample rate in Hz
+
+  glv-current: 
+    unit: 'A'
+    inputs:
+      vin: glv-current
+    cal_function: 'vin'
+    bus_type: CAN
+    primary_address: 0x0125
+    secondary_address: [0x01]
+    precision: 2
+    display_variable: number 
+    description: "This is the ground low voltage in volts"
+    bit_length: 16 #probably don't need this
+    sample_rate: 1 #sample rate in Hz
+  
+  #Virtual Sensor Example
+  glv-power: 
+    unit: 'W'
+    inputs:
+      vin: glv-voltage
+      iin: glv-current
+    cal_function: 'vin * iin'
+    bus_type: CAN
+    primary_address: 0x0125
+    secondary_address: [0x01]
+    precision: 2
+    display_variable: number 
+    description: "This is the ground low voltage in volts"
+    bit_length: 16 #probably don't need this
+    sample_rate: 1 #sample rate in Hz
+
+
+  #OLD IMPLEMENTATION
   GLV_Voltage: 
     output_target: 'glv-voltage' #this does not exist yet
     data_type: 'voltage'
