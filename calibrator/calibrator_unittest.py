@@ -60,9 +60,13 @@ def execute(Sensor_val):
         
     #Retrieve Calibration Function From Yaml Configuration File
     calibration_func = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('cal_function')
-
-    #Replacing Input Targets x0,x1, etc w/ raw values for calibration calc
-    calibration_func = calibration_func.replace("x0",Sensor_val[1][1:-1])
+    
+    for key in __config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs'):
+        print("Key INPUT" + key)
+        print("Value of Key: " + __config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs').get(key))
+        calibration_func = calibration_func.replace(key,Sensor_val[1][1:-1])
+    
+    print(calibration_func)
     output = eval(calibration_func)
     #last_calc_vals[Sensor_val[0][1:-1]] = output
     precision = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('precision')
@@ -73,8 +77,8 @@ def execute(Sensor_val):
 # {ddd}:{ddd}
 def Virtual_execute(Sensor_val):
     calibration_func = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('cal_function')
-    for key in __config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs'))):
-        calibration_func = calibration_func.replace(key,str(last_calc_vals[__config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs').get(key)
+    for key in __config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs'):
+        calibration_func = calibration_func.replace(key,str(last_calc_vals[__config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs').get(key)]))
     output = eval(calibration_func)
     
     precision = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('precision')
@@ -88,7 +92,7 @@ def update(sensor_key):
     #publishes calibrated data to the calculated data channel
     split_key = sensor_key.split(":")
     print("SPLIT_KEY " + split_key[0][1:-1])
-    if len((__config.get('Sensors').get(split_key[0][1:-1])).get('input_targets')) == 1:
+    if len((__config.get('Sensors').get(split_key[0][1:-1])).get('inputs')) == 1:
         print ("LEN IS WORKING!")
         print('calculated_data', '{}:{}'.format(split_key[0], execute(split_key)))
         r.publish('calculated_data', '{}:{}'.format(split_key[0], str('{' + str(execute(split_key)) + '}')))

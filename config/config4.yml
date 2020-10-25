@@ -243,10 +243,10 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
   #GLV
 
   
-  glv-voltage: 
+  glv_voltage: 
     unit: 'V'
     inputs:
-      vin: glv-voltage
+      vin: 'glv_voltage'
     cal_function: 'vin * 44/255'
     bus_type: CAN
     primary_address: 0x0125
@@ -257,10 +257,10 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     bit_length: 16 #probably don't need this
     sample_rate: 1 #sample rate in Hz
 
-  glv-current: 
+  glv_current: 
     unit: 'A'
     inputs:
-      vin: glv-current
+      vin: 'glv_current'
     cal_function: 'vin'
     bus_type: CAN
     primary_address: 0x0125
@@ -272,11 +272,11 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
     sample_rate: 1 #sample rate in Hz
   
   #Virtual Sensor Example
-  glv-power: 
+  glv_power: 
     unit: 'W'
     inputs:
-      vin: glv-voltage
-      iin: glv-current
+      vin: 'glv_voltage'
+      iin: 'glv_current'
     cal_function: 'vin * iin'
     bus_type: CAN
     primary_address: 0x0125
