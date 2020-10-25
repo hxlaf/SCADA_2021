@@ -64,7 +64,9 @@ def execute(Sensor_val):
     #Replacing Input Targets x0,x1, etc w/ raw values for calibration calc
     calibration_func = calibration_func.replace("x0",Sensor_val[1][1:-1])
     output = eval(calibration_func)
-    last_calc_vals[Sensor_val[0][1:-1]] = output
+    #last_calc_vals[Sensor_val[0][1:-1]] = output
+    precision = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('precision')
+    last_calc_vals[Sensor_val[0][1:-1]] = round(int(output),precision)
     return(output)
 
 #Method to peform calibration function on virtual sensors 
@@ -74,7 +76,9 @@ def Virtual_execute(Sensor_val):
     for key in __config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs'))):
         calibration_func = calibration_func.replace(key,str(last_calc_vals[__config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs').get(key)
     output = eval(calibration_func)
-    last_calc_vals[Sensor_val[0][1:-1]] = output
+    
+    precision = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('precision')
+    last_calc_vals[Sensor_val[0][1:-1]] = round(int(output),precision)
     #Added for Debugging
     print(last_calc_vals)
     return(output)
