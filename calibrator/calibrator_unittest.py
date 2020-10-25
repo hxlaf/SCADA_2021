@@ -70,8 +70,14 @@ def execute(Sensor_val):
     output = eval(calibration_func)
     #last_calc_vals[Sensor_val[0][1:-1]] = output
     precision = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('precision')
-    last_calc_vals[Sensor_val[0][1:-1]] = round(int(output),precision)
-    return(output)
+    print ("Precision: " + str(precision))
+    #print("Rounded: " + str(round(int(output),precision)))
+    format_var = "{0:."+str(precision)+'f}'
+    print ("format: " + format_var)
+    formatted_data= format_var.format(output)
+    print("Formatted: " + str(formatted_data))
+    last_calc_vals[Sensor_val[0][1:-1]] = formatted_data
+    return(formatted_data)
 
 #Method to peform calibration function on virtual sensors 
 # {ddd}:{ddd}
@@ -82,10 +88,15 @@ def Virtual_execute(Sensor_val):
     output = eval(calibration_func)
     
     precision = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('precision')
-    last_calc_vals[Sensor_val[0][1:-1]] = round(int(output),precision)
+    
+    format_var = "{0:."+str(precision)+'f}'
+    print ("format: " + format_var)
+    formatted_data= format_var.format(output)
+    print("Formatted: " + str(formatted_data))
+    last_calc_vals[Sensor_val[0][1:-1]] = formatted_data
     #Added for Debugging
     print(last_calc_vals)
-    return(output)
+    return(formatted_data)
             
         
 def update(sensor_key):
