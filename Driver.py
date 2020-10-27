@@ -10,6 +10,8 @@ sys.path.append(config_path)
 
 import utils
 import config
+import redis
+import i2c_sorter 
 
 
 #Setting up connectiion to Redis Server
@@ -31,26 +33,26 @@ def read(Sensor):
     sensor_protocol = SensorList.get(str(Sensor)).get('bus_type')
     if(sensor_protocol == 'I2C'):
         data = i2c_sorter.read(Sensor)
-    elif(sensor_protocol =='CAN'):
-        data = can_sorter.read(Sensor)
-    elif(sensor_protocol == 'USB'):
-        data= usb_sorter.read(Sensor)
+    #elif(sensor_protocol =='CAN'):
+        #data = can_sorter.read(Sensor)
+    #elif(sensor_protocol == 'USB'):
+        #data= usb_sorter.read(Sensor)
     elif(sensor_protocol == 'Virtual'):
         data= 0
     else:
         return 'Sensor Protocol Not Found'
         #Redis Write Command 
-    Redisdata.publish('data', data)
+    return data
         
 #Write to sensor 
 def write(Sensor,Value):
     sensor_protocol = SensorList.get(str(Sensor)).get('bus_type')
     if(sensor_protocol == 'I2C'):
         i2c_sorter.write(Sensor, Value)
-    elif(sensor_protocol =='CAN'):
-        can_sorter.write(Sensor,Value)
-    elif(sensor_protocol == 'USB'):
-        usb_sorter.write(Sensor,Value)
+#     elif(sensor_protocol =='CAN'):
+#         can_sorter.write(Sensor,Value)
+#     elif(sensor_protocol == 'USB'):
+#         usb_sorter.write(Sensor,Value)
     else:
         return 'Sensor Protocol Not Found'
 
@@ -60,10 +62,10 @@ while True:
     # milliseconds = int(time()*1000)
     for sensorName in SensorList :
         if(time.time() - last_sampled[sensorName] > sample_period[sensorName]):
-            #Appending sensor name to sensor value for distinction in redis database 
-            key = '{}:{}'.format(Sensor.name, read(sensorName))
-			#Python String Method that makes everything lowercase
-			key = key.lower()
+            #Appending sensor name to sensor value for distinction in redis database
+            key = '{}:{}'.format(sensorName, read(sensorName))
+            #Python String Method that makes everything lowercase
+            key = key.lower()
             #Putting Sensor Data into redis channel
-            data.publish('Sensor_data',key)
+            Redisdata.publish('Sensor_data',key)
             last_sampled[sensorName] = time.time()

@@ -56,27 +56,28 @@ def Virtual_execute(Sensor_val):
     formatted_data= format_var.format(output)
     last_calc_vals[Sensor_val[0]] = formatted_data
     return(formatted_data)
-			
-#Method publishes calibrated data to the Calculated Data Redis Channel		
+            
+#Method publishes calibrated data to the Calculated Data Redis Channel      
 def update(sensor_key):
     split_key = sensor_key.split(":")
+    print ("SPlit KEY : " + split_key[0])
     
     #Checking the Length of the inputs dictionary from YAML file
     #Length of 1 - Raw Sensor Calibration Method Called 
     #Else - Virtual Sensor Calibration Method Called 
-    if len((config.get('Sensors').get(split_key[0])).get('input_targets')) == 1:
-        data.publish('calculated_data', '{}:{}'.format(split_key[0], str('{' + str(execute(split_key)) + '}')))
+    if len((config.get('Sensors').get(split_key[0])).get('inputs')) == 1:
+        data.publish('calculated_data', '{}:{}'.format(split_key[0], str(execute(split_key)) ))
     else:
-        data.publish('calculated_data', '{}:{}'.format(split_key[0],str('{'+ str(Virtual_execute(split_key)) + '}')))
-		
+        data.publish('calculated_data', '{}:{}'.format(split_key[0],str(Virtual_execute(split_key))))
+        
 
 #Listening to the Calculated Data Channel for New Messages 
 while True:
-	message = p.get_message() 
-	if message:
-		update(message['data'])
-	else:
-		time.sleep(0.1)
+    message = p.get_message() 
+    if (message and (message['data'] != 1 )):
+        update(message['data'])
+    else:
+        time.sleep(0.1)
 
 
 
