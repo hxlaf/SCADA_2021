@@ -148,6 +148,22 @@ Sensors:
     description: "This is the ground low voltage in volts"
     bit_length: 16 #probably don't need this
     sample_rate: 1 #sample rate in Hz
+
+    #Virtual Sensor Example
+  glv-power: 
+    unit: 'W'
+    inputs:
+      vin: glv-voltage-raw
+      iin: glv-current-raw
+    cal_function: 'vin * iin'
+    bus_type: CAN
+    primary_address: 0x0125
+    secondary_address: [0x01]
+    precision: 2
+    display_variable: number 
+    description: "This is the ground low voltage in volts"
+    bit_length: 16 #probably don't need this
+    sample_rate: 1 #sample rate in Hz
     
 
 
