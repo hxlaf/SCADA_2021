@@ -181,441 +181,441 @@ Sensors:
 
 
 
-### Old implementation 
-OLD SENSORS: 
-  GLV_Voltage: 
-    output_target: 'glv:voltage' #this does not exist yet
-    data_type: 'voltage'
-    unit: 'V'
-    oprange: [10, 15, 65, 70] #not final
-    subsystem: 'GLV'
-    input_targets: ['glv:voltage:raw'] #this does not exist yet
-    cal_function: 'x0' #not final
-    bus_type: Can
-    bus_addr: 
+# ### Old implementation 
+# OLD SENSORS: 
+#   GLV_Voltage: 
+#     output_target: 'glv:voltage' #this does not exist yet
+#     data_type: 'voltage'
+#     unit: 'V'
+#     oprange: [10, 15, 65, 70] #not final
+#     subsystem: 'GLV'
+#     input_targets: ['glv:voltage:raw'] #this does not exist yet
+#     cal_function: 'x0' #not final
+#     bus_type: Can
+#     bus_addr: 
 
-  GLV_Current:
-    output_target: 'glv:current'
-    data_type: 'current' 
-    unit: 'A'
-    oprange: [10, 15, 65, 70] #not final
-    subsystem: 'GLV'
-    input_targets: ['glv:current:raw'] #this does not exist yet
-    cal_function: 'x0' #not final
-    bus_type: Can
-    bus_addr: 
+#   GLV_Current:
+#     output_target: 'glv:current'
+#     data_type: 'current' 
+#     unit: 'A'
+#     oprange: [10, 15, 65, 70] #not final
+#     subsystem: 'GLV'
+#     input_targets: ['glv:current:raw'] #this does not exist yet
+#     cal_function: 'x0' #not final
+#     bus_type: Can
+#     bus_addr: 
 
-  GLV_Power:
-    output_target: 'glv:power'
-    data_type: 'power'
-    unit: 'W'
-    oprange: [10, 15, 65, 70] #not final
-    input_targets: ['glv:current', 'glv:voltage'] #this does not exist yet
-    cal_function: 'x0*x1' #not final
-    subsystem: 'GLV'
-    bus_type: Can
-    bus_addr: 
+#   GLV_Power:
+#     output_target: 'glv:power'
+#     data_type: 'power'
+#     unit: 'W'
+#     oprange: [10, 15, 65, 70] #not final
+#     input_targets: ['glv:current', 'glv:voltage'] #this does not exist yet
+#     cal_function: 'x0*x1' #not final
+#     subsystem: 'GLV'
+#     bus_type: Can
+#     bus_addr: 
 
 
-  GLV_Temp:
-    output_target: 'glv:temp'
-    data_type: 'temp'
-    unit: 'C'
-    oprange: [10, 15, 65, 70] #not final
-    input_targets: ['glv:temp:raw'] #this does not exist yet
-    cal_function: 'x0' #not final
-    subsystem: 'GLV'
-    bus_type: Can
-    bus_addr: 
+#   GLV_Temp:
+#     output_target: 'glv:temp'
+#     data_type: 'temp'
+#     unit: 'C'
+#     oprange: [10, 15, 65, 70] #not final
+#     input_targets: ['glv:temp:raw'] #this does not exist yet
+#     cal_function: 'x0' #not final
+#     subsystem: 'GLV'
+#     bus_type: Can
+#     bus_addr: 
 
         
-  #TSI
-  TSI_Drive_State:
-    output_target: 'tsi:state'
-    data_type: 'state'
-    unit: ''
-    oprange: [80, 90, 120, 150]
-    subsystem: 'TSI'
-    input_targets: ['tsi:state:int'] 
-    cal_function: 'x0' #not final
-    bus_type: Can
-    bus_addr: 
+#   #TSI
+#   TSI_Drive_State:
+#     output_target: 'tsi:state'
+#     data_type: 'state'
+#     unit: ''
+#     oprange: [80, 90, 120, 150]
+#     subsystem: 'TSI'
+#     input_targets: ['tsi:state:int'] 
+#     cal_function: 'x0' #not final
+#     bus_type: Can
+#     bus_addr: 
 
-  TSI_MC_Voltage:
-    output_target: 'tsi:mc_voltage'
-    data_type: 'voltage'
-    unit: 'V'
-    oprange: []
-    subsystem: 'TSI'
-    input_targets: ['tsi:mc_voltage:raw'] 
-    cal_function: '(((x0/255) * 5) -1.28) *61'
-    bus_type: Can 
-    bus_addr: 
+#   TSI_MC_Voltage:
+#     output_target: 'tsi:mc_voltage'
+#     data_type: 'voltage'
+#     unit: 'V'
+#     oprange: []
+#     subsystem: 'TSI'
+#     input_targets: ['tsi:mc_voltage:raw'] 
+#     cal_function: '(((x0/255) * 5) -1.28) *61'
+#     bus_type: Can 
+#     bus_addr: 
 
-  TSI TS Voltage:
-    output_target: 'tsi:voltage'
-    data_type: 'voltage'
-    unit: 'V'
-    oprange: [80, 90, 120, 150]
-    subsystem: 'TSI'
-    input_targets: ['tsi:voltage:raw'] 
-    cal_function: '(((x0/255) * 5) -1.28) *61' 
-    bus_type: Can
-    bus_addr: 
+#   TSI TS Voltage:
+#     output_target: 'tsi:voltage'
+#     data_type: 'voltage'
+#     unit: 'V'
+#     oprange: [80, 90, 120, 150]
+#     subsystem: 'TSI'
+#     input_targets: ['tsi:voltage:raw'] 
+#     cal_function: '(((x0/255) * 5) -1.28) *61' 
+#     bus_type: Can
+#     bus_addr: 
 
 
-  TSI Current:
-    output_target: 'tsi:current'
-    data_type: 'current'
-    unit: 'A'
-    oprange: [Null, Null, 250, 300]
-    subsystem: 'TSI'
-    input_targets: ['tsi:current:raw'] 
-    cal_function: 'x0'
-    bus_type: Can
-    bus_addr: 
+#   TSI Current:
+#     output_target: 'tsi:current'
+#     data_type: 'current'
+#     unit: 'A'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'TSI'
+#     input_targets: ['tsi:current:raw'] 
+#     cal_function: 'x0'
+#     bus_type: Can
+#     bus_addr: 
 
-  TSI Flow Rate:
-    output_target: 'tsi:flow_rate'
-    data_type: 'flowRate'
-    unit: ''
-    oprange: []
-    subsystem: 'TSI'
-    input_targets: ['tsi:flow_rate:raw'] 
-    cal_function: '0.0535 + 757.5 * (1/x0)'
-    bus_type: Can
-    bus_addr: 
+#   TSI Flow Rate:
+#     output_target: 'tsi:flow_rate'
+#     data_type: 'flowRate'
+#     unit: ''
+#     oprange: []
+#     subsystem: 'TSI'
+#     input_targets: ['tsi:flow_rate:raw'] 
+#     cal_function: '0.0535 + 757.5 * (1/x0)'
+#     bus_type: Can
+#     bus_addr: 
 
-  TSI Throttle:
-    output_target: 'tsi:throttle'
-    data_type: 'voltage'
-    unit: ''
-    oprange: []
-    subsystem: 'TSI'
-    input_targets: ['tsi:throttle:raw'] 
-    cal_function: '(((x0 / 255) * 3.3)*33)/18'
-    bus_type: Can
-    bus_addr: 
+#   TSI Throttle:
+#     output_target: 'tsi:throttle'
+#     data_type: 'voltage'
+#     unit: ''
+#     oprange: []
+#     subsystem: 'TSI'
+#     input_targets: ['tsi:throttle:raw'] 
+#     cal_function: '(((x0 / 255) * 3.3)*33)/18'
+#     bus_type: Can
+#     bus_addr: 
     
-#Cooling: *** FULLY NOT DONE YET DIDNT EVEN TOUCH 
-## there are no sensors dedicated for these? im confused  
-  Cool Temp1:
-    output_target: 'cool:temp'
-    data_type: 'temp'
-    unit: 'C'
-    oprange: []
-    input_targets: ''
-    subsystem: 'Cooling'
-    cal_function: ''
-    bus_type: Can
-    bus_addr: 
+# #Cooling: *** FULLY NOT DONE YET DIDNT EVEN TOUCH 
+# ## there are no sensors dedicated for these? im confused  
+#   Cool Temp1:
+#     output_target: 'cool:temp'
+#     data_type: 'temp'
+#     unit: 'C'
+#     oprange: []
+#     input_targets: ''
+#     subsystem: 'Cooling'
+#     cal_function: ''
+#     bus_type: Can
+#     bus_addr: 
 
-  Cool Temp2:
-    output_target: 'cool:temp2'
-    data_type: 'temp'
-    unit: ''
-    oprange: []
-    input_targets: ''
-    subsystem: 'Cooling'
-    cal_function: ''
-    bus_type: Can
-    bus_addr: 
+#   Cool Temp2:
+#     output_target: 'cool:temp2'
+#     data_type: 'temp'
+#     unit: ''
+#     oprange: []
+#     input_targets: ''
+#     subsystem: 'Cooling'
+#     cal_function: ''
+#     bus_type: Can
+#     bus_addr: 
 
-  Cool Flow Rate:
-    output_target: 'cool:flowRate'
-    data_type: 'flowRate'
-    unit: ''
-    oprange: []
-    input_targets: ''
-    subsystem: 'Cooling'
-    cal_function: ''
-    bus_type: Can
-    bus_addr: 
+#   Cool Flow Rate:
+#     output_target: 'cool:flowRate'
+#     data_type: 'flowRate'
+#     unit: ''
+#     oprange: []
+#     input_targets: ''
+#     subsystem: 'Cooling'
+#     cal_function: ''
+#     bus_type: Can
+#     bus_addr: 
 
-  Cool Pump:
-    output_target: 'cool:pump'
-    data_type: 'pump'
-    unit: ''
-    oprange: []
-    input_targets: ''
-    subsystem: 'Cooling'
-    cal_function: ''
-    bus_type: Can
-    bus_addr: 
+#   Cool Pump:
+#     output_target: 'cool:pump'
+#     data_type: 'pump'
+#     unit: ''
+#     oprange: []
+#     input_targets: ''
+#     subsystem: 'Cooling'
+#     cal_function: ''
+#     bus_type: Can
+#     bus_addr: 
 
-  Cool Fan:
-    output_target: 'cool:fan'
-    data_type: 'velocity'
-    unit: 'RPM'
-    oprange: []
-    input_targets: ''
-    subsystem: 'Cooling'
-    cal_function: ''
-    bus_type: Can
-    bus_addr: 
+#   Cool Fan:
+#     output_target: 'cool:fan'
+#     data_type: 'velocity'
+#     unit: 'RPM'
+#     oprange: []
+#     input_targets: ''
+#     subsystem: 'Cooling'
+#     cal_function: ''
+#     bus_type: Can
+#     bus_addr: 
     
-#################################
+# #################################
 
-## I grouped them by Motor Number 
+# ## I grouped them by Motor Number 
 
-## Motor:
-## MOTOR 1
-  Motor Status:
-    output_target: 'motor:status' 
-    data_type: 'state' ## idk 
-    unit: ''
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor:status']  ###  motor 1
-    cal_function: 'x0' #idk
-    bus_type: Can
-    bus_addr: 
+# ## Motor:
+# ## MOTOR 1
+#   Motor Status:
+#     output_target: 'motor:status' 
+#     data_type: 'state' ## idk 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor:status']  ###  motor 1
+#     cal_function: 'x0' #idk
+#     bus_type: Can
+#     bus_addr: 
   
-  Motor Torque:
-    output_target: 'motor:torque' 
-    data_type: 'state' ## idk 
-    unit: ''
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor:torque']  ###  motor 1
-    cal_function: 'x0'            # Need to fix 
-    bus_type: Can
-    bus_addr: 
+#   Motor Torque:
+#     output_target: 'motor:torque' 
+#     data_type: 'state' ## idk 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor:torque']  ###  motor 1
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
   
-  ## MOTOR 2
-  Motor Voltage:
-    output_target: 'motor:dc_link_voltage'
-    data_type: 'voltage'
-    unit: 'V'
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-2:dc_link_voltage'] ## motor-2
-    cal_function: 'x0'
-    bus_type: Can
-    bus_addr: 
+#   ## MOTOR 2
+#   Motor Voltage:
+#     output_target: 'motor:dc_link_voltage'
+#     data_type: 'voltage'
+#     unit: 'V'
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-2:dc_link_voltage'] ## motor-2
+#     cal_function: 'x0'
+#     bus_type: Can
+#     bus_addr: 
 
-  Motor Temp:
-    output_target: 'motor:motor_temp'
-    data_type: 'temp'
-    unit: 'C'
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-2:motor_temp'] ## motor 2
-    cal_function: 'x0'
-    bus_type: Can
-    bus_addr: 
+#   Motor Temp:
+#     output_target: 'motor:motor_temp'
+#     data_type: 'temp'
+#     unit: 'C'
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-2:motor_temp'] ## motor 2
+#     cal_function: 'x0'
+#     bus_type: Can
+#     bus_addr: 
 
-  Motor Controller Temp:
-    output_target: 'motor:controller_temp'
-    data_type: 'temp'
-    unit: ''
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-2:controller_temp'] ###  motor 2 should this be differnt
-    cal_function: 'x0'
-    bus_type: Can
-    bus_addr: 
+#   Motor Controller Temp:
+#     output_target: 'motor:controller_temp'
+#     data_type: 'temp'
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-2:controller_temp'] ###  motor 2 should this be differnt
+#     cal_function: 'x0'
+#     bus_type: Can
+#     bus_addr: 
 
-  Motor Warning:
-    output_target: 'motor:warning' 
-    data_type: 'state' ## idk 
-    unit: ''
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-2:warning']  ###  motor 2
-    cal_function: 'x0'            # Need to fix 
-    bus_type: Can
-    bus_addr: 
+#   Motor Warning:
+#     output_target: 'motor:warning' 
+#     data_type: 'state' ## idk 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-2:warning']  ###  motor 2
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
 
-  Motor Current Demand:
-    output_target: 'motor:current_demand' 
-    data_type: 'state' ## idk 
-    unit: ''
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-2:current_demand']  ###  motor 2
-    cal_function: 'x0'            # Need to fix 
-    bus_type: Can
-    bus_addr: 
+#   Motor Current Demand:
+#     output_target: 'motor:current_demand' 
+#     data_type: 'state' ## idk 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-2:current_demand']  ###  motor 2
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
 
 
-## motor 3 
-  Motor Throttle:
-    output_target: 'scada:throttle' ### WHAT IS THIS SCADA:THROTTLE?????
-    data_type: 'voltage'
-    unit: 'mV'
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor:throttle-byte0', motor:throttle-byte1]  ###  motor 3
-    cal_function: 'x0 * x1 * 256' #taken care of in Cal_funtion 1
-    bus_type: Can
-    bus_addr: 
+# ## motor 3 
+#   Motor Throttle:
+#     output_target: 'scada:throttle' ### WHAT IS THIS SCADA:THROTTLE?????
+#     data_type: 'voltage'
+#     unit: 'mV'
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor:throttle-byte0', motor:throttle-byte1]  ###  motor 3
+#     cal_function: 'x0 * x1 * 256' #taken care of in Cal_funtion 1
+#     bus_type: Can
+#     bus_addr: 
 
-  Motor Aux:
-    output_target: 'motor:aux' 
-    data_type: 'state' ## idk the unit 
-    unit: ''
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-3:aux']  ###  motor 3
-    cal_function: 'x0'            # Need to fix 
-    bus_type: Can
-    bus_addr: 
+#   Motor Aux:
+#     output_target: 'motor:aux' 
+#     data_type: 'state' ## idk the unit 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-3:aux']  ###  motor 3
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
 
-  Motor Brake:
-    output_target: 'motor:brake' 
-    data_type: 'state' ## idk the unit 
-    unit: ''
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-3:brake']  ###  motor 3
-    cal_function: 'x0'            # Need to fix 
-    bus_type: Can
-    bus_addr: 
+#   Motor Brake:
+#     output_target: 'motor:brake' 
+#     data_type: 'state' ## idk the unit 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-3:brake']  ###  motor 3
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
 
-  Motor Phaseb Current:
-    output_target: 'motor:brake' 
-    data_type: 'state' ## idk the unit 
-    unit: ''
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-3:phaseb_current']  ###  motor 3
-    cal_function: 'x0'            # Need to fix 
-    bus_type: Can
-    bus_addr: 
+#   Motor Phaseb Current:
+#     output_target: 'motor:brake' 
+#     data_type: 'state' ## idk the unit 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-3:phaseb_current']  ###  motor 3
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
   
-  ## MOTOR 4 
-  Motor RPM:
-    output_target: 'motor:velocity'
-    data_type: 'velocity'
-    unit: 'RPM'
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-4:velocity'] ###  motor 4??
-    cal_function: 'x0'
-    bus_type: Can
-    bus_addr: 
+#   ## MOTOR 4 
+#   Motor RPM:
+#     output_target: 'motor:velocity'
+#     data_type: 'velocity'
+#     unit: 'RPM'
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-4:velocity'] ###  motor 4??
+#     cal_function: 'x0'
+#     bus_type: Can
+#     bus_addr: 
 
-  Motor Torque Regulator:
-    output_target: 'motor:torque_regulator' 
-    data_type: 'state' ## idk the unit 
-    unit: ''
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-4:torque_regulator']  ###  motor 4
-    cal_function: 'x0'            # Need to fix 
-    bus_type: Can
-    bus_addr: 
+#   Motor Torque Regulator:
+#     output_target: 'motor:torque_regulator' 
+#     data_type: 'state' ## idk the unit 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-4:torque_regulator']  ###  motor 4
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
 
-  Motor Flux Regulator:
-    output_target: 'motor:flux_regulator' 
-    data_type: 'state' ## idk the unit 
-    unit: ''
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-4:flux_regulator']  ###  motor 4
-    cal_function: 'x0'            # Need to fix 
-    bus_type: Can
-    bus_addr: 
+#   Motor Flux Regulator:
+#     output_target: 'motor:flux_regulator' 
+#     data_type: 'state' ## idk the unit 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-4:flux_regulator']  ###  motor 4
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
 
-  Motor Velocity:
-    output_target: 'motor:velocity' 
-    data_type: 'velocity' 
-    unit: 'm/s^2'
-    oprange: []
-    subsystem: 'Motor'
-    input_targets: ['motor-4:velocity']  ###  motor 4
-    cal_function: 'x0'            # Need to fix 
-    bus_type: Can
-    bus_addr: 
-#############################
+#   Motor Velocity:
+#     output_target: 'motor:velocity' 
+#     data_type: 'velocity' 
+#     unit: 'm/s^2'
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-4:velocity']  ###  motor 4
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
+# #############################
     
-  #Pack 1:
-  Pack 1 SOC:
-    output_target: 'PACK1: SOC_1'
-    data_type: 'SOC'
-    unit: '%'
-    oprange: [10, 20, 100, 105]
-    subsystem: 'Pack1'
-    input_targets: ['PACK1:state_of_charge_01','PACK1:state_of_charge_02']  
-    cal_function: 'x0, x1'   
-    bus_type: Can   
-    bus_addr:      
+#   #Pack 1:
+#   Pack 1 SOC:
+#     output_target: 'PACK1: SOC_1'
+#     data_type: 'SOC'
+#     unit: '%'
+#     oprange: [10, 20, 100, 105]
+#     subsystem: 'Pack1'
+#     input_targets: ['PACK1:state_of_charge_01','PACK1:state_of_charge_02']  
+#     cal_function: 'x0, x1'   
+#     bus_type: Can   
+#     bus_addr:      
 
-  Pack 1 Voltage:
-    output_target: 'PACK1: VOLTAGE'
-    data_type: 'voltage'
-    unit: 'V'
-    oprange: [Null, Null, 250, 300]
-    subsystem: 'Pack1'
-    input_targets: ['PACK1:voltage']  
-    cal_function: 'x0'  
-    bus_type: Can   
-    bus_addr:      
+#   Pack 1 Voltage:
+#     output_target: 'PACK1: VOLTAGE'
+#     data_type: 'voltage'
+#     unit: 'V'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack1'
+#     input_targets: ['PACK1:voltage']  
+#     cal_function: 'x0'  
+#     bus_type: Can   
+#     bus_addr:      
 
-  Pack 1 Current:
-    output_target: 'PACK1: CURRENT'
-    data_type: 'current'
-    unit: 'A'
-    oprange: [Null, Null, 250, 300]
-    subsystem: 'Pack1'
-    input_targets: ['PACK1:current']  
-    cal_function: 'x0'  
-    bus_type: Can
-    bus_addr: 
+#   Pack 1 Current:
+#     output_target: 'PACK1: CURRENT'
+#     data_type: 'current'
+#     unit: 'A'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack1'
+#     input_targets: ['PACK1:current']  
+#     cal_function: 'x0'  
+#     bus_type: Can
+#     bus_addr: 
 
-  Pack 1 Ambient Temp:
-    output_target: 'PACK1: AMBIENT_TEMP'
-    data_type: 'temp'
-    unit: 'C'
-    oprange: [Null, Null, 250, 300]
-    subsystem: 'Pack1'
-    input_targets: ['PACK1:cells:temp:min', 'PACK1:cells:temp:avg', 'PACK1:cells:temp:max']  
-    cal_function: '(x0 * (9/5) +32)'
-    bus_type: Can
-    bus_addr: 
+#   Pack 1 Ambient Temp:
+#     output_target: 'PACK1: AMBIENT_TEMP'
+#     data_type: 'temp'
+#     unit: 'C'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack1'
+#     input_targets: ['PACK1:cells:temp:min', 'PACK1:cells:temp:avg', 'PACK1:cells:temp:max']  
+#     cal_function: '(x0 * (9/5) +32)'
+#     bus_type: Can
+#     bus_addr: 
     
-  #Pack 2:
-  Pack 2 SOC:
-    output_target: 'PACK2: SOC_1'
-    data_type: 'SOC'
-    unit: '%'
-    oprange: [10, 20, 100, 105]
-    subsystem: 'Pack2'
-    input_targets: ['PACK2:state_of_charge_01','PACK2:state_of_charge_02']  
-    cal_function: 'x0, x1'   
-    bus_type: Can
-    bus_addr: 
+#   #Pack 2:
+#   Pack 2 SOC:
+#     output_target: 'PACK2: SOC_1'
+#     data_type: 'SOC'
+#     unit: '%'
+#     oprange: [10, 20, 100, 105]
+#     subsystem: 'Pack2'
+#     input_targets: ['PACK2:state_of_charge_01','PACK2:state_of_charge_02']  
+#     cal_function: 'x0, x1'   
+#     bus_type: Can
+#     bus_addr: 
 
-  Pack 2 Voltage:
-    output_target: 'PACK2: VOLTAGE'
-    data_type: 'voltage'
-    unit: 'V'
-    oprange: [Null, Null, 250, 300]
-    subsystem: 'Pack2'
-    input_targets: ['PACK2:voltage']  
-    cal_function: 'x0'  
-    bus_type: Can
-    bus_addr: 
+#   Pack 2 Voltage:
+#     output_target: 'PACK2: VOLTAGE'
+#     data_type: 'voltage'
+#     unit: 'V'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack2'
+#     input_targets: ['PACK2:voltage']  
+#     cal_function: 'x0'  
+#     bus_type: Can
+#     bus_addr: 
 
-  Pack 2 Current:
-    output_target: 'PACK2: CURRENT'
-    data_type: 'current'
-    unit: 'A'
-    oprange: [Null, Null, 250, 300]
-    subsystem: 'Pack2'
-    input_targets: ['PACK2:current']  
-    cal_function: 'x0'  
-    bus_type: Can
-    bus_addr: 
+#   Pack 2 Current:
+#     output_target: 'PACK2: CURRENT'
+#     data_type: 'current'
+#     unit: 'A'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack2'
+#     input_targets: ['PACK2:current']  
+#     cal_function: 'x0'  
+#     bus_type: Can
+#     bus_addr: 
     
-  Pack 2 Ambient Temp:
-    output_target: 'PACK2: AMBIENT_TEMP'
-    data_type: 'temp'
-    unit: 'C'
-    oprange: [Null, Null, 250, 300]
-    subsystem: 'Pack2'
-    input_targets: ['PACK2:cells:temp:min', 'PACK2:cells:temp:avg', 'PACK2:cells:temp:max']  
-    cal_function: '(x0 * (9/5) +32)' ## shoudl we just use the avergae?? ## why does he have all 3 ?? 
-    bus_type: Can       
-    bus_addr:    
+#   Pack 2 Ambient Temp:
+#     output_target: 'PACK2: AMBIENT_TEMP'
+#     data_type: 'temp'
+#     unit: 'C'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack2'
+#     input_targets: ['PACK2:cells:temp:min', 'PACK2:cells:temp:avg', 'PACK2:cells:temp:max']  
+#     cal_function: '(x0 * (9/5) +32)' ## shoudl we just use the avergae?? ## why does he have all 3 ?? 
+#     bus_type: Can       
+#     bus_addr:    
