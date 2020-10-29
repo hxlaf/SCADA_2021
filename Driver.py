@@ -67,6 +67,7 @@ while True:
             key = '{}:{}'.format(sensorName, read(sensorName))
             #Python String Method that makes everything lowercase
             key = key.lower()
+            print(key)
             #Putting Sensor Data into redis channel
             Redisdata.publish('Sensor_data',key)
             last_sampled[sensorName] = time.time()

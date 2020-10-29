@@ -165,17 +165,17 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
   
-  imu-temp: 
-    unit: 'C'
+  rtc-time: 
+    unit: 'T'
     inputs:
-      tempIn: imu-temp
-    cal_function: 'tempIn'
+      tempIn: rtc-time
+    cal_function: 'rtc-time'
     bus_type: I2C
-    primary_address: 0x29
-    secondary_address: [0x34]
-    precision: 2
+    primary_address: 0x68
+    secondary_address: [0x03,0x04,0x05,0x06,0x08,0x09]
+    precision: 0
     display_variable: number
-    description: "This is the temperature from the IMU"
+    description: "This is time"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
 
