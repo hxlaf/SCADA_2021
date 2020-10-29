@@ -35,6 +35,9 @@ chmod +x logger/logger_new.py
 
 # copy binary files to /usr/bin
 cp scada /usr/bin/scada
+#Copying down i2c sorter 
+cp i2c_sorter.py /usr/bin/i2c_sorter.py
+
 # cp sorter/sorter.py /usr/bin/scada_sorter.py
 cp Driver.py /usr/bin/scada_sorter.py
 cp calibrator/calibrator_new.py /usr/bin/scada_calibrator.py
