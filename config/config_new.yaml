@@ -135,35 +135,35 @@ Display:
 
 ##EXAMPLES
 Sensors:
-  glv-voltage: 
-    unit: 'V'
-    inputs:
-      vin: glv-voltage
-    cal_function: 'vin * 44/255'
-    bus_type: CAN
-    primary_address: 0x0125
-    secondary_address: [0x01]
-    precision: 2
-    display_variable: number 
-    description: "This is the ground low voltage in volts"
-    bit_length: 16 #probably don't need this
-    sample_period: 1 #sample period in seconds
+  # glv-voltage: 
+  #   unit: 'V'
+  #   inputs:
+  #     vin: glv-voltage
+  #   cal_function: 'vin * 44/255'
+  #   bus_type: CAN
+  #   primary_address: 0x0125
+  #   secondary_address: [0x01]
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the ground low voltage in volts"
+  #   bit_length: 16 #probably don't need this
+  #   sample_period: 1 #sample period in seconds
 
-    #Virtual Sensor Example
-  glv-power: 
-    unit: 'W'
-    inputs:
-      vin: glv-voltage
-      iin: glv-current
-    cal_function: 'vin * iin'
-    bus_type: CAN
-    primary_address: 0x0125
-    secondary_address: [0x01]
-    precision: 2
-    display_variable: number 
-    description: "This is the ground low voltage in volts"
-    bit_length: 16 #probably don't need this
-    sample_period: 1 #sample period in seconds
+  #   #Virtual Sensor Example
+  # glv-power: 
+  #   unit: 'W'
+  #   inputs:
+  #     vin: glv-voltage
+  #     iin: glv-current
+  #   cal_function: 'vin * iin'
+  #   bus_type: CAN
+  #   primary_address: 0x0125
+  #   secondary_address: [0x01]
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the ground low voltage in volts"
+  #   bit_length: 16 #probably don't need this
+  #   sample_period: 1 #sample period in seconds
   
   rtc-time: 
     unit: 'T'
