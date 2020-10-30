@@ -7,6 +7,7 @@ from tkinter import *
 from NewGUI import NewGUI
 from NewGUI import NextPage
 from NewGUI import PageThree
+from Anotha_one import NewGUI_2
 config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
 import config
@@ -26,6 +27,8 @@ class MainGUI(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
+        self.numOfPages = 0
+
         self.display_vars = {
             "sort_by_data" : tk.StringVar(), # String from drop down menu 
             "checkBox_list" : [],   #ints 
@@ -38,7 +41,8 @@ class MainGUI(tk.Tk):
             "column_place" : 0,
             "row_place" : 0, 
             "newPage" : 0, 
-            "groupIndex" : 0
+            "groupIndex" : 0,
+            "frames" : {}
 
 
         }
@@ -63,16 +67,31 @@ class MainGUI(tk.Tk):
         self.frames = {}
 
 
-        for F in (NewGUI, NextPage, PageThree):
-            #page_name = F.__name__
-            frame = F(self.container, self)
+        # for F in (NewGUI, NextPage, PageThree):
+        #     #page_name = F.__name__
+        #     frame = F(self.container, self)
            
-            self.frames[F] = frame
-            frame.grid(row=0, column=0, sticky="nsew")
+        #     self.frames[F] = frame
+        #     frame.grid(row=0, column=0, sticky="nsew")
 
-        self.setState() ## Get the run state from the config file
+        # self.setState() ## Get the run state from the config file
         
-        self.show_frame(NewGUI)
+        # self.show_frame(NewGUI)
+        
+        self.get_pages() #call function to get number of pages to display
+        max = self.numOfPages
+        i = 0
+        #while iterator is less than totalNum of pages 
+        while i<max:
+            frame = NewGUI_2(self.container, self, i)
+           
+            self.frames[i] = frame
+            frame.grid(row=0, column=0, sticky="nsew")
+            self.display_vars["frames"][i] = self.frames[i]
+            i = i+1
+        #self.setState() ## Get the run state from the config file
+        
+        self.show_frame(0)
 
  
         # frame  = Parent(self.container, self, self.display_vars["column_place"], self.display_vars["row_place"], self.display_vars["groupIndex"])
@@ -82,37 +101,22 @@ class MainGUI(tk.Tk):
         # self.show_frame
             
 
-
-
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
 
-        if(self.display_vars["STATUS"] == "continuous"):
-            if(cont == NewGUI):
-                self.after(5000, self.show_frame, NextPage)
-            elif(cont == NextPage):
-                self.after(5000, self.show_frame, PageThree)
-            elif(cont == PageThree):
-                self.after(5000, self.show_frame, NewGUI)
-
-        
-    def switch_frames(self):
-        pass
 
 
-    def refresh_frame(self, frameName):
-        frameName.destroy()
-        frame = frameName(self.container, self)
-        #listlen = len(self.frames)
-        self.frames[frame] = frameName
-        frame.grid(row = 0, column = 0, sticky = "nsew")
-
-    def setState(self): 
-        self.state = config.get('Run_State')
-        self.display_vars["STATUS"] = self.state
+    # get the number of pages under the pages categroy
+    def get_pages(self): 
+        config.load(forceLoad=True)
+        self.displayDict = config.get('Display')
+        self.pagesNum = self.displayDict.get('Pages')
+        print("num pages " + str(len(self.pagesNum)))
+        self.numOfPages = len(self.pagesNum)
 
 
 
 app = MainGUI()
 app.mainloop()
+
