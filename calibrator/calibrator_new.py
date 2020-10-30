@@ -1,21 +1,19 @@
 #!/usr/bin/python3
 import sys, os
+import redis
+import time
+import datetime
 
+#CONFIG PATH
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
 
 sys.path.append(lib_path)
 sys.path.append(config_path)
 
-import config # Config Py Class Where YAML File is extracted into cide
-import redis
-
+import config 
 import utils
-from utils import calibration
-import user_cal
 
-import time
-import datetime
 
 # TODO: reintroduce verbose logging
 
@@ -30,40 +28,57 @@ last_calc_vals = {}
 
 #Performs Calibration on Raw Sensor Values
 def execute(Sensor_val):
-		
-	#Retrieve Calibration Function From Yaml Configuration File
-	calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
-
-	#Replacing Input Targets x0,x1, etc w/ raw values for calibration calc
-	calibration_func = calibration_func.replace("x0",Sensor_val[1])
-	output = eval(calibration_func)
-	last_calc_vals[Sensor_val[0]] = output
-	return(output)
-
-#Method to peform calibration function on virtual sensors 
-def Virtual_execute(Sensor_val):
-    calibration_func = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('cal_function')
-    for i in range(len(__config.get('Sensors').get(Sensor_val[0][1:-1]).get('input_targets'))):
-        calibration_func = calibration_func.replace("x"+str(i),str(last_calc_vals[__config.get('Sensors').get(Sensor_val[0][1:-1]).get('input_targets')[i]])) #<--- this sensor_val thing needs to change
+    #Retrieve Calibration Function From Yaml Configuration File
+    calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
+    
+    for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+        calibration_func = calibration_func.replace(key,Sensor_val[1])
+    
     output = eval(calibration_func)
-    last_calc_vals[Sensor_val[0][1:-1]] = output
-    return(output)
-			
-#Method publishes calibrated data to the calculated data channel		
-def update(sensor_key):
-     split_key = sensor_key.split(":")
-    if len((__config.get('Sensors').get(split_key[0][1:-1])).get('input_targets')) == 1:
-        data.publish('calculated_data', '{}:{}'.format(split_key[0], str('{' + str(execute(split_key)) + '}')))
-    else:
-    	data.publish('calculated_data', '{}:{}'.format(split_key[0],str('{'+ str(Virtual_execute(split_key)) + '}')))
-		
+    
+    #Getting Precision Specificed for Sensor for Printing 
+    precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
+    format_var = "{0:."+str(precision)+'f}'
+    formatted_data= format_var.format(output)
+    #Adding Value of Calibrated Sensor to Local Dictionary 
+    last_calc_vals[Sensor_val[0]] = formatted_data
+    return(formatted_data)
 
+#Method to peform Calibration on virtual sensors 
+def Virtual_execute(Sensor_val):
+    calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
+    for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+        calibration_func = calibration_func.replace(key,str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)]))
+    
+    output = eval(calibration_func)
+    
+    precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
+    format_var = "{0:."+str(precision)+'f}'
+    formatted_data= format_var.format(output)
+    last_calc_vals[Sensor_val[0]] = formatted_data
+    return(formatted_data)
+            
+#Method publishes calibrated data to the Calculated Data Redis Channel      
+def update(sensor_key):
+    split_key = sensor_key.split(":")
+    print ("SPlit KEY : " + split_key[0])
+    
+    #Checking the Length of the inputs dictionary from YAML file
+    #Length of 1 - Raw Sensor Calibration Method Called 
+    #Else - Virtual Sensor Calibration Method Called 
+    if len((config.get('Sensors').get(split_key[0])).get('inputs')) == 1:
+        data.publish('calculated_data', '{}:{}'.format(split_key[0], str(execute(split_key)) ))
+    else:
+        data.publish('calculated_data', '{}:{}'.format(split_key[0],str(Virtual_execute(split_key))))
+        
+
+#Listening to the Calculated Data Channel for New Messages 
 while True:
-	message = p.get_message() 
-	if message:
-		update(message['data'])
-	else:
-		time.sleep(0.1)
+    message = p.get_message() 
+    if (message and (message['data'] != 1 )):
+        update(message['data'])
+    else:
+        time.sleep(0.1)
 
 
 
