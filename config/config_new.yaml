@@ -169,7 +169,7 @@ Sensors:
     unit: 'T'
     inputs:
       tempIn: rtc-time
-    cal_function: 'rtc-time'
+    cal_function: 'tempIn'
     bus_type: I2C
     primary_address: 0x68
     secondary_address: [0x03,0x04,0x05,0x06,0x08,0x09]
