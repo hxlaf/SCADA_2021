@@ -2,6 +2,10 @@
 
 import sys
 import os
+import datetime
+import time
+import psycopg2
+import redis
 
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
@@ -10,15 +14,10 @@ sys.path.append(lib_path)
 sys.path.append(config_path)
 
 # import dependent python libraries
-import datetime
-import time
-import psycopg2
-import redis
-#import config
-
+import config
 
 # creates instance of Redis
-car_state = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+redis_data = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 # connection object that connects to Postrges database (NEEDS TO BE CHANGGED)
 database = psycopg2.connect(
     user='pi',
@@ -29,8 +28,8 @@ database = psycopg2.connect(
 )
 
 # creates Publish/Subscribe Redis object called 'p'
-p = car_state.pubsub()
-# p subscribes to get messages from 3 channels in Redis
+p = redis_data.pubsub()
+# p subscribes to get messages from 2 channels in Redis
 p.subscribe('calculated_data')
 p.subscribe('new-session')
 
@@ -70,8 +69,6 @@ CREATE TABLE IF NOT EXISTS sensors(
 database.commit()
 
 
-# FOR SOME REASON METHOD DEFINITIONS ARE IN THE MIDDLE OF THIS FILE
-
 def delimit_session():
     """
         Insert a session delimiter into the data table.
@@ -85,9 +82,9 @@ def delimit_session():
         VALUES ('scada:session', 'NEW-SESSION');
     """)
 
-# Harry: WHY IS THIS CODE IN THE MIDDLE OF THE METHOD DEFINITIONS?
-# Harry: initializes dictionary that will hold all the previous values from any "key"
-# Harry: I'm pretty sure a key is a sensor/sensor data point
+
+# initializes dictionary that will hold all the previous values from any "key"
+#Local Dictionary used for duplicate checking in the PostgresDB
 previous_values = {}
 
 def check_update_ready(key,sensor_value):
@@ -123,15 +120,15 @@ def update(message, key):
     # {sensern_name}:{calculated_data}
 
     split_key = key.split(":")
-    Sensor_value= split_key[1][1:-1]
-    Sensor_key = split_key[0][1:-1]
+    Sensor_value= split_key[1]
+    Sensor_key = split_key[0]
     if not check_update_ready(Sensor_key,Sensor_value):
         return
 
-    # Harry: Builds list of all the ignore keys (why is it doing this every time it updates??)
+  #   # Harry: Builds list of all the ignore keys (why is it doing this every time it updates??)
     ignore_keys = []
 #     for key_string in config.get('dont_log', []):
-#         ignore_keys = ignore_keys + car_state.keys(key_string)
+#         ignore_keys = ignore_keys + redis_data.keys(key_string)
     
     if not key in ignore_keys:
         # Harry: attempts to put sensor key in the sensor table if not already

@@ -4,6 +4,10 @@ apt-get install python3
 apt-get install python3-pip
 apt-get install redis-server
 apt-get install can-utils
+apt-get install i2c-tool
+apt-get install python-smbus
+apt install postgresql libpq-dev postgresql-client postgresql-client-common -y
+
 
 # make sure virtual can bus is set up for testing
 modprobe vcan
@@ -15,19 +19,29 @@ pip3 install python-can
 pip3 install redis
 pip3 install blessed
 pip3 install psycopg2-binary
+pip3 install pyyaml
+pip install pyyaml #not sure why we need this, but we do
+pip3 install canopen
 
 # make binary files executable
 chmod +x install
 chmod +x scada
-chmod +x sorter/sorter.py
-chmod +x calibrator/calibrator.py
-chmod +x logger/logger.py
+# chmod +x sorter/sorter.py
+chmod +x Driver.py
+# chmod +x calibrator/calibrator.py
+chmod +x calibrator/calibrator_new.py
+# chmod +x logger/logger.py
+chmod +x logger/logger_new.py
 
 # copy binary files to /usr/bin
 cp scada /usr/bin/scada
-cp sorter/sorter.py /usr/bin/scada_sorter.py
-cp calibrator/calibrator.py /usr/bin/scada_calibrator.py
-cp logger/logger.py /usr/bin/scada_logger.py
+#Copying down i2c sorter 
+cp i2c_sorter.py /usr/bin/i2c_sorter.py
+
+# cp sorter/sorter.py /usr/bin/scada_sorter.py
+cp Driver.py /usr/bin/scada_sorter.py
+cp calibrator/calibrator_new.py /usr/bin/scada_calibrator.py
+cp logger/logger_new.py /usr/bin/scada_logger.py
 
 # create a workspace and copy important files into it
 mkdir -p /usr/etc/scada

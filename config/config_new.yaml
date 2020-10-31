@@ -6,7 +6,7 @@ Sensor_defaults:
   inputs:
     in: 
   cal_function:
-  sample_rate: 1
+  sample_period: 1
   description: 'This is the default description of a sensor'
   
 ############### PART 1: HARDWARE CONFIGURATION #################### 
@@ -121,7 +121,7 @@ Display:
   # secondary_address: [0x68,0x69]
   # precision:
   # display_variable: float
-  # sample_rate:
+  # sample_period:
   #  bit_length: 16 #probably don't need this
   # description: "description of the data being stored"
   #
@@ -151,51 +151,54 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_rate: 1 #sample rate in Hz
     
+  # glv-voltage: 
+  #   unit: 'V'
+  #   inputs:
+  #     vin: glv-voltage
+  #   cal_function: 'vin * 44/255'
+  #   bus_type: CAN
+  #   primary_address: 0x0125
+  #   secondary_address: [0x01]
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the ground low voltage in volts"
+  #   bit_length: 16 #probably don't need this
+  #   sample_period: 1 #sample period in seconds
 
-  glv-voltage: 
-    unit: 'V'
+  #   #Virtual Sensor Example
+  # glv-power: 
+  #   unit: 'W'
+  #   inputs:
+  #     vin: glv-voltage
+  #     iin: glv-current
+  #   cal_function: 'vin * iin'
+  #   bus_type: CAN
+  #   primary_address: 0x0125
+  #   secondary_address: [0x01]
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the ground low voltage in volts"
+  #   bit_length: 16 #probably don't need this
+  #   sample_period: 1 #sample period in seconds
+  
+  rtc-time: 
+    unit: 'T'
     inputs:
-      vin: glv-voltage-raw
-    cal_function: 'vin * 44/255'
-    bus_type: CAN
-    primary_address: 0x0125
-    secondary_address: [0x01]
-    precision: 2
-    display_variable: number 
-    description: "This is the ground low voltage in volts"
-    bit_length: 16 #probably don't need this
-    sample_rate: 1 #sample rate in Hz
-
-    #Virtual Sensor Example
-  glv-power: 
-    unit: 'W'
-    inputs:
-      vin: glv-voltage-raw
-      iin: glv-current-raw
-    cal_function: 'vin * iin'
-    bus_type: virtual
-    precision: 2
-    display_variable: number 
-    description: "This is the ground low voltage in volts"
-    bit_length: 16 #probably don't need this
-    sample_rate: 1 #sample rate in Hz
-    
-
-
-  imu-temp: 
-    unit: '°C'
-    inputs:
-      tempIn: imu-temp-raw
+      tempIn: rtc-time
     cal_function: 'tempIn'
     bus_type: I2C
-    primary_address: 0x29
-    secondary_address: [0x15, 0x16]
-    description: "This is the temperature from the IMU"
+    primary_address: 0x68
+    secondary_address: [0x03,0x04,0x05,0x06,0x08,0x09]
+    precision: 0
+    display_variable: number
+    description: "This is time"
+    bit_length: 16 #probably don't need this
+    sample_period: 1 #sample period in seconds
 
 
 
-### Old implementation 
-# Sensors: 
+# ### Old implementation 
+# OLD SENSORS: 
 #   GLV_Voltage: 
 #     output_target: 'glv:voltage' #this does not exist yet
 #     data_type: 'voltage'

@@ -11,6 +11,7 @@ lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
 
 #Harry: I ADDED THIS
+#yaml_name = 'config2.yaml'
 yaml_name = 'config_new.yaml'
 
 sys.path.append(lib_path)

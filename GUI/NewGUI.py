@@ -68,7 +68,7 @@ class NewGUI(tk.Frame):
                 max = max+1
                 self.check_row_col(placeRow, self.column_place)
                 self.sensorDict_display = self.displayDict[group]
-                #print("sensorDict_display " + str(self.sensorDict_display))
+                print("sensorDict_display " + str(self.sensorDict_display))
 
                 group_label = tk.Label(self, text = str(group), font= LARGE_FONT, fg = "blue" )
                 group_label.grid(row = 0 , column = self.column_place, sticky = "nsew")
@@ -80,8 +80,6 @@ class NewGUI(tk.Frame):
 
                 # for each sensor in the group
                 for sensor in self.sensorDict_display:
-                    name_label = tk.Label(self, text = "Name", font= TITLE_FONT )
-                    name_label.grid(row = 1 , column = self.column_place, sticky = "w")
                     
                     for key in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
 
@@ -92,7 +90,7 @@ class NewGUI(tk.Frame):
                                 name = attributeDict.get('output_target') 
 
                                 self.name_list[name] = name
-
+                                print(str(sensor))
                                 label = tk.Label(self, text = str(sensor), font= LARGE_FONT )
                                 placeRow = 2 + count
                                 label.grid(row = placeRow, column = self.column_place, sticky = "w")
@@ -122,9 +120,8 @@ class NewGUI(tk.Frame):
         for index in self.list_lengths:
             if(max <3):
                 itr = 0
-                data_label = tk.Label(self, text = "Data", font= LARGE_FONT )
-                data_label.grid(row = 1 , column = self.column_place, sticky = "nsew")
-                self.check_row_col(self.row_place, self.column_place)
+            
+                #self.check_row_col(self.row_place, self.column_place)
                 while itr < index:
                 #for key in self.name_list:
                     key = list(self.name_list.keys())[itr]
@@ -132,19 +129,21 @@ class NewGUI(tk.Frame):
                     # self.check_row_col(rowPlace, colplace)
                     target = key
                     value = data.get(target) ## get from redis
-                    if(value != None):
-                        #roundNum = round(value, 4)
-                        value = str(value)
-                        value = value.replace("b'", "")
-                        value = value.replace("'", "")
-                    else: 
-                        value = str(value)
-                        value = value.replace("b'", "")
-                        value = value.replace("'", "")
-                        roundNum = value
-                    ## round the value 
-                    #value = int(value)
-                    #roundNum = round(value, 4)
+
+                    value = str(value)
+                    value = value.replace("b'", "")
+                    value = value.replace("'", "")
+                    # if(value != None):
+                    #     #roundNum = round(value, 4)
+                    #     value = str(value)
+                    #     value = value.replace("b'", "")
+                    #     value = value.replace("'", "")
+                    # else: 
+                    #     value = str(value)
+                    #     value = value.replace("b'", "")
+                    #     value = value.replace("'", "")
+                    #     roundNum = value
+
 
                     entry_ = tk.Entry(self, width = 10)
                     

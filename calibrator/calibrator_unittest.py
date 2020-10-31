@@ -59,41 +59,41 @@ last_calc_vals = {}
 def execute(Sensor_val):
         
     #Retrieve Calibration Function From Yaml Configuration File
-    calibration_func = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('cal_function')
+    calibration_func = __config.get('Sensors').get(Sensor_val[0]).get('cal_function')
     
     for key in __config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs'):
         print("Key INPUT" + key)
-        print("Value of Key: " + __config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs').get(key))
-        calibration_func = calibration_func.replace(key,Sensor_val[1][1:-1])
+        print("Value of Key: " + __config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key))
+        calibration_func = calibration_func.replace(key,Sensor_val[1])
     
     print(calibration_func)
     output = eval(calibration_func)
     #last_calc_vals[Sensor_val[0][1:-1]] = output
-    precision = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('precision')
+    precision = __config.get('Sensors').get(Sensor_val[0]).get('precision')
     print ("Precision: " + str(precision))
     #print("Rounded: " + str(round(int(output),precision)))
     format_var = "{0:."+str(precision)+'f}'
     print ("format: " + format_var)
     formatted_data= format_var.format(output)
     print("Formatted: " + str(formatted_data))
-    last_calc_vals[Sensor_val[0][1:-1]] = formatted_data
+    last_calc_vals[Sensor_val[0]] = formatted_data
     return(formatted_data)
 
 #Method to peform calibration function on virtual sensors 
 # {ddd}:{ddd}
 def Virtual_execute(Sensor_val):
-    calibration_func = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('cal_function')
-    for key in __config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs'):
-        calibration_func = calibration_func.replace(key,str(last_calc_vals[__config.get('Sensors').get(Sensor_val[0][1:-1]).get('inputs').get(key)]))
+    calibration_func = __config.get('Sensors').get(Sensor_val[0]).get('cal_function')
+    for key in __config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+        calibration_func = calibration_func.replace(key,str(last_calc_vals[__config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)]))
     output = eval(calibration_func)
     
-    precision = __config.get('Sensors').get(Sensor_val[0][1:-1]).get('precision')
+    precision = __config.get('Sensors').get(Sensor_val[0]).get('precision')
     
     format_var = "{0:."+str(precision)+'f}'
     print ("format: " + format_var)
     formatted_data= format_var.format(output)
     print("Formatted: " + str(formatted_data))
-    last_calc_vals[Sensor_val[0][1:-1]] = formatted_data
+    last_calc_vals[Sensor_val[0]] = formatted_data
     #Added for Debugging
     print(last_calc_vals)
     return(formatted_data)
@@ -102,8 +102,8 @@ def Virtual_execute(Sensor_val):
 def update(sensor_key):
     #publishes calibrated data to the calculated data channel
     split_key = sensor_key.split(":")
-    print("SPLIT_KEY " + split_key[0][1:-1])
-    if len((__config.get('Sensors').get(split_key[0][1:-1])).get('inputs')) == 1:
+    print("SPLIT_KEY " + split_key[0])
+    if len((__config.get('Sensors').get(split_key[0])).get('inputs')) == 1:
         print ("LEN IS WORKING!")
         print('calculated_data', '{}:{}'.format(split_key[0], execute(split_key)))
         r.publish('calculated_data', '{}:{}'.format(split_key[0], str('{' + str(execute(split_key)) + '}')))
