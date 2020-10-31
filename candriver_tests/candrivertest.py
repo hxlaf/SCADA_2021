@@ -16,26 +16,71 @@ import canopen
 # be writing data
 data = redis.Redis(host='localhost', port=6379, db=0)
 
-class CanSorter:
+class CanDriver:
+    #this should take in channel and bustype?
+    def __init__(self):
+        self.network = canopen.Network()
+        # #eventually the following lines should take arguments from config
+        # self.network.connect(channel='can0', bustype='socketcan')
+        # #this will eventually be a loop that goes through nodes
+        node = self.network.add_node(1, lib_path + '/utils/eds-files/[nodeId=001]eds_eDrive150.eds')
+        # self.network.scanner.search()
+        # time.sleep(1)
+        # #this is for testing only
+        # for node_id in self.network.scanner.nodes:
+        #     print("Found node %d!" % node_id)
+        sdoDict = {}
+        allSensors = config.get('Sensors')
+        for sensorName in allSensors:
+            sensorDict = allSensors.get(sensorName)
+            if sensorDict['bus_type'] == 'CAN':
+                print(sensorName)
+                print(sensorDict)
+                # print config.get('Sensors').get(sensorDict)
+                #TODO: some way to determine node object beforehand
+                    #we only have one right now for testing, so it doesn't matter
+                sdoDict[sensorName] = self.configure_sdo(sensorName,sensorDict))
+                print('sdoDict =')
+                print(sdoDict)
+ 
+    def __del__(self):
+        self.network.disconnect()
 
-    def __init__:
-        network = canopen.Network()
-        #eventually this should take arguments from config
-        network.connect(channel='can0', bustype='socketcan')
+    def configure_sdo(self, sensorName, sensorDict):
+        #sensor name is composed of the node name and the value name
+        [nodeName, valueName] = sensorName.split('-')
+        print(nodeName)
+        print(valueName)
+        nodeNum = config.get('can_nodes').get(nodeName)
+        node = self.network[nodeNum]
 
-    def configure(sensorDict)
+        if sensorDict['secondary_address'] == None:
+            new_sdo = node.sdo[sensorDict['primary_address']]
+        else:
+            new_sdo = node.sdo[sensorDict['primary_address']][sensorDict['secondary_address'][0]]
+        return new_sdo
 
     #using SDOs for now
-    def read_sdo(primAddress, secAddress):
-
+    def read_sdo(self,primAddress, secAddress):
+        #dummy method contents
+        pass
+        
     #technically this should be done in intruction parser?
     #using SDOs for now
-    def write_sdo(primAddress, secAddress):
+    def write_sdo(self,primAddress, secAddress):
+        #dummy method contents
+        pass
 
-
-
-
-    def read_pdo(primAddress, secAddress):
+    def read_pdo(self,primAddress, secAddress):
+        #dummy method contents
+        pass
 
     #technically this should be done in intruction parser?
-    def write_pdo(primAddress, secAddress):
+    def write_pdo(self, primAddress, secAddress):
+        #dummy method contents
+        pass
+#end class definition
+
+#begin test procedures
+driver = CanDriver()
+
