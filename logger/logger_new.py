@@ -153,6 +153,19 @@ def update(message, key):
 
         # I think this method should call "database.commit()" here
 
+def getData(table = data, data_key):
+    """
+        For a given key, return the value of the data associated with it,
+        if it exists. To be used by other classes to retreive information
+        from database.
+    """
+    curser.execute("""
+        SELECT value FROM %s
+        WHERE sensor_id = '%s'
+    """), [table, data_key]
+    return cursor.fetchall
+
+
 # Harry: THIS IS THE ACTUAL CODE THAT RUNS
 
 while True:
