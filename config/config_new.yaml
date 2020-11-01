@@ -19,11 +19,12 @@ bus_info:
 ############# PART 1A: CAN CONFIGURATION #############
 
 # CAN node ids
+#NOTE TO TEAM: I CHANGED THE key/value ORDER - Harry
 can_nodes:
-  1: MOTOR
-  3: TSI
-  4: PACK1
-  5: PACK2
+  motor: 1
+  tsi: 3
+  pack1: 4
+  pack2: 5
 
 # a list of keys to be ignored by the logger
 dont_log: ['*-raw','emulator-*']
@@ -135,6 +136,21 @@ Display:
 
 ##EXAMPLES
 Sensors:
+
+  motor-throttle_voltage:
+    unit: 'mV'
+    inputs:
+      Vin: motor-throttle_voltage
+    cal_function: 'Vin'
+    bus_type: CAN
+    primary_address: 0x2070
+    secondary_address: [0x01]
+    precision: 0
+    display_variable: number 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 #probably don't need this
+    sample_period: 5 
+
   # glv-voltage: 
   #   unit: 'V'
   #   inputs:
@@ -169,7 +185,7 @@ Sensors:
     unit: 'T'
     inputs:
       tempIn: rtc-time
-    cal_function: 'rtc-time'
+    cal_function: 'tempIn'
     bus_type: I2C
     primary_address: 0x68
     secondary_address: [0x03,0x04,0x05,0x06,0x08,0x09]

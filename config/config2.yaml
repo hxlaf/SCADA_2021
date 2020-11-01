@@ -137,48 +137,51 @@ sensor_metadata:
 
 ### list ther sensors you would like to dislay on the screen
 Display:
-  - Pack 1 SOC
-  - Pack 1 Voltage
-  - Pack 1 Current
-  - Pack 1 Ambient Temp
-  - Pack 2 SOC
-  - Pack 2 Voltage
-  - Pack 2 Current
-  - Pack 2 Ambient Temp
-  - GLV_Voltage
-  - GLV_Current
-  - GLV_Power
-  - GLV_Temp
-  - TSI_Drive_State
-  - TSI_MC_Voltage
-  - TSI TS Voltage
-  - TSI Current
-  - TSI Flow Rate
-  - TSI Throttle
-  - Cool Temp1
-  - Cool Temp2
-  - Cool Flow Rate
-  - Cool Fan
-  - Cool Pump
-  - Motor Status
-  - Motor Torque
-  - Motor Voltage
-  - Motor Controller Temp
-  - Motor Temp
-  - Motor Warning
-  - Motor Current Demand
-  - Motor Throttle
-  - Motor Aux
-  - Motor Brake
-  - Motor Phaseb Current
-  - Motor RPM
-  - Motor Torque Regulator
-  - Motor Flux Regulator
-  - Motor Velocity
+  Pages:
+  #max of 3 groups per page
+    1:
+      - Group_1
+      - Group_2
+      - Group_3
+
+    2: 
+      - Group_4
+
+
+  Groups: 
+  # max 22 sensor per 1 group
+    Group_1: # group names must be different from eachother 
+      - GLV_Voltage
+      - GLV_Current
+      - GLV_Power
+      - GLV_Temp
+    Group_2: 
+      - TSI_Drive_State
+      - TSI_MC_Voltage
+      - TSI TS Voltage
+      - TSI Current
+      - TSI Flow Rate
+      - TSI Throttle
+    Group_3: 
+      - Cool Temp1
+      - Cool Temp2
+      - Cool Flow Rate
+      - Cool Fan
+      - Cool Pump
+    Group_4: 
+      - Motor Status
+      - Motor Torque
+      - Motor Voltage
+      - Motor Controller Temp
+      - Motor Temp
+      - Motor Warning
+      - Motor Current Demand
+
+
 
 #Run_State: continuous ## continuous = no touch screen, switch between frames every few seconds
 #Run_State: not # touch screen = press buttons to change screens
-Run_State: continuous ## means no touch screen
+Run_State: stop ## means no touch screen
 
 ### list ther sensors you would like to dislay on the screen
 Display_2:
@@ -280,12 +283,12 @@ Sensors: # FOR NEW CONFIG #Maybe a better name would be Output Data Points
 
  #### make sure all sensor names contain data type in begining
   #GLV
-  GLV-Voltage: 
-    output_target: 'glv-voltage' #this does not exist yet
+  GLV_Voltage: 
+    output_target: 'glv:voltage' #this does not exist yet
     data_type: 'voltage'
     unit: 'V'
+    oprange: [10, 15, 65, 70] #not final
     input_targets: 
-      v: 'glv:voltage:raw' #this does not exist yet
     cal_function: 'v*5/255' #not final
     bus_type: CAN
     bus_addr: 
