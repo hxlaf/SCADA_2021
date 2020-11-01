@@ -149,7 +149,7 @@ Sensors:
     display_variable: number 
     description: "voltage measured on AD pin in mV"
     bit_length: 16 #probably don't need this
-    sample_rate: 1 #sample rate in Hz
+    sample_period: 5 
 
   # glv-voltage: 
   #   unit: 'V'

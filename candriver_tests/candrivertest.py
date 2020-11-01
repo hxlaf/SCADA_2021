@@ -93,6 +93,8 @@ driver = CanDriver()
 while True:
     for sensorName in sdoDict:
         value = sdoDict[sensorName].phys
-        print("Value of " + sensorName + " is " + value)
+        print("Value of " + sensorName + " is: ")
+        print (value)
+        print ('TADA!!!')
         time.sleep(1)
 
