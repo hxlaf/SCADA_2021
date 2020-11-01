@@ -1,7 +1,13 @@
+[Unit]
+Description=Starts Calibrator Service
+After=sorter.service
+StartLimitIntervalSec=0
+
 [Service]
 WorkingDirectory=/usr/etc/scada
 ExecStart=/usr/bin/scada_calibrator.py
 Restart=always
+RestartSec=1
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=scada_calibrator
