@@ -19,7 +19,7 @@ bus_info:
 ############# PART 1A: CAN CONFIGURATION #############
 
 # CAN node ids
-#NOTE TO TEAM: I CHANGED THE ORDER OF THESE - Harry
+#NOTE TO TEAM: I CHANGED THE key/value ORDER - Harry
 can_nodes:
   motor: 1
   tsi: 3
@@ -150,7 +150,7 @@ Sensors:
     description: "voltage measured on AD pin in mV"
     bit_length: 16 #probably don't need this
     sample_rate: 1 #sample rate in Hz
-    
+
   # glv-voltage: 
   #   unit: 'V'
   #   inputs:

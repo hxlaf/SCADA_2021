@@ -3,14 +3,18 @@ import sys, os
 #Importing the config file
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
+#this is temporary, just for testing
+local_path = '../utils'
 
 sys.path.append(lib_path)
 sys.path.append(config_path)
+sys.path.append(local_path)
 
 import config
 import redis
 import can
 import canopen
+import database
 
 # open a connection to the redis server where we will
 # be writing data
@@ -39,12 +43,14 @@ class CanDriver:
                 # print config.get('Sensors').get(sensorDict)
                 #TODO: some way to determine node object beforehand
                     #we only have one right now for testing, so it doesn't matter
-                sdoDict[sensorName] = self.configure_sdo(sensorName,sensorDict))
+                sdoDict[sensorName] = self.configure_sdo(sensorName,sensorDict)
                 print('sdoDict =')
                 print(sdoDict)
  
     def __del__(self):
-        self.network.disconnect()
+        #UNCOMMENT THIS FOR WORKING VERSION
+        # self.network.disconnect()
+        pass
 
     def configure_sdo(self, sensorName, sensorDict):
         #sensor name is composed of the node name and the value name
@@ -83,4 +89,5 @@ class CanDriver:
 
 #begin test procedures
 driver = CanDriver()
+print(database.getData(sensor_id = 'test_sensor'))
 
