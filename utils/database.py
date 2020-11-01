@@ -17,10 +17,11 @@ cursor = database.cursor()
 
 def getData(sensor_id):
     """
-        For a given key, return the value of the data associated with it,
+        For a sensor name, return the value of the data associated with it,
         if it exists. To be used by other classes to retreive information
         from database.
     """
+    
     cursor.execute("""
         SELECT value FROM data
         WHERE sensor_id = %s

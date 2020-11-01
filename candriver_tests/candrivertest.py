@@ -15,17 +15,19 @@ import redis
 import can
 import canopen
 import database
+import time
 
 # open a connection to the redis server where we will
 # be writing data
-data = redis.Redis(host='localhost', port=6379, db=0)
+#data = redis.Redis(host='localhost', port=6379, db=0)
+sdoDict = {}
 
 class CanDriver:
     #this should take in channel and bustype?
     def __init__(self):
         self.network = canopen.Network()
         # #eventually the following lines should take arguments from config
-        # self.network.connect(channel='can0', bustype='socketcan')
+        self.network.connect(channel='can0', bustype='socketcan')
         # #this will eventually be a loop that goes through nodes
         node = self.network.add_node(1, lib_path + '/utils/eds-files/[nodeId=001]eds_eDrive150.eds')
         # self.network.scanner.search()
@@ -33,7 +35,6 @@ class CanDriver:
         # #this is for testing only
         # for node_id in self.network.scanner.nodes:
         #     print("Found node %d!" % node_id)
-        sdoDict = {}
         allSensors = config.get('Sensors')
         for sensorName in allSensors:
             sensorDict = allSensors.get(sensorName)
@@ -89,5 +90,9 @@ class CanDriver:
 
 #begin test procedures
 driver = CanDriver()
-print(database.getData(sensor_id = 'test_sensor'))
+while True:
+    for sensorName in sdoDict:
+        value = sdoDict[sensorName].phys
+        print("Value of " + sensorName + " is " + value)
+        time.sleep(1)
 
