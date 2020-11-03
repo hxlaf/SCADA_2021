@@ -167,20 +167,7 @@ class NewGUI_2(tk.Frame):
                 
                 # add to sensor list that holds the sensor name and its place on screen
                 self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place, 'unit': unit})
-                
-                # #### FOR TESTING PURPOSE ##############
-                # attributeDict = self.sensorDict[sen]
-                # print("sensor" + str(sen))
-                # for key in attributeDict:
-                #     name = attributeDict.get('output_target') 
-                #     # populate name array for data display
-                #     #print("name " + name)
-                #     #self.name_list[name] = name
-                #     self.name_list.append(name) # name list contains the values 
-                #     break
-                # #########################################
-                
-                
+                                
                 # inriment row for next sensor 
                 self.row_place = self.row_place + 1
                 # break loop once sensor is found
@@ -206,7 +193,7 @@ class NewGUI_2(tk.Frame):
             ## Add value to entry box on screen 
             entry_ = tk.Entry(self, width = BOX_WIDTH)
             
-            text = str(value) + sensor.get('unit')
+            text = str(value) + " " + sensor.get('unit')
             entry_.insert(0, str(text))
 
             # find the corresponding row and column places 
@@ -257,10 +244,13 @@ class NewGUI_2(tk.Frame):
         
         # delete entry box with old information
         self.entryBoxList[listIndex].delete(0, "end")
-        # insert new data in the entryBox
+       
         if value is None: 
             value = 'None'
-        text = str(value) + str(sensor.get('unit'))
+
+        text = str(value) + " " + str(sensor.get('unit'))
+        
+        # insert new data in the entryBox
         self.entryBoxList[listIndex].insert(0, str(text))
 
     def getUnit(self, sensor): 
