@@ -165,17 +165,17 @@ class NewGUI_2(tk.Frame):
                 # add to sensor list that holds the sensor name and its place on screen
                 self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place})
                 
-                #### FOR TESTING PURPOSE ##############
-                attributeDict = self.sensorDict[sen]
-                print("sensor" + str(sen))
-                for key in attributeDict:
-                    name = attributeDict.get('output_target') 
-                    # populate name array for data display
-                    #print("name " + name)
-                    #self.name_list[name] = name
-                    self.name_list.append(name) # name list contains the values 
-                    break
-                #########################################
+                # #### FOR TESTING PURPOSE ##############
+                # attributeDict = self.sensorDict[sen]
+                # print("sensor" + str(sen))
+                # for key in attributeDict:
+                #     name = attributeDict.get('output_target') 
+                #     # populate name array for data display
+                #     #print("name " + name)
+                #     #self.name_list[name] = name
+                #     self.name_list.append(name) # name list contains the values 
+                #     break
+                # #########################################
                 
                 
                 # inriment row for next sensor 
@@ -208,18 +208,18 @@ class NewGUI_2(tk.Frame):
             
             # #value = self.getData_redis(itr)
             
-            # ## Add value to entry box on screen 
-            # entry_ = tk.Entry(self, width = BOX_WIDTH)
-            # entry_.insert(0, str(value))
+            ## Add value to entry box on screen 
+            entry_ = tk.Entry(self, width = BOX_WIDTH)
+            entry_.insert(0, str(value))
 
-            # # find the corresponding row and column places 
-            # rowPlace = sensor.get('row') + 1
-            # column_place = sensor.get('column') + 1
+            # find the corresponding row and column places 
+            rowPlace = sensor.get('row') + 1
+            column_place = sensor.get('column') + 1
 
-            # entry_.grid( row = rowPlace, column = column_place)
+            entry_.grid( row = rowPlace, column = column_place)
             
             # # add the entryBox to the entryBox list 
-            # self.entryBoxList.append(entry_)
+            self.entryBoxList.append(entry_)
 
             # # increment iterator for name_list        
             # itr= itr + 1
@@ -246,7 +246,7 @@ class NewGUI_2(tk.Frame):
         for sensor in self.sensorList:
             old_data = self.dataList[itr]
             sensorName = sensor.get('sensor')
-            print("sensor name" + str(sensorName) )
+            print("sensor name" + str(sensorName))
             new_data = database.getData(sensorName)
             
             ### for old conifg format
