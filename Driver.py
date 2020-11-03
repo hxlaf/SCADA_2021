@@ -31,7 +31,7 @@ for key in config.get('Sensors'):
 
 
 #set up CAN bus copnnection
-can_driver = CanDriver()
+can_drive = can_driver.CanDriver()
 
 # Method to read from the sesnor objects depending on protocol                
 def read(Sensor):
