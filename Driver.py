@@ -40,7 +40,7 @@ def read(Sensor):
     if(sensor_protocol == 'I2C'):
         data = i2c_sorter.read(Sensor)
     elif(sensor_protocol =='CAN'):
-        data = can_driver.read(Sensor)
+        data = can_drive.read(Sensor)
     #elif(sensor_protocol == 'USB'):
         #data= usb_sorter.read(Sensor)
     elif(sensor_protocol == 'VIRTUAL'):
