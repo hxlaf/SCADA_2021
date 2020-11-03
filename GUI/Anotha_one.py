@@ -204,8 +204,9 @@ class NewGUI_2(tk.Frame):
             
             ## Add value to entry box on screen 
             entry_ = tk.Entry(self, width = BOX_WIDTH)
-            if(value == null):
-                value = '---'
+            
+            if value is None:
+                value = 'None'
 
             text = str(value) + sensor.get('unit')
             entry_.insert(0, str(text))
@@ -259,25 +260,6 @@ class NewGUI_2(tk.Frame):
         self.after(1000, self.refresh_sensors)
 
 
-    ## for old config format get the data from redis according to output_target
-    ## output_target valeue is found in the name_list
-    def getData_redis(self, index): 
-        #key = list(self.name_list.keys())[index]
-    
-        key = list(self.name_list)[index] ## get data from redis rn
-        target = key
-        value = data.get(target) ## get from redis
-        value = str(value)
-        value = value.replace("b'", "")
-        value = value.replace("'", "")
-        # if(value == None):
-        #     return value
-        # elif(value != 'None'):
-        #     print(value)
-        #     num = float(value)
-        #     value = round(4, value)
-        return value
-
     
     # this method puts the data on the screen after it has been updated
     def placedata_on_screen(self, listIndex, value, sensor):
@@ -285,6 +267,8 @@ class NewGUI_2(tk.Frame):
         # delete entry box with old information
         self.entryBoxList[listIndex].delete(0, "end")
         # insert new data in the entryBox
+        if value is None: 
+            value = 'None'
         text = str(value) + str(sensor.get('unit'))
         self.entryBoxList[listIndex].insert(0, str(text))
 
