@@ -1,6 +1,6 @@
 [Unit]
 Description=Starts Calibrator Service
-After=sorter.service
+After=multi-user.target
 StartLimitIntervalSec=0
 
 [Service]

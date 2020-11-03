@@ -1,6 +1,6 @@
 [Unit]
 Description=Starts Logger Service
-After=calibrator.service
+After=multi-user.target
 StartLimitIntervalSec=0
 
 [Service]
