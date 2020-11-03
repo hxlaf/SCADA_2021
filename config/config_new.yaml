@@ -137,7 +137,7 @@ Sensors:
     cal_function: 'Vin'
     bus_type: CAN
     primary_address: 0x2070
-    secondary_address: [0x01]
+    secondary_address: 0x01
     precision: 0
     display_variable: number 
     description: "voltage measured on AD pin in mV"
@@ -156,7 +156,7 @@ Sensors:
       0b0000000000001000: 'FAULT'
     bus_type: CAN
     primary_address: 0x6041
-    secondary_address: [0x00]
+    secondary_address: 0x00
     precision: 0
     display_variable: state 
     description: "voltage measured on AD pin in mV"

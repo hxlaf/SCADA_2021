@@ -45,8 +45,8 @@ class CanDriver:
             sensorDict = allSensors.get(sensorName)
             if sensorDict['bus_type'] == 'CAN':
                 #DEBUG:
-                # print(sensorName)
-                # print(sensorDict)
+                print(sensorName)
+                print(sensorDict)
                 # print config.get('Sensors').get(sensorDict)
                 self.sdoDict[sensorName] = self.configure_sdo(sensorName,sensorDict)
                 #DEBUG:
@@ -96,5 +96,5 @@ class CanDriver:
         if sensorDict['secondary_address'] == None:
             new_sdo = node.sdo[sensorDict['primary_address']]
         else:
-            new_sdo = node.sdo[sensorDict['primary_address']][sensorDict['secondary_address'][0]]
+            new_sdo = node.sdo[sensorDict['primary_address']][sensorDict['secondary_address']]
         return new_sdo
