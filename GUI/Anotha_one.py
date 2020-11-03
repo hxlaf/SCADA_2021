@@ -276,11 +276,11 @@ class NewGUI_2(tk.Frame):
         
         key_list = sensor.keys()
         print("items " + str(sensor.items()))
-        for key in key_list:
+        for key, value in sensor.items():
             if(key == "unit"):
-                print("value" + str(key.values()))
-                print("unit " + str(key.get("unit")))
-                return key.get("unit")
+                print("value" + str(value))
+                #print("unit " + str(key.get("unit")))
+                return value
 
 
 
