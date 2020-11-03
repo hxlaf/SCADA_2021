@@ -57,19 +57,33 @@ def Virtual_execute(Sensor_val):
     formatted_data= format_var.format(output)
     last_calc_vals[Sensor_val[0]] = formatted_data
     return(formatted_data)
-            
+
+#Method to perform Calibration on State Sensors 
+def State_execute(Sensor_val): 
+    #Retrieving Calibrated State from YAML
+    state_cal = config.get('Sensors').get(Sensor_val[0]).get('cal_function').get(Sensor_val[1])
+
+    return (state_cal)
+
+
 #Method publishes calibrated data to the Calculated Data Redis Channel      
 def update(sensor_key):
     split_key = sensor_key.split(":")
-    print ("SPlit KEY : " + split_key[0])
+    print ("SPlit KEY : " + split_key[0]) #SpLiT kEy
     
+    #Check For Display Variable to Differientiate between states and number values 
+    if (config.get('Sensors').get(split_key[0])).get('display_variable') == 'state':
+        data.publish('calculated_data', '{}:{}'.format(split_key[0], str(State_execute(split_key))))
+
+    #Display Variable is a number and can be calibrated with functions 
+    else: 
     #Checking the Length of the inputs dictionary from YAML file
-    #Length of 1 - Raw Sensor Calibration Method Called 
+    #Bus Type (CAN & I2C) - Raw Sensor Calibration Method Called 
     #Else - Virtual Sensor Calibration Method Called 
-    if len((config.get('Sensors').get(split_key[0])).get('inputs')) == 1:
-        data.publish('calculated_data', '{}:{}'.format(split_key[0], str(execute(split_key)) ))
-    else:
-        data.publish('calculated_data', '{}:{}'.format(split_key[0],str(Virtual_execute(split_key))))
+        if config.get('Sensors').get(split_key[0])).get('bus_type') != 'VIRTUAL':
+            data.publish('calculated_data', '{}:{}'.format(split_key[0], str(execute(split_key)) ))
+        else:
+            data.publish('calculated_data', '{}:{}'.format(split_key[0],str(Virtual_execute(split_key))))
         
 
 #Listening to the Calculated Data Channel for New Messages 

@@ -43,7 +43,7 @@ def read(Sensor):
         data = can_driver.read(Sensor)
     #elif(sensor_protocol == 'USB'):
         #data= usb_sorter.read(Sensor)
-    elif(sensor_protocol == 'Virtual'):
+    elif(sensor_protocol == 'VIRTUAL'):
         data= 0
     else:
         return 'Sensor Protocol Not Found'

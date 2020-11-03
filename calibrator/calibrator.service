@@ -1,6 +1,6 @@
 [Unit]
 Description=Starts Calibrator Service
-After=sorter.service
+After=multi-user.target
 StartLimitIntervalSec=0
 
 [Service]
@@ -13,3 +13,6 @@ StandardError=syslog
 SyslogIdentifier=scada_calibrator
 User=root
 Group=root
+
+[Install]
+WantedBy=multi-user.target
