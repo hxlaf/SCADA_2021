@@ -119,7 +119,7 @@ Display:
     # 4: DRIVE
   # bus_type: I2C
   # primary_address: 0x01
-  # secondary_address: [0x68,0x69]
+  # secondary_address: [0x68,0x69]    #single hex value for CAN, list for I2C
   # precision: 2                      #number of decimal places
   # display_variable: number          #number/state/boolean
   # sample_period: 1                  #in seconds
