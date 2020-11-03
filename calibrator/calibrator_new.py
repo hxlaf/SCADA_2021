@@ -63,7 +63,7 @@ def State_execute(Sensor_val):
     #Retrieving Calibrated State from YAML
     print("STATE CAL FUNCTION:")
     print(config.get('Sensors').get(Sensor_val[0]).get('cal_function'))
-    state_cal = config.get('Sensors').get(Sensor_val[0]).get('cal_function').get(Sensor_val[1])
+    state_cal = config.get('Sensors').get(Sensor_val[0]).get('cal_function').get(int(Sensor_val[1]))
 
     return (state_cal)
 
