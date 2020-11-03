@@ -12,9 +12,10 @@ Sensor_defaults:
 ############### PART 1: HARDWARE CONFIGURATION #################### 
 
 bus_info:
-  bustype: socketcan
-  channel: vcan0
-  bitrate: 125000
+  CAN:
+    bus_type: socketcan  #socketcan for actual bus, vcan for virtual bus
+    channel: can0       #can0 for actual bus, vcan0 for virtual bus
+    bitrate: 125000     #should always be 125000
 
 ############# PART 1A: CAN CONFIGURATION #############
 
@@ -105,11 +106,11 @@ Display:
 
 #Example Sensor
 
-  #Subsytem_Name-Data_name: #this is the sensor name
-  # unit:
+  #subsytem_name-data_name: #this is the sensor name
+  # unit: V
   # inputs:
     #varName1: sensor1_name
-    #varName2: sensor2_name
+    #varName2: sensor2_name             ### Note: an actual sensor would only have one cal_function
   # cal_function: "varName1 * varName2" <-- number calibration (display_variable is boolean or number)
   # cal function:                       <-- state calibration (display_variable must be enum)
     # 1: OFF
@@ -119,28 +120,119 @@ Display:
   # bus_type: I2C
   # primary_address: 0x01
   # secondary_address: [0x68,0x69]
-  # precision:
+  # precision: 2                      #number of decimal places
   # display_variable: float
-  # sample_period:
-  #  bit_length: 16 #probably don't need this
+  # sample_period: 1                  #in seconds
+  #  bit_length: 16                   #probably don't need this
   # description: "description of the data being stored"
-  #
-  
-#cal function for sensors that need it 
-#  cal_function:
-    # 1: OFF
-    # 2: STANDBY
-    # 3: DRIVE-READY
-    # 4: DRIVE
 
 
-##EXAMPLES
+
 Sensors:
-
+# CAN #
   motor-throttle_voltage:
     unit: 'mV'
     inputs:
       Vin: motor-throttle_voltage
+    cal_function: 'Vin'
+    bus_type: CAN
+    primary_address: 0x2070
+    secondary_address: [0x01]
+    precision: 0
+    display_variable: number 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 #probably don't need this
+    sample_period: 5 
+
+  #all can sensors from this point down have unfinished configuration
+  motor-status:
+      unit: 'mV'
+    inputs:
+      Vin: motor-status
+    cal_function: 'Vin'
+    bus_type: CAN
+    primary_address: 0x2070
+    secondary_address: [0x01]
+    precision: 0
+    display_variable: number 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+
+  motor-torque:
+    unit: 'mV'
+    inputs:
+      Vin: motor-torque
+    cal_function: 'Vin'
+    bus_type: CAN
+    primary_address: 0x2070
+    secondary_address: [0x01]
+    precision: 0
+    display_variable: number 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 #probably don't need this
+    sample_period: 5 
+
+  motor-voltage:
+    unit: 'mV'
+    inputs:
+      Vin: motor-voltage
+    cal_function: 'Vin'
+    bus_type: CAN
+    primary_address: 0x2070
+    secondary_address: [0x01]
+    precision: 0
+    display_variable: number 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 #probably don't need this
+    sample_period: 5 
+  
+  motor-controller_temp:
+    unit: 'mV'
+    inputs:
+      Vin: motor-controller_temp
+    cal_function: 'Vin'
+    bus_type: CAN
+    primary_address: 0x2070
+    secondary_address: [0x01]
+    precision: 0
+    display_variable: number 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 #probably don't need this
+    sample_period: 5 
+
+  motor-temp:
+    unit: 'mV'
+    inputs:
+      Vin: motor-temp
+    cal_function: 'Vin'
+    bus_type: CAN
+    primary_address: 0x2070
+    secondary_address: [0x01]
+    precision: 0
+    display_variable: number 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+
+  motor-warning:
+    unit: 'mV'
+    inputs:
+      Vin: motor-warning
+    cal_function: 'Vin'
+    bus_type: CAN
+    primary_address: 0x2070
+    secondary_address: [0x01]
+    precision: 0
+    display_variable: number 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 #probably don't need this
+    sample_period: 5 
+
+  motor-current_demand:
+    unit: 'mV'
+    inputs:
+      Vin: motor-current_demand
     cal_function: 'Vin'
     bus_type: CAN
     primary_address: 0x2070
@@ -180,7 +272,8 @@ Sensors:
   #   description: "This is the ground low voltage in volts"
   #   bit_length: 16 #probably don't need this
   #   sample_period: 1 #sample period in seconds
-  
+
+# I2C #
   rtc-time: 
     unit: 'T'
     inputs:

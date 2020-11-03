@@ -63,26 +63,6 @@ class CanDriver:
         #or other canOpen structures, we would want to do some decision making here
         return self.read_sdo(sensorName)
 
-
-    def configure_sdo(self, sensorName, sensorDict):
-        #sensor name is composed of the node name and the value name
-        [nodeName, valueName] = sensorName.split('-')
-        #DEBUG:
-        # print(nodeName)
-        # print(valueName)
-        nodeNum = config.get('can_nodes').get(nodeName)
-        #finds node on network
-        node = self.network[nodeNum]
-
-        #creates SDO object that will communicate with the node
-        if sensorDict['secondary_address'] == None:
-            new_sdo = node.sdo[sensorDict['primary_address']]
-        else:
-            new_sdo = node.sdo[sensorDict['primary_address']][sensorDict['secondary_address'][0]]
-        return new_sdo
-
-
-
     #using SDOs for now
     def read_sdo(self,sensorName):
         return self.sdoDict[sensorName].phys
@@ -102,15 +82,19 @@ class CanDriver:
         #dummy method contents
         pass
 
-#end class definition
+    def configure_sdo(self, sensorName, sensorDict):
+        #sensor name is composed of the node name and the value name
+        [nodeName, valueName] = sensorName.split('-')
+        #DEBUG:
+        # print(nodeName)
+        # print(valueName)
+        nodeNum = config.get('can_nodes').get(nodeName)
+        #finds node on network
+        node = self.network[nodeNum]
 
-# #begin test procedures
-# driver = CanDriver()
-# while True:
-#     for sensorName in sdoDict:
-#         value = sdoDict[sensorName].phys
-#         print("Value of " + sensorName + " is: ")
-#         print (value)
-#         print ('TADA!!!')
-#         time.sleep(1)
-
+        #creates SDO object that will communicate with the node
+        if sensorDict['secondary_address'] == None:
+            new_sdo = node.sdo[sensorDict['primary_address']]
+        else:
+            new_sdo = node.sdo[sensorDict['primary_address']][sensorDict['secondary_address'][0]]
+        return new_sdo

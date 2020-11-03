@@ -38,7 +38,7 @@ cp scada /usr/bin/scada
 #Copying down i2c sorter 
 cp i2c_sorter.py /usr/bin/i2c_sorter.py
 #copying down can sorter
-#insert code to do that here
+cp candriver_tests/can_driver.py /usr/bin/can_driver.py
 
 # cp sorter/sorter.py /usr/bin/scada_sorter.py
 cp Driver.py /usr/bin/scada_sorter.py

@@ -12,7 +12,8 @@ sys.path.append(config_path)
 import utils
 import config
 import redis
-import i2c_sorter 
+import i2c_sorter
+import can_driver
 
 
 #Setting up connectiion to Redis Server
@@ -28,14 +29,18 @@ for key in config.get('Sensors'):
     sample_period[key] = SensorList.get(key).get('sample_period')
     last_sampled[key] = time.time()
 
+
+#set up CAN bus copnnection
+can_driver = CanDriver()
+
 # Method to read from the sesnor objects depending on protocol                
 def read(Sensor):
 #make it look at the folder for what protocol to use
     sensor_protocol = SensorList.get(str(Sensor)).get('bus_type')
     if(sensor_protocol == 'I2C'):
         data = i2c_sorter.read(Sensor)
-    #elif(sensor_protocol =='CAN'):
-        #data = can_sorter.read(Sensor)
+    elif(sensor_protocol =='CAN'):
+        data = can_driver.read(Sensor)
     #elif(sensor_protocol == 'USB'):
         #data= usb_sorter.read(Sensor)
     elif(sensor_protocol == 'Virtual'):
