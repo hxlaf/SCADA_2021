@@ -80,7 +80,7 @@ def update(sensor_key):
     #Checking the Length of the inputs dictionary from YAML file
     #Bus Type (CAN & I2C) - Raw Sensor Calibration Method Called 
     #Else - Virtual Sensor Calibration Method Called 
-        if config.get('Sensors').get(split_key[0])).get('bus_type') != 'VIRTUAL':
+        if config.get('Sensors').get(split_key[0]).get('bus_type') != 'VIRTUAL':
             data.publish('calculated_data', '{}:{}'.format(split_key[0], str(execute(split_key)) ))
         else:
             data.publish('calculated_data', '{}:{}'.format(split_key[0],str(Virtual_execute(split_key))))
