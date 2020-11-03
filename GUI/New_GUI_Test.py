@@ -51,8 +51,8 @@ class MainGUI(tk.Tk):
         self.screenWidth = self.winfo_screenwidth() # Get current width of canvas
         self.screenHeight = self.winfo_screenheight() # Get current height of canvas
         
-        print("width" + str(self.screenWidth))
-        print("height" + str(self.screenHeight))
+        #print("width" + str(self.screenWidth))
+        #print("height" + str(self.screenHeight))
 
         # set screen to full size 
         self.container = tk.Frame(self, width = self.screenWidth, height = self.screenHeight)
@@ -88,6 +88,8 @@ class MainGUI(tk.Tk):
             self.frames[i] = frame
             frame.grid(row=0, column=0, sticky="nsew")
             self.display_vars["frames"][i] = self.frames[i]
+
+
             i = i+1
         #self.setState() ## Get the run state from the config file
         
@@ -112,7 +114,7 @@ class MainGUI(tk.Tk):
         config.load(forceLoad=True)
         self.displayDict = config.get('Display')
         self.pagesNum = self.displayDict.get('Pages')
-        print("num pages " + str(len(self.pagesNum)))
+        #print("num pages " + str(len(self.pagesNum)))
         self.numOfPages = len(self.pagesNum)
 
 
