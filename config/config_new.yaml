@@ -149,7 +149,7 @@ Sensors:
     unit: ''
     inputs:
       status-enum: motor-status
-    cal function:
+    cal_function:
       0b0000000000000000: 'SHREK'
       0b0000000000000001: 'READY TO SWITCH ON'
       0b0000000000000010: 'SWITCHED ON'
