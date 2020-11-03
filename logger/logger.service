@@ -13,3 +13,6 @@ StandardError=syslog
 SyslogIdentifier=scada_logger
 User=root
 Group=root
+
+[Install]
+WantedBy=multi-user.target
