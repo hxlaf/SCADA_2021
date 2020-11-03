@@ -153,7 +153,7 @@ class NewGUI_2(tk.Frame):
 
         # for each sensor in the Sensors list            
         for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
-
+            
             # if the sensor in sensor list = sensorName in Display section
             if(sen == sensorName):
                 
@@ -162,7 +162,8 @@ class NewGUI_2(tk.Frame):
                 placeRow = 1 + self.row_place
                 label.grid(row = placeRow, column = self.column_place, sticky = "w")
 
-                unit = self.getUnit(sen)
+                #unit = self.getUnit(sen)
+                unit = self.getUnit(self.sensorDict.get(sen))
                 
                 # add to sensor list that holds the sensor name and its place on screen
                 self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place, 'unit': unit})
