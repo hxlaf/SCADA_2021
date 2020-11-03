@@ -274,10 +274,11 @@ class NewGUI_2(tk.Frame):
 
     def getUnit(self, sensor):
         
-        key_list = list(sensor.keys())
-        #print("keys " + str(keys))
+        key_list = sensor.keys()
+        print("items " + str(sensor.items()))
         for key in key_list:
             if(key == "unit"):
+                print("value" + str(key.values()))
                 print("unit " + str(key.get("unit")))
                 return key.get("unit")
 
