@@ -150,11 +150,16 @@ Sensors:
     inputs:
       status-enum: motor-status
     cal_function:
-      0b0000000000000000: 'SHREK'
-      0b0000000000000001: 'READY TO SWITCH ON'
-      0b0000000000000010: 'SWITCHED ON'
-      0b0000000000000100: 'OPERATION ENABLED'
-      0b0000000000001000: 'FAULT'
+      # 0b0000000000000000: 'SHREK'
+      # 0b0000000000000001: 'READY TO SWITCH ON'
+      # 0b0000000000000010: 'SWITCHED ON'
+      # 0b0000000000000100: 'OPERATION ENABLED'
+      # 0b0000000000001000: 'FAULT'
+      0: 'SHREK'
+      1: 'READY TO SWITCH ON'
+      2: 'SWITCHED ON'
+      4: 'OPERATION ENABLED'
+      8: 'FAULT'
     bus_type: CAN
     primary_address: 0x6041
     secondary_address: Null
