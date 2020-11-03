@@ -28,7 +28,7 @@ class CanDriver:
         # #eventually the following lines should take arguments from config
         can_info = config.get('bus_info').get('CAN')
         # TODO: SHOULD I HAVE A TRY CATCH HERE?  THAT WOULD ALERT PROGRAM THAT CANBUS NOT CONNECTED
-        self.network.connect(channel=can_info.get('bus_type'), bustype=can_info.get('bus_type'))
+        self.network.connect(channel=can_info.get('channel'), bustype=can_info.get('bus_type'))
         # TODO: this will eventually be a loop that goes through nodes' EDS's
         self.network.add_node(1, lib_path + '/utils/eds-files/[nodeId=001]eds_eDrive150.eds')
         
