@@ -200,14 +200,14 @@ class NewGUI_2(tk.Frame):
             sensorName = sensor.get('sensor')
             value = database.getData(sensorName)
 
-
-            
-            ## Add value to entry box on screen 
-            entry_ = tk.Entry(self, width = BOX_WIDTH)
-            
             if value is None:
                 value = 'None'
 
+            print("DIS " + str(sensor.get('unit')))
+
+            ## Add value to entry box on screen 
+            entry_ = tk.Entry(self, width = BOX_WIDTH)
+            
             text = str(value) + sensor.get('unit')
             entry_.insert(0, str(text))
 
