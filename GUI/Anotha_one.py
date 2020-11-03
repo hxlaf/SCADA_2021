@@ -204,7 +204,7 @@ class NewGUI_2(tk.Frame):
             
             ## Add value to entry box on screen 
             entry_ = tk.Entry(self, width = BOX_WIDTH)
-            if value is None:
+            if(value == null):
                 value = '---'
 
             text = str(value) + sensor.get('unit')
