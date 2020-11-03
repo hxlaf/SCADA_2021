@@ -14,7 +14,7 @@ import config
 import redis
 import can
 import canopen
-import database
+# from utils import database
 import time
 
 # open a connection to the redis server where we will
@@ -28,7 +28,7 @@ class CanDriver:
         # #eventually the following lines should take arguments from config
         can_info = config.get('bus_info').get('CAN')
         # TODO: SHOULD I HAVE A TRY CATCH HERE?  THAT WOULD ALERT PROGRAM THAT CANBUS NOT CONNECTED
-        self.network.connect(channel=can_info.get('bus_type'), bustype=can_info.get('bus_type'))
+        self.network.connect(channel=can_info.get('channel'), bustype=can_info.get('bus_type'))
         # TODO: this will eventually be a loop that goes through nodes' EDS's
         self.network.add_node(1, lib_path + '/utils/eds-files/[nodeId=001]eds_eDrive150.eds')
         
@@ -45,8 +45,8 @@ class CanDriver:
             sensorDict = allSensors.get(sensorName)
             if sensorDict['bus_type'] == 'CAN':
                 #DEBUG:
-                # print(sensorName)
-                # print(sensorDict)
+                print(sensorName)
+                print(sensorDict)
                 # print config.get('Sensors').get(sensorDict)
                 self.sdoDict[sensorName] = self.configure_sdo(sensorName,sensorDict)
                 #DEBUG:
@@ -62,26 +62,6 @@ class CanDriver:
         #for now this is a redundant step, but if we use other CAN-subprotocols
         #or other canOpen structures, we would want to do some decision making here
         return self.read_sdo(sensorName)
-
-
-    def configure_sdo(self, sensorName, sensorDict):
-        #sensor name is composed of the node name and the value name
-        [nodeName, valueName] = sensorName.split('-')
-        #DEBUG:
-        # print(nodeName)
-        # print(valueName)
-        nodeNum = config.get('can_nodes').get(nodeName)
-        #finds node on network
-        node = self.network[nodeNum]
-
-        #creates SDO object that will communicate with the node
-        if sensorDict['secondary_address'] == None:
-            new_sdo = node.sdo[sensorDict['primary_address']]
-        else:
-            new_sdo = node.sdo[sensorDict['primary_address']][sensorDict['secondary_address'][0]]
-        return new_sdo
-
-
 
     #using SDOs for now
     def read_sdo(self,sensorName):
@@ -102,15 +82,19 @@ class CanDriver:
         #dummy method contents
         pass
 
-#end class definition
+    def configure_sdo(self, sensorName, sensorDict):
+        #sensor name is composed of the node name and the value name
+        [nodeName, valueName] = sensorName.split('-')
+        #DEBUG:
+        # print(nodeName)
+        # print(valueName)
+        nodeNum = config.get('can_nodes').get(nodeName)
+        #finds node on network
+        node = self.network[nodeNum]
 
-# #begin test procedures
-# driver = CanDriver()
-# while True:
-#     for sensorName in sdoDict:
-#         value = sdoDict[sensorName].phys
-#         print("Value of " + sensorName + " is: ")
-#         print (value)
-#         print ('TADA!!!')
-#         time.sleep(1)
-
+        #creates SDO object that will communicate with the node
+        if sensorDict['secondary_address'] == None:
+            new_sdo = node.sdo[sensorDict['primary_address']]
+        else:
+            new_sdo = node.sdo[sensorDict['primary_address']][sensorDict['secondary_address']]
+        return new_sdo
