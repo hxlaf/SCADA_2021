@@ -14,7 +14,7 @@ import config
 import redis
 import can
 import canopen
-import database
+# from utils import database
 import time
 
 # open a connection to the redis server where we will
