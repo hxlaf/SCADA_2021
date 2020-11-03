@@ -4,6 +4,9 @@ from tkinter import ttk
 # import tkinter.ttk
 config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
+
+database_path = '/usr/etc/scada/utils'
+sys.path.append(database_path)
 import config
 import yaml
 import collections
@@ -12,46 +15,84 @@ import redis
 import time
 import sys, os
 import datetime
+#from decimal import *
+
+import database
 
 data = redis.Redis(host='localhost', port=6379, db=0)
-#columns = config.get('Display')
 
 
 LARGE_FONT = ("Times New Roman", 12)
-TITLE_FONT = ("Times New Roman Bold", 12)
+TITLE_FONT = ("Times", 14, "bold italic")
+START_ROW = 1
+BOX_WIDTH = 14
+
 class NewGUI_2(tk.Frame):
     def __init__(self, parent, controller, pageNum): 
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        self.name_list = {}
-        #self.display_list= {}
+        self.name_list = [] ## list of values from output_target attribubte
+        self.sensorList = [] # list of sensors to be displayed
+        self.dataList = [] ## list of current data from each sensor on the screen
+
+        self.tempList = [] ## this is a temp list until we have new config file formatted 
+        self.entryBoxList = [] ## list on entry boxes diaplyed on screen
         self.column_place = 0
         self.row_place = 0
-        self.list_lengths = []
-        self.pageNumber = pageNum
-        self.count = 0
 
-        label = tk.Label(self, text = "Page " + str(self.pageNumber + 1) , font= LARGE_FONT )
-        label.grid(row = 30, column = 2,  sticky = "w")
+        self.pageNumber = pageNum
+
+        ## Set the title of the window to the page number 
+        self.winfo_toplevel().title("SPARKY")
+        
+        ## Lafayette LOGO Button 
+        display_text = "SCADA Subsystem V-1 \n Class of 2021 \n @Authors \n Lia Chrysanthopoulos, Irwin Frimpong, \n Mithil Shah, Adam Tunnell, \n Harrison Walker"
+        laf_filePath ='./LafayetteSymbol2.png'
+        laf_img = PhotoImage(file = laf_filePath)  
+        laf_button = tk.Button(self, image = laf_img, command = lambda: self.popup_msg(display_text))
+        laf_button.image=laf_img
+        laf_button.grid(row = 0, column = 0, sticky= "w")
+
+   
+        ## Display Page Number
+        label = tk.Label(self, text = "Page " + str(self.pageNumber + 1) , font= TITLE_FONT )
+        label.grid(row = 0, column = 3,  sticky = "w")
 
         curr_page = self.pageNumber +1
-        #print("current page" + str(curr_page))
         next_frame = self.pageNumber + 1
 
-        next_page_button = tk.Button(self, text = "Page2", fg = "black", command = lambda: self.controller.show_frame(next_frame))
-        next_page_button.grid(row = 22, column = 30, sticky = "nsew")
+
+
+        ## create button image for Next Page
+        filePath ='./nextPageButton2.png'
+        img = PhotoImage(file = filePath)  
+        next_page_button = tk.Button(self, image = img, command = lambda: self.controller.show_frame(next_frame))
+        next_page_button.image=img
+        next_page_button.grid(row = 0, column = 4, sticky = "e")
+
 
         if(curr_page >= 2):
-            prev_page_button = tk.Button(self, text = "Page1", fg = "black", command = lambda: self.controller.show_frame(curr_page -2))
-            prev_page_button.grid(row = 25, column = 30, sticky = "nsew")
+            self.add_space(0, 4)
+            
+            filePath2 = './prevPageButton2.png'
+            img2 = PhotoImage(file = filePath2)  
+            prev_page_button = tk.Button(self, image = img2, command = lambda: self.controller.show_frame(curr_page -2))
+            prev_page_button.image=img2
+            prev_page_button.grid(row = 0, column = 1, sticky= "e")
             next_page_button.destroy()
 
 
-        #self.get_pages()
+            filePath ='./nextPageButton2.png'
+            img3 = PhotoImage(file = filePath)  
+            next_page_button2 = tk.Button(self, image = img3, command = lambda: self.controller.show_frame(next_frame))
+            next_page_button2.image=img3
+            next_page_button2.grid(row = 0, column = 4, sticky = "e")
+
+
         self.get_page_groups(curr_page)
-        #self.find_attributes_2()
-        #self.retrieve_data_2()  
+        self.get_sensor_data()
+
 
 
 
@@ -63,14 +104,14 @@ class NewGUI_2(tk.Frame):
         
         # for each group in the Groups list in config.yaml fil e
         for page in self.pageNum:
+            
             ## condition checks which page GUI needs to create & display 
             if(page == pageNum):
-                #print("page " + str(page))
                 
                 # reset col for new page
                 self.column_place = 0
                 #reset row for new page
-                self.row_place = 0
+                self.row_place = START_ROW
                 
                 ## pass in list of groups under that page 
                 self.get_groups(self.pageNum[page])
@@ -87,168 +128,171 @@ class NewGUI_2(tk.Frame):
             # for the groups listed under the Groups category
             for groupName in  self.groupDict:
                 
-                ## if the names are equal 
+                ## if the Group names are equal 
                 if(group == groupName):
-                    # print("group list " + str(group))
-                    # print("groupDict " + str(self.groupDict[groupName]))
-                    
+                   
+                    # display group label
                     group_label = tk.Label(self, text = str(groupName), font= LARGE_FONT, fg = "blue" )
-                    group_label.grid(row = 0 , column = self.column_place, sticky = "nsew")
+                    group_label.grid(row = START_ROW, column = self.column_place, sticky = "nsew")
                     
                     # for the sensors in the groupName in the Group list 
                     for sensor in self.groupDict[groupName]: 
+                        # add the sensor name to sensor List 
                         self.find_group_in_SensorList(sensor)
                 
                     # add to column for new group
                     self.column_place = self.column_place + 2
                     #reset row for new group
-                    self.row_place = 0
+                    self.row_place = START_ROW
 
 
     
     
     def find_group_in_SensorList(self, sensorName): 
         self.sensorDict = config.get('Sensors')
-        #print("sensor name " + str(sensorName))
 
         # for each sensor in the Sensors list            
         for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
 
+            # if the sensor in sensor list = sensorName in Display section
             if(sen == sensorName):
+                
                 # put sensor on screen 
                 label = tk.Label(self, text = str(sen), font= LARGE_FONT )
                 placeRow = 1 + self.row_place
                 label.grid(row = placeRow, column = self.column_place, sticky = "w")
+                
+                # add to sensor list that holds the sensor name and its place on screen
+                self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place})
+                
+                #### FOR TESTING PURPOSE ##############
+                attributeDict = self.sensorDict[sen]
+                print("sensor" + str(sen))
+                for key in attributeDict:
+                    name = attributeDict.get('output_target') 
+                    # populate name array for data display
+                    #print("name " + name)
+                    #self.name_list[name] = name
+                    self.name_list.append(name) # name list contains the values 
+                    break
+                #########################################
+                
+                
                 # inriment row for next sensor 
                 self.row_place = self.row_place + 1
                 # break loop once sensor is found
                 break
-
-    #def get_sensor_atttribute(self, sensorName):
-
-
-
-
-
-
-
-
-####################### TEST #############################################
-    def find_attributes_2(self): 
-        config.load(forceLoad=True)
-        self.displayDict = config.get('Display_2')
-        self.sensorDict = config.get('Sensors')
-        count = 0 
-        count_2 = 0
-        self.column_place = 0
-        placeRow = 0
-        max = 0
-        #for sensor_display in self.display_list:
-        print("display list " + str(self.displayDict))
-        for group in self.displayDict: 
-            #print("group " + str(group))
-            self.controller.display_vars["INDEX"] = self.controller.display_vars["INDEX"] +1
-            if(max <3):
-                max = max+1
-                #self.check_row_col(placeRow, self.column_place)
-                self.sensorDict_display = self.displayDict[group]
-                #print("sensorDict_display " + str(self.sensorDict_display))
-
-                group_label = tk.Label(self, text = str(group), font= LARGE_FONT, fg = "blue" )
-                group_label.grid(row = 0 , column = self.column_place, sticky = "nsew")
-
-                #print("group length" + str(len(self.sensorDict_display)))
-                
-                #add the length of the group list to the list called list_length 
-                # this is used to determine how many rows are displayed in each column 
-                self.list_lengths.append(len(self.sensorDict_display))
-
-                ## Add group name 
-
-                # for each sensor in the group
-                for sensor in self.sensorDict_display:
-                    
-                    for key in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
-
-                        if(sensor == key):
-
-                            attributeDict = self.sensorDict[sensor]
-                            for key in attributeDict:
-                                name = attributeDict.get('output_target') 
-
-                                self.name_list[name] = name
-                                print(str(sensor))
-                                label = tk.Label(self, text = str(sensor), font= LARGE_FONT )
-                                placeRow = 2 + count
-                                label.grid(row = placeRow, column = self.column_place, sticky = "w")
-
-                                
-                                count = count + 1
-                                break
-                            break
-                self.column_place = self.column_place + 2
-                placeRow = 0
-                count = 0
-
-
-
-##########################################################################################
-## get data in redis
-    ## values are retrieved based on the list called name_list
-    ## when you modify the redis file, mak sure to change name_list to the actual sensor name
-    def retrieve_data_2(self): 
-        self.sensorDict = config.get('Sensors')
-        count = 0
-        # rowPlace = 0
-        #colplace = 1
-        self.column_place = 1
-        max = 0
-        # go through each group list
-        for index in self.list_lengths:
-            if(max <3):
-                itr = 0
             
-                #self.check_row_col(self.row_place, self.column_place)
-
-                # while the iterator is less than the size of the grouplist
-                while itr < index:
-                #for key in self.name_list:
-                    key = list(self.name_list.keys())[itr]
-                    #print("key" + str(key))
-                    # self.check_row_col(rowPlace, colplace)
-                    target = key
-                    value = data.get(target) ## get from redis
-
-                    value = str(value)
-                    value = value.replace("b'", "")
-                    value = value.replace("'", "")
-                    # if(value != None):
-                    #     #roundNum = round(value, 4)
-                    #     value = str(value)
-                    #     value = value.replace("b'", "")
-                    #     value = value.replace("'", "")
-                    # else: 
-                    #     value = str(value)
-                    #     value = value.replace("b'", "")
-                    #     value = value.replace("'", "")
-                    #     roundNum = value
+            # create elif so that pop up displays uf user incorrectly entered a sensor name 
+            #elif((sen != sensorName) and )
 
 
-                    entry_ = tk.Entry(self, width = 10)
-                    
-                    entry_.insert(0, str(value))
-                    # entry_.insert(0, str(roundNum))
-                    rowPlace = 2 + count
-                    entry_.grid( row = rowPlace, column = self.column_place)
-                    #num_of_rows = num_of_rows + 1
-                    count = count + 1
-                    itr = itr+1
-                    
-                self.column_place = self.column_place + 2
-                count = 0
-                max = max + 1
-                #print("colum number" + str(self.column_place))
-        self.after(1000, self.retrieve_data_2)
+    # Method gets the data to display on the screen 
+    def get_sensor_data(self):
+        
+        itr = 0 ## iterator to keep track of name_list index 
+
+        # for each sensor in the list of sensors to be displayed
+        for sensor in self.sensorList:
+            value = database.getData(sensor)
+            
+            # ###########for old config format##############
+            # key = list(self.name_list)[itr]  ## name_list holds output_target values
+
+            # target = key
+            # value = data.get(target) ## get from redis
+            # value = str(value)
+            # value = value.replace("b'", "")
+            # value = value.replace("'", "")
+            
+            # #value = self.getData_redis(itr)
+            
+            # ## Add value to entry box on screen 
+            # entry_ = tk.Entry(self, width = BOX_WIDTH)
+            # entry_.insert(0, str(value))
+
+            # # find the corresponding row and column places 
+            # rowPlace = sensor.get('row') + 1
+            # column_place = sensor.get('column') + 1
+
+            # entry_.grid( row = rowPlace, column = column_place)
+            
+            # # add the entryBox to the entryBox list 
+            # self.entryBoxList.append(entry_)
+
+            # # increment iterator for name_list        
+            # itr= itr + 1
+            # ############################################
+           
+            ## add the data value to the dataList
+            #self.dataList.append(str(value))
+
+            # add to dataList 
+            self.dataList.append(value)
+            
+
+
+        ## go to refresh sensor data method
+        self.refresh_sensors()
+            
+
+
+    ## This method runs on a continuous loop to refresh the sensor data
+    def refresh_sensors(self):
+        itr = 0 ## iterator for datalist index 
+
+        # for a sensors in the list of sensors to be displayed
+        for sensor in self.sensorList:
+            old_data = self.dataList[itr]
+            new_data = database.getData(sensor)
+            
+            ### for old conifg format
+            #old_data = dataList[itr]
+            # old_data = self.dataList[itr]
+            # #print("old data" + str(old_data))
+            # # get new data from redis according to the current datalist index 
+            # new_data = self.getData_redis(itr) 
+            #print("new data" + str(new_data))
+
+            # if the data has been updated
+            if(new_data != old_data):
+                self.dataList[itr] = new_data
+                self.placedata_on_screen(itr, new_data, sensor)
+
+            itr = itr + 1
+        
+        # refresh data every 1 ms
+        self.after(1000, self.refresh_sensors)
+
+
+    ## for old config format get the data from redis according to output_target
+    ## output_target valeue is found in the name_list
+    def getData_redis(self, index): 
+        #key = list(self.name_list.keys())[index]
+    
+        key = list(self.name_list)[index] ## get data from redis rn
+        target = key
+        value = data.get(target) ## get from redis
+        value = str(value)
+        value = value.replace("b'", "")
+        value = value.replace("'", "")
+        # if(value == None):
+        #     return value
+        # elif(value != 'None'):
+        #     print(value)
+        #     num = float(value)
+        #     value = round(4, value)
+        return value
+
+    
+    # this method puts the data on the screen after it has been updated
+    def placedata_on_screen(self, listIndex, value, sensor):
+        
+        # delete entry box with old information
+        self.entryBoxList[listIndex].delete(0, "end")
+        # insert new data in the entryBox
+        self.entryBoxList[listIndex].insert(0, str(value))
+
 
 
 ##########################################################################################
@@ -264,3 +308,7 @@ class NewGUI_2(tk.Frame):
         B1 = ttk.Button(popup, text="Okay", command = popup.destroy)
         B1.grid(row = 3, column = 3)
         #popup.mainloop()
+
+    def add_space(self, row_, col_):
+        label = tk.Label(self, text="      ", font=LARGE_FONT)
+        label.grid(row=row_, column = col_, sticky = "e")
