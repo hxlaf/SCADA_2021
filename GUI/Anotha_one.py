@@ -161,9 +161,11 @@ class NewGUI_2(tk.Frame):
                 label = tk.Label(self, text = str(sen), font= LARGE_FONT )
                 placeRow = 1 + self.row_place
                 label.grid(row = placeRow, column = self.column_place, sticky = "w")
+
+                unit = self.getUnit(sen)
                 
                 # add to sensor list that holds the sensor name and its place on screen
-                self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place})
+                self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place, 'unit': unit})
                 
                 # #### FOR TESTING PURPOSE ##############
                 # attributeDict = self.sensorDict[sen]
@@ -196,21 +198,13 @@ class NewGUI_2(tk.Frame):
         for sensor in self.sensorList:
             sensorName = sensor.get('sensor')
             value = database.getData(sensorName)
-            
-            # ###########for old config format##############
-            # key = list(self.name_list)[itr]  ## name_list holds output_target values
 
-            # target = key
-            # value = data.get(target) ## get from redis
-            # value = str(value)
-            # value = value.replace("b'", "")
-            # value = value.replace("'", "")
-            
-            # #value = self.getData_redis(itr)
+
             
             ## Add value to entry box on screen 
             entry_ = tk.Entry(self, width = BOX_WIDTH)
-            entry_.insert(0, str(value))
+            text = str(value) + sensor.get('unit')
+            entry_.insert(0, str(text))
 
             # find the corresponding row and column places 
             rowPlace = sensor.get('row') + 1
@@ -249,13 +243,6 @@ class NewGUI_2(tk.Frame):
             print("sensor name" + str(sensorName))
             new_data = database.getData(sensorName)
             
-            ### for old conifg format
-            #old_data = dataList[itr]
-            # old_data = self.dataList[itr]
-            # #print("old data" + str(old_data))
-            # # get new data from redis according to the current datalist index 
-            # new_data = self.getData_redis(itr) 
-            #print("new data" + str(new_data))
 
             # if the data has been updated
             if(new_data != old_data):
@@ -294,7 +281,17 @@ class NewGUI_2(tk.Frame):
         # delete entry box with old information
         self.entryBoxList[listIndex].delete(0, "end")
         # insert new data in the entryBox
-        self.entryBoxList[listIndex].insert(0, str(value))
+        text = str(value) + str(sensor.get('unit'))
+        self.entryBoxList[listIndex].insert(0, str(text))
+
+    def getUnit(self, sensor):
+        
+        keys = list(sensor.keys())
+        print("keys " + str(keys))
+        if(keys == "unit"):
+            print("unit " + str(keys.get("unit")))
+            return keys.get("unit")
+
 
 
 
