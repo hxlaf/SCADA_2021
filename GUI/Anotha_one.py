@@ -203,8 +203,6 @@ class NewGUI_2(tk.Frame):
             if value is None:
                 value = 'None'
 
-            print("DIS " + str(sensor.get('unit')))
-
             ## Add value to entry box on screen 
             entry_ = tk.Entry(self, width = BOX_WIDTH)
             
@@ -219,13 +217,6 @@ class NewGUI_2(tk.Frame):
             
             # # add the entryBox to the entryBox list 
             self.entryBoxList.append(entry_)
-
-            # # increment iterator for name_list        
-            # itr= itr + 1
-            # ############################################
-           
-            ## add the data value to the dataList
-            #self.dataList.append(str(value))
 
             # add to dataList 
             self.dataList.append(value)
@@ -272,14 +263,10 @@ class NewGUI_2(tk.Frame):
         text = str(value) + str(sensor.get('unit'))
         self.entryBoxList[listIndex].insert(0, str(text))
 
-    def getUnit(self, sensor):
-        
+    def getUnit(self, sensor): 
         key_list = sensor.keys()
-        print("items " + str(sensor.items()))
         for key, value in sensor.items():
             if(key == "unit"):
-                print("value" + str(value))
-                #print("unit " + str(key.get("unit")))
                 return value
 
 
