@@ -245,7 +245,8 @@ class NewGUI_2(tk.Frame):
         # for a sensors in the list of sensors to be displayed
         for sensor in self.sensorList:
             old_data = self.dataList[itr]
-            new_data = database.getData(sensor)
+            sensorName = sensor.get('sensor')
+            new_data = database.getData(sensorName)
             
             ### for old conifg format
             #old_data = dataList[itr]
