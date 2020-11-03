@@ -155,7 +155,7 @@ Sensors:
       0b0000000000000100: 'OPERATION ENABLED'
       0b0000000000001000: 'FAULT'
     bus_type: CAN
-    primary_address: 6041
+    primary_address: 0x6041
     secondary_address: [0x00]
     precision: 0
     display_variable: state 
