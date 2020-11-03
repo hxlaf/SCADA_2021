@@ -40,17 +40,18 @@ Display:
   Pages:
   #max of 3 groups per page
     1:
-      - Group_1
-      - Group_2
-      - Group_3
+      - Motor_Group
 
-    2: 
-      - Group_4
-      - Group_5
-      - Group_6
+    2:
+      - Motor_Group
+
 
   Groups: 
   # max 22 sensor per 1 group
+    Motor_Group:
+      - motor-throttle_voltage
+      - motor-status
+      
     Group_1: # group names must be different from eachother 
           # display place 
       - GLV_Voltage
