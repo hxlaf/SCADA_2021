@@ -82,12 +82,13 @@ class NewGUI_2(tk.Frame):
             prev_page_button.grid(row = 0, column = 1, sticky= "e")
             next_page_button.destroy()
 
+            if(curr_page != self.controller.numOfPages)
 
-            filePath ='./nextPageButton2.png'
-            img3 = PhotoImage(file = filePath)  
-            next_page_button2 = tk.Button(self, image = img3, command = lambda: self.controller.show_frame(next_frame))
-            next_page_button2.image=img3
-            next_page_button2.grid(row = 0, column = 4, sticky = "e")
+                filePath ='./nextPageButton2.png'
+                img3 = PhotoImage(file = filePath)  
+                next_page_button2 = tk.Button(self, image = img3, command = lambda: self.controller.show_frame(next_frame))
+                next_page_button2.image=img3
+                next_page_button2.grid(row = 0, column = 4, sticky = "e")
 
 
         self.get_page_groups(curr_page)
@@ -223,7 +224,7 @@ class NewGUI_2(tk.Frame):
         for sensor in self.sensorList:
             old_data = self.dataList[itr]
             sensorName = sensor.get('sensor')
-            print("sensor name" + str(sensorName))
+            #print("sensor name" + str(sensorName))
             new_data = database.getData(sensorName)
             
 
