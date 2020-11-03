@@ -194,7 +194,8 @@ class NewGUI_2(tk.Frame):
 
         # for each sensor in the list of sensors to be displayed
         for sensor in self.sensorList:
-            value = database.getData(sensor)
+            sensorName = sensor.get('sensor')
+            value = database.getData(sensorName)
             
             # ###########for old config format##############
             # key = list(self.name_list)[itr]  ## name_list holds output_target values
