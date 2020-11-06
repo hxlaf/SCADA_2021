@@ -1,4 +1,4 @@
-## UPDATED CONFIG AS OF 10/20/2020
+## UPDATED CONFIG AS OF 11/6/2020
 ## version number 
 
 Sensor_defaults:
@@ -30,11 +30,6 @@ can_nodes:
 # a list of keys to be ignored by the logger
 dont_log: ['*-raw','emulator-*']
 
-
-Run_State: continuous ## means no touch screen
-  #Run_State: continuous ## continuous = no touch screen, switch between frames every few seconds
-  #Run_State: not # touch screen = press buttons to change screens
-
 ### list ther sensors you would like to dislay on the screen
 Display:
   Pages:
@@ -43,65 +38,18 @@ Display:
       - Motor_Group
 
     2:
-      - Motor_Group
+      - Motor_Group2
 
 
   Groups: 
   # max 22 sensor per 1 group
-    Motor_Group:
+    Motor_Group1:
+      - motor-throttle_voltage
+      - motor-status
+    Motor_Group2:
       - motor-throttle_voltage
       - motor-status
       
-    Group_1: # group names must be different from eachother 
-          # display place 
-      - GLV_Voltage
-      - GLV_Current
-      - GLV_Power
-      - GLV_Temp
-    Group_2: 
-      - TSI_Drive_State
-      - TSI_MC_Voltage
-      - TSI TS Voltage
-      - TSI Current
-      - TSI Flow Rate
-      - TSI Throttle
-    Group_3: 
-      - Cool Temp1
-      - Cool Temp2
-      - Cool Flow Rate
-      - Cool Fan
-      - Cool Pump
-    Group_4: 
-      - Motor Status
-      - Motor Torque
-      - Motor Voltage
-      - Motor Controller Temp
-      - Motor Temp
-      - Motor Warning
-      - Motor Current Demand
-    Group_5: 
-      - Pack 1 SOC
-      - Pack 1 Voltage
-      - Pack 1 Current
-      - Pack 1 Ambient Temp
-      - Pack 2 SOC
-      - Pack 2 Voltage
-      - Pack 2 Current
-      - Pack 2 Ambient Temp
-    Group_6: 
-      - Pack 1 SOC
-      - Motor Status
-      - Motor Torque
-      - TSI Flow Rate
-    Group_7: 
-      - Pack 1 SOC
-      - Pack 1 Voltage
-      - Pack 1 Current
-      - Pack 1 Ambient Temp
-      - Pack 2 SOC
-      - Pack 2 Voltage
-      - Pack 2 Current
-      - Pack 2 Ambient Temp
 
 
 
@@ -151,12 +99,12 @@ Sensors:
     inputs:
       status-enum: motor-status
     cal_function:
-      # 0b0000000000000000: 'SHREK'
+      # 0b0000000000000000: 'START'
       # 0b0000000000000001: 'READY TO SWITCH ON'
       # 0b0000000000000010: 'SWITCHED ON'
       # 0b0000000000000100: 'OPERATION ENABLED'
       # 0b0000000000001000: 'FAULT'
-      0: 'SHREK'
+      0: 'START'
       1: 'READY TO SWITCH ON'
       2: 'SWITCHED ON'
       4: 'OPERATION ENABLED'

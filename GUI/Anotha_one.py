@@ -203,13 +203,12 @@ class NewGUI_2(tk.Frame):
 
             entry_.grid( row = rowPlace, column = column_place)
             
-            # # add the entryBox to the entryBox list 
+            
+            # add the entryBox to the entryBox list 
             self.entryBoxList.append(entry_)
-
             # add to dataList 
             self.dataList.append(value)
             
-
 
         ## go to refresh sensor data method
         self.refresh_sensors()
@@ -223,8 +222,8 @@ class NewGUI_2(tk.Frame):
         # for a sensors in the list of sensors to be displayed
         for sensor in self.sensorList:
             old_data = self.dataList[itr]
+            
             sensorName = sensor.get('sensor')
-            #print("sensor name" + str(sensorName))
             new_data = database.getData(sensorName)
             
 
@@ -254,6 +253,7 @@ class NewGUI_2(tk.Frame):
         # insert new data in the entryBox
         self.entryBoxList[listIndex].insert(0, str(text))
 
+    
     def getUnit(self, sensor): 
         key_list = sensor.keys()
         for key, value in sensor.items():
