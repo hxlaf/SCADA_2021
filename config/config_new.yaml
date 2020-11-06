@@ -35,7 +35,7 @@ Display:
   Pages:
   #max of 3 groups per page
     1:
-      - Motor_Group
+      - Motor_Group1
 
     2:
       - Motor_Group2
