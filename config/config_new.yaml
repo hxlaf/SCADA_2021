@@ -232,11 +232,12 @@ Sensors:
     bit_length: 8 #probably don't need this
     sample_period: 5
 
+    
   #Harrison
   motor-dc_link_circuit_voltage:
     unit: 'V'
     inputs:
-      in: motor-controller_temp
+      in: motor-dc_link_circuit_voltage
     cal_function: 'Vin/10'
     bus_type: CAN
     primary_address: 0x6079
@@ -293,7 +294,7 @@ Sensors:
   motor-current_demand:
     unit: '1/1000 A'
     inputs:
-      Iin: motor-flux_actual_current
+      Iin: motor-current_demand
     cal_function: 'Iin'
     bus_type: CAN
     primary_address: 0x201a
