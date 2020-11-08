@@ -4,8 +4,8 @@ After=multi-user.target
 StartLimitIntervalSec=0
 
 [Service]
-WorkingDirectory=/usr/etc/scada
-ExecStart=GUI/New_GUI_Test.py
+WorkingDirectory=/usr/etc/scada/GUI
+ExecStart=New_GUI_Test.py
 Restart=always
 RestartSec=1
 StandardOutput=syslog
