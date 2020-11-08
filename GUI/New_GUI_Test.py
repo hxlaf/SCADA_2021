@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import *
 # import config
 #import MainMenu
-
+lib_path = '/usr/etc/scada/GUI'
+sys.path.append(lib_path)
 #from ProcessData import ProcessData_sensors
 from Anotha_one import NewGUI_2
 config_path = '/usr/etc/scada/config'

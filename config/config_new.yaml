@@ -37,10 +37,12 @@ Display:
     1:
       - Motor_Group1
       - Motor_Group2
+      - Motor_Group3
 
     2:
       - Motor_Group1
       - Motor_Group3
+      - Motor_Group2
 
 
   Groups: 
