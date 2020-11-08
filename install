@@ -54,8 +54,8 @@ rm -rf /usr/etc/scada/config
 cp -r config /usr/etc/scada/config
 cp ./install /usr/etc/scada
 cp ./make.sh /usr/etc/scada
-rm -rf /usr/etc/scada/GUI
-cp -r GUI /usr/etc/scada/GUI
+rm -rf /usr/bin/GUI
+cp -r GUI /usr/bin/GUI
 
 # copy service files for systemd
 cp sorter/sorter.service /etc/systemd/system

@@ -5,7 +5,7 @@ StartLimitIntervalSec=0
 
 [Service]
 WorkingDirectory=/usr/etc/scada
-ExecStart=/usr/etc/scada/GUI/New_GUI_Test.py
+ExecStart=/usr/bin/GUI/New_GUI_Test.py
 Restart=always
 RestartSec=1
 StandardOutput=syslog
