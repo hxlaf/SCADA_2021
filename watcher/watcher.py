@@ -1,4 +1,4 @@
-import sys, os
+import sys, os, yaml, logging
 
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'

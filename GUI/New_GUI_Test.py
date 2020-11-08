@@ -4,17 +4,12 @@ from tkinter import *
 #import MainMenu
 
 #from ProcessData import ProcessData_sensors
-from NewGUI import NewGUI
-from NewGUI import NextPage
-from NewGUI import PageThree
 from Anotha_one import NewGUI_2
 config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
 import config
 import yaml
 import collections
-
-from ParentClass import Parent
 
 import ctypes  # for screen size
 
