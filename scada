@@ -34,7 +34,7 @@ def restart(args):
 	if process == 'all':
 		os.system('systemctl restart sorter')
 		os.system('systemctl restart calibrator')
-		os.system('systemctl restart logger'
+		os.system('systemctl restart logger')
 		os.system('systemctl restart gui') 
 	else:	
 		os.system('systemctl restart {}'.format(process))
