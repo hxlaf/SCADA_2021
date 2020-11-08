@@ -23,7 +23,7 @@ def getData(sensor_id):
     """
     print(sensor_id)
     cursor.execute("""
-        SELECT data, timestamp
+        SELECT value, timestamp
         FROM data
         WHERE sensor_id = %s
         ORDER BY timestamp DESC
