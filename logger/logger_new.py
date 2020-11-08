@@ -16,6 +16,9 @@ sys.path.append(config_path)
 # import dependent python libraries
 import config
 
+#Starting Up the GUI Realtime Display
+os.system('python3 New_GUI_Test.py')
+
 # creates instance of Redis
 redis_data = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 # connection object that connects to Postrges database (NEEDS TO BE CHANGGED)
