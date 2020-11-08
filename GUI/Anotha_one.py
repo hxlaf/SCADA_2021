@@ -48,7 +48,7 @@ class NewGUI_2(tk.Frame):
         
         ## Lafayette LOGO Button 
         display_text = "SCADA Subsystem V-1 \n Class of 2021 \n @Authors \n Lia Chrysanthopoulos, Irwin Frimpong, \n Mithil Shah, Adam Tunnell, \n Harrison Walker"
-        laf_filePath ='./LafayetteSymbol2.png'
+        laf_filePath ='/usr/etc/scada/GUI/LafayetteSymbol2.png'
         laf_img = PhotoImage(file = laf_filePath)  
         laf_button = tk.Button(self, image = laf_img, command = lambda: self.popup_msg(display_text))
         laf_button.image=laf_img
@@ -65,7 +65,7 @@ class NewGUI_2(tk.Frame):
 
 
         ## create button image for Next Page
-        filePath ='./nextPageButton2.png'
+        filePath ='/usr/etc/scada/GUI/nextPageButton2.png'
         img = PhotoImage(file = filePath)  
         next_page_button = tk.Button(self, image = img, command = lambda: self.controller.show_frame(next_frame))
         next_page_button.image=img
@@ -75,7 +75,7 @@ class NewGUI_2(tk.Frame):
         if(curr_page >= 2):
             self.add_space(0, 4)
             
-            filePath2 = './prevPageButton2.png'
+            filePath2 = '/usr/etc/scada/GUI/prevPageButton2.png'
             img2 = PhotoImage(file = filePath2)  
             prev_page_button = tk.Button(self, image = img2, command = lambda: self.controller.show_frame(curr_page -2))
             prev_page_button.image=img2
@@ -84,7 +84,7 @@ class NewGUI_2(tk.Frame):
 
             if(curr_page != self.controller.numOfPages):
 
-                filePath ='./nextPageButton2.png'
+                filePath ='/usr/etc/scada/GUI/nextPageButton2.png'
                 img3 = PhotoImage(file = filePath)  
                 next_page_button2 = tk.Button(self, image = img3, command = lambda: self.controller.show_frame(next_frame))
                 next_page_button2.image=img3
