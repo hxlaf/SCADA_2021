@@ -153,7 +153,7 @@ Sensors:
   
   #Irwin
   motor-temp:
-    unit: 'mV'
+    unit: '°C'
     inputs:
       Tin: motor-temp 
     cal_function: 'Tin'
@@ -292,7 +292,7 @@ Sensors:
   
   #Mithil
   motor-current_demand:
-    unit: '1/1000 A'
+    unit: 'mA'
     inputs:
       Iin: motor-current_demand
     cal_function: 'Iin'
