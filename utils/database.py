@@ -23,9 +23,12 @@ def getData(sensor_id):
     """
     
     cursor.execute("""
-        SELECT value FROM data
+        SELECT data, timestamp
+        FROM data
         WHERE sensor_id = %s
+        ORDER BY timestamp DESC
+        LIMIT 1;
     """, [sensor_id])
-    
+
     data = cursor.fetchall()
     return data[0][0]
