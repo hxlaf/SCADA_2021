@@ -30,6 +30,8 @@ cp -r utils /usr/etc/scada/utils
 rm -rf /usr/etc/scada/config
 cp -r config /usr/etc/scada/config
 cp ./install /usr/etc/scada
+rm -rf /usr/etc/scada/GUI
+cp -r GUI /usr/etc/scada/GUI
 
 # copy service files for systemd
 cp sorter/sorter.service /etc/systemd/system
