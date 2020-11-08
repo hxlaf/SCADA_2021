@@ -33,6 +33,7 @@ chmod +x Driver.py
 chmod +x calibrator/calibrator_new.py
 # chmod +x logger/logger.py
 chmod +x logger/logger_new.py
+chmod +x GUI/New_GUI_Test.py
 
 # copy binary files to /usr/bin
 cp scada /usr/bin/scada
