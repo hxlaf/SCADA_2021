@@ -50,7 +50,7 @@ def status(args):
 	cmds = [
 		'systemctl status sorter',
 		'systemctl status calibrator',
-		'systemctl status logger'
+		'systemctl status logger',
 		'systemctl status gui']
 
 	for cmd in cmds:
