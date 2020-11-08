@@ -238,7 +238,7 @@ Sensors:
     unit: 'V'
     inputs:
       in: motor-dc_link_circuit_voltage
-    cal_function: 'Vin/10'
+    cal_function: 'in/10'
     bus_type: CAN
     primary_address: 0x6079
     secondary_address: Null
