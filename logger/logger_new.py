@@ -17,8 +17,8 @@ sys.path.append(config_path)
 import config
 
 #Starting Up the GUI Realtime Display
-os.system('xhost +')
-os.system('export DISPLAY=":0.0"')
+os.system('sudo xhost +')
+os.system('sudo export DISPLAY=":0.0"')
 os.system('sudo python3 /usr/bin/scada_gui.py')
 
 # creates instance of Redis
