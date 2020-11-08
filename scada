@@ -34,7 +34,8 @@ def restart(args):
 	if process == 'all':
 		os.system('systemctl restart sorter')
 		os.system('systemctl restart calibrator')
-		os.system('systemctl restart logger') 
+		os.system('systemctl restart logger'
+		os.system('systemctl restart gui') 
 	else:	
 		os.system('systemctl restart {}'.format(process))
 
@@ -49,7 +50,8 @@ def status(args):
 	cmds = [
 		'systemctl status sorter',
 		'systemctl status calibrator',
-		'systemctl status logger']
+		'systemctl status logger'
+		'systemctl status gui']
 
 	for cmd in cmds:
 		result = os.system(cmd)

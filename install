@@ -25,7 +25,7 @@ pip3 install canopen
 
 # make binary files executable
 chmod +x install
-chmod +x make
+chmod +x make.sh
 chmod +x scada
 # chmod +x sorter/sorter.py
 chmod +x Driver.py
@@ -53,6 +53,7 @@ cp -r utils /usr/etc/scada/utils
 rm -rf /usr/etc/scada/config
 cp -r config /usr/etc/scada/config
 cp ./install /usr/etc/scada
+cp ./make.sh /usr/etc/scada
 rm -rf /usr/etc/scada/GUI
 cp -r GUI /usr/etc/scada/GUI
 
@@ -60,3 +61,4 @@ cp -r GUI /usr/etc/scada/GUI
 cp sorter/sorter.service /etc/systemd/system
 cp calibrator/calibrator.service /etc/systemd/system
 cp logger/logger.service /etc/systemd/system
+cp GUI/gui.service /etc/systemd/system

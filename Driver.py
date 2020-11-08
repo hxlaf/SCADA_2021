@@ -30,7 +30,8 @@ for key in config.get('Sensors'):
     last_sampled[key] = time.time()
 
 
-#set up CAN bus copnnection
+#set up CAN bus connection
+os.system('ip link set can0 up type can bitrate 125000')
 can_drive = can_driver.CanDriver()
 
 # Method to read from the sesnor objects depending on protocol                
