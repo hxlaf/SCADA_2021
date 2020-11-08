@@ -17,7 +17,7 @@ sys.path.append(config_path)
 import config
 
 #Starting Up the GUI Realtime Display
-os.system('python3 /usr/bin/scada_gui.py')
+os.system('sudo python3 /usr/bin/scada_gui.py')
 
 # creates instance of Redis
 redis_data = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
