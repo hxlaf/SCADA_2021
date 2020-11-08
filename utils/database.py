@@ -21,7 +21,7 @@ def getData(sensor_id):
         if it exists. To be used by other classes to retreive information
         from database.
     """
-    
+    print(sensor_id)
     cursor.execute("""
         SELECT data, timestamp
         FROM data
