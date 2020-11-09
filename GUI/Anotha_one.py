@@ -62,6 +62,8 @@ class NewGUI_2(tk.Frame):
         curr_page = self.pageNumber +1
         next_frame = self.pageNumber + 1
 
+        self.add_space(13, 4)
+        self.add_space(14, 4)
 
 
         ## create button image for Next Page
@@ -75,6 +77,7 @@ class NewGUI_2(tk.Frame):
         if(curr_page >= 2):
             self.add_space(0, 4)
             self.add_space(13, 0)
+            self.add_space(14, 0)
             
             filePath2 = '/usr/etc/scada/GUI/prevPageButton2.png'
             img2 = PhotoImage(file = filePath2)  
