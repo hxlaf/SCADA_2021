@@ -25,7 +25,7 @@ data = redis.Redis(host='localhost', port=6379, db=0)
 LARGE_FONT = ("Times New Roman", 12)
 TITLE_FONT = ("Times", 14, "bold italic")
 START_ROW = 1
-BOX_WIDTH = 14
+BOX_WIDTH = 12
 
 class NewGUI_2(tk.Frame):
     def __init__(self, parent, controller, pageNum): 
@@ -71,7 +71,7 @@ class NewGUI_2(tk.Frame):
         img = PhotoImage(file = filePath)  
         next_page_button = tk.Button(self, image = img, command = lambda: self.controller.show_frame(next_frame))
         next_page_button.image=img
-        next_page_button.grid(row = 30, column = 4, sticky = "w")
+        next_page_button.grid(row = 30, column = 5, sticky = "w")
 
 
         if(curr_page >= 2):
