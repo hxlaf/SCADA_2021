@@ -97,7 +97,7 @@ Display:
 
 
 Sensors:
-# CAN #
+### CAN ###
   motor-throttle_voltage:
     unit: 'mV'
     inputs:
@@ -112,7 +112,6 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
 
-  #all can sensors from this point down have unfinished configuration
   motor-status:
     unit: ''
     inputs:
@@ -137,8 +136,6 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
 
-  #Mithil
-
   motor-flux_actual_current:
     unit: 'mA'
     inputs:
@@ -153,7 +150,6 @@ Sensors:
     bit_length: 16
     sample_period: 5
   
-  #Irwin
   motor-temp:
     unit: '°C'
     inputs:
@@ -162,13 +158,12 @@ Sensors:
     bus_type: CAN
     primary_address: 0x2025
     secondary_address: Null
-    precision: 2
+    precision: 0
     display_variable: number 
     description: "measured motor temperature"
     bit_length: 16 #probably don't need this
     sample_period: 5    
 
-  #Irwin
   motor-velocity_actual_avg:
     unit: 'm/s'
     inputs:
@@ -183,7 +178,6 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
 
-  #Adam
   motor-velocity_actual_value:
     unit: 'm/s'
     inputs:
@@ -198,7 +192,6 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
     
-  #Adam
   motor-digital_inputs:
     unit: ''
     inputs:
@@ -219,7 +212,6 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
     
-  #Harrison
   motor-controller_temp:
     unit: '°C'
     inputs:
@@ -234,8 +226,6 @@ Sensors:
     bit_length: 8 #probably don't need this
     sample_period: 5
 
-    
-  #Harrison
   motor-dc_link_circuit_voltage:
     unit: 'V'
     inputs:
@@ -249,9 +239,7 @@ Sensors:
     description: "Voltage of the motor controller's DC link circuit"
     bit_length: 1 #probably don't need this
     sample_period: 5
-    
 
-  #Harrison
   motor-warnings:
     unit: ''
     inputs:
@@ -275,7 +263,6 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
     
-  #Irwin
   motor-electric_power:
     #this is coming directly from the CAN controller
     #so it's already calculated?
@@ -292,7 +279,6 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
   
-  #Mithil
   motor-current_demand:
     unit: 'mA'
     inputs:
@@ -307,7 +293,6 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
 
-  #Mithil
   motor-current_torque_actual:
     unit: 'A'
     inputs:
@@ -322,13 +307,6 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
   
-  
-  
-  
-  
-  
-
-
 #   motor-torque:
 #     unit: 'mV'
 #     inputs:
@@ -356,65 +334,9 @@ Sensors:
 #     description: "voltage measured on AD pin in mV"
 #     bit_length: 16 #probably don't need this
 #     sample_period: 5 
-  
-#   motor-controller_temp:
-#     unit: 'mV'
-#     inputs:
-#       Vin: motor-controller_temp
-#     cal_function: 'Vin'
-#     bus_type: CAN
-#     primary_address: 0x2070
-#     secondary_address: [0x01]
-#     precision: 0
-#     display_variable: number 
-#     description: "voltage measured on AD pin in mV"
-#     bit_length: 16 #probably don't need this
-#     sample_period: 5 
-
-#   motor-temp:
-#     unit: 'mV'
-#     inputs:
-#       Vin: motor-temp
-#     cal_function: 'Vin'
-#     bus_type: CAN
-#     primary_address: 0x2070
-#     secondary_address: [0x01]
-#     precision: 0
-#     display_variable: number 
-#     description: "voltage measured on AD pin in mV"
-#     bit_length: 16 #probably don't need this
-#     sample_period: 5
-
-#   motor-warning:
-#     unit: 'mV'
-#     inputs:
-#       Vin: motor-warning
-#     cal_function: 'Vin'
-#     bus_type: CAN
-#     primary_address: 0x2070
-#     secondary_address: [0x01]
-#     precision: 0
-#     display_variable: number 
-#     description: "voltage measured on AD pin in mV"
-#     bit_length: 16 #probably don't need this
-#     sample_period: 5 
-
-#   motor-current_demand:
-#     unit: 'mV'
-#     inputs:
-#       Vin: motor-current_demand
-#     cal_function: 'Vin'
-#     bus_type: CAN
-#     primary_address: 0x2070
-#     secondary_address: [0x01]
-#     precision: 0
-#     display_variable: number 
-#     description: "voltage measured on AD pin in mV"
-#     bit_length: 16 #probably don't need this
-#     sample_period: 5 
 
 
-# # I2C #
+# ### I2C ###
 #   rtc-time: 
 #     unit: 'T'
 #     inputs:
