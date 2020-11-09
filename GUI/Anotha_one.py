@@ -69,7 +69,7 @@ class NewGUI_2(tk.Frame):
         img = PhotoImage(file = filePath)  
         next_page_button = tk.Button(self, image = img, command = lambda: self.controller.show_frame(next_frame))
         next_page_button.image=img
-        next_page_button.grid(row = 30, column = 5, sticky = "w")
+        next_page_button.grid(row = 30, column = 4, sticky = "w")
 
 
         if(curr_page >= 2):
