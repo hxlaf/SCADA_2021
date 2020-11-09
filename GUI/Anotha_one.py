@@ -74,6 +74,7 @@ class NewGUI_2(tk.Frame):
 
         if(curr_page >= 2):
             self.add_space(0, 4)
+            self.add_space(13, 0)
             
             filePath2 = '/usr/etc/scada/GUI/prevPageButton2.png'
             img2 = PhotoImage(file = filePath2)  
