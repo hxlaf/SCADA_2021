@@ -25,7 +25,7 @@ data = redis.Redis(host='localhost', port=6379, db=0)
 LARGE_FONT = ("Times New Roman", 12)
 TITLE_FONT = ("Times", 14, "bold italic")
 START_ROW = 1
-BOX_WIDTH = 11
+BOX_WIDTH = 10
 
 class NewGUI_2(tk.Frame):
     def __init__(self, parent, controller, pageNum): 
