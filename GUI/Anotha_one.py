@@ -25,7 +25,7 @@ data = redis.Redis(host='localhost', port=6379, db=0)
 LARGE_FONT = ("Times New Roman", 12)
 TITLE_FONT = ("Times", 14, "bold italic")
 START_ROW = 1
-BOX_WIDTH = 10
+BOX_WIDTH = 11
 
 class NewGUI_2(tk.Frame):
     def __init__(self, parent, controller, pageNum): 
@@ -57,7 +57,7 @@ class NewGUI_2(tk.Frame):
    
         ## Display Page Number
         label = tk.Label(self, text = "Page " + str(self.pageNumber + 1) , font= TITLE_FONT )
-        label.grid(row = 0, column = 3,  sticky = "w")
+        label.grid(row = 0, column = 2,  sticky = "e")
 
         curr_page = self.pageNumber +1
         next_frame = self.pageNumber + 1
