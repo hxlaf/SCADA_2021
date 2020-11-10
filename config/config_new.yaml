@@ -48,34 +48,34 @@ Display:
   Groups: 
   # max 22 sensor per 1 group
     Motor_Group1:
-      - motor-throttle_voltage
-      - motor-status
-      - motor-flux_actual_current
-      - motor-velocity_actual_avg
-      - motor-velocity_actual_value
-      - motor-digital_input
-      - motor-controller_temp
-      - motor-dc_link_circuit_voltage
-      - motor-warnings
-      - motor-electric_power
-      - motor-current_demand
-      - motor-current_torque_actual
+      - motor_throttle_voltage
+      - motor_status
+      - motor_flux_actual_current
+      - motor_velocity_actual_avg
+      - motor_velocity_actual_value
+      - motor_digital_input
+      - motor_controller_temp
+      - motor_dc_link_circuit_voltage
+      - motor_warnings
+      - motor_electric_power
+      - motor_current_demand
+      - motor_current_torque_actual
 
     Motor_Group2:
-      - motor-throttle_voltage
-      - motor-status
+      - motor_throttle_voltage
+      - motor_status
       - motor_controller_temp_fahrenheit
-      
+    
     Motor_Group3:
-      - motor-temp
-      - motor-controller_temp
+      - motor_temp
+      - motor_controller_temp
       
 
 
 
 #Example Sensor
 
-  #subsytem_name-data_name: #this is the sensor name
+  #subsytem_name_data_name: #this is the sensor name
   # unit: V
   # inputs:
     #varName1: sensor1_name
@@ -315,9 +315,7 @@ Sensors:
     inputs:
       in: motor_controller_temp
     cal_function: '(in*9/5)+32'
-    bus_type: CAN
-    primary_address: 0x2026
-    secondary_address: 0x01
+    bus_type: VIRTUAL
     precision: 0
     display_variable: number 
     description: "Temperature of the motor controller in fahrenheit"
