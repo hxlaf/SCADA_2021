@@ -84,7 +84,7 @@ class CanDriver:
 
     def configure_sdo(self, sensorName, sensorDict):
         #sensor name is composed of the node name and the value name
-        [nodeName, valueName] = sensorName.split('-')
+        [nodeName, *rest] = sensorName.split('_')
         #DEBUG:
         # print(nodeName)
         # print(valueName)
