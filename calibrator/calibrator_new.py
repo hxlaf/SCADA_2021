@@ -31,7 +31,7 @@ def execute(Sensor_val):
     #Retrieve Calibration Function From Yaml Configuration File
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
 
-    if type(calibration_func) is not str and type(calibration_func.keys()[0]) is str:
+    if type(calibration_func) is not str and type(list(calibration_func.keys())[0]) is str:
         cal_func_set = False
         for key in calibration_func:
             for input_key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
@@ -57,7 +57,7 @@ def execute(Sensor_val):
 def Virtual_execute(Sensor_val):
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
 
-    if type(calibration_func) is not str and type(calibration_func.keys()[0]) is str:
+    if type(calibration_func) is not str and type(list(calibration_func.keys())[0]) is str:
         cal_func_set = False
         for key in calibration_func:
             for input_key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
