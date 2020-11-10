@@ -35,6 +35,7 @@ def execute(Sensor_val):
         cal_func_set = False
         for key in calibration_func:
             for input_key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+                new_key = ""
                 new_key = new_key.replace(input_key,str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(input_key)]))
             if (eval(key) == True and cal_func_set == False):
                 calibration_func = calibration_func[key]
@@ -61,9 +62,14 @@ def Virtual_execute(Sensor_val):
         cal_func_set = False
         for key in calibration_func:
             for input_key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+                new_key = ""
                 new_key = new_key.replace(input_key,str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(input_key)]))
             if (eval(key) == True and cal_func_set == False):
                 calibration_func = calibration_func[key]
+                cal_func_set = True
+         
+                cal_func_set = True
+         
                 cal_func_set = True
          
     for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
