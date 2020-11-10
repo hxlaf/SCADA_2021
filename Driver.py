@@ -31,6 +31,7 @@ for key in config.get('Sensors'):
 
 
 #set up CAN bus connection
+os.system('ip link set can0 down')
 os.system('ip link set can0 up type can bitrate 125000')
 can_drive = can_driver.CanDriver()
 
