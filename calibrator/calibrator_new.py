@@ -34,8 +34,8 @@ def execute(Sensor_val):
     if type(calibration_func) is not str and type(calibration_func.keys()[0]) is str:
         cal_func_set = False
         for key in calibration_func:
-            if (eval(key) == true and cal_func_set == False):
-                calibration_func = calibration_func[key])
+            if (eval(key) == True and cal_func_set == False):
+                calibration_func = calibration_func[key]
                 cal_func_set = True
        
     for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
@@ -58,8 +58,8 @@ def Virtual_execute(Sensor_val):
     if type(calibration_func) is not str and type(calibration_func.keys()[0]) is str:
         cal_func_set = False
         for key in calibration_func:
-            if (eval(key) == true and cal_func_set == False):
-                calibration_func = calibration_func[key])
+            if (eval(key) == True and cal_func_set == False):
+                calibration_func = calibration_func[key]
                 cal_func_set = True
          
     for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
@@ -100,7 +100,7 @@ def update(sensor_key):
         if config.get('Sensors').get(split_key[0]).get('bus_type') != 'VIRTUAL':
             data.publish('calculated_data', '{}:{}'.format(split_key[0], str(execute(split_key)) ))
         else:
-            data.publish('calculated_data', '{}:{}'.format(split_key[0],str(Virtual_execute(split_key))))
+            data.publish('calculated_data', '{}:{}'.format(split_key[0], str(Virtual_execute(split_key))))
         
 
 #Listening to the Calculated Data Channel for New Messages 
