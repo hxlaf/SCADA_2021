@@ -1,5 +1,16 @@
 #!/bin/bash
 
+
+# # make sure can bus is set up for testing
+modprobe can
+ip link set can0 down
+ip link set can0 up type can bitrate 125000
+
+# # make sure virtual can bus is set up for testing
+# modprobe vcan
+# ip link add dev vcan0 type vcan
+# ip link set up vcan0
+
 # make binary files executable
 chmod +x install
 chmod +x make
@@ -33,7 +44,7 @@ cp -r utils /usr/etc/scada/utils
 rm -rf /usr/etc/scada/config
 cp -r config /usr/etc/scada/config
 cp ./install /usr/etc/scada
-cp ./make.sh /usr/etc/scada
+cp ./make /usr/etc/scada
 rm -rf /usr/etc/scada/GUI
 cp -r GUI /usr/etc/scada/GUI
 
@@ -42,3 +53,5 @@ cp sorter/sorter.service /etc/systemd/system
 cp calibrator/calibrator.service /etc/systemd/system
 cp logger/logger.service /etc/systemd/system
 cp GUI/gui.service /etc/systemd/system
+
+echo 'MAKE COMPLETE'
