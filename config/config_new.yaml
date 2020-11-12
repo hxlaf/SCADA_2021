@@ -48,33 +48,36 @@ Display:
   Groups: 
   # max 22 sensor per 1 group
     Motor_Group1:
-      - motor-throttle_voltage
-      - motor-status
-      - motor-flux_actual_current
-      - motor-velocity_actual_avg
-      - motor-velocity_actual_value
-      - motor-digital_input
-      - motor-controller_temp
-      - motor-dc_link_circuit_voltage
-      - motor-warnings
-      - motor-electric_power
-      - motor-current_demand
-      - motor-current_torque_actual
+      - motor_throttle_voltage
+      - motor_status
+      - motor_flux_actual_current
+      - motor_velocity_actual_avg
+      - motor_velocity_actual_value
+      - motor_digital_input
+      - motor_controller_temp
+      - motor_dc_link_circuit_voltage
+      - motor_warnings
+      - motor_electric_power
+      - motor_current_demand
+      - motor_current_torque_actual
+      - motor_controller_temp_over_23
 
     Motor_Group2:
-      - motor-throttle_voltage
-      - motor-status
-      
+      - motor_throttle_voltage
+      - motor_status
+      - motor_controller_temp_fahrenheit
+      - motor_controller_temp_over_23
+    
     Motor_Group3:
-      - motor-temp
-      - motor-controller_temp
+      - motor_temp
+      - motor_controller_temp
       
 
 
 
 #Example Sensor
 
-  #subsytem_name-data_name: #this is the sensor name
+  #subsytem_name_data_name: #this is the sensor name
   # unit: V
   # inputs:
     #varName1: sensor1_name
@@ -97,11 +100,11 @@ Display:
 
 
 Sensors:
-### CAN ###
-  motor-throttle_voltage:
+# CAN #
+  motor_throttle_voltage:
     unit: 'mV'
     inputs:
-      Vin: motor-throttle_voltage
+      Vin: motor_throttle_voltage
     cal_function: 'Vin'
     bus_type: CAN
     primary_address: 0x2070
@@ -112,17 +115,18 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
 
-  motor-status:
+  #all can sensors from this point down have unfinished configuration
+  motor_status:
     unit: ''
     inputs:
-      status-enum: motor-status
+      status-enum: motor_status
     cal_function:
-      # 0b0000000000000000: 'START'
+      # 0b0000000000000000: 'OFF'
       # 0b0000000000000001: 'READY TO SWITCH ON'
       # 0b0000000000000010: 'SWITCHED ON'
       # 0b0000000000000100: 'OPERATION ENABLED'
       # 0b0000000000001000: 'FAULT'
-      0: 'START'
+      0: 'OFF'
       1: 'READY TO SWITCH ON'
       2: 'SWITCHED ON'
       4: 'OPERATION ENABLED'
@@ -136,10 +140,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
 
-  motor-flux_actual_current:
+  motor_flux_actual_current:
     unit: 'mA'
     inputs:
-      Iin: motor-flux_actual_current
+      Iin: motor_flux_actual_current
     cal_function: 'Iin'
     bus_type: CAN
     primary_address: 0x201d
@@ -150,10 +154,10 @@ Sensors:
     bit_length: 16
     sample_period: 5
   
-  motor-temp:
+  motor_temp:
     unit: '°C'
     inputs:
-      Tin: motor-temp 
+      Tin: motor_temp 
     cal_function: 'Tin'
     bus_type: CAN
     primary_address: 0x2025
@@ -164,10 +168,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5    
 
-  motor-velocity_actual_avg:
+  motor_velocity_actual_avg:
     unit: 'm/s'
     inputs:
-      in: motor-velocity_actual_avg
+      in: motor_velocity_actual_avg
     cal_function: 'in'
     bus_type: CAN
     primary_address: 0x2086
@@ -178,10 +182,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
 
-  motor-velocity_actual_value:
+  motor_velocity_actual_value:
     unit: 'm/s'
     inputs:
-      in: motor-velocity_actual_value
+      in: motor_velocity_actual_value
     cal_function: 'in'
     bus_type: CAN
     primary_address: 0x606c
@@ -192,10 +196,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
     
-  motor-digital_inputs:
+  motor_digital_inputs:
     unit: ''
     inputs:
-      in: motor-digital_inputs
+      in: motor_digital_inputs
     cal_function:
       1: 'Din1'
       2: 'Din2'
@@ -212,10 +216,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
     
-  motor-controller_temp:
+  motor_controller_temp:
     unit: '°C'
     inputs:
-      in: motor-controller_temp
+      in: motor_controller_temp
     cal_function: 'in'
     bus_type: CAN
     primary_address: 0x2026
@@ -226,10 +230,10 @@ Sensors:
     bit_length: 8 #probably don't need this
     sample_period: 5
 
-  motor-dc_link_circuit_voltage:
+  motor_dc_link_circuit_voltage:
     unit: 'V'
     inputs:
-      in: motor-dc_link_circuit_voltage
+      in: motor_dc_link_circuit_voltage
     cal_function: 'in/10'
     bus_type: CAN
     primary_address: 0x6079
@@ -239,11 +243,11 @@ Sensors:
     description: "Voltage of the motor controller's DC link circuit"
     bit_length: 1 #probably don't need this
     sample_period: 5
-
-  motor-warnings:
+    
+  motor_warnings:
     unit: ''
     inputs:
-      in: motor-warnings
+      in: motor_warnings
     cal_function:
       0: 'None'
       1: 'Controller Temp'
@@ -263,12 +267,13 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
     
-  motor-electric_power:
+  
+  motor_electric_power:
     #this is coming directly from the CAN controller
     #so it's already calculated?
     unit: 'W'
     inputs:
-      in: motor-electric_power
+      in: motor_electric_power
     cal_function: 'in'
     bus_type: CAN
     primary_address: 0x2024
@@ -278,11 +283,11 @@ Sensors:
     description: "calculated DC powerconsumption"
     bit_length: 16 #probably don't need this
     sample_period: 5
-  
-  motor-current_demand:
+    
+  motor_current_demand:
     unit: 'mA'
     inputs:
-      Iin: motor-current_demand
+      Iin: motor_current_demand
     cal_function: 'Iin'
     bus_type: CAN
     primary_address: 0x201a
@@ -293,10 +298,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 5
 
-  motor-current_torque_actual:
+  motor_current_torque_actual:
     unit: 'A'
     inputs:
-      Iin: motor-current_torque_actual
+      Iin: motor_current_torque_actual
     cal_function: 'Iin'
     bus_type: CAN
     primary_address: 0x6078
@@ -306,37 +311,36 @@ Sensors:
     description: "Current Torque Actual Value"
     bit_length: 16 #probably don't need this
     sample_period: 5
-  
-#   motor-torque:
-#     unit: 'mV'
-#     inputs:
-#       Vin: motor-torque
-#     cal_function: 'Vin'
-#     bus_type: CAN
-#     primary_address: 0x6078
-#     secondary_address: [0x01]
-#     precision: 0
-#     display_variable: number 
-#     description: "voltage measured on AD pin in mV"
-#     bit_length: 16 #probably don't need this
-#     sample_period: 5 
 
-#   motor-voltage:
-#     unit: 'mV'
-#     inputs:
-#       Vin: motor-voltage
-#     cal_function: 'Vin'
-#     bus_type: CAN
-#     primary_address: 0x2070
-#     secondary_address: [0x01]
-#     precision: 0
-#     display_variable: number 
-#     description: "voltage measured on AD pin in mV"
-#     bit_length: 16 #probably don't need this
-#     sample_period: 5 
+  # motor_controller_temp_fahrenheit:
+  #   unit: '°F'
+  #   inputs:
+  #     in: motor_controller_temp
+  #   cal_function: '(in*9/5)+32'
+  #   bus_type: VIRTUAL
+  #   precision: 0
+  #   display_variable: number 
+  #   description: "Temperature of the motor controller in fahrenheit"
+  #   bit_length: 8 #probably don't need this
+  #   sample_period: 5
+
+  motor_controller_temp_over_23:
+    unit: ''
+    inputs:
+      in: motor_controller_temp
+    conditional_cal: True
+    cal_function:
+      'in>=23': 'in+5'
+      'True': 'in*100'
+    bus_type: VIRTUAL
+    precision: 0
+    display_variable: number 
+    description: "Temperature of the motor controller in fahrenheit"
+    bit_length: 8 #probably don't need this
+    sample_period: 5
 
 
-# ### I2C ###
+# # I2C #
 #   rtc-time: 
 #     unit: 'T'
 #     inputs:
