@@ -10,6 +10,8 @@ chmod +x Driver.py
 chmod +x calibrator/calibrator_new.py
 # chmod +x logger/logger.py
 chmod +x logger/logger_new.py
+chmod +x GUI/New_GUI_Test.py
+
 
 # copy binary files to /usr/bin
 cp scada /usr/bin/scada
@@ -22,6 +24,7 @@ cp candriver_tests/can_driver.py /usr/bin/can_driver.py
 cp Driver.py /usr/bin/scada_sorter.py
 cp calibrator/calibrator_new.py /usr/bin/scada_calibrator.py
 cp logger/logger_new.py /usr/bin/scada_logger.py
+cp GUI/New_GUI_Test.py /usr/bin/scada_gui.py
 
 # create a workspace and copy important files into it
 mkdir -p /usr/etc/scada
@@ -30,11 +33,8 @@ cp -r utils /usr/etc/scada/utils
 rm -rf /usr/etc/scada/config
 cp -r config /usr/etc/scada/config
 cp ./install /usr/etc/scada
-cp ./make /usr/etc/scada
+cp ./make.sh /usr/etc/scada
 rm -rf /usr/etc/scada/GUI
-cp -r GUI /usr/etc/scada/GUI
-cp -r GUI /usr/etc/scada/GUI
-cp -r GUI /usr/etc/scada/GUI
 cp -r GUI /usr/etc/scada/GUI
 
 # copy service files for systemd
