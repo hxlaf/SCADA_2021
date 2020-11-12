@@ -51,7 +51,9 @@ def read(Sensor):
         return 'Sensor Protocol Not Found'
         #Redis Write Command 
     return data
-        
+
+##Shouldn't this be in Instruction parser???
+
 #Write to sensor 
 def write(Sensor,Value):
     sensor_protocol = SensorList.get(str(Sensor)).get('bus_type')

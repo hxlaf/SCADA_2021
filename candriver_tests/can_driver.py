@@ -63,21 +63,23 @@ class CanDriver:
         #or other canOpen structures, we would want to do some decision making here
         return self.read_sdo(sensorName)
 
+    def write(self,sensorName, value):
+        #for now this is a redundant step, but if we use other CAN-subprotocols
+        #or other canOpen structures, we would want to do some decision making here
+        self.write_sdo(sensorName)
+
     #using SDOs for now
     def read_sdo(self,sensorName):
         return self.sdoDict[sensorName].phys
         
-    #technically this should be done in intruction parser?
     #using SDOs for now
-    def write_sdo(self,sensorName):
-        #dummy method contents
-        pass
+    def write_sdo(self,sensorName, value):
+        sdoDict[sensorName].phys = value
 
     def read_pdo(self,sensorName):
         #dummy method contents
         pass
 
-    #technically this should be done in intruction parser?
     def write_pdo(self, sensorName):
         #dummy method contents
         pass
