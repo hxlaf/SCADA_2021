@@ -1,3 +1,7 @@
+### Is this class even necessary if we can just use driver?
+### Can we just use driver methods? should we have a separate python file that just runs the sorter
+### And the driver would just hold method definitions?
+
 import sys, os
 import time
 
