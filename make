@@ -54,4 +54,6 @@ cp calibrator/calibrator.service /etc/systemd/system
 cp logger/logger.service /etc/systemd/system
 cp GUI/gui.service /etc/systemd/system
 
+systemctl daemon-reload
+
 echo 'MAKE COMPLETE'
