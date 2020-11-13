@@ -330,8 +330,8 @@ Sensors:
       in: motor_controller_temp
     conditional_cal: True
     cal_function:
-      'in>=23': 'in+5'
-      'True': 'in*100'
+      'in>=23': 'in-23'
+      'True': 'in'
     bus_type: VIRTUAL
     precision: 0
     display_variable: number 
