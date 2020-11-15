@@ -24,6 +24,7 @@ pip3 install canopen
 #cd /usr/etc/scada/GUI 
 sudo chmod +x GUI/New_GUI_Test.py 
 #sudo chmod +x /usr/etc/scada/GUI
+cd /usr/bin
 sudo chmod +x scada_gui.py
 cp -r /etc/xdg/lxsession /home/pi/.config
 cd /home/pi/.config/lxsession/LXDE-pi
