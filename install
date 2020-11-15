@@ -21,6 +21,8 @@ pip3 install canopen
 #Creating GUI Startup Files 
 
 # copy lxsession file into the .config folder
+cd /usr/etc/scada/GUI 
+sudo chmod +x New_GUI_Test.py
 cp -r /etc/xdg/lxsession /home/pi/.config
 cd /home/pi/.config/lxsession/LXDE-pi
 ## ADD the following line to the end of the file 
