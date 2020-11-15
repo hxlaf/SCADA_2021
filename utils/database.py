@@ -31,4 +31,6 @@ def getData(sensor_id):
     """, [sensor_id])
 
     data = cursor.fetchall()
+    if data == None or len(data) == 0:
+        return 'NO DATA'
     return data[0][0]

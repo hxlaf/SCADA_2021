@@ -26,6 +26,11 @@ import datetime
     #Action_Type: LATCH                                 #LATCH or PULSE
     #Condition_Inputs: 5-10                             #Repetitions-Seconds for REPETITION and Seconds for PERIOD
 
+    #Action: ACTION
+    #Action_Details:
+        # writeSensor: sensorName
+        # writeValue: value
+
 #Setting up connectiion to Redis Server
 Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()

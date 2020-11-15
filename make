@@ -57,3 +57,5 @@ cp GUI/gui.service /etc/systemd/system
 systemctl daemon-reload
 
 echo 'MAKE COMPLETE'
+
+/usr/bin/scada_gui.py

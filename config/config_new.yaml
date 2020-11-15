@@ -101,6 +101,16 @@ Display:
 
 Sensors:
 # CAN #
+
+  # motor_nmt_state:
+  #   bus_type: CAN
+  #   display_variable: state
+    
+  # motor_nmt_command:
+  #   bus_type: CAN
+  #   sample_period
+
+
   motor_throttle_voltage:
     unit: 'mV'
     inputs:
