@@ -87,7 +87,7 @@ class CanDriver:
         node = self.network[nodeNum]
 
         if 'state' in sensorName
-            node.nmt.state(value)
+            return node.nmt.state
         
     #using SDOs for now
     def write_sdo(self,sensorName, value):

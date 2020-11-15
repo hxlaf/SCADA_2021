@@ -102,14 +102,13 @@ Display:
 Sensors:
 # CAN #
 
-  # motor_nmt_state:
-  #   bus_type: CAN
-  #   display_variable: state
-    
-  # motor_nmt_command:
-  #   bus_type: CAN
-  #   sample_period
-
+  motor_nmt_state:
+    bus_type: CAN
+    display_variable: state
+    inputs:
+      strIn: motor_nmt_state:
+    cal_function: 'str(strIn)'
+    sample_period: 0
 
   motor_throttle_voltage:
     unit: 'mV'
