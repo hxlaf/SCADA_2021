@@ -23,9 +23,8 @@ pip3 install canopen
 # copy lxsession file into the .config folder
 cp -r /etc/xdg/lxsession /home/pi/.config
 cd /home/pi/.config/lxsession/LXDE-pi
-nano autostart
 ## ADD the following line to the end of the file 
-@/usr/bin/scada_gui.py
+echo '@/usr/bin/scada_gui.py' >> autostart
 ##Restart pi 
 
 echo 'INSTALL COMPLETE'
