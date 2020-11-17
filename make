@@ -58,4 +58,4 @@ systemctl daemon-reload
 
 echo 'MAKE COMPLETE'
 
-/usr/bin/scada_gui.py
+# /usr/bin/scada_gui.py
