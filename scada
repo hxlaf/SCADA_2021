@@ -66,7 +66,6 @@ parser_tui.set_defaults(func=tui)
 
 def reload(args):
 	os.system('bash /usr/etc/scada/make')
-	os.system('systemctl daemon-reload')
 	os.system('scada restart all')
 
 parser_reload = subparsers.add_parser('reload', help='re-makes and re-starts SCADA')

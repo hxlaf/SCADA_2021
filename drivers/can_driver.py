@@ -86,7 +86,7 @@ class CanDriver:
         #select node on network
         node = self.network[nodeNum]
 
-        if 'state' in sensorName
+        if 'state' in sensorName:
             return node.nmt.state
         
     #using SDOs for now
