@@ -16,7 +16,7 @@ chmod +x install
 chmod +x make
 chmod +x scada
 # chmod +x sorter/sorter.py
-chmod +x Driver.py
+chmod +x drivers/driver.py
 # chmod +x calibrator/calibrator.py
 chmod +x calibrator/calibrator_new.py
 # chmod +x logger/logger.py
