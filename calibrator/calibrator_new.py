@@ -20,8 +20,7 @@ import utils
 # Configure Redis interface For Raw Sensors Data
 data = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 p = data.pubsub()
-p.subscribe('Sensor_data')
-
+p.subscribe('raw_data')
 
 #Local Dictionary storing values of Calibrated Sensors used for Virtual Sensors
 last_calc_vals = {}

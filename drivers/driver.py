@@ -19,7 +19,7 @@ import can_driver
 #Setting up connectiion to Redis Server
 Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
-data.subscribe('Sensor_data')
+data.subscribe('raw_data')
 
 #Local Dictionary for Sensor Period Count 
 SensorList = config.get('Sensors')
@@ -81,5 +81,5 @@ while True:
             key = key.lower()
             print(key)
             #Putting Sensor Data into redis channel
-            Redisdata.publish('Sensor_data',key)
+            Redisdata.publish('raw_data',key)
             last_sampled[sensorName] = time.time()
