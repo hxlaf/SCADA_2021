@@ -50,6 +50,9 @@ def read(Sensor):
     else:
         return 'Sensor Protocol Not Found'
         #Redis Write Command 
+
+    if data == None:
+        data = 'BUS ERROR'
     return data
 
 ##Shouldn't this be in Instruction parser???
@@ -59,8 +62,8 @@ def write(Sensor,Value):
     sensor_protocol = SensorList.get(str(Sensor)).get('bus_type')
     if(sensor_protocol == 'I2C'):
         i2c_sorter.write(Sensor, Value)
-#     elif(sensor_protocol =='CAN'):
-#         can_sorter.write(Sensor,Value)
+    elif(sensor_protocol =='CAN'):
+        can_sorter.write(Sensor,Value)
 #     elif(sensor_protocol == 'USB'):
 #         usb_sorter.write(Sensor,Value)
     else:
