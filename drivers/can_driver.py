@@ -78,7 +78,7 @@ class CanDriver:
     def read_sdo(self,sensorName):
         return self.sdoDict[sensorName].phys
 
-    def read_nmt(self,sensorName)
+    def read_nmt(self,sensorName):
         #sensor name is composed of the node name and the value name
         [nodeName, *valueName] = sensorName.split('_')
         #get node ID from config
@@ -93,7 +93,7 @@ class CanDriver:
     def write_sdo(self,sensorName, value):
         sdoDict[sensorName].phys = value
 
-    def write_nmt(self,sensorName, value)
+    def write_nmt(self,sensorName, value):
         #sensor name is composed of the node name and the value name
         [nodeName, *valueName] = sensorName.split('_')
         #get node ID from config
