@@ -64,8 +64,10 @@ class CanDriver:
     def read(self,sensorName):
         #for now this is a redundant step, but if we use other CAN-subprotocols
         #or other canOpen structures, we would want to do some decision making here
-        return self.read_sdo(sensorName)
-
+        try:
+            return self.read_sdo(sensorName)
+        except OSError:
+            return None
     def write(self,sensorName, value):
         #for now this is a redundant step, but if we use other CAN-subprotocols
         #or other canOpen structures, we would want to do some decision making here
