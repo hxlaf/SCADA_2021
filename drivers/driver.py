@@ -19,7 +19,7 @@ import can_driver
 #Setting up connectiion to Redis Server
 Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
-data.subscribe('Sensor_data')
+data.subscribe('raw_data')
 
 #Local Dictionary for Sensor Period Count 
 SensorList = config.get('Sensors')
@@ -50,6 +50,9 @@ def read(Sensor):
     else:
         return 'Sensor Protocol Not Found'
         #Redis Write Command 
+
+    if data == None:
+        data = 'BUS ERROR'
     return data
 
 ##Shouldn't this be in Instruction parser???
@@ -59,8 +62,8 @@ def write(Sensor,Value):
     sensor_protocol = SensorList.get(str(Sensor)).get('bus_type')
     if(sensor_protocol == 'I2C'):
         i2c_sorter.write(Sensor, Value)
-#     elif(sensor_protocol =='CAN'):
-#         can_sorter.write(Sensor,Value)
+    elif(sensor_protocol =='CAN'):
+        can_sorter.write(Sensor,Value)
 #     elif(sensor_protocol == 'USB'):
 #         usb_sorter.write(Sensor,Value)
     else:
@@ -71,12 +74,12 @@ while True:
     #for Sensors: <-- needs to be name of list of sensors
     # milliseconds = int(time()*1000)
     for sensorName in SensorList :
-        if(time.time() - last_sampled[sensorName] > sample_period[sensorName]):
+        if(time.time() - last_sampled[sensorName] > sample_period[sensorName] and float(sample_period) != 0.0):
             #Appending sensor name to sensor value for distinction in redis database
             key = '{}:{}'.format(sensorName, read(sensorName))
             #Python String Method that makes everything lowercase
             key = key.lower()
             print(key)
             #Putting Sensor Data into redis channel
-            Redisdata.publish('Sensor_data',key)
+            Redisdata.publish('raw_data',key)
             last_sampled[sensorName] = time.time()

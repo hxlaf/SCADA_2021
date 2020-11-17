@@ -17,6 +17,8 @@ import canopen
 # from utils import database
 import time
 
+
+
 # open a connection to the redis server where we will
 # be writing data
 #data = redis.Redis(host='localhost', port=6379, db=0)
@@ -48,7 +50,8 @@ class CanDriver:
                 print(sensorName)
                 print(sensorDict)
                 # print config.get('Sensors').get(sensorDict)
-                self.sdoDict[sensorName] = self.configure_sdo(sensorName,sensorDict)
+                if 'nmt' not in sensorName:
+                    self.sdoDict[sensorName] = self.configure_sdo(sensorName,sensorDict)
                 #DEBUG:
                 # print('sdoDict =')
                 # print(sdoDict)
@@ -66,37 +69,59 @@ class CanDriver:
     def write(self,sensorName, value):
         #for now this is a redundant step, but if we use other CAN-subprotocols
         #or other canOpen structures, we would want to do some decision making here
-        self.write_sdo(sensorName)
+        if 'nmt' in sensorName:
+            self.write_nmt(sensorName, value)
+        else: 
+            self.write_sdo(sensorName, value)
 
     #using SDOs for now
     def read_sdo(self,sensorName):
         return self.sdoDict[sensorName].phys
+
+    def read_nmt(self,sensorName)
+        #sensor name is composed of the node name and the value name
+        [nodeName, *valueName] = sensorName.split('_')
+        #get node ID from config
+        nodeNum = config.get('can_nodes').get(nodeName)
+        #select node on network
+        node = self.network[nodeNum]
+
+        if 'state' in sensorName
+            return node.nmt.state
         
     #using SDOs for now
     def write_sdo(self,sensorName, value):
         sdoDict[sensorName].phys = value
 
+    def write_nmt(self,sensorName, value)
+        #sensor name is composed of the node name and the value name
+        [nodeName, *valueName] = sensorName.split('_')
+        #get node ID from config
+        nodeNum = config.get('can_nodes').get(nodeName)
+        #select node on network
+        node = self.network[nodeNum]
+
+        if 'state' in sensorName
+            node.nmt.state(value)
+
     def read_pdo(self,sensorName):
         #dummy method contents
         pass
-
-    def write_pdo(self, sensorName):
-        #dummy method contents
-        pass
+    
+    #write_pdo method is not applicable because it's only used to get data from devices
 
     def configure_sdo(self, sensorName, sensorDict):
         #sensor name is composed of the node name and the value name
-        [nodeName, *rest] = sensorName.split('_')
-        #DEBUG:
-        # print(nodeName)
-        # print(valueName)
+        [nodeName, *valueName] = sensorName.split('_')
+        #get node ID from config
         nodeNum = config.get('can_nodes').get(nodeName)
-        #finds node on network
+        #select node on network
         node = self.network[nodeNum]
 
-        #creates SDO object that will communicate with the node
+        #creates SDO object that will communicate with the sensor
         if sensorDict['secondary_address'] == None:
             new_sdo = node.sdo[sensorDict['primary_address']]
         else:
             new_sdo = node.sdo[sensorDict['primary_address']][sensorDict['secondary_address']]
         return new_sdo
+    
