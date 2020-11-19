@@ -16,7 +16,7 @@ def setup():
 
     #Read a temperature this will be in deg C
     temp =bus.read_byte_data(0x28, c.get("Temp"))
-    print( "Temperature in C: " + str(temp))
+    print( "Temperature in C: " + str(temp) + "Unit Sel: " + str(c.get("Unit Selection")))
 
 
 def setExternalCrystal (): 
