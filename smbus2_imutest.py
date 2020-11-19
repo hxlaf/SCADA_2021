@@ -2,7 +2,7 @@ import smbus
 import time
 # Open i2c bus 1 and read one byte from address 80, offset 0
 
-bus = smbus.SMBus(1)
+bus = smbus.SMBus(3)
 c={ "Chip Id":0x00,"Temp":0x34,"Calibration Status":0x35,"Sys Status":0x39,"ST Result":0x36,"Sys_Error":0x3a,"Unit Selection":0x3b,"Operation Mode":0x3D,
 "Power Mode":0x3e,"Temp Source":0x40, "OPR Mode": 0x3D}
 
@@ -27,16 +27,18 @@ grav_y = [0x30,0x31]
 grav_z = [0x32,0x33]
 
 def setup():
-    #Setting the Calibration Units 
-    #bus.write_byte_data(0x28,0x3B,0x12)
+    setCal()
     #Operation Mode of IMU NDOF Fusion Mode 
     bus.write_byte_data(0x28,0x3D,0x0C)
+    time.sleep(0.25)
     #Set the IMU to use Extenal Crystal 
     setExternalCrystal() 
 
     #Read a temperature this will be in deg C
     temp =bus.read_byte_data(0x28, c.get("Temp"))
-    print( "Temperature in C: " + str(temp) + "Unit Sel: " + str(c.get("Unit Selection")))
+    unit_selc = bus.read_byte_data(0x28, c.get("Unit Selection"))
+    temp_s = bus.read_byte_data(0x28, c.get("Temp Source"))
+    print( "Temperature in C: " + str(temp) + " Unit Sel: " + str(unit_selc) + " Temp Source: " + str(temp_s))
 
 
 def setExternalCrystal (): 
@@ -50,8 +52,21 @@ def setExternalCrystal ():
      bus.write_byte_data(0x28,0x3D,0x0C)
      time.sleep(0.20)
 
-
+def setCal():
+    #Switch Configuration Mode 
+    bus.write_byte_data(0x28,0x3D,0X00)
+    time.sleep(0.25)
+    #Setting the Calibration Units 
+    bus.write_byte_data(0x28,0x3B,0x82)
+    time.sleep(0.25)
+    bus.write_byte_data(0x28,0x40,0x01)
+    time.sleep(0.25)
+     
     
+
+while True:
+    setup()
+    time.sleep(.1)
 
 
 # while True:
