@@ -26,6 +26,7 @@ chmod +x GUI/New_GUI_Test.py
 
 # copy binary files to /usr/bin
 cp scada /usr/bin/scada
+
 #Copying down i2c sorter 
 # cp drivers/i2c_sorter.py /usr/bin/i2c_sorter.py
 # #copying down can sorter
