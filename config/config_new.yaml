@@ -122,7 +122,7 @@ Sensors:
     display_variable: number 
     description: "voltage measured on AD pin in mV"
     bit_length: 16 #probably don't need this
-    sample_period: 5
+    sample_period: .5
 
   #all can sensors from this point down have unfinished configuration
   motor_status:
