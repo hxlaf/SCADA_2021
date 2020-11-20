@@ -15,8 +15,8 @@ ip link set can0 up type can bitrate 125000
 chmod +x install
 chmod +x make
 chmod +x scada
-# chmod +x sorter/sorter.py
-chmod +x drivers/driver.py
+chmod +x sorter/sorter_new.py
+# chmod +x drivers/driver.py
 # chmod +x calibrator/calibrator.py
 chmod +x calibrator/calibrator_new.py
 # chmod +x logger/logger.py
@@ -27,12 +27,12 @@ chmod +x GUI/New_GUI_Test.py
 # copy binary files to /usr/bin
 cp scada /usr/bin/scada
 #Copying down i2c sorter 
-cp drivers/i2c_sorter.py /usr/bin/i2c_sorter.py
-#copying down can sorter
-cp drivers/can_driver.py /usr/bin/can_driver.py
+# cp drivers/i2c_sorter.py /usr/bin/i2c_sorter.py
+# #copying down can sorter
+# cp drivers/can_driver.py /usr/bin/can_driver.py
 
-# cp sorter/sorter.py /usr/bin/scada_sorter.py
-cp drivers/driver.py /usr/bin/scada_sorter.py
+cp sorter/sorter_new.py /usr/bin/scada_sorter.py
+# cp drivers/driver.py /usr/bin/scada_sorter.py
 cp calibrator/calibrator_new.py /usr/bin/scada_calibrator.py
 cp logger/logger_new.py /usr/bin/scada_logger.py
 cp GUI/New_GUI_Test.py /usr/bin/scada_gui.py
@@ -47,6 +47,8 @@ cp ./install /usr/etc/scada
 cp ./make /usr/etc/scada
 rm -rf /usr/etc/scada/GUI
 cp -r GUI /usr/etc/scada/GUI
+rm -rf /usr/etc/scada/drivers
+cp -r drivers /usr/etc/scada/drivers
 
 # copy service files for systemd
 cp sorter/sorter.service /etc/systemd/system
