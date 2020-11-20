@@ -21,7 +21,12 @@ parser_start.set_defaults(func=start)
 # stop command
 def stop(args):
     process = args.process
-    os.system('systemctl stop {}'.format(process))
+	if process == 'all':
+		os.system('systemctl stop sorter')
+		os.system('systemctl stop calibrator')
+		os.system('systemctl stop logger') 
+	else:	
+		os.system('systemctl stop {}'.format(process))
 
 parser_stop = subparsers.add_parser('stop', help='stop a SCADA process')
 parser_stop.add_argument('process', help='the process to stop')
