@@ -34,7 +34,7 @@ echo '@/usr/bin/scada_gui.py' >> autostart
 
 echo 'INSTALL COMPLETE'
 
-sudo bash make
+bash make
 
 # # make sure virtual can bus is set up for testing
 # modprobe vcan

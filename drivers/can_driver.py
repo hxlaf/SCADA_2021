@@ -64,8 +64,10 @@ class CanDriver:
     def read(self,sensorName):
         #for now this is a redundant step, but if we use other CAN-subprotocols
         #or other canOpen structures, we would want to do some decision making here
-        return self.read_sdo(sensorName)
-
+        try:
+            return self.read_sdo(sensorName)
+        except OSError:
+            return None
     def write(self,sensorName, value):
         #for now this is a redundant step, but if we use other CAN-subprotocols
         #or other canOpen structures, we would want to do some decision making here
@@ -78,7 +80,7 @@ class CanDriver:
     def read_sdo(self,sensorName):
         return self.sdoDict[sensorName].phys
 
-    def read_nmt(self,sensorName)
+    def read_nmt(self,sensorName):
         #sensor name is composed of the node name and the value name
         [nodeName, *valueName] = sensorName.split('_')
         #get node ID from config
@@ -86,14 +88,14 @@ class CanDriver:
         #select node on network
         node = self.network[nodeNum]
 
-        if 'state' in sensorName
+        if 'state' in sensorName:
             return node.nmt.state
         
     #using SDOs for now
     def write_sdo(self,sensorName, value):
         sdoDict[sensorName].phys = value
 
-    def write_nmt(self,sensorName, value)
+    def write_nmt(self,sensorName, value):
         #sensor name is composed of the node name and the value name
         [nodeName, *valueName] = sensorName.split('_')
         #get node ID from config
@@ -101,7 +103,7 @@ class CanDriver:
         #select node on network
         node = self.network[nodeNum]
 
-        if 'state' in sensorName
+        if 'state' in sensorName:
             node.nmt.state(value)
 
     def read_pdo(self,sensorName):

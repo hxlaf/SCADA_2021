@@ -63,7 +63,7 @@ def write(Sensor,Value):
     if(sensor_protocol == 'I2C'):
         i2c_sorter.write(Sensor, Value)
     elif(sensor_protocol =='CAN'):
-        can_sorter.write(Sensor,Value)
+        can_driver.write(Sensor,Value)
 #     elif(sensor_protocol == 'USB'):
 #         usb_sorter.write(Sensor,Value)
     else:
@@ -74,7 +74,7 @@ while True:
     #for Sensors: <-- needs to be name of list of sensors
     # milliseconds = int(time()*1000)
     for sensorName in SensorList :
-        if(time.time() - last_sampled[sensorName] > sample_period[sensorName] and float(sample_period) != 0.0):
+        if(time.time() - last_sampled[sensorName] > sample_period[sensorName] and float(sample_period[sensorName]) != 0.0):
             #Appending sensor name to sensor value for distinction in redis database
             key = '{}:{}'.format(sensorName, read(sensorName))
             #Python String Method that makes everything lowercase

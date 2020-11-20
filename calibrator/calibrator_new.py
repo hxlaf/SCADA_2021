@@ -93,8 +93,8 @@ def update(sensor_key):
     split_key = sensor_key.split(":")
     print ("SPlit KEY : " + split_key[0]) #SpLiT kEy
     
-    if split_key[1] == 'BUS ERROR':
-        data.publish('calculated_data', '{}:{}'.format(split_key[0], 'BUS ERROR')
+    if split_key[1] == 'bus error':
+        data.publish('calculated_data', '{}:{}'.format(split_key[0], 'BUS ERROR'))
 
     #Check For Display Variable to Differientiate between states and number values 
     elif config.get('Sensors').get(split_key[0]).get('display_variable') == 'state':

@@ -189,6 +189,7 @@ class NewGUI_2(tk.Frame):
 
         # for each sensor in the list of sensors to be displayed
         for sensor in self.sensorList:
+
             sensorName = sensor.get('sensor')
             value = database.getData(sensorName)
 
