@@ -47,6 +47,8 @@ cp ./install /usr/etc/scada
 cp ./make /usr/etc/scada
 rm -rf /usr/etc/scada/GUI
 cp -r GUI /usr/etc/scada/GUI
+rm -rf /usr/etc/scada/drivers
+cp -r drivers /usr/etc/scada/drivers
 
 # copy service files for systemd
 cp sorter/sorter.service /etc/systemd/system
