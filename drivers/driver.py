@@ -10,30 +10,16 @@ sys.path.append(lib_path)
 sys.path.append(config_path)
 
 import utils
-import config
-import redis
 import i2c_sorter
 import can_driver
 
-
-#Setting up connectiion to Redis Server
-Redisdata = redis.Redis(host='localhost', port=6379, db=0)
-data = Redisdata.pubsub()
-data.subscribe('raw_data')
-
-#Local Dictionary for Sensor Period Count 
-SensorList = config.get('Sensors')
-last_sampled = {}
-sample_period = {}
-for key in config.get('Sensors'):
-    sample_period[key] = SensorList.get(key).get('sample_period')
-    last_sampled[key] = time.time()
 
 
 #set up CAN bus connection
 os.system('ip link set can0 down')
 os.system('ip link set can0 up type can bitrate 125000')
 can_drive = can_driver.CanDriver()
+
 
 # Method to read from the sesnor objects depending on protocol                
 def read(Sensor):
@@ -70,16 +56,16 @@ def write(Sensor,Value):
         return 'Sensor Protocol Not Found'
 
 
-while True: 
-    #for Sensors: <-- needs to be name of list of sensors
-    # milliseconds = int(time()*1000)
-    for sensorName in SensorList :
-        if(time.time() - last_sampled[sensorName] > sample_period[sensorName] and float(sample_period[sensorName]) != 0.0):
-            #Appending sensor name to sensor value for distinction in redis database
-            key = '{}:{}'.format(sensorName, read(sensorName))
-            #Python String Method that makes everything lowercase
-            key = key.lower()
-            print(key)
-            #Putting Sensor Data into redis channel
-            Redisdata.publish('raw_data',key)
-            last_sampled[sensorName] = time.time()
+# while True: 
+#     #for Sensors: <-- needs to be name of list of sensors
+#     # milliseconds = int(time()*1000)
+#     for sensorName in SensorList :
+#         if(time.time() - last_sampled[sensorName] > sample_period[sensorName] and float(sample_period[sensorName]) != 0.0):
+#             #Appending sensor name to sensor value for distinction in redis database
+#             key = '{}:{}'.format(sensorName, read(sensorName))
+#             #Python String Method that makes everything lowercase
+#             key = key.lower()
+#             print(key)
+#             #Putting Sensor Data into redis channel
+#             Redisdata.publish('raw_data',key)
+#             last_sampled[sensorName] = time.time()
