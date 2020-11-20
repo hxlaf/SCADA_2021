@@ -75,42 +75,41 @@ def readSensor(Sensor_add):
 setup()
 
 while True:
-    #Acceleration Vector
-    accel_x = readSensor(acc_x)
-    accel_y = readSensor(acc_y)
-    accel_z = readSensor(acc_z)
+    try:
+        #Acceleration Vector
+        accel_x = readSensor(acc_x)/100.0
+        time.sleep(0.1)
+        accel_y = readSensor(acc_y)/100.0
+        time.sleep(0.1)
+        accel_z = readSensor(acc_z)/100.0
 
-    time.sleep(0.1)
-    #Magnometer Vector
-    magno_x = readSensor(mag_x)
-    magno_y = readSensor(mag_y)
-    magno_z = readSensor(mag_z)
-    time.sleep(0.1)
-    #Gyro
-    gyrom_x = readSensor(gyro_x)
-    gyrom_y = readSensor(gyro_y)
-    gyrom_z = readSensor(gyro_z)
-    time.sleep(0.1)
-    #GRavity 
-    g_x = readSensor(grav_x)
-    g_y = readSensor(grav_y)
-    g_z = readSensor(grav_z)
-    time.sleep(.1)
-
-    print( "acc_x: "+ str(accel_x) + " acc_y: " + str(accel_y) + " acc_z: " + str(accel_z))
-    print( "magno_x: "+ str(magno_x) + " magyrogno_y: " + str(magno_y) + " magno_z: " + str(magno_z))
-    print( "gyro_x: "+ str(gyrom_x) + " gyro_y: " + str(gyrom_y) + " gyro_z: " + str(gyrom_z))
-    print( "gravity_x: "+ str(g_x) + " gravity_y: " + str(g_y) + " gravity_z: " + str(g_z))
-
-# while True:gravity
-#     for key in c :
-#         try:
-#             a = bus.read_byte_data(0x28, c.get(key))
-#             print(key + ": " +  str(a))
-#             time.sleep(1)
-       
-#         except IOError:
-#              print("in except")
-#              time.sleep(2)
-
-    #bus.close()
+        time.sleep(0.1)
+        #Magnometer Vector
+        magno_x = readSensor(mag_x)/16.0
+        time.sleep(0.1)
+        magno_y = readSensor(mag_y)/16.0
+        time.sleep(0.1)
+        magno_z = readSensor(mag_z)/16.0
+        time.sleep(0.1)
+        #Gyro
+        gyrom_x = readSensor(gyro_x)/16.0
+        time.sleep(0.1)
+        gyrom_y = readSensor(gyro_y)/16.0
+        time.sleep(0.1)
+        gyrom_z = readSensor(gyro_z)/16.0
+        time.sleep(0.1)
+        #GRavity 
+        g_x = readSensor(grav_x)/100.0
+        time.sleep(0.1)
+        g_y = readSensor(grav_y)/100.0
+        time.sleep(0.1)
+        g_z = readSensor(grav_z)/100.0
+        time.sleep(0.1)
+        
+        print( "acc_x: "+ str(accel_x) + " acc_y: " + str(accel_y) + " acc_z: " + str(accel_z))
+        #print( "magno_x: "+ str(magno_x) + " magyrogno_y: " + str(magno_y) + " magno_z: " + str(magno_z))
+        #print( "gyro_x: "+ str(gyrom_x) + " gyro_y: " + str(gyrom_y) + " gyro_z: " + str(gyrom_z))
+        #print( "gravity_x: "+ str(g_x) + " gravity_y: " + str(g_y) + " gravity_z: " + str(g_z))
+    
+    except IOError:
+        time.sleep(1)
