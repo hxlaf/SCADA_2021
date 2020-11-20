@@ -28,11 +28,16 @@ grav_z = [0x32,0x33]
 
 def setup():
     setCal()
-    #Operation Mode of IMU NDOF Fusion Mode 
-    bus.write_byte_data(0x28,0x3D,0x0C)
-    time.sleep(0.25)
+    time.sleep(1)
+    
     #Set the IMU to use Extenal Crystal 
-    setExternalCrystal() 
+    setExternalCrystal()
+    
+    #Operation Mode of IMU NDOF Fusion Mode 
+    #bus.write_byte_data(0x28,0x3D,0x0C)
+    bus.write_byte_data(0x28,0x3D,0x07)
+    print ("Power Mode Setup: " + str(bus.read_byte_data(0x28,0x3D)))
+    time.sleep(0.10)
 
     #Read a temperature this will be in deg C
     temp =bus.read_byte_data(0x28, c.get("Temp"))
@@ -43,22 +48,22 @@ def setup():
 
 def setExternalCrystal (): 
     #Switch Configuration Mode 
-     bus.write_byte_data(0x28,0x3D,0X00)
+     #bus.write_byte_data(0x28,0x3D,0X00)
+     print ("Power Mode EC_config: " + str(bus.read_byte_data(0x28,0x3D)))
      time.sleep(0.25)
      #Set ClK_Sel to use External Oscillator of the Board 
      bus.write_byte_data(0x28,0x3F,0x80)
-     time.sleep(0.10)
+     time.sleep(1)
      #Setting the Mode back to NDOF Fusion
-     bus.write_byte_data(0x28,0x3D,0x0C)
-     time.sleep(0.20)
+     #bus.write_byte_data(0x28,0x3D,0x0C)
+     print ("Power Mode Setup EC_NDOF: " + str(bus.read_byte_data(0x28,0x3D)))
+     time.sleep(1)
 
 def setCal():
-    #Switch Configuration Mode 
-    bus.write_byte_data(0x28,0x3D,0X00)
-    time.sleep(0.25)
-    #Setting the Calibration Units 
+    #Setting the Calibration Units
     bus.write_byte_data(0x28,0x3B,0x82)
     time.sleep(0.25)
+    #Temp Source
     bus.write_byte_data(0x28,0x40,0x01)
     time.sleep(0.25)
 
@@ -75,54 +80,49 @@ def readSensor(Sensor_add):
 setup()
 
 while True:
-    #Acceleration Vector
-    accel_x = readSensor(acc_x)
-    accel_y = readSensor(acc_y)
-    accel_z = readSensor(acc_z)
 
-    time.sleep(0.1)
-    #Magnometer Vector
-    magno_x = readSensor(mag_x)
-    magno_y = readSensor(mag_y)
-    magno_z = readSensor(mag_z)
-    time.sleep(0.1)
-    #Gyro
-    gyrom_x = readSensor(gyro_x)
-    gyrom_y = readSensor(gyro_y)
-    gyrom_z = readSensor(gyro_z)
-    time.sleep(0.1)
-    #GRavity 
-    g_x = readSensor(grav_x)
-    g_y = readSensor(grav_y)
-    g_z = readSensor(grav_z)
-    time.sleep(.1)
+    try:
+     #Acceleration Vector
+        accel_x = readSensor(acc_x)
+        accel_y = readSensor(acc_y)
+        accel_z = readSensor(acc_z)
 
-#Printing Calibration Status 
-  calibration_status = bus.read_byte_data(0x28,0x35) 
-  system_cal = calibration_status >> 6 
-  gyro_cali = (calibration_status >> 4) & 0x03
-  acc_cali = (calibration_status >>2) & 0x03
-  mag_cali = (calibration_status) & 0x03
-  
-  print("Calibration Status: " + calibration_status)
-  print( "System: " + str(system_cal) + " Gyro: "+ str(gyro_cali) + " Acc_cali: " str(acc_cali + "Mag_cal: " + mag_cali))
+        time.sleep(0.2)
+        #Magnometer Vector
+        magno_x = readSensor(mag_x)
+        magno_y = readSensor(mag_y)
+        magno_z = readSensor(mag_z)
+        time.sleep(0.2)
+        #Gyro
+        gyrom_x = readSensor(gyro_x)
+        gyrom_y = readSensor(gyro_y)
+        gyrom_z = readSensor(gyro_z)
+        time.sleep(0.2)
+        #GRavity 
+        g_x = readSensor(grav_x)
+        g_y = readSensor(grav_y)
+        g_z = readSensor(grav_z)
+        time.sleep(0.2)
 
+    #Printing Calibration Status 
+        calibration_status = bus.read_byte_data(0x28,0x35) 
+        system_cal = calibration_status >> 6 
+        gyro_cali = (calibration_status >> 4) & 0x03
+        acc_cali = (calibration_status >>2) & 0x03
+        mag_cali = (calibration_status) & 0x03
 
-
-  #  print( "acc_x: "+ str(accel_x) + " acc_y: " + str(accel_y) + " acc_z: " + str(accel_z))
-  #  print( "magno_x: "+ str(magno_x) + " magyrogno_y: " + str(magno_y) + " magno_z: " + str(magno_z))
-   # print( "gyro_x: "+ str(gyrom_x) + " gyro_y: " + str(gyrom_y) + " gyro_z: " + str(gyrom_z))
-   # print( "gravity_x: "+ str(g_x) + " gravity_y: " + str(g_y) + " gravity_z: " + str(g_z))
-
-# while True:gravity
-#     for key in c :
-#         try:
-#             a = bus.read_byte_data(0x28, c.get(key))
-#             print(key + ": " +  str(a))
-#             time.sleep(1)
-       
-#         except IOError:
-#              print("in except")
-#              time.sleep(2)
-
-    #bus.close()
+        print("Calibration Status: " + str(calibration_status))
+        print ("Power Mode: " + str(bus.read_byte_data(0x28,0x3D)))
+        print( "System: " + str(system_cal) + " Gyro: "+ str(gyro_cali) + " Acc_cali: " + str(acc_cali) + "Mag_cal: " + str(mag_cali))
+        print( "gyro LSB " + str(bus.read_byte_data(0x28,0x61)))
+        print( "gyro MSB " + str(bus.read_byte_data(0x28,0x62)))
+        print ( "gyrom_x " + str(gyrom_x))
+        #print( "acc_x: "+ str(accel_x) + " acc_y: " + str(accel_y) + " acc_z: " + str(accel_z))
+        #print( "magno_x: "+ str(magno_x) + " magyrogno_y: " + str(magno_y) + " magno_z: " + str(magno_z))
+        #print( "gyro_x: "+ str(gyrom_x) + " gyro_y: " + str(gyrom_y) + " gyro_z: " + str(gyrom_z))
+        #print( "gravity_x: "+ str(g_x) + " gravity_y: " + str(g_y) + " gravity_z: " + str(g_z))
+        time.sleep(0.2)
+        
+    except IOError:
+        print ("Im am here")
+        time.sleep(.5)
