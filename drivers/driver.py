@@ -10,10 +10,11 @@ sys.path.append(lib_path)
 sys.path.append(config_path)
 
 import utils
+import config
 import i2c_sorter
 import can_driver
 
-
+SensorList = config.get('Sensors')
 
 #set up CAN bus connection
 os.system('ip link set can0 down')

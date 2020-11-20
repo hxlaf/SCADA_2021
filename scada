@@ -20,23 +20,28 @@ parser_start.set_defaults(func=start)
 
 # stop command
 def stop(args):
-    process = args.process
-    os.system('systemctl stop {}'.format(process))
+	process = args.process
+	if process == 'all':
+		os.system('systemctl stop sorter')
+		os.system('systemctl stop calibrator')
+		os.system('systemctl stop logger')
+	else:
+		os.system('systemctl stop {}'.format(process))
 
 parser_stop = subparsers.add_parser('stop', help='stop a SCADA process')
 parser_stop.add_argument('process', help='the process to stop')
 parser_stop.set_defaults(func=stop)
 
 # restart command
-def restart(args): 
+def restart(args):
 	os.system('systemctl daemon-reload')
 
 	process = args.process
 	if process == 'all':
 		os.system('systemctl restart sorter')
 		os.system('systemctl restart calibrator')
-		os.system('systemctl restart logger') 
-	else:	
+		os.system('systemctl restart logger')
+	else:
 		os.system('systemctl restart {}'.format(process))
 
 parser_restart = subparsers.add_parser('restart', help='restart a SCADA process')

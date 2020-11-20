@@ -9,7 +9,7 @@ config_path = '/usr/etc/scada/config'
 sys.path.append(lib_path)
 sys.path.append(config_path)
 
-from drivers import *
+from drivers import driver
 import utils
 import config
 import redis
