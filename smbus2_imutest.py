@@ -97,10 +97,22 @@ while True:
     g_z = readSensor(grav_z)
     time.sleep(.1)
 
-    print( "acc_x: "+ str(accel_x) + " acc_y: " + str(accel_y) + " acc_z: " + str(accel_z))
-    print( "magno_x: "+ str(magno_x) + " magyrogno_y: " + str(magno_y) + " magno_z: " + str(magno_z))
-    print( "gyro_x: "+ str(gyrom_x) + " gyro_y: " + str(gyrom_y) + " gyro_z: " + str(gyrom_z))
-    print( "gravity_x: "+ str(g_x) + " gravity_y: " + str(g_y) + " gravity_z: " + str(g_z))
+#Printing Calibration Status 
+  calibration_status = bus.read_byte_data(0x28,0x35) 
+  system_cal = calibration_status >> 6 
+  gyro_cali = (calibration_status >> 4) & 0x03
+  acc_cali = (calibration_status >>2) & 0x03
+  mag_cali = (calibration_status) & 0x03
+  
+  print("Calibration Status: " + calibration_status)
+  print( "System: " + str(system_cal) + " Gyro: "+ str(gyro_cali) + " Acc_cali: " str(acc_cali + "Mag_cal: " + mag_cali))
+
+
+
+  #  print( "acc_x: "+ str(accel_x) + " acc_y: " + str(accel_y) + " acc_z: " + str(accel_z))
+  #  print( "magno_x: "+ str(magno_x) + " magyrogno_y: " + str(magno_y) + " magno_z: " + str(magno_z))
+   # print( "gyro_x: "+ str(gyrom_x) + " gyro_y: " + str(gyrom_y) + " gyro_z: " + str(gyrom_z))
+   # print( "gravity_x: "+ str(g_x) + " gravity_y: " + str(g_y) + " gravity_z: " + str(g_z))
 
 # while True:gravity
 #     for key in c :
