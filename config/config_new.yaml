@@ -351,10 +351,9 @@ Sensors:
     bit_length: 8 #probably don't need this
     sample_period: 5
 
-
 # I2C #
   rtc_time: 
-    unit: ''
+    unit: ' '
     inputs:
       In: rtc-time
     cal_function: 'In'
