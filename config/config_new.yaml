@@ -361,7 +361,7 @@ Sensors:
     primary_address: 0x68
     secondary_address: [0x03,0x04,0x05,0x06,0x08,0x09]
     precision: 0
-    display_variable: string
+    display_variable: number
     description: "This is time"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
