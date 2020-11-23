@@ -13,7 +13,7 @@ import utils
 import config
 import can_driver
 
-import i2c_driver
+from drivers import i2c_driver
 
 SensorList = config.get('Sensors')
 
