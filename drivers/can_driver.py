@@ -67,8 +67,8 @@ class CanDriver:
         print('SENSOR NAME IS ' + sensorName + 'and its type is')
         print(type(sensorName))
         try:
-            # if 'nmt' in sensorName:
-            if sensorName.find('nmt') != -1:
+            if 'nmt' in str(sensorName):
+            #if sensorName.find('nmt') != -1:
                 return self.read_nmt(sensorName)
             else:
                 return self.read_sdo(sensorName)
