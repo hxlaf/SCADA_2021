@@ -13,6 +13,7 @@ sys.path.append(local_path)
 import config
 import can
 import canopen
+from drivers import can_driver
 import time
 
 # # open a connection to the redis server where we will
@@ -103,7 +104,7 @@ import time
 #end class definition
 
 # #begin test procedures
-driver = CanDriver()
+driver = can_driver.CanDriver()
 value = driver.read['motor_select_application']
 print("Value of " + 'motor_select_application' + " is: ")
 print(value)
