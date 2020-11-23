@@ -125,7 +125,7 @@ Sensors:
     bit_length: 16
 
   motor_select_application:
-    unit: 'in'
+    unit: ''
     inputs:
       in: motor_select_application
     cal_function:
