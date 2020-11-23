@@ -103,7 +103,7 @@ class CanDriver:
         
     #using SDOs for now
     def write_sdo(self,sensorName, value):
-        sdoDict[sensorName].phys = value
+        self.sdoDict[sensorName].phys = value
 
     def write_nmt(self,sensorName, value):
         #sensor name is composed of the node name and the value name
