@@ -109,9 +109,9 @@ driver = CanDriver()
 value = driver.read['motor_select_application']
 print("Value of " + 'motor_select_application' + " is: ")
 print(value)
-value = driver.read['motor_nmt_state']
-print("Value of " + 'motor_nmt_state' + " is: ")
-print(value)
+# value = driver.read['motor_nmt_state']
+# print("Value of " + 'motor_nmt_state' + " is: ")
+# print(value)
 
 #THIS PROCEDURE SHOULD ENABLE DRIVE MODE
 #write value
@@ -123,21 +123,21 @@ time.sleep(1)
 value = driver.read['motor_select_application']
 print("Value of " + 'motor_select_application' + " is: ")
 print(value)
-value = driver.read['motor_nmt_state']
-print("Value of " + 'motor_nmt_state' + " is: ")
-print(value)
-print ('TADA!!!')
+# value = driver.read['motor_nmt_state']
+# print("Value of " + 'motor_nmt_state' + " is: ")
+# print(value)
+# print ('TADA!!!')
 
 #write value
 driver.write['motor_select_application', 0]
 #doing some nmt stuff
-driver.write['motor_nmt_state', 'RESET']
+# driver.write['motor_nmt_state', 'RESET']
 time.sleep(1)
 
 value = driver.read['motor_select_application']
 print("Value of " + 'motor_select_application' + " is: ")
 print(value)
-value = driver.read['motor_nmt_state']
-print("Value of " + 'motor_nmt_state' + " is: ")
-print(value)
-print ('TADAx2!!!')
+# value = driver.read['motor_nmt_state']
+# print("Value of " + 'motor_nmt_state' + " is: ")
+# print(value)
+# print ('TADAx2!!!')
