@@ -111,15 +111,21 @@ Sensors:
 # CAN #
 
   motor_nmt_state:
+    units: ''
     bus_type: CAN
     display_variable: string
     inputs:
       strIn: motor_nmt_state
     cal_function: 'strIn'
-    sample_period: 0
+    primary_address: Null
+    secondary_address: Null
+    precision: 0
+    description: 'This is the network state of the motor controller'
+    sample_period: 1
+    bit_length: 16
 
   motor_select_application:
-    unit: 'in'
+    unit: ''
     inputs:
       in: motor_select_application
     cal_function:
@@ -132,7 +138,7 @@ Sensors:
     display_variable: state
     description: "Used to select different applications in eDrive. Need to be in APP 1 to drive."
     bit_length: 16 #probably don't need this
-    sample_period: 5
+    sample_period: 1
 
   motor_throttle_voltage:
     unit: 'mV'
