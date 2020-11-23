@@ -53,7 +53,7 @@ def read_rtc(Sensor):
         for i in range(len(config.get('Sensors').get(str(Sensor)).get('secondary_address'))):
             busval = bus.read_byte_data(sensor_address,reg_address[i])
             if (i == 0):
-                seconds_data = str((((busval & 0xF0)>> 4))) + str(((busval & 0xF))) 
+                seconds_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF))) 
             elif (i == 1):
                 mins_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
             elif (i == 2):
