@@ -79,7 +79,7 @@ Display:
       - motor_temp
       - motor_controller_temp
       - motor_nmt_state #I just put this in, part of new CAN functionality -Harry
-      - motor_select_application
+      - motor_select_application #same with this -Harry
 
 ########## PART 2B: INDIVIDUAL SENSORS ##########
 
