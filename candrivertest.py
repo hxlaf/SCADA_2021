@@ -11,10 +11,8 @@ sys.path.append(config_path)
 sys.path.append(local_path)
 
 import config
-import redis
 import can
 import canopen
-import database
 import time
 
 # # open a connection to the redis server where we will
