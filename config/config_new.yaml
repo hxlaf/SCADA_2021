@@ -356,12 +356,12 @@ Sensors:
     unit: ' '
     inputs:
       In: rtc-time
-    cal_function: 'str(In)'
+    cal_function: '"{}".format(In)'
     bus_type: I2C
     primary_address: 0x68
     secondary_address: [0x03,0x04,0x05,0x06,0x08,0x09]
     precision: 0
-    display_variable: number
+    display_variable: string
     description: "This is time"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
