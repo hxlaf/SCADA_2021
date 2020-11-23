@@ -116,7 +116,7 @@ print(value)
 #write value
 driver.write('motor_select_application', 1)
 #doing some nmt stuff
-driver.write('motor_nmt_state', 'RESET')
+# driver.write('motor_nmt_state', 'RESET')
 time.sleep(1)
 
 value = driver.read('motor_select_application')
