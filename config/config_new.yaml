@@ -356,7 +356,7 @@ Sensors:
     unit: ' '
     inputs:
       In: rtc-time
-    cal_function: 'In'
+    cal_function: 'str(In)'
     bus_type: I2C
     primary_address: 0x68
     secondary_address: [0x03,0x04,0x05,0x06,0x08,0x09]
