@@ -66,7 +66,7 @@ def read_rtc(Sensor):
                 years_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
 
         #return (years_data + ":" + months_data + ":" + days_data + ":" + hours_data + ":" + mins_data + ":" + seconds_data).replace("0x","")
-        return (hours_data + ":" + mins_data + ":" + seconds_data).replace("0x","")
+        return (hours_data + "-" + mins_data + "-" + seconds_data).replace("0x","")
 
     except IOError:
         time.sleep(.0001)
