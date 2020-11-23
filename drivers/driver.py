@@ -21,6 +21,9 @@ os.system('ip link set can0 down')
 os.system('ip link set can0 up type can bitrate 125000')
 can_drive = can_driver.CanDriver()
 
+#Set RTC Time to Sys Time 
+#os.system ()
+
 
 # Method to read from the sesnor objects depending on protocol                
 def read(Sensor):

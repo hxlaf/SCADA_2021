@@ -54,20 +54,20 @@ def read_rtc(Sensor):
             busval = bus.read_byte_data(sensor_address,reg_address[i])
             if (i == 0):
                 seconds_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF))) 
-            if (i == 1):
+            elif (i == 1):
                 mins_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
-            if (i == 2):
+            elif (i == 2):
                 hours_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
-            if (i == 3):
+            elif (i == 3):
                 days_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF))) 
-            if (i == 4):
+            elif (i == 4):
                 months_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
-            if (i == 5):
+            elif (i == 5):
                 years_data = str(hex(((busval & 0xF0)>> 4))) + str(hex((busval & 0xF)))
 
         #return (years_data + ":" + months_data + ":" + days_data + ":" + hours_data + ":" + mins_data + ":" + seconds_data).replace("0x","")
         return (hours_data + ":" + mins_data + ":" + seconds_data).replace("0x","")
-        
+
     except IOError:
         time.sleep(.0001)
 
