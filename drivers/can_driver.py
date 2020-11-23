@@ -65,7 +65,8 @@ class CanDriver:
         #for now this is a redundant step, but if we use other CAN-subprotocols
         #or other canOpen structures, we would want to do some decision making here
         try:
-            if 'nmt' in sensorName:
+            # if 'nmt' in sensorName:
+            if sensorName.find('nmt') != -1:
                 return self.read_nmt(sensorName)
             else:
                 return self.read_sdo(sensorName)
