@@ -108,6 +108,9 @@ def update(sensor_key):
     #Check For Display Variable to Differientiate between states and number values 
     elif config.get('Sensors').get(split_key[0]).get('display_variable') == 'state':
         data.publish('calculated_data', '{}:{}'.format(split_key[0], str(State_execute(split_key))))
+    
+    elif config.get('Sensors').get(split_key[0]).get('display_variable') == 'string':
+        data.publish('calculated_data', '{}:{}'.format(split_key[0], str(String_execute(split_key))))
 
     #Display Variable is a number and can be calibrated with functions 
     else: 
