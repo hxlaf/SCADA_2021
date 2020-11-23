@@ -64,6 +64,8 @@ class CanDriver:
     def read(self,sensorName):
         #for now this is a redundant step, but if we use other CAN-subprotocols
         #or other canOpen structures, we would want to do some decision making here
+        print('SENSOR NAME IS ' + sensorName + 'and its type is')
+        print(type(sensorName))
         try:
             # if 'nmt' in sensorName:
             if sensorName.find('nmt') != -1:
