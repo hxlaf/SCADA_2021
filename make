@@ -33,7 +33,6 @@ cp scada /usr/bin/scada
 # cp drivers/can_driver.py /usr/bin/can_driver.py
 
 cp sorter/sorter_new.py /usr/bin/scada_sorter.py
-# cp drivers/driver.py /usr/bin/scada_sorter.py
 cp calibrator/calibrator_new.py /usr/bin/scada_calibrator.py
 cp logger/logger_new.py /usr/bin/scada_logger.py
 cp GUI/New_GUI_Test.py /usr/bin/scada_gui.py
