@@ -45,7 +45,6 @@ def read(Sensor):
         data = 'BUS ERROR'
     return data
 
-##Shouldn't this be in Instruction parser???
 
 #Write to sensor 
 def write(Sensor,Value):
