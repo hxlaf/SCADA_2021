@@ -111,12 +111,18 @@ Sensors:
 # CAN #
 
   motor_nmt_state:
+    units: ''
     bus_type: CAN
     display_variable: string
     inputs:
       strIn: motor_nmt_state
     cal_function: 'strIn'
+    primary_address: Null
+    secondary_address: Null
+    precision: 0
+    description: 'This is the network state of the motor controller'
     sample_period: 1
+    bit_length: 16
 
   motor_select_application:
     unit: 'in'
