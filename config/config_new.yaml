@@ -121,7 +121,7 @@ Sensors:
     secondary_address: Null
     precision: 0
     description: 'This is the network state of the motor controller'
-    sample_period: 1
+    sample_period: 0
     bit_length: 16
 
   motor_select_application:
