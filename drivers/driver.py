@@ -11,14 +11,15 @@ sys.path.append(config_path)
 
 import utils
 import config
-import i2c_driver
 import can_driver
+
+import i2c_driver
 
 SensorList = config.get('Sensors')
 
 #set up CAN bus connection
-os.system('ip link set can0 down')
-os.system('ip link set can0 up type can bitrate 125000')
+# os.system('ip link set can0 down')
+# os.system('ip link set can0 up type can bitrate 125000')
 can_drive = can_driver.CanDriver()
 
 #Set RTC Time to Sys Time 
