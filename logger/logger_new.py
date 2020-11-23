@@ -124,7 +124,7 @@ def update(message, key):
     # message = calculated_data
     # {sensern_name}:{calculated_data}
 
-    split_key = key.split(":")
+    split_key = key.split(":",1)
     Sensor_value= split_key[1]
     Sensor_key = split_key[0]
     if not check_update_ready(Sensor_key,Sensor_value):

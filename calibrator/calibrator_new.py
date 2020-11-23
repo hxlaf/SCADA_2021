@@ -90,7 +90,7 @@ def State_execute(Sensor_val):
 
 #Method publishes calibrated data to the Calculated Data Redis Channel      
 def update(sensor_key):
-    split_key = sensor_key.split(":")
+    split_key = sensor_key.split(":",1)
     print ("SPlit KEY : " + split_key[0]) #SpLiT kEy
     
     if split_key[1] == 'bus error':
