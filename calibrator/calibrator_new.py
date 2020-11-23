@@ -88,7 +88,7 @@ def State_execute(Sensor_val):
     return (state_cal)
 
 #Method to perform Calibration on String Display Variables
-def String_execute(Sensor_val)
+def String_execute(Sensor_val):
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
 
     for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
