@@ -84,8 +84,17 @@ def State_execute(Sensor_val):
     print("STATE CAL FUNCTION:")
     print(config.get('Sensors').get(Sensor_val[0]).get('cal_function'))
     state_cal = config.get('Sensors').get(Sensor_val[0]).get('cal_function').get(int(Sensor_val[1]))
-
+   
     return (state_cal)
+
+#Method to perform Calibration on String Display Variables
+def String_execute(Sensor_val)
+    calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
+
+    for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+        output = calibration_func.replace(key,Sensor_val[1])
+
+    return (output)
 
 
 #Method publishes calibrated data to the Calculated Data Redis Channel      
