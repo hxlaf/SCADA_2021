@@ -56,7 +56,7 @@ class NewGUI_2(tk.Frame):
 
    
         ## Display Page Number
-        label = tk.Label(self, text = "Page " + str(self.pageNumber + 1) , font= TITLE_FONT, bg = "white" )
+        label = tk.Label(self, text = "Page " + str(self.pageNumber + 1) , font= TITLE_FONT)
         label.grid(row = 0, column = 2,  sticky = "e")
 
         curr_page = self.pageNumber +1
