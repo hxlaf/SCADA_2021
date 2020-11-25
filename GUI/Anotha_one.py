@@ -71,7 +71,7 @@ class NewGUI_2(tk.Frame):
         img = PhotoImage(file = filePath)  
         next_page_button = tk.Button(self, image = img, command = lambda: self.controller.show_frame(next_frame))
         next_page_button.image=img
-        next_page_button.grid(row = 30, column = 5, sticky = "e")
+        next_page_button.grid(row = 0, column = 3, sticky = "e")
 
 
         if(curr_page >= 2):
@@ -83,7 +83,7 @@ class NewGUI_2(tk.Frame):
             img2 = PhotoImage(file = filePath2)  
             prev_page_button = tk.Button(self, image = img2, command = lambda: self.controller.show_frame(curr_page -2))
             prev_page_button.image=img2
-            prev_page_button.grid(row = 30, column = 0, sticky= "w")
+            prev_page_button.grid(row = 0, column = 1, sticky= "w")
             next_page_button.destroy()
 
             if(curr_page != self.controller.numOfPages):
@@ -92,7 +92,7 @@ class NewGUI_2(tk.Frame):
                 img3 = PhotoImage(file = filePath)  
                 next_page_button2 = tk.Button(self, image = img3, command = lambda: self.controller.show_frame(next_frame))
                 next_page_button2.image=img3
-                next_page_button2.grid(row = 30, column = 5, sticky = "e")
+                next_page_button2.grid(row = 0, column = 3, sticky = "e")
 
 
         self.get_page_groups(curr_page)
@@ -195,9 +195,14 @@ class NewGUI_2(tk.Frame):
 
             if value is None:
                 value = 'None'
+            
+
 
             ## Add value to entry box on screen 
             entry_ = tk.Entry(self, width = BOX_WIDTH)
+
+            ## add if != "Buss Error"
+            #if value != "buss error":
             
             text = str(value) + " " + sensor.get('unit')
             entry_.insert(0, str(text))
