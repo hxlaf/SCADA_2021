@@ -27,8 +27,12 @@ can_nodes:
   pack1: 4
   pack2: 5
 
+########## PART 2: SOFTWARE SYSTEM CONFIGUREATION ##########
+
 # a list of keys to be ignored by the logger
 dont_log: ['*-raw','emulator-*']
+
+########## PART 2A: GUI DISPLAY ##########
 
 ### list ther sensors you would like to dislay on the screen
 Display:
@@ -74,9 +78,10 @@ Display:
       - rtc_time
       - motor_temp
       - motor_controller_temp
-      
+      - motor_nmt_state #I just put this in, part of new CAN functionality -Harry
+      - motor_select_application #same with this -Harry
 
-
+########## PART 2B: INDIVIDUAL SENSORS ##########
 
 #Example Sensor
 
@@ -106,12 +111,34 @@ Sensors:
 # CAN #
 
   motor_nmt_state:
+    units: ''
     bus_type: CAN
-    display_variable: state
+    display_variable: string
     inputs:
       strIn: motor_nmt_state
-    cal_function: 'str(strIn)'
+    cal_function: 'strIn'
+    primary_address: Null
+    secondary_address: Null
+    precision: 0
+    description: 'This is the network state of the motor controller'
     sample_period: 0
+    bit_length: 16
+
+  motor_select_application:
+    unit: ''
+    inputs:
+      in: motor_select_application
+    cal_function:
+      0: 'NO APP'
+      1: 'APP 1 (Up to 4WD)'
+    bus_type: CAN
+    primary_address: 0x3000
+    secondary_address: Null
+    precision: 0
+    display_variable: state
+    description: "Used to select different applications in eDrive. Need to be in APP 1 to drive."
+    bit_length: 16 #probably don't need this
+    sample_period: 1
 
   motor_throttle_voltage:
     unit: 'mV'

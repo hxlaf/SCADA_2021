@@ -33,6 +33,10 @@ while True:
     # milliseconds = int(time()*1000)
     for sensorName in SensorList :
         if(time.time() - last_sampled[sensorName] > sample_period[sensorName] and float(sample_period[sensorName]) != 0.0):
+            
+            print('SENSOR NAME IS ' + sensorName + 'and its type is')
+            print(type(sensorName))
+
             #Appending sensor name to sensor value for distinction in redis database
             key = '{}:{}'.format(sensorName, driver.read(sensorName))
             #Python String Method that makes everything lowercase
