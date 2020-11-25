@@ -124,7 +124,7 @@ Sensors:
     precision: 0
     display_variable: number 
     description: "voltage measured on AD pin in mV"
-    bit_length: 16 #probably don't need this
+    bit_length: 16 
     sample_period: 5
 
   #all can sensors from this point down have unfinished configuration
@@ -276,7 +276,7 @@ Sensors:
     precision: 0
     display_variable: state 
     description: "Motor Warnings"
-    bit_length: 16 #probably don't need this
+    bit_length: 16 
     sample_period: 5
     
   

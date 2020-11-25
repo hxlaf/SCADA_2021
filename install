@@ -15,7 +15,7 @@ pip3 install redis
 pip3 install blessed
 pip3 install psycopg2-binary
 pip3 install pyyaml
-pip install pyyaml #not sure why we need this, but we do
+#pip install pyyaml #not sure why we need this, but we do
 pip3 install canopen
 
 #Creating GUI Startup Files 
