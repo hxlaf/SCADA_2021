@@ -71,7 +71,7 @@ class NewGUI_2(tk.Frame):
         img = PhotoImage(file = filePath)  
         next_page_button = tk.Button(self, image = img, command = lambda: self.controller.show_frame(next_frame))
         next_page_button.image=img
-        next_page_button.grid(row = 0, column = 4, sticky = "e")
+        next_page_button.grid(row = 0, column = 4, sticky = "w")
 
 
         if(curr_page >= 2):
@@ -92,7 +92,7 @@ class NewGUI_2(tk.Frame):
                 img3 = PhotoImage(file = filePath)  
                 next_page_button2 = tk.Button(self, image = img3, command = lambda: self.controller.show_frame(next_frame))
                 next_page_button2.image=img3
-                next_page_button2.grid(row = 0, column = 4, sticky = "e")
+                next_page_button2.grid(row = 0, column = 4, sticky = "w")
 
 
         self.get_page_groups(curr_page)
