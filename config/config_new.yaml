@@ -65,14 +65,14 @@ Display:
       - motor_electric_power
       - motor_current_demand
       - motor_current_torque_actual
-      - motor_controller_temp_over_23
+      # - motor_controller_temp_over_23
 
     Motor_Group2:
       - rtc_time
       - motor_throttle_voltage
       - motor_status
       - motor_controller_temp_fahrenheit
-      - motor_controller_temp_over_23
+      # - motor_controller_temp_over_23
     
     Motor_Group3:
       - rtc_time
