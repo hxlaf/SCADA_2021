@@ -204,7 +204,13 @@ class NewGUI_2(tk.Frame):
             ## add if != "Buss Error"
             #if value != "buss error":
             
-            text = str(value) + " " + sensor.get('unit')
+            if sensor.get('unit') is None: 
+                unit = " "
+            else:
+                unit = sensor.get('unit')
+
+
+            text = str(value) + " " + unit
             entry_.insert(0, str(text))
 
             # find the corresponding row and column places 
