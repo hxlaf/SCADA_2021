@@ -18,10 +18,12 @@ can_nodes:
 
 ########## PART 2: SOFTWARE SYSTEM CONFIGUREATION ##########
 
+########## PART 2A: LOGGER ##########
+
 # a list of keys to be ignored by the logger
 dont_log: ['*-raw','emulator-*']
 
-########## PART 2A: GUI DISPLAY ##########
+########## PART 2B: GUI DISPLAY ##########
 
 ### list ther sensors you would like to dislay on the screen
 Display:
@@ -70,7 +72,7 @@ Display:
       - motor_nmt_state #I just put this in, part of new CAN functionality -Harry
       - motor_select_application #same with this -Harry
 
-########## PART 2B: INDIVIDUAL SENSORS ##########
+########## PART 3: INDIVIDUAL SENSORS ##########
 
 #Example Sensor
 
