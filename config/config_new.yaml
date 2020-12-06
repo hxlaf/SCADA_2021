@@ -1,13 +1,5 @@
 ## UPDATED CONFIG AS OF 11/6/2020
 ## version number 
-
-Sensor_defaults:
-  precision: 2
-  inputs:
-    in: 
-  cal_function:
-  sample_period: 1
-  description: 'This is the default description of a sensor'
   
 ############### PART 1: CAN BUS CONFIGURATION #################### 
 
@@ -101,6 +93,15 @@ Display:
   # sample_period: 1                  #in seconds
   # bit_length: 16                    #probably don't need this
   # description: "description of the data being stored"
+  
+Sensor_defaults:
+  unit: ''
+  precision: 2                      
+  display_variable: number        
+  sample_period: 1                  
+  bit_length: 8                  
+  sample_period: 1
+  description: 'This is the default description of a sensor'
 
 
 
