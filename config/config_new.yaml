@@ -9,7 +9,7 @@ Sensor_defaults:
   sample_period: 1
   description: 'This is the default description of a sensor'
   
-############### PART 1: HARDWARE CONFIGURATION #################### 
+############### PART 1: CAN BUS CONFIGURATION #################### 
 
 bus_info:
   CAN:
@@ -17,10 +17,7 @@ bus_info:
     channel: can0         #can0 for actual bus, vcan0 for virtual bus
     bitrate: 125000       #should always be 125000
 
-############# PART 1A: CAN CONFIGURATION #############
-
 # CAN node ids
-#NOTE TO TEAM: I CHANGED THE key/value ORDER - Harry
 can_nodes:
   motor: 1
   tsi: 3
