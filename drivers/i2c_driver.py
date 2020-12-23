@@ -20,7 +20,9 @@ def read(Sensor):
             reg_address = config.get('Sensors').get(str(Sensor)).get('secondary_address')
             #adds the values for each byte of the sensor together to get the overall result of the sensor
             for i in range(len(reg_address)):
-                data = data + bus.read_byte_data(sensor_address,reg_address[i]) << (8 * i)
+                #data = data + bus.read_byte_data(sensor_address,reg_address[i]) << (8 * i)
+                # Using Bitwise And Instead here 
+                data = data|bus.read_byte_data(sensor_address,reg_address[i]) << (8 * i)
                                 
             return data
     except IOError:
