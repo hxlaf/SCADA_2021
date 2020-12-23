@@ -1,0 +1,904 @@
+## UPDATED CONFIG AS OF 11/6/2020
+## version number 
+
+Sensor_defaults:
+  precision: 2
+  inputs:
+    in: 
+  cal_function:
+  sample_period: 1
+  description: 'This is the default description of a sensor'
+  
+############### PART 1: HARDWARE CONFIGURATION #################### 
+
+bus_info:
+  CAN:
+    bus_type: socketcan   #socketcan for actual bus, vcan for virtual bus
+    channel: can0         #can0 for actual bus, vcan0 for virtual bus
+    bitrate: 125000       #should always be 125000
+
+############# PART 1A: CAN CONFIGURATION #############
+
+# CAN node ids
+#NOTE TO TEAM: I CHANGED THE key/value ORDER - Harry
+can_nodes:
+  motor: 1
+  tsi: 3
+  pack1: 4
+  pack2: 5
+
+# a list of keys to be ignored by the logger
+dont_log: ['*-raw','emulator-*']
+
+### list ther sensors you would like to dislay on the screen
+Display:
+  Pages:
+  #max of 3 groups per page
+    1:
+      - Motor_Group1
+      - Motor_Group2
+      - Motor_Group3
+
+    2:
+      - Motor_Group1
+      - Motor_Group3
+      - Motor_Group2
+
+
+  Groups: 
+  # max 22 sensor per 1 group
+    Motor_Group1:
+      - rtc_time
+      - motor_throttle_voltage
+      - motor_status
+      - motor_flux_actual_current
+      - motor_velocity_actual_avg
+      - motor_velocity_actual_value
+      - motor_digital_input
+      - motor_controller_temp
+      - motor_dc_link_circuit_voltage
+      - motor_warnings
+      - motor_electric_power
+      - motor_current_demand
+      - motor_current_torque_actual
+      - motor_controller_temp_over_23
+
+    Motor_Group2:
+      - rtc_time
+      - motor_throttle_voltage
+      - motor_status
+      - motor_controller_temp_fahrenheit
+      - motor_controller_temp_over_23
+    
+    Motor_Group3:
+      - rtc_time
+      - motor_temp
+      - motor_controller_temp
+      
+
+
+
+#Example Sensor
+
+  #subsytem_name_data_name: #this is the sensor name
+  # unit: V
+  # inputs:
+    #varName1: sensor1_name
+    #varName2: sensor2_name             ### Note: an actual sensor would only have one cal_function
+  # cal_function: "varName1 * varName2" <-- number calibration (display_variable must be boolean or number)
+  # cal function:                       <-- state calibration (display_variable must be state)
+    # 1: OFF
+    # 2: STANDBY
+    # 3: DRIVE-READY
+    # 4: DRIVE
+  # bus_type: I2C
+  # primary_address: 0x01
+  # secondary_address: [0x68,0x69]    #single hex value for CAN, list for I2C
+  # precision: 2                      #number of decimal places
+  # display_variable: number          #number/state/boolean
+  # sample_period: 1                  #in seconds
+  # bit_length: 16                    #probably don't need this
+  # description: "description of the data being stored"
+
+
+
+Sensors:
+# CAN #
+
+  motor_nmt_state:
+    bus_type: CAN
+    display_variable: state
+    inputs:
+      strIn: motor_nmt_state
+    cal_function: 'str(strIn)'
+    sample_period: 0
+
+  motor_throttle_voltage:
+    unit: 'mV'
+    inputs:
+      Vin: motor_throttle_voltage
+    cal_function: 'Vin'
+    bus_type: CAN
+    primary_address: 0x2070
+    secondary_address: 0x01
+    precision: 0
+    display_variable: number 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+
+  #all can sensors from this point down have unfinished configuration
+  motor_status:
+    unit: ''
+    inputs:
+      status-enum: motor_status
+    cal_function:
+      # 0b0000000000000000: 'OFF'
+      # 0b0000000000000001: 'READY TO SWITCH ON'
+      # 0b0000000000000010: 'SWITCHED ON'
+      # 0b0000000000000100: 'OPERATION ENABLED'
+      # 0b0000000000001000: 'FAULT'
+      0: 'OFF'
+      1: 'READY TO SWITCH ON'
+      2: 'SWITCHED ON'
+      4: 'OPERATION ENABLED'
+      8: 'FAULT'
+    bus_type: CAN
+    primary_address: 0x6041
+    secondary_address: Null
+    precision: 0
+    display_variable: state 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+
+  motor_flux_actual_current:
+    unit: 'mA'
+    inputs:
+      Iin: motor_flux_actual_current
+    cal_function: 'Iin'
+    bus_type: CAN
+    primary_address: 0x201d
+    secondary_address: 0x04
+    precision: 0
+    display_variable: number 
+    description: "positive is field weekening, value is actual field weakening current"
+    bit_length: 16
+    sample_period: 5
+  
+  motor_temp:
+    unit: '°C'
+    inputs:
+      Tin: motor_temp 
+    cal_function: 'Tin'
+    bus_type: CAN
+    primary_address: 0x2025
+    secondary_address: Null
+    precision: 0
+    display_variable: number 
+    description: "measured motor temperature"
+    bit_length: 16 #probably don't need this
+    sample_period: 5    
+
+  motor_velocity_actual_avg:
+    unit: 'm/s'
+    inputs:
+      in: motor_velocity_actual_avg
+    cal_function: 'in'
+    bus_type: CAN
+    primary_address: 0x2086
+    secondary_address: Null
+    precision: 2
+    display_variable: number 
+    description: "velocity is averaging over 1s"
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+
+  motor_velocity_actual_value:
+    unit: 'm/s'
+    inputs:
+      in: motor_velocity_actual_value
+    cal_function: 'in'
+    bus_type: CAN
+    primary_address: 0x606c
+    secondary_address: Null
+    precision: 0
+    display_variable: number 
+    description: "Motor velocity"
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+    
+  motor_digital_inputs:
+    unit: ''
+    inputs:
+      in: motor_digital_inputs
+    cal_function:
+      1: 'Din1'
+      2: 'Din2'
+      4: 'Din3'
+      8: 'Din4'
+      16: 'Din5'
+      32: 'Din6'
+    bus_type: CAN
+    primary_address: 0x2076
+    secondary_address: Null
+    precision: 0
+    display_variable: state 
+    description: ""
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+    
+  motor_controller_temp:
+    unit: '°C'
+    inputs:
+      in: motor_controller_temp
+    cal_function: 'in'
+    bus_type: CAN
+    primary_address: 0x2026
+    secondary_address: 0x01
+    precision: 0
+    display_variable: number 
+    description: "Temperature of the motor controller"
+    bit_length: 8 #probably don't need this
+    sample_period: 5
+
+  motor_dc_link_circuit_voltage:
+    unit: 'V'
+    inputs:
+      in: motor_dc_link_circuit_voltage
+    cal_function: 'in/10'
+    bus_type: CAN
+    primary_address: 0x6079
+    secondary_address: Null
+    precision: 1
+    display_variable: number 
+    description: "Voltage of the motor controller's DC link circuit"
+    bit_length: 1 #probably don't need this
+    sample_period: 5
+    
+  motor_warnings:
+    unit: ''
+    inputs:
+      in: motor_warnings
+    cal_function:
+      0: 'None'
+      1: 'Controller Temp'
+      2: 'Motor Temp'
+      4: 'DC link under voltage'
+      8: 'DC link over voltage'
+      16: 'DC over current'
+      32: 'Stall protection active'
+      64: 'Maximum vel exceeded'
+      128: 'Proposed power from BMS'
+    bus_type: CAN
+    primary_address: 0x2027
+    secondary_address: Null
+    precision: 0
+    display_variable: state 
+    description: "Motor Warnings"
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+    
+  
+  motor_electric_power:
+    #this is coming directly from the CAN controller
+    #so it's already calculated?
+    unit: 'W'
+    inputs:
+      in: motor_electric_power
+    cal_function: 'in'
+    bus_type: CAN
+    primary_address: 0x2024
+    secondary_address: Null
+    precision: 2
+    display_variable: number 
+    description: "calculated DC powerconsumption"
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+    
+  motor_current_demand:
+    unit: 'mA'
+    inputs:
+      Iin: motor_current_demand
+    cal_function: 'Iin'
+    bus_type: CAN
+    primary_address: 0x201a
+    secondary_address: Null
+    precision: 0
+    display_variable: number 
+    description: "The desired value of motor current which is inserted into current regulator in units 1/1000 Motor rated current"
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+
+  motor_current_torque_actual:
+    unit: 'A'
+    inputs:
+      Iin: motor_current_torque_actual
+    cal_function: 'Iin'
+    bus_type: CAN
+    primary_address: 0x6078
+    secondary_address: 0x01
+    precision: 0
+    display_variable: number 
+    description: "Current Torque Actual Value"
+    bit_length: 16 #probably don't need this
+    sample_period: 5
+
+  # motor_controller_temp_fahrenheit:
+  #   unit: '°F'
+  #   inputs:
+  #     in: motor_controller_temp
+  #   cal_function: '(in*9/5)+32'
+  #   bus_type: VIRTUAL
+  #   precision: 0
+  #   display_variable: number 
+  #   description: "Temperature of the motor controller in fahrenheit"
+  #   bit_length: 8 #probably don't need this
+  #   sample_period: 5
+
+  motor_controller_temp_over_23:
+    unit: ''
+    inputs:
+      in: motor_controller_temp
+    conditional_cal: True
+    cal_function:
+      'in>=23': 'in-23'
+      'True': 'in'
+    bus_type: VIRTUAL
+    precision: 0
+    display_variable: number 
+    description: "Temperature of the motor controller in fahrenheit"
+    bit_length: 8 #probably don't need this
+    sample_period: 5
+
+
+# I2C #
+  rtc_time: 
+    unit: ''
+    inputs:
+      In: rtc-time
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x68
+    secondary_address: [0x03,0x04,0x05,0x06,0x08,0x09]
+    precision: 0
+    display_variable: number
+    description: "This is time"
+    bit_length: 16 #probably don't need this
+    sample_period: 1 #sample period in seconds
+
+    ##ACTUAL SENSORS LISTEDED HERE WITH BASIC FORMAT
+    
+        ##IMU CODE SENSOR FINAL TEMPLATE BUT STILL NOT TETED WITH NEW IMU
+  # imu-temp: 
+  #   unit: 'C'
+  #   inputs:
+  #     tempIn: imu-temp
+  #   cal_function: 'tempIn'
+  #   bus_type: I2C
+  #   primary_address: 0x29
+  #   secondary_address: [0x34]
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the temperature from the IMU"
+  #   bit_length: 8 
+  #   sample_rate: 1 #sample rate in Sec
+
+  # imu-Accel-Data-X: #ALSO UNDERSCORE RIGHT FOR TITLES like imu_Accel_Data_X
+  #   unit: 'm/s^2'
+  #   inputs:
+  #     AccelDataXLSB: imu-Accel-Data-X-LSB-raw ###IS THIS WAS ITS GONNA BE CALLED IN REDIS
+  #     AccelDataXMSB: imu-Accel-Data-X-MSB-raw
+  #   cal_function: 'AccelDataXLSB + (AccelDataXMSB << 8)' ###DOES THE SHIFTING WORK WITH EVALUATE W/ MSB AND LSB
+  #   bus_type: I2C
+  #   primary_address: 0x29
+  #   secondary_address: [0x08, 0x09] ###MAKE SURE ORDER THE SAME AS INPUTS
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the Acceleration of X Axis from the IMU"
+  #   bit_length: 8 
+  #   sample_rate: 1 #sample rate in Hz
+
+  # imu-Accel-Data-Y:
+  #   unit: 'm/s^2'
+  #   inputs:
+  #     AccelDataYLSB: imu-Accel-Data-Y-LSB-raw
+  #     AccelDataYMSB: imu-Accel-Data-Y-MSB-raw
+  #   cal_function: 'AccelDataYLSB + (AccelDataYMSB << 8)'
+  #   bus_type: I2C
+  #   primary_address: 0x29
+  #   secondary_address: [0x0A, 0x0B]
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the Acceleration of Y Axis from the IMU"
+  #   bit_length: 8 
+  #   sample_rate: 1 #sample rate in Hz
+
+  # imu-Accel-Data-Z:
+  #   unit: 'm/s^2'
+  #   inputs:
+  #     AccelDataZLSB: imu-Accel-Data-Z-LSB-raw
+  #     AccelDataZMSB: imu-Accel-Data-Z-MSB-raw
+  #   cal_function: 'AccelDataZLSB + (AccelDataZMSB << 8)'
+  #   bus_type: I2C
+  #   primary_address: 0x29
+  #   secondary_address: [0x0C, 0x0D]
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the Acceleration of Z Axis from the IMU"
+  #   bit_length: 8 
+  #   sample_rate: 1 #sample rate in Hz
+
+
+ ### UNCOMMENT BELOW#######
+  # ###CAN SENSORS
+  # glv-voltage: 
+  #   unit: 'V'
+  #   inputs:
+  #     vin: glv-voltage
+  #   cal_function: 'vin * 44/255' ###DONT KNOW WHERE THIS CAL FUNCTION IS COMING FROM, VERIFY
+  #   bus_type: CAN
+  #   primary_address: 0x0125
+  #   secondary_address: [0x01]
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the ground low voltage in volts"
+  #   bit_length: 16 ###WHERE IS THIS COMING FROM
+  #   sample_rate: 1 
+
+  # GLV-current:
+  #   unit: 'A'
+  #   inputs:
+  #     iin: glv-current
+  #   cal_function: 'I' ###DONT KNOW WHERE THIS CAL FUNCTION IS COMING FROM, VERIFY
+  #   bus_type: CAN
+  #   primary_address: 0x0125 ###Verify cuz Connor had this empty
+  #   secondary_address: [0x01] ###NONE? format for CAN Seconday Adresses
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the current of glv in amps"
+  #   bit_length: 16
+  #   sample_rate: 1 
+
+  # GLV-power:
+  #   unit: 'W'
+  #   inputs:
+  #     vin: glv-voltage
+  #     iin: glv-current
+  #   cal_function: 'vin * iin'
+  #   bus_type: CAN
+  #   primary_address: 0x0125 ###CHECK
+  #   secondary_address: [0x01] ###CHECK
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the power of GLV in Watts"
+  #   bit_length: 16 ###CHECK
+  #   sample_rate: 1 
+
+  # GLV-temp:
+  #   unit: 'C'
+  #   inputs:
+  #     temp: glv-temp
+  #   cal_function: 'temp'
+  #   bus_type: CAN
+  #   primary_address: 0x0125 ###CHECK
+  #   secondary_address: [] ###CHECK
+  #   precision: 2
+  #   display_variable: number 
+  #   description: "This is the GLV temp in degree C"
+  #   bit_length: 16 ###CHECK
+  #   sample_rate: 1
+
+  # #TSI
+  # TSI-drive-state:
+  #   unit: ' ' 
+  #   inputs:
+  #     state: tsi-drive-state
+  #   cal_function: 'state'
+  #   bus_type: CAN
+  #   primary_address: 0x0125 ###CHECK
+  #   secondary_address: [] ###CHECK
+  #   precision: 1 ###CHECK PRECESION WITH DRIVESTATE!!!
+  #   display_variable: string ###String? WHAT CALLED FOR DRIVESTATE
+  #   description: "This is the Drive State for TSI"
+  #   bit_length: 16 
+  #   sample_rate: 1
+
+  # TSI-mc-voltage:
+  #   unit: 'V' 
+  #   inputs:
+  #     vmc: TSI-mc-voltage
+  #   cal_function: '(((vmc/255) * 5) -1.28) *61'
+  #   bus_type: CAN
+  #   primary_address: 0x0125 
+  #   secondary_address: [] 
+  #   precision: 1
+  #   display_variable: number 
+  #   description: "This is the MC Voltage for TSI"
+  #   bit_length: 16 
+  #   sample_rate: 1
+
+  # TSI-ts-voltage:
+  #   unit: 'V' 
+  #   inputs:
+  #     vts: TSI-ts-voltage
+  #   cal_function: '(((vts/255) * 5) -1.28) *61'
+  #   bus_type: CAN
+  #   primary_address: 0x0125 
+  #   secondary_address: [] 
+  #   precision: 1
+  #   display_variable: number 
+  #   description: "This is the TS Voltage for TSI"
+  #   bit_length: 16 
+  #   sample_rate: 1
+
+  # TSI-current:
+  #   unit: 'A' 
+  #   inputs:
+  #     iin: TSI-current
+  #   cal_function: 'iin'
+  #   bus_type: CAN
+  #   primary_address: 0x0125 
+  #   secondary_address: [] 
+  #   precision: 1
+  #   display_variable: number 
+  #   description: "This is the TSI Current in Amps"
+  #   bit_length: 16 
+  #   sample_rate: 1
+
+  # TSI-flow-rate: ###THERE ARE SPACES AT THE END SO SHOULD THESE BE UNDERSCORES?
+  #   unit: '' 
+  #   inputs:
+  #     flowrate: TSI-flow-rate
+  #   cal_function: '0.0535 + 757.5 * (1/flowrate)'
+  #   bus_type: CAN
+  #   primary_address: 0x0125 
+  #   secondary_address: [] 
+  #   precision: 1
+  #   display_variable: number 
+  #   description: "This is the TSI Current in Amps"
+  #   bit_length: 16 
+  #   sample_rate: 1
+
+  # TSI-throttle:
+  #   unit: 'V' 
+  #   inputs:
+  #     throttle: TSI-throttle
+  #   cal_function: '(((throttle / 255) * 3.3)*33)/18'
+  #   bus_type: CAN
+  #   primary_address: 0x0125 
+  #   secondary_address: [] 
+  #   precision: 1
+  #   display_variable: number 
+  #   description: "This is the TSI Current in Amps"
+  #   bit_length: 16 
+  #   sample_rate: 1
+
+  ##### UNCOMMENT ABOVEEEEE###
+
+
+  
+  ###HAVE NOT DONE THE POST TSI SENSORS
+    
+# #Cooling: *** FULLY NOT DONE YET DIDNT EVEN TOUCH 
+# ## there are no sensors dedicated for these? im confused  
+#   Cool Temp1:
+#     output_target: 'cool:temp'
+#     data_type: 'temp'
+#     unit: 'C'
+#     oprange: []
+#     input_targets: ''
+#     subsystem: 'Cooling'
+#     cal_function: ''
+#     bus_type: Can
+#     bus_addr: 
+
+#   Cool Temp2:
+#     output_target: 'cool:temp2'
+#     data_type: 'temp'
+#     unit: ''
+#     oprange: []
+#     input_targets: ''
+#     subsystem: 'Cooling'
+#     cal_function: ''
+#     bus_type: Can
+#     bus_addr: 
+
+#   Cool Flow Rate:
+#     output_target: 'cool:flowRate'
+#     data_type: 'flowRate'
+#     unit: ''
+#     oprange: []
+#     input_targets: ''
+#     subsystem: 'Cooling'
+#     cal_function: ''
+#     bus_type: Can
+#     bus_addr: 
+
+#   Cool Pump:
+#     output_target: 'cool:pump'
+#     data_type: 'pump'
+#     unit: ''
+#     oprange: []
+#     input_targets: ''
+#     subsystem: 'Cooling'
+#     cal_function: ''
+#     bus_type: Can
+#     bus_addr: 
+
+#   Cool Fan:
+#     output_target: 'cool:fan'
+#     data_type: 'velocity'
+#     unit: 'RPM'
+#     oprange: []
+#     input_targets: ''
+#     subsystem: 'Cooling'
+#     cal_function: ''
+#     bus_type: Can
+#     bus_addr: 
+    
+# #################################
+
+# ## I grouped them by Motor Number 
+
+# ## Motor:
+# ## MOTOR 1
+#   Motor Status:
+#     output_target: 'motor:status' 
+#     data_type: 'state' ## idk 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor:status']  ###  motor 1
+#     cal_function: 'x0' #idk
+#     bus_type: Can
+#     bus_addr: 
+  
+#   Motor Torque:
+#     output_target: 'motor:torque' 
+#     data_type: 'state' ## idk 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor:torque']  ###  motor 1
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
+  
+#   ## MOTOR 2
+#   Motor Voltage:
+#     output_target: 'motor:dc_link_voltage'
+#     data_type: 'voltage'
+#     unit: 'V'
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-2:dc_link_voltage'] ## motor-2
+#     cal_function: 'x0'
+#     bus_type: Can
+#     bus_addr: 
+
+#   Motor Temp:
+#     output_target: 'motor:motor_temp'
+#     data_type: 'temp'
+#     unit: 'C'
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-2:motor_temp'] ## motor 2
+#     cal_function: 'x0'
+#     bus_type: Can
+#     bus_addr: 
+
+#   Motor Controller Temp:
+#     output_target: 'motor:controller_temp'
+#     data_type: 'temp'
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-2:controller_temp'] ###  motor 2 should this be differnt
+#     cal_function: 'x0'
+#     bus_type: Can
+#     bus_addr: 
+
+#   Motor Warning:
+#     output_target: 'motor:warning' 
+#     data_type: 'state' ## idk 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-2:warning']  ###  motor 2
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
+
+#   Motor Current Demand:
+#     output_target: 'motor:current_demand' 
+#     data_type: 'state' ## idk 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-2:current_demand']  ###  motor 2
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
+
+
+# ## motor 3 
+#   Motor Throttle:
+#     output_target: 'scada:throttle' ### WHAT IS THIS SCADA:THROTTLE?????
+#     data_type: 'voltage'
+#     unit: 'mV'
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor:throttle-byte0', motor:throttle-byte1]  ###  motor 3
+#     cal_function: 'x0 * x1 * 256' #taken care of in Cal_funtion 1
+#     bus_type: Can
+#     bus_addr: 
+
+#   Motor Aux:
+#     output_target: 'motor:aux' 
+#     data_type: 'state' ## idk the unit 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-3:aux']  ###  motor 3
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
+
+#   Motor Brake:
+#     output_target: 'motor:brake' 
+#     data_type: 'state' ## idk the unit 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-3:brake']  ###  motor 3
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
+
+#   Motor Phaseb Current:
+#     output_target: 'motor:brake' 
+#     data_type: 'state' ## idk the unit 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-3:phaseb_current']  ###  motor 3
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
+  
+#   ## MOTOR 4 
+#   Motor RPM:
+#     output_target: 'motor:velocity'
+#     data_type: 'velocity'
+#     unit: 'RPM'
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-4:velocity'] ###  motor 4??
+#     cal_function: 'x0'
+#     bus_type: Can
+#     bus_addr: 
+
+#   Motor Torque Regulator:
+#     output_target: 'motor:torque_regulator' 
+#     data_type: 'state' ## idk the unit 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-4:torque_regulator']  ###  motor 4
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
+
+#   Motor Flux Regulator:
+#     output_target: 'motor:flux_regulator' 
+#     data_type: 'state' ## idk the unit 
+#     unit: ''
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-4:flux_regulator']  ###  motor 4
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
+
+#   Motor Velocity:
+#     output_target: 'motor:velocity' 
+#     data_type: 'velocity' 
+#     unit: 'm/s^2'
+#     oprange: []
+#     subsystem: 'Motor'
+#     input_targets: ['motor-4:velocity']  ###  motor 4
+#     cal_function: 'x0'            # Need to fix 
+#     bus_type: Can
+#     bus_addr: 
+# #############################
+    
+#   #Pack 1:
+#   Pack 1 SOC:
+#     output_target: 'PACK1: SOC_1'
+#     data_type: 'SOC'
+#     unit: '%'
+#     oprange: [10, 20, 100, 105]
+#     subsystem: 'Pack1'
+#     input_targets: ['PACK1:state_of_charge_01','PACK1:state_of_charge_02']  
+#     cal_function: 'x0, x1'   
+#     bus_type: Can   
+#     bus_addr:      
+
+#   Pack 1 Voltage:
+#     output_target: 'PACK1: VOLTAGE'
+#     data_type: 'voltage'
+#     unit: 'V'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack1'
+#     input_targets: ['PACK1:voltage']  
+#     cal_function: 'x0'  
+#     bus_type: Can   
+#     bus_addr:      
+
+#   Pack 1 Current:
+#     output_target: 'PACK1: CURRENT'
+#     data_type: 'current'
+#     unit: 'A'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack1'
+#     input_targets: ['PACK1:current']  
+#     cal_function: 'x0'  
+#     bus_type: Can
+#     bus_addr: 
+
+#   Pack 1 Ambient Temp:
+#     output_target: 'PACK1: AMBIENT_TEMP'
+#     data_type: 'temp'
+#     unit: 'C'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack1'
+#     input_targets: ['PACK1:cells:temp:min', 'PACK1:cells:temp:avg', 'PACK1:cells:temp:max']  
+#     cal_function: '(x0 * (9/5) +32)'
+#     bus_type: Can
+#     bus_addr: 
+    
+#   #Pack 2:
+#   Pack 2 SOC:
+#     output_target: 'PACK2: SOC_1'
+#     data_type: 'SOC'
+#     unit: '%'
+#     oprange: [10, 20, 100, 105]
+#     subsystem: 'Pack2'
+#     input_targets: ['PACK2:state_of_charge_01','PACK2:state_of_charge_02']  
+#     cal_function: 'x0, x1'   
+#     bus_type: Can
+#     bus_addr: 
+
+#   Pack 2 Voltage:
+#     output_target: 'PACK2: VOLTAGE'
+#     data_type: 'voltage'
+#     unit: 'V'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack2'
+#     input_targets: ['PACK2:voltage']  
+#     cal_function: 'x0'  
+#     bus_type: Can
+#     bus_addr: 
+
+#   Pack 2 Current:
+#     output_target: 'PACK2: CURRENT'
+#     data_type: 'current'
+#     unit: 'A'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack2'
+#     input_targets: ['PACK2:current']  
+#     cal_function: 'x0'  
+#     bus_type: Can
+#     bus_addr: 
+    
+#   Pack 2 Ambient Temp:
+#     output_target: 'PACK2: AMBIENT_TEMP'
+#     data_type: 'temp'
+#     unit: 'C'
+#     oprange: [Null, Null, 250, 300]
+#     subsystem: 'Pack2'
+#     input_targets: ['PACK2:cells:temp:min', 'PACK2:cells:temp:avg', 'PACK2:cells:temp:max']  
+#     cal_function: '(x0 * (9/5) +32)' ## shoudl we just use the avergae?? ## why does he have all 3 ?? 
+#     bus_type: Can       
+#     bus_addr:    

@@ -1,0 +1,259 @@
+bus_info:
+  bustype: socketcan
+  channel: vcan0
+  bitrate: 125000
+
+emulate_nodes: yes
+
+# enable specific node emulation
+emulate_tsi: no
+emulate_packs: no
+emulate_cockpit: no
+emulate_motorcontroller: no
+
+# CAN node ids
+can_nodes:
+  1: MOTOR
+  3: TSI
+  4: PACK1
+  5: PACK2
+
+
+# structure of data in PDOs
+
+# NOTE: PDO length cannot exceed 8 bytes, if a 
+#       list has less than 8 elements, the remaining
+#       bytes will be ignored
+
+process_data:
+  MOTOR:   [ STATUS, DUMMY2, TORQUE, DUMMY4, DUMMY5, DUMMY6, DUMMY7, DUMMY9 ]
+  MOTOR-2: [ MOTOR_TEMP, CONTROLLER_TEMP, DC_LINK_VOLTAGE, WARNING, CURRENT_DEMAND, TEST ]
+  MOTOR-3: [ THROTTLE-byte0, THROTTLE-byte1,  AUX, BRAKE, PHASEB_CURRENT, DUMMY5, DUMMY6, DUMMY7 ]
+  MOTOR-4: [ TORQUE_REGULATOR, FLUX_REGULATOR, VELOCITY ]
+
+  TSI:    [ conditions, 'mc_voltage:raw', 'voltage:raw', 'cooling_temp:raw', 'throttle:raw', 'flow_rate:raw', 'state:int', 'current:raw' ]
+  PACK1:  [ voltage, current, state_of_charge_01, state_of_charge_02, temp, 'cells:temp:min', 'cells:temp:avg', 'cells:temp:max' ]
+  PACK2:  [ voltage, current, state_of_charge_01, state_of_charge_02, temp, 'cells:temp:min', 'cells:temp:avg', 'cells:temp:max' ]
+
+# Other data to keep track of
+# need to poll this data manually
+# service_data:
+
+#   Cell1Temp:
+#     node_id: 2
+#     index: 2011
+#     poll_rate: 10
+
+#   MotorTemp:
+#     node_id: 1
+#     index: 2010
+#     subindex: 0
+#     poll_rate: 0.5
+
+# a list of keys to be ignored by the logger
+dont_log: ['*:raw', 'motor:*', 'emulator:*']
+
+sensor_metadata:
+    'tsi:throttle':
+        unit: 'V'
+        oprange: [0, 0, 5, 5]
+
+
+# \/                             \/
+# \/  GUI Configuration Options  \/
+# \/                             \/
+
+# NOTE: if sensor is string, it is ignored during update loop
+#       if sensor is a list treat first value as the label,
+#       second value as the data key, and third value as the unit
+#
+#       Format for oprange (sensor operating range):
+#           [lower_error, lower_warning, upper_warning, upper_error]
+
+
+Display:
+  TSI:
+    TractiveSystemVoltage:
+      redis_key: 'tsi:voltage'
+      unit: 'V'
+      oprange: [90, 90, 110, 110]
+
+    MotorControllerVoltage:
+      redis_key: 'tsi:mc_voltage'
+      unit: 'V'
+      oprange: [90, 90, 110, 110]
+
+
+
+
+
+
+GUI:
+  Sensors: # All sensors that will report to SCADA, divided into top-level groups
+    GLV:
+      Voltage:
+        data_target: Null
+        unit: 'V'
+        oprange: [10, 15, 65, 70]
+        open_sloop_out_of_range: no
+      Current:
+        data_target: Null
+        unit: 'A'
+        oprange: [10, 15, 65, 70]
+        open_sloop_out_of_range: no
+      Power:
+        data_target: Null
+        unit: 'kW'
+        oprange: Null
+        open_sloop_out_of_range: no
+      Temp:
+        data_target: Null
+        unit: 'C'
+        oprange: [10, 15, 65, 70]
+        open_sloop_out_of_range: no
+    
+    TSI:
+      Drive State:
+        data_target: 'tsi:state'
+        unit: ''
+        oprange: [80, 90, 120, 150]
+        open_sloop_out_of_range: no
+      MC Voltage:
+        data_target: 'tsi:mc_voltage'
+        unit: 'V'
+      TS Voltage:
+        data_target: 'tsi:voltage'
+        unit: 'V'
+        oprange: [80, 90, 120, 150]
+        open_sloop_out_of_range: no
+      TS Current:
+        data_target: 'tsi:current'
+        unit: 'A'
+        oprange: [Null, Null, 250, 300]
+        open_sloop_out_of_range: yes
+      Flow Rate:
+        data_target: 'tsi:flow_rate'
+      Temp 1:
+        data_target: 'tsi:temp'
+      Throttle:
+        data_target: 'tsi:throttle'
+    
+    Cooling:
+      Temp1:
+        data_target: Null
+        unit: ''
+        oprange: []
+        open_sloop_out_of_range: no
+      Temp2:
+        data_target: Null
+        unit: ''
+        oprange: []
+        open_sloop_out_of_range: no
+      Flow Rate:
+        data_target: Null
+        unit: ''
+        oprange: []
+        open_sloop_out_of_range: no
+      Pump:
+        data_target: Null
+        unit: ''
+        oprange: []
+        open_sloop_out_of_range: no
+      Fan:
+        data_target: Null
+        unit: ''
+        oprange: []
+        open_sloop_out_of_range: no
+    
+    Motor:
+      Voltage:
+        data_target: 'MOTOR: DC_LINK_VOLTAGE'
+        unit: ''
+        oprange: []
+        open_sloop_out_of_range: no
+      Motor Temp:
+        data_target: 'MOTOR: MOTOR_TEMP'
+        unit: ''
+        oprange: []
+        open_sloop_out_of_range: no
+      RPM:
+        data_target: 'MOTOR: VELOCITY'
+        unit: ''
+        oprange: []
+        open_sloop_out_of_range: no
+      Controller Temp:
+        data_target: 'MOTOR: CONTROLLER_TEMP'
+        unit: ''
+        oprange: []
+        open_sloop_out_of_range: no
+      Throttle:
+        data_target: 'SCADA: THROTTLE'
+        unit: 'mV'
+        oprange: []
+        open_sloop_out_of_range: no
+    
+    Pack 1:
+      SOC:
+        data_target: 'PACK1: SOC_1'
+        unit: '%'
+        oprange: [10, 20, 100, 105]
+        open_sloop_out_of_range: no
+      Voltage:
+        data_target: 'PACK1: VOLTAGE'
+        unit: 'V'
+        oprange: [Null, Null, 250, 300]
+        open_sloop_out_of_range: no
+      Current:
+        data_target: 'PACK1: CURRENT'
+        unit: 'A'
+        oprange: [Null, Null, 250, 300]
+        open_sloop_out_of_range: no
+      Ambient Temp:
+        data_target: 'PACK1: AMBIENT_TEMP'
+        unit: 'C'
+        oprange: [Null, Null, 250, 300]
+        open_sloop_out_of_range: no
+    
+    Pack 2:
+      SOC:
+        data_target: 'PACK2: SOC_1'
+        unit: '%'
+        oprange: [10, 20, 100, 105]
+        open_sloop_out_of_range: no
+      Voltage:
+        data_target: 'PACK2: VOLTAGE'
+        unit: 'V'
+        oprange: [Null, Null, 250, 300]
+        open_sloop_out_of_range: no
+      Current:
+        data_target: 'PACK2: CURRENT'
+        unit: 'A'
+        oprange: [Null, Null, 250, 300]
+        open_sloop_out_of_range: no
+      Ambient Temp:
+        data_target: 'PACK2: AMBIENT_TEMP'
+        unit: 'C'
+        oprange: [Null, Null, 250, 300]
+        open_sloop_out_of_range: no
+  
+  Drive States: # List of car drive states that are in the state FSM
+    - GLV Off
+    - GLV On
+    - Precharge
+    - TS Energized
+    - Ready to Drive
+    - AMS Fault
+    - IMD Fault
+    - Brake Overtravel
+  Safety Loop Systems: # All digital systems that can open the safety loop
+    - TSI
+    - Pack 1
+    - Pack 2
+    - SCADA
+  Safety Loop Nodes: # All nodes on the safety loop that are measurable and reportable to SCADA
+    - TSI, S1
+    - TSI, S2
+    - Pack 1, S1
+    - Pack 1, S2
+    - Pack 2, S1
+    - Pack 2, S2
