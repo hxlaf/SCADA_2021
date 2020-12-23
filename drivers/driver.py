@@ -11,15 +11,19 @@ sys.path.append(config_path)
 
 import utils
 import config
-import i2c_sorter
 import can_driver
+
+from drivers import i2c_driver
 
 SensorList = config.get('Sensors')
 
 #set up CAN bus connection
-os.system('ip link set can0 down')
-os.system('ip link set can0 up type can bitrate 125000')
+# os.system('ip link set can0 down')
+# os.system('ip link set can0 up type can bitrate 125000')
 can_drive = can_driver.CanDriver()
+
+#Set RTC Time to Sys Time 
+#os.system ()
 
 
 # Method to read from the sesnor objects depending on protocol                
@@ -27,7 +31,7 @@ def read(Sensor):
 #make it look at the folder for what protocol to use
     sensor_protocol = SensorList.get(str(Sensor)).get('bus_type')
     if(sensor_protocol == 'I2C'):
-        data = i2c_sorter.read(Sensor)
+        data = i2c_driver.read(Sensor)
     elif(sensor_protocol =='CAN'):
         data = can_drive.read(Sensor)
     #elif(sensor_protocol == 'USB'):
@@ -42,15 +46,14 @@ def read(Sensor):
         data = 'BUS ERROR'
     return data
 
-##Shouldn't this be in Instruction parser???
 
 #Write to sensor 
 def write(Sensor,Value):
     sensor_protocol = SensorList.get(str(Sensor)).get('bus_type')
     if(sensor_protocol == 'I2C'):
-        i2c_sorter.write(Sensor, Value)
+        i2c_driver.write(Sensor, Value)
     elif(sensor_protocol =='CAN'):
-        can_driver.write(Sensor,Value)
+        can_drive.write(Sensor,Value)
 #     elif(sensor_protocol == 'USB'):
 #         usb_sorter.write(Sensor,Value)
     else:
