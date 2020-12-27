@@ -6,7 +6,7 @@ import utils
 import time
 
 #Declariing i2C Bus
-bus = smbus.SMBus(1)
+bus = smbus.SMBus(3) ##CHNAGED BUS to 3 for debigging
 
 # General i2c Read Method
 def read(Sensor):
