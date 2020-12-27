@@ -37,7 +37,7 @@ Display:
     2:
       - Motor_Group1
       - Motor_Group3
-      - BNO055_IMU_REG
+    #  - BNO055_IMU_REG
 
     # 3:
     #   - BNO055_IMU_REG
@@ -74,8 +74,6 @@ Display:
       - motor_controller_temp
       - motor_nmt_state #I just put this in, part of new CAN functionality -Harry
       - motor_select_application #same with this -Harry
-    
-    BNO055_IMU_REG: 
       - imu_temp 
       - imu_calsts
       - gyro_cal 
@@ -84,15 +82,25 @@ Display:
       - acc_x 
       - acc_y 
       - acc_z 
-      - linacc_x 
-      - linacc_y 
-      - linacc_z 
-      - angle_x 
-      - angle_y 
-      - angle_z 
-      - gravity_x 
-      - gravity_y 
-      - gravity_z 
+    
+    # BNO055_IMU_REG: 
+    #   - imu_temp 
+    #   - imu_calsts
+    #   - gyro_cal 
+    #   - acc_cal
+    #   - mag_cal 
+    #   - acc_x 
+    #   - acc_y 
+    #   - acc_z 
+    #   - linacc_x 
+    #   - linacc_y 
+    #   - linacc_z 
+    #   - angle_x 
+    #   - angle_y 
+    #   - angle_z 
+    #   - gravity_x 
+    #   - gravity_y 
+    #   - gravity_z 
       
 ########## PART 3: INDIVIDUAL SENSORS ##########
 
