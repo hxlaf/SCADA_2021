@@ -37,10 +37,10 @@ Display:
     2:
       - Motor_Group1
       - Motor_Group3
-      - Motor_Group2
-
-    3:
       - BNO055_IMU_REG
+
+    # 3:
+    #   - BNO055_IMU_REG
 
 
   Groups: 
