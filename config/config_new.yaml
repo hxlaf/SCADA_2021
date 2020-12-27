@@ -37,6 +37,9 @@ Display:
     2:
       - Motor_Group1
       - Motor_Group3
+    
+    3: 
+      - BNO055_IMU_REG 
 
   Groups: 
   # max 22 sensor per 1 group
@@ -78,8 +81,8 @@ Display:
       # - acc_y 
       # - acc_z 
     
-    # BNO055_IMU_REG: 
-    #   - imu_temp 
+    BNO055_IMU_REG: 
+      - imu_temp 
     #   - imu_calsts
     #   - gyro_cal 
     #   - acc_cal
