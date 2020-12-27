@@ -11,9 +11,10 @@ sys.path.append(config_path)
 
 import utils
 import config
-import can_driver
+#import can_driver
 
 from drivers import i2c_driver
+from drivers import can_driver
 
 SensorList = config.get('Sensors')
 
