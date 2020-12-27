@@ -87,7 +87,7 @@ Display:
       - gyro_cal 
       - acc_cal
       - mag_cal 
-      # - acc_x 
+      - acc_x 
       # - acc_y 
       # - acc_z 
       # - linacc_x 
@@ -492,21 +492,21 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
 
-  # acc_x:
-  #   unit: 'm/s^2'
-  #   inputs:
-  #     In: acc_x
-  #   cal_function:
-  #     'In>1000': '(-1)*(65536-In)'
-  #     'True': 'In*(1/100)'
-  #   bus_type: I2C
-  #   primary_address: 0x28
-  #   secondary_address: [0x55,0x56]
-  #   precision: 2
-  #   display_variable: number
-  #   description: "IMU Acclerometer Y Vector"
-  #   bit_length: 16 #probably don't need this
-  #   sample_period: 1 #sample period in seconds
+  acc_x:
+    unit: 'm/s^2'
+    inputs:
+      In: acc_x
+    cal_function:
+      'In>1000': '(-1)*(65536-In)'
+      'True': 'In*(1/100)'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: [0x55,0x56]
+    precision: 2
+    display_variable: number
+    description: "IMU Acclerometer X Vector"
+    bit_length: 16 #probably don't need this
+    sample_period: 1 #sample period in seconds
 
   # acc_y:
   #   unit: 'm/s^2'
