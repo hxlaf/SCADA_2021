@@ -64,6 +64,7 @@ def reset():
     
 
 def setup():
+    print("IMU SETTING UP")
     reset()
     bus.write_byte_data(0x28,POWER_REG,POWER_NORMAL)
     bus.write_byte_data(0x28,PAGE_REG,0x00)
