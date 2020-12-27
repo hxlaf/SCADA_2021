@@ -91,8 +91,8 @@ Display:
       - acc_y 
       - acc_z 
       - linacc_x 
-      - linacc_y 
-      - linacc_z 
+      # - linacc_y 
+      # - linacc_z 
       # - angle_x 
       # - angle_y 
       # - angle_z 
@@ -556,37 +556,37 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
 
-  linacc_y:
-    unit: 'm/s^2'
-    inputs: linacc_y
-      In: 
-    cal_function:
-      'In>1000': '(-1)*(65536-In)'
-      'True': 'In*(1/100)'
-    bus_type: I2C
-    primary_address: 0x28
-    secondary_address: [0x2A,0x2B]
-    precision: 2
-    display_variable: number
-    description: "IMU Linear Acceleration Y Component"
-    bit_length: 16 #probably don't need this
-    sample_period: 1 #sample period in seconds  
+  # linacc_y:
+  #   unit: 'm/s^2'
+  #   inputs: linacc_y
+  #     In: 
+  #   cal_function:
+  #     'In>1000': '(-1)*(65536-In)'
+  #     'True': 'In*(1/100)'
+  #   bus_type: I2C
+  #   primary_address: 0x28
+  #   secondary_address: [0x2A,0x2B]
+  #   precision: 2
+  #   display_variable: number
+  #   description: "IMU Linear Acceleration Y Component"
+  #   bit_length: 16 #probably don't need this
+  #   sample_period: 1 #sample period in seconds  
 
-  linacc_z:
-    unit: 'm/s^2'
-    inputs:
-      In: linacc_z
-    cal_function:
-      'In>1000': '(-1)*(65536-In)'
-      'True': 'In*(1/100)'
-    bus_type: I2C
-    primary_address: 0x28
-    secondary_address: [0x2C,0x2D]
-    precision: 2
-    display_variable: number
-    description: "IMU Linear Acceleration Z Component"
-    bit_length: 16 #probably don't need this
-    sample_period: 1 #sample period in seconds
+  # linacc_z:
+  #   unit: 'm/s^2'
+  #   inputs:
+  #     In: linacc_z
+  #   cal_function:
+  #     'In>1000': '(-1)*(65536-In)'
+  #     'True': 'In*(1/100)'
+  #   bus_type: I2C
+  #   primary_address: 0x28
+  #   secondary_address: [0x2C,0x2D]
+  #   precision: 2
+  #   display_variable: number
+  #   description: "IMU Linear Acceleration Z Component"
+  #   bit_length: 16 #probably don't need this
+  #   sample_period: 1 #sample period in seconds
 
   # angle_x:
   #   unit: '°'
