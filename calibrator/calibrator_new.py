@@ -35,7 +35,8 @@ def execute(Sensor_val):
         for key in calibration_func:
             new_key = key
             for input_key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-                new_key = new_key.replace(input_key,str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(input_key)]))
+                #new_key = new_key.replace(input_key,str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(input_key)]))
+                new_key = new_key.replace(input_key,str(Sensor_val[1])) # Debiggin -- this should the case for sensors that are not virutal with comditional calibration
             if (eval(new_key) == True and cal_func_set == False):
                 calibration_func = calibration_func[key]
                 cal_func_set = True
