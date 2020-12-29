@@ -595,9 +595,7 @@ Sensors:
     unit: '°'
     inputs:
       In: angle_x
-    cal_function:
-      'In>1000': '(-1)*(65536-In)'
-      'True': 'In*(1/16)'
+    cal_function: 'In*(1/16)'
     bus_type: I2C
     primary_address: 0x28
     secondary_address: [0x1A,0x1B]
@@ -611,9 +609,7 @@ Sensors:
     unit: '°'
     inputs:
       In: angle_y
-    cal_function:
-      'In>1000': '(-1)*(65536-In)'
-      'True': 'In*(1/16)'
+    cal_function: 'In*(1/16)'
     bus_type: I2C
     primary_address: 0x28
     secondary_address: [0x1C,0x1D]
@@ -627,9 +623,7 @@ Sensors:
     unit: '°'
     inputs:
       In: angle_z
-    cal_function:
-      'In>1000': '(-1)*(65536-In)'
-      'True': 'In*(1/16)'
+    cal_function: 'In*(1/16)'
     bus_type: I2C
     primary_address: 0x28
     secondary_address: [0x1E,0x1F]
@@ -645,7 +639,7 @@ Sensors:
       In: gravity_x
     cal_function:
       'In>1000': '(-1)*(65536-In)'
-      'True': 'In*(1/16)'
+      'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
     secondary_address: [0x2E,0x2F]
@@ -661,7 +655,7 @@ Sensors:
       In: gravity_y
     cal_function:
       'In>1000': '(-1)*(65536-In)'
-      'True': 'In*(1/16)'
+      'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
     secondary_address: [0x30,0x31]
@@ -677,7 +671,7 @@ Sensors:
       In: gravity_z
     cal_function:
       'In>1000': '(-1)*(65536-In)'
-      'True': 'In*(1/16)'
+      'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
     secondary_address: [0x32,0x33]
