@@ -679,7 +679,7 @@ Sensors:
       In: gravity_z
     cal_function:
       'In>1000': '(-1)*(65536-In)'
-      'In<1000': '200'
+      'In<1000': 'In*(1/100)'
       'True': '200'
     bus_type: I2C
     primary_address: 0x28

@@ -30,6 +30,9 @@ def execute(Sensor_val):
     #Retrieve Calibration Function From Yaml Configuration File
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
 
+    #Debuggin
+    print(str(Sensor_val[0]) +":  Sensor Value: " + Sensor_val[1] )
+
     if type(calibration_func) is not str and type(list(calibration_func.keys())[0]) is str:
         cal_func_set = False
         for key in calibration_func:
