@@ -501,6 +501,7 @@ Sensors:
       In: acc_x
     cal_function:
       'In>1000': '(-1)*(65536-In)'
+      'In<1000': 'In*(1/100)'
       'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
@@ -517,6 +518,7 @@ Sensors:
       In: acc_y
     cal_function:
       'In>1000': '(-1)*(65536-In)'
+      'In<1000': 'In*(1/100)'
       'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
@@ -533,6 +535,7 @@ Sensors:
       In: acc_z
     cal_function:
       'In>1000': '(-1)*(65536-In)'
+      'In<1000': 'In*(1/100)'
       'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
@@ -549,6 +552,7 @@ Sensors:
       In: linacc_x
     cal_function:
       'In>1000': '(-1)*(65536-In)'
+      'In<1000': 'In*(1/100)'
       'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
@@ -565,6 +569,7 @@ Sensors:
       In: linacc_y 
     cal_function:
       'In>1000': '(-1)*(65536-In)'
+      'In<1000': 'In*(1/100)'
       'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
@@ -581,6 +586,7 @@ Sensors:
       In: linacc_z
     cal_function:
       'In>1000': '(-1)*(65536-In)'
+      'In<1000': 'In*(1/100)'
       'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
@@ -639,6 +645,7 @@ Sensors:
       In: gravity_x
     cal_function:
       'In>1000': '(-1)*(65536-In)'
+      'In<1000': 'In*(1/100)'
       'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
@@ -655,6 +662,7 @@ Sensors:
       In: gravity_y
     cal_function:
       'In>1000': '(-1)*(65536-In)'
+      'In<1000': 'In*(1/100)'
       'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
@@ -666,11 +674,12 @@ Sensors:
     sample_period: 1 #sample period in seconds  
 
   gravity_z:
-    unit: '°'
+    unit: 'm/s^2'
     inputs:
       In: gravity_z
     cal_function:
       'In>1000': '(-1)*(65536-In)'
+      'In<1000': 'In*(1/100)'
       'True': 'In*(1/100)'
     bus_type: I2C
     primary_address: 0x28
