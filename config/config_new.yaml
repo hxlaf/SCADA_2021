@@ -654,7 +654,7 @@ Sensors:
     display_variable: number
     description: "IMU Gravity X Component"
     bit_length: 16 #probably don't need this
-    sample_period: 1 #sample period in seconds
+    sample_period: 0.2 #sample period in seconds
 
   gravity_y:
     unit: 'm/s^2'
@@ -671,7 +671,7 @@ Sensors:
     display_variable: number
     description: "IMU Gravity Y Component"
     bit_length: 16 #probably don't need this
-    sample_period: 1 #sample period in seconds  
+    sample_period: 0.2 #sample period in seconds  
 
   gravity_z:
     unit: 'm/s^2'
@@ -679,8 +679,8 @@ Sensors:
       In: gravity_z
     cal_function:
       'In>1000': '(-1)*(65536-In)'
-      'In<1000': 'In*(1/100)'
-      'True': 'In*(1/100)'
+      'In<1000': 'In'
+      'True': 'In'
     bus_type: I2C
     primary_address: 0x28
     secondary_address: [0x32,0x33]
@@ -688,7 +688,7 @@ Sensors:
     display_variable: number
     description: "IMU Gravity Z Component"
     bit_length: 16 #probably don't need this
-    sample_period: 1 #sample period in seconds
+    sample_period: 0.2 #sample period in seconds
 
 
     #ACTUAL SENSORS LISTEDED HERE WITH BASIC FORMAT
