@@ -595,7 +595,9 @@ Sensors:
     unit: '°'
     inputs:
       In: angle_x
-    cal_function: 'In*(1/16)'
+    cal_function: 
+      'In>1000': '(65536-In)*(1/16)'
+      'True': 'In*(1/16)'
     bus_type: I2C
     primary_address: 0x28
     secondary_address: [0x1A,0x1B]
@@ -609,7 +611,9 @@ Sensors:
     unit: '°'
     inputs:
       In: angle_y
-    cal_function: 'In*(1/16)'
+    cal_function:
+      'In>1000': '(65536-In)*(1/16)'
+      'True': 'In*(1/16)'       
     bus_type: I2C
     primary_address: 0x28
     secondary_address: [0x1C,0x1D]
@@ -623,7 +627,9 @@ Sensors:
     unit: '°'
     inputs:
       In: angle_z
-    cal_function: 'In*(1/16)'
+    cal_function: 
+      'In>1000': '(65536-In)*(1/16)'
+      'True': 'In*(1/16)'
     bus_type: I2C
     primary_address: 0x28
     secondary_address: [0x1E,0x1F]
