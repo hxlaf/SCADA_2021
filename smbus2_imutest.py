@@ -77,9 +77,9 @@ def setup():
     bus.write_byte_data(0x28,GYRO_CONFIG_REG,GYRO_2000_DPS)
     bus.write_byte_data(0x28,MAG_CONFIG_REG,MAGNETOMETER_20HZ)
     time.sleep(0.01)
-    ##Setting IMU TO NDOF MODE
-    bus.write_byte_data(0x28,OPR_MODE_REG,NDOF_MODE)
-    time.sleep(0.01)
+    ##Setting IMU TO IMU MODE
+    bus.write_byte_data(0x28,OPR_MODE_REG,IMU_MODE)
+    time.sleep(0.19)
     
     
 #     
@@ -158,9 +158,9 @@ while True:
         gyrom_z = readSensor(gyro_z)*0.001090830782496456
         time.sleep(0.2)
         #GRavity 
-        g_x = readSensor(grav_x)*(1/100)
-        g_y = readSensor(grav_y)*(1/100)
-        g_z = readSensor(grav_z)*(1/100)
+        g_x = readSensor(grav_x)
+        g_y = readSensor(grav_y)
+        g_z = readSensor(grav_z)
         time.sleep(0.2)
         
     #Euler Angle
@@ -181,7 +181,7 @@ while True:
 #         print( "gyro LSB " + str(bus.read_byte_data(0x28,0x61)))
 #         print( "gyro MSB " + str(bus.read_byte_data(0x28,0x62)))
 #         print ( "gyrom_x " + str(gyrom_x))
-        print( "lacc_x: "+ str(laccel_x) + " lacc_y: " + str(laccel_y) + " acc_z: " + str(laccel_z))
+        #print( "lacc_x: "+ str(laccel_x) + " lacc_y: " + str(laccel_y) + " acc_z: " + str(laccel_z))
         #print( "acc_x: "+ str(accel_x) + " acc_y: " + str(accel_y) + " acc_z: " + str(accel_z))
         #print( "magno_x: "+ str(magno_x) + " magyrogno_y: " + str(magno_y) + " magno_z: " + str(magno_z))
 #         print( "gyro_x: "+ str(gyrom_x) + " gyro_y: " + str(gyrom_y) + " gyro_z: " + str(gyrom_z))
@@ -189,16 +189,17 @@ while True:
        # print( "Gravity_z register val: " + str(bus.read_byte_data(0x28,0x32)) + "  2nd reg: " + str(bus.read_byte_data(0x28,0x33)))
         #print( "Binary Value of Gravity z: " + str(bin(int(g_z*100)) + " Decimal: " + str(int(g_z*100))))
         #Got the Gravity WOrking
-        #if ( (g_y*100) > 1000 ):
-        print( "Euler Angle_ z degrees: " + str(e_z))
-        if ( (laccel_x*100) > 1000 ):
-            #print("Gravity_z: " + str((-1)*(655.36-g_z)))
-            print("Lin Acc_x: " + str((-1)*(655.36-laccel_x)))
+        if ( (e_z) >= 5760):
+            print( "E_z raw data: " + str(e_z))
+        #if ( (laccel_x*100) > 1000 ):
+            print("Angle_z " + str((-1)*(65536-e_z)*(1/16)))
+            #print("Lin Acc_x: " + str((-1)*(655.36-laccel_x)))
             #print( "gravity_x: "+ str((-1)*(655.36-g_x)) + " gravity_y: " + str((-1)*(655.36-g_y)) + " gravity_z: " + str((-1)*(655.36-g_z)))
         else:
             #print( "gravity_x: "+ str(g_x) + " gravity_y: " + str(g_y) + " gravity_z: " + str(g_z))
-            #print("Gravity_z: " + str(g_z))
-            print("Linear Acceleration: " + str(laccel_x))
+           #print( "Gravity Z Raw Value: " + str(g_z))
+           print("E_Z: " + str(e_z*(1/16)))
+            #print("Linear Acceleration: " + str(laccel_x))
         time.sleep(0.2)
         
     except IOError:
