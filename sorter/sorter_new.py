@@ -35,27 +35,27 @@ for key in config.get('Sensors'):
 
 def imu_reset():
     #IMU IN CONFIG MODE
-    driver.write('opr_mode_reg',config.get('IMU_Config_Constants').get('CONFIG_MODE'))
+    driver.write(SensorList.get('opr_mode_reg'),config.get('IMU_Config_Constants').get('CONFIG_MODE'))
     try:
-        driver.write('trigger_reg',0x20)
+        driver.write(SensorList.get('trigger_reg'),0x20)
     except OSError:
         pass
     time.sleep(0.7)
     
 
 def imu_setup():
-    if (driver.read('opr_mode_reg') == 0 ):
+    if (driver.read(SensorList.get('opr_mode_reg')) == 0 ):
         imu_reset()
-        driver.write('power_reg',config.get('IMU_Config_Constants').get('POWER_NORMAL'))
-        driver.write('page_reg',0x00)
-        driver.write('trigger_reg',0x00)
-        driver.write('acc_config_reg',config.get('IMU_Config_Constants').get('ACCEL_4G'))
-        driver.write('gyro_config_reg',config.get('IMU_Config_Constants').get('GYRO_2000_DPS'))
-        driver.write('mag_config_reg',config.get('IMU_Config_Constants').get('MAGNETOMETER_20HZ'))
+        driver.write(SensorList.get('power_reg'),config.get('IMU_Config_Constants').get('POWER_NORMAL'))
+        driver.write(SensorList.get('page_reg'),0x00)
+        driver.write(SensorList.get('trigger_reg'),0x00)
+        driver.write(SensorList.get('acc_config_reg'),config.get('IMU_Config_Constants').get('ACCEL_4G'))
+        driver.write(SensorList.get('gyro_config_reg'),config.get('IMU_Config_Constants').get('GYRO_2000_DPS'))
+        driver.write(SensorList.get('mag_config_reg'),config.get('IMU_Config_Constants').get('MAGNETOMETER_20HZ'))
         time.sleep(0.01)
     
         ##Setting IMU TO NDOF MODE
-        driver.write('opr_mode_reg',config.get('IMU_Config_Constants').get('NDOF_MODE'))
+        driver.write(SensorList.get('opr_mode_reg'),config.get('IMU_Config_Constants').get('NDOF_MODE'))
         time.sleep(0.01)
 
 
