@@ -705,7 +705,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: [0x3D]
+    secondary_address: 0x3D
     precision: 0
     display_variable: number
     description: "Operation Range of IMU"
@@ -719,7 +719,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: [0x07]
+    secondary_address: 0x07
     precision: 0
     display_variable: number
     description: "Page Register of IMU"
@@ -733,7 +733,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: [0x3F]
+    secondary_address: 0x3F
     precision: 0
     display_variable: number
     description: "Trigger Register of IMU"
@@ -747,7 +747,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: [0x3E]
+    secondary_address: 0x3E
     precision: 0
     display_variable: number
     description: "Page Register of IMU"
@@ -761,7 +761,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: [0x08]
+    secondary_address: 0x08
     precision: 0
     display_variable: number
     description: "Acceleration Config Reg of IMU"
@@ -775,7 +775,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: [0x09]
+    secondary_address: 0x09
     precision: 0
     display_variable: number
     description: "Magnotometer Configuration of IMU"
@@ -789,7 +789,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: [0x0A]
+    secondary_address: 0x0A
     precision: 0
     display_variable: number
     description: "Gyro Configuration Reg of IMU"
