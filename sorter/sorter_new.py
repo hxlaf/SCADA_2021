@@ -57,7 +57,7 @@ def imu_setup():
     
         ##Setting IMU TO NDOF MODE
         driver.write(SensorList.get('opr_mode_reg'),config.get('IMU_Config_Constants').get('NDOF_MODE'))
-        time.sleep(0.01)
+        time.sleep(0.7)
 
 
 while True: 
