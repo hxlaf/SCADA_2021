@@ -35,7 +35,7 @@ for key in config.get('Sensors'):
 
 def imu_reset():
     #IMU IN CONFIG MODE
-    print("IMU defined constant: " + config.get('IMU_Config_Constants').get('CONFIG_MODE'))
+    print("IMU defined constant: " + str(config.get('IMU_Config_Constants').get('CONFIG_MODE'))) 
     driver.write('opr_mode_reg',config.get('IMU_Config_Constants').get('CONFIG_MODE'))
     try:
         driver.write('trigger_reg',0x20)
