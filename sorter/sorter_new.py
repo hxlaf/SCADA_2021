@@ -44,7 +44,7 @@ def imu_reset():
     
 
 def imu_setup():
-    if (driver.read('opr_mode_reg')) == 0 ):
+    if (driver.read('opr_mode_reg') == 0 ):
         imu_reset()
         driver.write('power_reg',config.get('IMU_Config_Constants').get('POWER_NORMAL'))
         driver.write('page_reg',0x00)
