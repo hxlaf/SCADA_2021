@@ -31,56 +31,42 @@ for key in config.get('Sensors'):
     sample_period[key] = SensorList.get(key).get('sample_period')
     last_sampled[key] = time.time()
 
-#######Configure BNO055 IMU ########
+####### Methods to Configure BNO055 IMU ########
 
-#Defined IMU Constants
-CONFIG_MODE= 0x00
-IMU_MODE = 0x08
-NDOF_MODE = 0x0C
-POWER_NORMAL= 0x00
-ACCEL_4G = 0x01
-GYRO_2000_DPS = 0x00
-MAGNETOMETER_20HZ = 0x05
-
-#Defined IMU Registers
-OPR_MODE_REG = 0x3D
-PAGE_REG = 0x07
-CALIBRATION_REG = 0x35
-TRIGGER_REG = 0x3F
-POWER_REG = 0x3E
-ACC_CONFIG_REG = 0x08
-MAG_CONFIG_REG = 0x09
-GYRO_CONFIG_REG = 0x0A
-
-
-def reset():
+def imu_reset():
     #IMU IN CONFIG MODE
-    bus.write_byte_data(0x28,OPR_MODE_REG,CONFIG_MODE)
+    driver.write(opr_mode_reg,config.get(IMU_Config_Constants).get(CONFIG_MODE))
     try:
-        bus.write_byte_data(0x28,TRIGGER_REG,0X20)
+        driver.write(trigger_reg,0x20)
     except OSError:
         pass
     time.sleep(0.7)
     
 
-def setup():
-    print("IMU SETTING UP")
-    reset()
-    bus.write_byte_data(0x28,POWER_REG,POWER_NORMAL)
-    bus.write_byte_data(0x28,PAGE_REG,0x00)
-    bus.write_byte_data(0x28,TRIGGER_REG,0x00)
-    bus.write_byte_data(0x28,ACC_CONFIG_REG,ACCEL_4G)
-    bus.write_byte_data(0x28,GYRO_CONFIG_REG,GYRO_2000_DPS)
-    bus.write_byte_data(0x28,MAG_CONFIG_REG,MAGNETOMETER_20HZ)
-    time.sleep(0.01)
-    ##Setting IMU TO NDOF MODE
-    bus.write_byte_data(0x28,OPR_MODE_REG,NDOF_MODE)
-    time.sleep(0.01)
+def imu_setup():
+    if (driver.read(opr_mode_reg) == 0 ):
+        imu_reset()
+        driver.write(power_reg,config.get(IMU_Config_Constants).get(POWER_NORMAL))
+        driver.write(page_reg,0x00)
+        driver.write(trigger_reg,0x00)
+        driver.write(acc_config_reg,config.get(IMU_Config_Constants).get(ACCEL_4G))
+        driver.write(gyro_config_reg,config.get(IMU_Config_Constants).get(GYRO_2000_DPS))
+        driver.write(mag_config_reg,config.get(IMU_Config_Constants).get(MAGNETOMETER_20HZ))
+        time.sleep(0.01)
+    
+        ##Setting IMU TO NDOF MODE
+        driver.write(opr_mode_reg,config.get(IMU_Config_Constants).get(NDOF_MODE))
+        time.sleep(0.01)
 
 
 while True: 
     #for Sensors: <-- needs to be name of list of sensors
     # milliseconds = int(time()*1000)
+
+    ## IMU Setup
+    imu_setup()
+
+    # Reading
     for sensorName in SensorList :
         if(time.time() - last_sampled[sensorName] > sample_period[sensorName] and float(sample_period[sensorName]) != 0.0):
             

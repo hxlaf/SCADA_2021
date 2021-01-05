@@ -136,6 +136,16 @@ Sensor_defaults:
   sample_period: 1
   description: 'This is the default description of a sensor'
 
+IMU_Config_Constants:
+  CONFIG_MODE: 0x00
+  IMU_MODE: 0x08
+  NDOF_MODE: 0x0C
+  POWER_NORMAL: 0x00
+  ACCEL_4G: 0x01
+  GYRO_2000_DPS: 0x00
+  MAGNETOMETER_20HZ: 0x05
+
+
 
 
 Sensors:
@@ -686,6 +696,106 @@ Sensors:
     description: "IMU Gravity Z Component"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+
+#IMU Confiuratoin Registers 
+  opr_mode_reg:
+    unit: ''
+    inputs:
+      In: opr_mode_reg
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: [0x3D]
+    precision: 0
+    display_variable: number
+    description: "Operation Range of IMU"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  page_reg:
+    unit: ''
+    inputs:
+      In: page_reg
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: [0x07]
+    precision: 0
+    display_variable: number
+    description: "Page Register of IMU"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  trigger_reg:
+    unit: ''
+    inputs:
+      In: trigger_reg
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: [0x3F]
+    precision: 0
+    display_variable: number
+    description: "Trigger Register of IMU"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  power_reg:
+    unit: ''
+    inputs:
+      In: power_reg
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: [0x3E]
+    precision: 0
+    display_variable: number
+    description: "Page Register of IMU"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+    
+  acc_config_reg:
+    unit: ''
+    inputs:
+      In: acc_config_reg
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: [0x08]
+    precision: 0
+    display_variable: number
+    description: "Acceleration Config Reg of IMU"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  mag_config_reg:
+    unit: ''
+    inputs:
+      In: mag_config_reg
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: [0x09]
+    precision: 0
+    display_variable: number
+    description: "Magnotometer Configuration of IMU"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  gyro_config_reg:
+    unit: ''
+    inputs:
+      In: gyro_config_reg
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: [0x0A]
+    precision: 0
+    display_variable: number
+    description: "Gyro Configuration Reg of IMU"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds   
+
 
 
     #ACTUAL SENSORS LISTEDED HERE WITH BASIC FORMAT
