@@ -45,6 +45,8 @@ def imu_reset():
     
 
 def imu_setup():
+    #Debuggin: 
+    print("Value of Opr_Mode: " + driver.read('opr_mode_reg') )
     if (driver.read('opr_mode_reg') == 0 ):
         imu_reset()
         driver.write('power_reg',config.get('IMU_Config_Constants').get('POWER_NORMAL'))
@@ -66,6 +68,7 @@ while True:
 
     ## IMU Setup
     imu_setup()
+
 
     # Reading
     for sensorName in SensorList :
