@@ -48,6 +48,7 @@ def imu_setup():
     #Debuggin: 
     opr_mode_reg_read = driver.read('opr_mode_reg')
     print("Value of Opr_Mode: " + str(opr_mode_reg_read))
+    print( "SensorList Dictionary: " + str(SensorList))
     if (opr_mode_reg_read == 0 or opr_mode_reg_read != 12): #If its in Config Mode and not in NDOF mode, want to configure it
         imu_reset()
         driver.write('power_reg',config.get('IMU_Config_Constants').get('POWER_NORMAL'))
