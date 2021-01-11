@@ -102,6 +102,7 @@ Display:
       - gravity_x 
       - gravity_y 
       - gravity_z 
+      - opr_mode_reg
       
 ########## PART 3: INDIVIDUAL SENSORS ##########
 
