@@ -55,6 +55,11 @@ cp GUI/gui.service /etc/systemd/system
 
 systemctl daemon-reload
 
+## Enabling Services to Allow for Automatic Startup on Booot
+systemctl enable sorter
+systemctl enable calibrator
+systemctl enable logger
+
 echo 'MAKE COMPLETE'
 
 # /usr/bin/scada_gui.py
