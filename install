@@ -32,6 +32,10 @@ cd /home/pi/.config/lxsession/LXDE-pi
 echo '@/usr/bin/scada_gui.py' >> autostart
 ##Restart pi 
 
+# Creating Bit-Banged I2C BUS to support clock strecthing for BNO-055 IMU 
+cd /boot 
+echo 'dtoverlay=i2c-gpio,bus=3,i2c_gpio_sda=02,i2c_gpio_scl=03' >> config.txt
+
 echo 'INSTALL COMPLETE'
 
 bash make
