@@ -41,6 +41,7 @@ Display:
     1: 
       - BNO055_IMU_REG_1
       - BNO055_IMU_REG_2 
+      - BNO055_IMU_REG_3
 
   Groups: 
   # max 22 sensor per 1 group
@@ -103,6 +104,33 @@ Display:
       - gravity_y 
       - gravity_z 
       - opr_mode_reg
+      - acc_xoffset_LSB 
+      - acc_xoffset_MSB 
+      - acc_yoffset_LSB 
+      - acc_yoffset_MSB 
+      - acc_zoffset_LSB 
+      - acc_zoffset_MSB 
+      - mag_xoffset_LSB 
+      - mag_xoffset_MSB 
+      - mag_yoffset_LSB
+      - mag_yoffset_MSB 
+      - mag_zoffset_LSB 
+      - mag_zoffset_MSB 
+      - gyro_xoffset_LSB 
+      - gyro_xoffset_MSB 
+      - gyro_yoffset_LSB 
+      - gyro_yoffset_MSB 
+      - gyro_zoffset_LSB 
+      - gyro_zoffset_MSB
+
+    BNO055_IMU_REG_3:
+      - acc_raduis_LSB 
+      - acc_raduis_MSB 
+      - mag_raduis_LSB 
+      - mag_raduis_MSB
+      - ST_Result
+
+
       
 ########## PART 3: INDIVIDUAL SENSORS ##########
 
@@ -796,8 +824,329 @@ Sensors:
     display_variable: number
     description: "Gyro Configuration Reg of IMU"
     bit_length: 16 #probably don't need this
-    sample_period: 0.2 #sample period in seconds   
+    sample_period: 0.2 #sample period in seconds 
 
+  acc_xoffset_LSB:
+    unit: ''
+    inputs:
+      In: acc_xoffset_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x55
+    precision: 0
+    display_variable: number
+    description: "ACC x offset lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  acc_xoffset_MSB:
+    unit: ''
+    inputs:
+      In: acc_xoffset_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x56
+    precision: 0
+    display_variable: number
+    description: "ACC x offset msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  acc_yoffset_LSB:
+    unit: ''
+    inputs:
+      In: acc_yoffset_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x57
+    precision: 0
+    display_variable: number
+    description: "ACC y offset lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  acc_yoffset_MSB:
+    unit: ''
+    inputs:
+      In: acc_yoffset_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x58
+    precision: 0
+    display_variable: number
+    description: "ACC y offset msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  acc_zoffset_LSB:
+    unit: ''
+    inputs:
+      In: acc_zoffset_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x59
+    precision: 0
+    display_variable: number
+    description: "ACC z offset lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  acc_zoffset_MSB:
+    unit: ''
+    inputs:
+      In: acc_zoffset_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x5A
+    precision: 0
+    display_variable: number
+    description: "ACC z offset msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  mag_xoffset_LSB:
+    unit: ''
+    inputs:
+      In: mag_xoffset_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x5B
+    precision: 0
+    display_variable: number
+    description: "MAG x offset lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  mag_xoffset_MSB:
+    unit: ''
+    inputs:
+      In: mag_xoffset_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x5C
+    precision: 0
+    display_variable: number
+    description: "MAG x offset msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  mag_yoffset_LSB:
+    unit: ''
+    inputs:
+      In: mag_yoffset_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x5D
+    precision: 0
+    display_variable: number
+    description: "MAG y offset lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  mag_yoffset_MSB:
+    unit: ''
+    inputs:
+      In: mag_yoffset_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x5E
+    precision: 0
+    display_variable: number
+    description: "Mag y offset msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  mag_zoffset_LSB:
+    unit: ''
+    inputs:
+      In: mag_zoffset_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x5F
+    precision: 0
+    display_variable: number
+    description: "MAG z offset lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  mag_zoffset_MSB:
+    unit: ''
+    inputs:
+      In: mag_zoffset_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x60
+    precision: 0
+    display_variable: number
+    description: "Mag z offset msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  gyro_xoffset_LSB:
+    unit: ''
+    inputs:
+      In: gyro_xoffset_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x61
+    precision: 0
+    display_variable: number
+    description: "Gyro x offset lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  gyro_xoffset_MSB:
+    unit: ''
+    inputs:
+      In: gyro_xoffset_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x62
+    precision: 0
+    display_variable: number
+    description: "Gyro x offset msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  gyro_yoffset_LSB:
+    unit: ''
+    inputs:
+      In: gyro_yoffset_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x63
+    precision: 0
+    display_variable: number
+    description: "Gyro y offset lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  gyro_yoffset_MSB:
+    unit: ''
+    inputs:
+      In: gyro_yoffset_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x64
+    precision: 0
+    display_variable: number
+    description: "Gyro y offset msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  gyro_zoffset_LSB:
+    unit: ''
+    inputs:
+      In: gyro_zoffset_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x65
+    precision: 0
+    display_variable: number
+    description: "Gyro z offset lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  gyro_zoffset_MSB:
+    unit: ''
+    inputs:
+      In: gyro_zoffset_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x66
+    precision: 0
+    display_variable: number
+    description: "Mag z offset msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  acc_raduis_LSB:
+    unit: ''
+    inputs:
+      In: acc_raduis_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x67
+    precision: 0
+    display_variable: number
+    description: "Acc raduis lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  acc_raduis_MSB:
+    unit: ''
+    inputs:
+      In: acc_raduis_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x68
+    precision: 0
+    display_variable: number
+    description: "Acc Raduis msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  mag_raduis_LSB:
+    unit: ''
+    inputs:
+      In: mag_raduis_LSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x69
+    precision: 0
+    display_variable: number
+    description: "MAG raduis lsb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds 
+
+  mag_raduis_MSB:
+    unit: ''
+    inputs:
+      In: mag_raduis_MSB
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x6A
+    precision: 0
+    display_variable: number
+    description: "Acc Raduis msb for calibration"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
+
+  ST_Result:
+    unit: ''
+    inputs:
+      In: ST_Result
+    cal_function: 'In'
+    bus_type: I2C
+    primary_address: 0x28
+    secondary_address: 0x36
+    precision: 0
+    display_variable: number
+    description: "Power on self test reuslts"
+    bit_length: 16 #probably don't need this
+    sample_period: 0.2 #sample period in seconds
 
 
     #ACTUAL SENSORS LISTEDED HERE WITH BASIC FORMAT
