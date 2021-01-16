@@ -1085,7 +1085,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: 0x67
+    secondary_address: [0x67]
     precision: 3
     display_variable: number
     description: "Acc raduis lsb for calibration"
@@ -1099,7 +1099,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: 0x68
+    secondary_address: [0x68]
     precision: 3
     display_variable: number
     description: "Acc Raduis msb for calibration"
@@ -1113,7 +1113,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: 0x69
+    secondary_address: [0x69]
     precision: 3
     display_variable: number
     description: "MAG raduis lsb for calibration"
@@ -1127,7 +1127,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: 0x6A
+    secondary_address: [0x6A]
     precision: 3
     display_variable: number
     description: "Acc Raduis msb for calibration"
@@ -1141,7 +1141,7 @@ Sensors:
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
-    secondary_address: 0x36
+    secondary_address: [0x36]
     precision: 3
     display_variable: number
     description: "Power on self test reuslts"

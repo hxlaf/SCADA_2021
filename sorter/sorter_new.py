@@ -56,8 +56,8 @@ def imu_setup():
         driver.write('page_reg',0x00)
         driver.write('trigger_reg',0x00)
         driver.write('acc_config_reg',config.get('IMU_Config_Constants').get('ACCEL_4G'))
-        #driver.write('gyro_config_reg',config.get('IMU_Config_Constants').get('GYRO_2000_DPS'))
-        #driver.write('mag_config_reg',config.get('IMU_Config_Constants').get('MAGNETOMETER_20HZ'))
+        driver.write('gyro_config_reg',config.get('IMU_Config_Constants').get('GYRO_2000_DPS'))
+        driver.write('mag_config_reg',config.get('IMU_Config_Constants').get('MAGNETOMETER_20HZ'))
         time.sleep(0.01)
     
         ##Setting IMU TO NDOF MODE
