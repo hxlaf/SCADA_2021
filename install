@@ -39,8 +39,6 @@ echo 'dtoverlay=i2c-gpio,bus=3,i2c_gpio_sda=02,i2c_gpio_scl=03' >> config.txt
 echo 'INSTALL COMPLETE'
 echo 'PLEASE STAND BY, SYSTEM REBOOT IN PROGRESS'
 
-# Required for the bitbanged I2C bus to be visible 
-sudo reboot 
 
 #bash make
 

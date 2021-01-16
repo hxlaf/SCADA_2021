@@ -834,7 +834,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x55
-    precision: 0
+    precision: 3
     display_variable: number
     description: "ACC x offset lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -848,7 +848,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x56
-    precision: 0
+    precision: 3
     display_variable: number
     description: "ACC x offset msb for calibration"
     bit_length: 16 #probably don't need this
@@ -862,7 +862,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x57
-    precision: 0
+    precision: 3
     display_variable: number
     description: "ACC y offset lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -876,7 +876,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x58
-    precision: 0
+    precision: 3
     display_variable: number
     description: "ACC y offset msb for calibration"
     bit_length: 16 #probably don't need this
@@ -890,7 +890,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x59
-    precision: 0
+    precision: 3
     display_variable: number
     description: "ACC z offset lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -904,7 +904,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x5A
-    precision: 0
+    precision: 3
     display_variable: number
     description: "ACC z offset msb for calibration"
     bit_length: 16 #probably don't need this
@@ -918,7 +918,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x5B
-    precision: 0
+    precision: 3
     display_variable: number
     description: "MAG x offset lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -932,7 +932,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x5C
-    precision: 0
+    precision: 3
     display_variable: number
     description: "MAG x offset msb for calibration"
     bit_length: 16 #probably don't need this
@@ -946,7 +946,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x5D
-    precision: 0
+    precision: 3
     display_variable: number
     description: "MAG y offset lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -960,7 +960,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x5E
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Mag y offset msb for calibration"
     bit_length: 16 #probably don't need this
@@ -974,7 +974,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x5F
-    precision: 0
+    precision: 3
     display_variable: number
     description: "MAG z offset lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -988,7 +988,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x60
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Mag z offset msb for calibration"
     bit_length: 16 #probably don't need this
@@ -1002,7 +1002,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x61
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Gyro x offset lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -1016,7 +1016,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x62
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Gyro x offset msb for calibration"
     bit_length: 16 #probably don't need this
@@ -1030,7 +1030,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x63
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Gyro y offset lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -1044,7 +1044,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x64
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Gyro y offset msb for calibration"
     bit_length: 16 #probably don't need this
@@ -1058,7 +1058,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x65
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Gyro z offset lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -1072,7 +1072,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x66
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Mag z offset msb for calibration"
     bit_length: 16 #probably don't need this
@@ -1086,7 +1086,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x67
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Acc raduis lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -1100,7 +1100,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x68
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Acc Raduis msb for calibration"
     bit_length: 16 #probably don't need this
@@ -1114,7 +1114,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x69
-    precision: 0
+    precision: 3
     display_variable: number
     description: "MAG raduis lsb for calibration"
     bit_length: 16 #probably don't need this
@@ -1128,7 +1128,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x6A
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Acc Raduis msb for calibration"
     bit_length: 16 #probably don't need this
@@ -1142,7 +1142,7 @@ Sensors:
     bus_type: I2C
     primary_address: 0x28
     secondary_address: 0x36
-    precision: 0
+    precision: 3
     display_variable: number
     description: "Power on self test reuslts"
     bit_length: 16 #probably don't need this
