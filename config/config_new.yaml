@@ -826,10 +826,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  acc_xoffset_LSB:
+  acc_xoffset_lsb:
     unit: ''
     inputs:
-      In: acc_xoffset_LSB
+      In: acc_xoffset_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -840,10 +840,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  acc_xoffset_MSB:
+  acc_xoffset_msb:
     unit: ''
     inputs:
-      In: acc_xoffset_MSB
+      In: acc_xoffset_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -854,10 +854,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  acc_yoffset_LSB:
+  acc_yoffset_lsb:
     unit: ''
     inputs:
-      In: acc_yoffset_LSB
+      In: acc_yoffset_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -868,10 +868,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  acc_yoffset_MSB:
+  acc_yoffset_msb:
     unit: ''
     inputs:
-      In: acc_yoffset_MSB
+      In: acc_yoffset_msb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -882,10 +882,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
 
-  acc_zoffset_LSB:
+  acc_zoffset_lsb:
     unit: ''
     inputs:
-      In: acc_zoffset_LSB
+      In: acc_zoffset_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -896,10 +896,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  acc_zoffset_MSB:
+  acc_zoffset_msb:
     unit: ''
     inputs:
-      In: acc_zoffset_MSB
+      In: acc_zoffset_msb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -910,10 +910,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
 
-  mag_xoffset_LSB:
+  mag_xoffset_lsb:
     unit: ''
     inputs:
-      In: mag_xoffset_LSB
+      In: mag_xoffset_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -924,10 +924,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  mag_xoffset_MSB:
+  mag_xoffset_msb:
     unit: ''
     inputs:
-      In: mag_xoffset_MSB
+      In: mag_xoffset_msb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -938,10 +938,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  mag_yoffset_LSB:
+  mag_yoffset_lsb:
     unit: ''
     inputs:
-      In: mag_yoffset_LSB
+      In: mag_yoffset_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -952,10 +952,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  mag_yoffset_MSB:
+  mag_yoffset_msb:
     unit: ''
     inputs:
-      In: mag_yoffset_MSB
+      In: mag_yoffset_msb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -966,10 +966,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
 
-  mag_zoffset_LSB:
+  mag_zoffset_lsb:
     unit: ''
     inputs:
-      In: mag_zoffset_LSB
+      In: mag_zoffset_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -980,10 +980,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  mag_zoffset_MSB:
+  mag_zoffset_msb:
     unit: ''
     inputs:
-      In: mag_zoffset_MSB
+      In: mag_zoffset_msb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -994,10 +994,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
 
-  gyro_xoffset_LSB:
+  gyro_xoffset_lsb:
     unit: ''
     inputs:
-      In: gyro_xoffset_LSB
+      In: gyro_xoffset_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -1008,10 +1008,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  gyro_xoffset_MSB:
+  gyro_xoffset_msb:
     unit: ''
     inputs:
-      In: gyro_xoffset_MSB
+      In: gyro_xoffset_msb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -1022,10 +1022,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  gyro_yoffset_LSB:
+  gyro_yoffset_lsb:
     unit: ''
     inputs:
-      In: gyro_yoffset_LSB
+      In: gyro_yoffset_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -1036,10 +1036,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  gyro_yoffset_MSB:
+  gyro_yoffset_msb:
     unit: ''
     inputs:
-      In: gyro_yoffset_MSB
+      In: gyro_yoffset_msb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -1050,10 +1050,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
 
-  gyro_zoffset_LSB:
+  gyro_zoffset_lsb:
     unit: ''
     inputs:
-      In: gyro_zoffset_LSB
+      In: gyro_zoffset_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -1064,10 +1064,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  gyro_zoffset_MSB:
+  gyro_zoffset_msb:
     unit: ''
     inputs:
-      In: gyro_zoffset_MSB
+      In: gyro_zoffset_msb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -1078,10 +1078,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
 
-  acc_raduis_LSB:
+  acc_raduis_lsb:
     unit: ''
     inputs:
-      In: acc_raduis_LSB
+      In: acc_raduis_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -1092,10 +1092,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  acc_raduis_MSB:
+  acc_raduis_msb:
     unit: ''
     inputs:
-      In: acc_raduis_MSB
+      In: acc_raduis_msb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -1106,10 +1106,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
 
-  mag_raduis_LSB:
+  mag_raduis_lsb:
     unit: ''
     inputs:
-      In: mag_raduis_LSB
+      In: mag_raduis_lsb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -1120,10 +1120,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
 
-  mag_raduis_MSB:
+  mag_raduis_msb:
     unit: ''
     inputs:
-      In: mag_raduis_MSB
+      In: mag_raduis_msb
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
@@ -1134,10 +1134,10 @@ Sensors:
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
 
-  ST_Result:
+  st_result:
     unit: ''
     inputs:
-      In: ST_Result
+      In: st_result
     cal_function: 'In'
     bus_type: I2C
     primary_address: 0x28
