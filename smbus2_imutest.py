@@ -174,10 +174,27 @@ while True:
         gyro_cali = (calibration_status >> 4) & 0x03
         acc_cali = (calibration_status >>2) & 0x03
         mag_cali = (calibration_status) & 0x03
+        
+    #Register Offset Data:
+        acc_xoff_lsb = bus.read_byte_data(0x28,0x55)
+        acc_xoff_msb = bus.read_byte_data(0x28,0x56)
+        acc_yoff_lsb = bus.read_byte_data(0x28,0x57)
+        acc_yoff_msb = bus.read_byte_data(0x28,0x58)
+        acc_zoff_lsb = bus.read_byte_data(0x28,0x59)
+        acc_zoff_msb = bus.read_byte_data(0x28,0x5A)
+        ST_result = bus.read_byte_data(0x28,0x36) 
+        
+    
 
         print("Calibration Status: " + str(calibration_status))
         print ("Power Mode: " + str(bus.read_byte_data(0x28,0x3D)))
+        print ("System Test Result: " + str(ST_result))
         print( "System: " + str(system_cal) + " Gyro: "+ str(gyro_cali) + " Acc_cali: " + str(acc_cali) + "Mag_cal: " + str(mag_cali))
+        print("Acc_xlsb: " + str(acc_xoff_lsb) + " Acc_xmsb: " + str(acc_xoff_msb))
+        print("Acc_ylsb: " + str(acc_yoff_lsb) + " Acc_ymsb: " + str(acc_yoff_msb))
+        print("Acc_zlsb: " + str(acc_zoff_lsb) + " Acc_zmsb: " + str(acc_zoff_msb))
+        print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+        
 #         print( "gyro LSB " + str(bus.read_byte_data(0x28,0x61)))
 #         print( "gyro MSB " + str(bus.read_byte_data(0x28,0x62)))
 #         print ( "gyrom_x " + str(gyrom_x))
@@ -189,16 +206,16 @@ while True:
        # print( "Gravity_z register val: " + str(bus.read_byte_data(0x28,0x32)) + "  2nd reg: " + str(bus.read_byte_data(0x28,0x33)))
         #print( "Binary Value of Gravity z: " + str(bin(int(g_z*100)) + " Decimal: " + str(int(g_z*100))))
         #Got the Gravity WOrking
-        if ( (e_z) >= 5760):
-            print( "E_z raw data: " + str(e_z))
-        #if ( (laccel_x*100) > 1000 ):
-            print("Angle_z " + str((-1)*(65536-e_z)*(1/16)))
-            #print("Lin Acc_x: " + str((-1)*(655.36-laccel_x)))
-            #print( "gravity_x: "+ str((-1)*(655.36-g_x)) + " gravity_y: " + str((-1)*(655.36-g_y)) + " gravity_z: " + str((-1)*(655.36-g_z)))
-        else:
-            #print( "gravity_x: "+ str(g_x) + " gravity_y: " + str(g_y) + " gravity_z: " + str(g_z))
-           #print( "Gravity Z Raw Value: " + str(g_z))
-           print("E_Z: " + str(e_z*(1/16)))
+#         if ( (e_z) >= 5760):
+#             print( "E_z raw data: " + str(e_z))
+#         #if ( (laccel_x*100) > 1000 ):
+#             print("Angle_z " + str((-1)*(65536-e_z)*(1/16)))
+#             #print("Lin Acc_x: " + str((-1)*(655.36-laccel_x)))
+#             #print( "gravity_x: "+ str((-1)*(655.36-g_x)) + " gravity_y: " + str((-1)*(655.36-g_y)) + " gravity_z: " + str((-1)*(655.36-g_z)))
+#         else:
+#             #print( "gravity_x: "+ str(g_x) + " gravity_y: " + str(g_y) + " gravity_z: " + str(g_z))
+#            #print( "Gravity Z Raw Value: " + str(g_z))
+#            print("E_Z: " + str(e_z*(1/16)))
             #print("Linear Acceleration: " + str(laccel_x))
         time.sleep(0.2)
         
