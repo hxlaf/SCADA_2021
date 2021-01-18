@@ -104,30 +104,30 @@ Display:
       - gravity_y 
       - gravity_z 
       - opr_mode_reg
-      - acc_xoffset_LSB 
-      - acc_xoffset_MSB 
-      - acc_yoffset_LSB 
-      - acc_yoffset_MSB 
-      - acc_zoffset_LSB 
-      - acc_zoffset_MSB 
-      - mag_xoffset_LSB 
-      - mag_xoffset_MSB 
-      - mag_yoffset_LSB
-      - mag_yoffset_MSB 
-      - mag_zoffset_LSB 
-      - mag_zoffset_MSB 
-      - gyro_xoffset_LSB 
-      - gyro_xoffset_MSB 
-      - gyro_yoffset_LSB 
-      - gyro_yoffset_MSB 
-      - gyro_zoffset_LSB 
-      - gyro_zoffset_MSB
+      - acc_xoffset_lsb 
+      - acc_xoffset_msb 
+      - acc_yoffset_lsb 
+      - acc_yoffset_msb 
+      - acc_zoffset_lsb 
+      - acc_zoffset_msb 
+      - mag_xoffset_lsb 
+      - mag_xoffset_msb 
+      - mag_yoffset_lsb
+      - mag_yoffset_msb 
+      - mag_zoffset_lsb 
+      - mag_zoffset_msb 
+      - gyro_xoffset_lsb 
+      - gyro_xoffset_msb 
+      - gyro_yoffset_lsb 
+      - gyro_yoffset_msb 
+      - gyro_zoffset_lsb 
+      - gyro_zoffset_msb
 
     BNO055_IMU_REG_3:
-      - acc_raduis_LSB 
-      - acc_raduis_MSB 
-      - mag_raduis_LSB 
-      - mag_raduis_MSB
+      - acc_raduis_lsb 
+      - acc_raduis_msb 
+      - mag_raduis_lsb 
+      - mag_raduis_msb
       - ST_Result
 
 
