@@ -32,7 +32,6 @@ for key in config.get('Sensors'):
     last_sampled[key] = time.time()
 
 ####### Methods to Configure BNO055 IMU #######
-global onSetup
 onSetup = False  #Boolean var used to peform imu setup on startup
 
 def imu_reset():
@@ -51,6 +50,7 @@ def imu_setup():
     opr_mode_reg_read = driver.read('opr_mode_reg')
     print("Value of Opr_Mode: " + str(opr_mode_reg_read))
     print( "SensorList Dictionary: " + str(SensorList))
+    global onSetup # Python UnboundLocalError fix
    # if (opr_mode_reg_read == 0 or opr_mode_reg_read != 12): #If its in Config Mode and not in NDOF mode, want to configure it
     if (opr_mode_reg_read == 0 or (bool(onSetup) == False)):
         onSetup = True #OnSetup has been achieved 
