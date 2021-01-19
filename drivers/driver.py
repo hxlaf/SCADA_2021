@@ -44,7 +44,7 @@ def read(Sensor):
         #Redis Write Command 
 
     if data == None:
-        data = 'BUS ERROR'
+        data = 'NO DATA'
     return data
 
 

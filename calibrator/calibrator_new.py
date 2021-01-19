@@ -72,7 +72,13 @@ def Virtual_execute(Sensor_val):
                 cal_func_set = True
          
     for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-        calibration_func = calibration_func.replace(key,str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)]))
+        
+        retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)]) 
+        #Condition added to nullify calibration on virutal sensors when inputs have  'NO DATA'
+        if (retrived_input == 'NO DATA'):
+            calibration_func = 'NO DATA'
+        else:
+            calibration_func = calibration_func.replace(key,retrived_input)
     
     output = eval(calibration_func)
     
@@ -85,8 +91,8 @@ def Virtual_execute(Sensor_val):
 #Method to perform Calibration on State Sensors 
 def State_execute(Sensor_val): 
     #Retrieving Calibrated State from YAML
-    print("STATE CAL FUNCTION:")
-    print(config.get('Sensors').get(Sensor_val[0]).get('cal_function'))
+    #print("STATE CAL FUNCTION:")
+    #print(config.get('Sensors').get(Sensor_val[0]).get('cal_function'))
     state_cal = config.get('Sensors').get(Sensor_val[0]).get('cal_function').get(int(Sensor_val[1]))
    
     return (state_cal)
@@ -103,8 +109,8 @@ def String_execute(Sensor_val):
 
 #Method publishes calibrated data to the Calculated Data Redis Channel      
 def update(sensor_key):
-    split_key = sensor_key.split(":",1)
-    print ("SPlit KEY : " + split_key[0]) #SpLiT kEy
+    #split_key = sensor_key.split(":",1)
+    #print ("Split KEY : " + split_key[0]) #SpLiT kEy
     
     if split_key[1] == 'bus error':
         data.publish('calculated_data', '{}:{}'.format(split_key[0], 'BUS ERROR'))
