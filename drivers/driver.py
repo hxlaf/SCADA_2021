@@ -44,7 +44,7 @@ def read(Sensor):
         #Redis Write Command 
 
     if data == None:
-        data = 'NO DATA'
+        data = 'no data'
     return data
 
 

@@ -75,8 +75,8 @@ def Virtual_execute(Sensor_val):
         
         retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)]) 
         #Condition added to nullify calibration on virutal sensors when inputs have  'NO DATA'
-        if (retrived_input == 'NO DATA'):
-            calibration_func = 'NO DATA'
+        if (retrived_input == 'no data'):
+            calibration_func = 'no data'
         else:
             calibration_func = calibration_func.replace(key,retrived_input)
     
