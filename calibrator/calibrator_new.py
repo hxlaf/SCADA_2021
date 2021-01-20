@@ -109,7 +109,7 @@ def String_execute(Sensor_val):
 
 #Method publishes calibrated data to the Calculated Data Redis Channel      
 def update(sensor_key):
-    #split_key = sensor_key.split(":",1)
+    split_key = sensor_key.split(":",1)
     #print ("Split KEY : " + split_key[0]) #SpLiT kEy
     
     if split_key[1] == 'bus error':
