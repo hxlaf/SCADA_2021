@@ -33,35 +33,37 @@ def execute(Sensor_val):
     #Debuggin
     print(str(Sensor_val[0]) +":  Sensor Value: " + Sensor_val[1] )
 
-    if type(calibration_func) is not str and type(list(calibration_func.keys())[0]) is str:
-        cal_func_set = False
-        for key in calibration_func:
-            new_key = key
-            for input_key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-                #new_key = new_key.replace(input_key,str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(input_key)]))
-                new_key = new_key.replace(input_key,str(Sensor_val[1])) # Debiggin -- this should the case for sensors that are not virutal with comditional calibration
-            if (eval(new_key) == True and cal_func_set == False):
-                calibration_func = calibration_func[key]
-                cal_func_set = True
-       
     if (Sensor_val[1] == 'no data'): 
         output = 'no data'
     else:
-        for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-            calibration_func = calibration_func.replace(key,Sensor_val[1])
-    
-        calibrated_eval = eval(calibration_func)
-        #Getting Precision Specificed for Sensor for Printing 
-        precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
-        format_var = "{0:."+str(precision)+'f}'
-        output= format_var.format(calibrated_eval)
-        #Adding Value of Calibrated Sensor to Local Dictionary 
-        last_calc_vals[Sensor_val[0]] = output
+        if type(calibration_func) is not str and type(list(calibration_func.keys())[0]) is str:
+            cal_func_set = False
+            for key in calibration_func:
+                new_key = key
+                for input_key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+                    #new_key = new_key.replace(input_key,str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(input_key)]))
+                    new_key = new_key.replace(input_key,str(Sensor_val[1])) # Debiggin -- this should the case for sensors that are not virutal with comditional calibration
+                if (eval(new_key) == True and cal_func_set == False):
+                    calibration_func = calibration_func[key]
+                    cal_func_set = True
+        
+
+            for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+                calibration_func = calibration_func.replace(key,Sensor_val[1])
+        
+            calibrated_eval = eval(calibration_func)
+            #Getting Precision Specificed for Sensor for Printing 
+            precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
+            format_var = "{0:."+str(precision)+'f}'
+            output= format_var.format(calibrated_eval)
+            #Adding Value of Calibrated Sensor to Local Dictionary 
+            last_calc_vals[Sensor_val[0]] = output
 
     return(output)
 
 #Method to peform Calibration on virtual sensors 
 def Virtual_execute(Sensor_val):
+    no_data_bolean = False
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
 
     if type(calibration_func) is not str and type(list(calibration_func.keys())[0]) is str:
@@ -69,16 +71,20 @@ def Virtual_execute(Sensor_val):
         for key in calibration_func:
             new_key = key
             for input_key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-                new_key = new_key.replace(input_key,str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(input_key)]))
+                input_key_val= str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(input_key)])
+                if (input_key_val == 'no data'):
+                    no_data_bolean = True
+                new_key = new_key.replace(input_key,input_key_val)
             if (eval(new_key) == True and cal_func_set == False):
                 calibration_func = calibration_func[key]
                 cal_func_set = True
 
-    retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)])
-    if (retrived_input == 'no data'):
+    
+    if (no_data_bolean):
         output = 'no data' 
     else:    
         for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+            retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)])
             calibration_func = calibration_func.replace(key,retrived_input)
 
         calibrated_eval = eval(calibration_func)
