@@ -50,16 +50,16 @@ def execute(Sensor_val):
                     cal_func_set = True
         
 
-            for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-                calibration_func = calibration_func.replace(key,Sensor_val[1])
-        
-            calibrated_eval = eval(calibration_func)
-            #Getting Precision Specificed for Sensor for Printing 
-            precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
-            format_var = "{0:."+str(precision)+'f}'
-            output= format_var.format(calibrated_eval)
-            #Adding Value of Calibrated Sensor to Local Dictionary 
-            last_calc_vals[Sensor_val[0]] = output
+        for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+            calibration_func = calibration_func.replace(key,Sensor_val[1])
+    
+        calibrated_eval = eval(calibration_func)
+        #Getting Precision Specificed for Sensor for Printing 
+        precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
+        format_var = "{0:."+str(precision)+'f}'
+        output= format_var.format(calibrated_eval)
+        #Adding Value of Calibrated Sensor to Local Dictionary 
+        last_calc_vals[Sensor_val[0]] = output
 
     return(output)
 
