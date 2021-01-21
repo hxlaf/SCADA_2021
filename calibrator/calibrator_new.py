@@ -64,8 +64,10 @@ def execute(Sensor_val):
 #Method to peform Calibration on virtual sensors 
 def Virtual_execute(Sensor_val):
     no_data_bolean = False
+    retrived_input = ''
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
 
+#For Conditional Calibration Functions
     if type(calibration_func) is not str and type(list(calibration_func.keys())[0]) is str:
         cal_func_set = False
         for key in calibration_func:
@@ -75,18 +77,19 @@ def Virtual_execute(Sensor_val):
                 if (input_key_val == 'no data'):
                     no_data_bolean = True
                 new_key = new_key.replace(input_key,input_key_val)
-            if (eval(new_key) == True and cal_func_set == False):
+            if (eval(new_key) == True and cal_func_set == False and no_data_bolean == False):
                 calibration_func = calibration_func[key]
                 cal_func_set = True
 
-    
-    if (no_data_bolean):
-        output = 'no data' 
-    else:    
-        for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-            retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)])
-            calibration_func = calibration_func.replace(key,retrived_input)
+    for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+        retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)])
+        if ( retrived_input == 'no data'):
+            break
+        calibration_func = calibration_func.replace(key,retrived_input)
 
+    if (no_data_bolean or retrived_input == 'no data'):
+        output = 'no data'
+    else: 
         calibrated_eval = eval(calibration_func)
         precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
         format_var = "{0:."+str(precision)+'f}'
