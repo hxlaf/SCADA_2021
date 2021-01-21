@@ -44,18 +44,21 @@ def execute(Sensor_val):
                 calibration_func = calibration_func[key]
                 cal_func_set = True
        
-    for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-        calibration_func = calibration_func.replace(key,Sensor_val[1])
+    if (Sensor_val[1] == 'no data'): 
+        output = 'no data'
+    else:
+        for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+            calibration_func = calibration_func.replace(key,Sensor_val[1])
     
-    output = eval(calibration_func)
-    
-    #Getting Precision Specificed for Sensor for Printing 
-    precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
-    format_var = "{0:."+str(precision)+'f}'
-    formatted_data= format_var.format(output)
-    #Adding Value of Calibrated Sensor to Local Dictionary 
-    last_calc_vals[Sensor_val[0]] = formatted_data
-    return(formatted_data)
+        calibrated_eval = eval(calibration_func)
+        #Getting Precision Specificed for Sensor for Printing 
+        precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
+        format_var = "{0:."+str(precision)+'f}'
+        output= format_var.format(calibrated_eval)
+        #Adding Value of Calibrated Sensor to Local Dictionary 
+        last_calc_vals[Sensor_val[0]] = output
+
+    return(output)
 
 #Method to peform Calibration on virtual sensors 
 def Virtual_execute(Sensor_val):
@@ -70,39 +73,43 @@ def Virtual_execute(Sensor_val):
             if (eval(new_key) == True and cal_func_set == False):
                 calibration_func = calibration_func[key]
                 cal_func_set = True
-         
-    for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-        
-        retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)]) 
-        #Condition added to nullify calibration on virutal sensors when inputs have  'NO DATA'
-        if (retrived_input == 'no data'):
-            calibration_func = 'no data'
-        else:
+
+    retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)])
+    if (retrived_input == 'no data'):
+        output = 'no data' 
+    else:    
+        for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
             calibration_func = calibration_func.replace(key,retrived_input)
-    
-    output = eval(calibration_func)
-    
-    precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
-    format_var = "{0:."+str(precision)+'f}'
-    formatted_data= format_var.format(output)
-    last_calc_vals[Sensor_val[0]] = formatted_data
-    return(formatted_data)
+
+        calibrated_eval = eval(calibration_func)
+        precision = config.get('Sensors').get(Sensor_val[0]).get('precision')
+        format_var = "{0:."+str(precision)+'f}'
+        output= format_var.format(calibrated_eval)
+        last_calc_vals[Sensor_val[0]] = output
+      
+    return(output)
 
 #Method to perform Calibration on State Sensors 
 def State_execute(Sensor_val): 
     #Retrieving Calibrated State from YAML
     #print("STATE CAL FUNCTION:")
     #print(config.get('Sensors').get(Sensor_val[0]).get('cal_function'))
-    state_cal = config.get('Sensors').get(Sensor_val[0]).get('cal_function').get(int(Sensor_val[1]))
+    if (Sensor_val[1] == 'no data'):
+        output = 'no data'
+    else:
+        output = config.get('Sensors').get(Sensor_val[0]).get('cal_function').get(int(Sensor_val[1]))
    
-    return (state_cal)
+    return (output)
 
 #Method to perform Calibration on String Display Variables
 def String_execute(Sensor_val):
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
 
-    for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-        output = calibration_func.replace(key,Sensor_val[1])
+    if (Sensor_val[1] == 'no data'):
+        output = 'no data'
+    else:    
+        for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+            output = calibration_func.replace(key,Sensor_val[1])
 
     return (output)
 
