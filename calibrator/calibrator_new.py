@@ -63,6 +63,8 @@ def execute(Sensor_val):
 
 #Method to peform Calibration on virtual sensors 
 def Virtual_execute(Sensor_val):
+    #Debuggin
+    print(str(Sensor_val[0]) +":  Sensor Value: " + Sensor_val[1] )
     no_data_bolean = False
     retrived_input = ''
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
@@ -82,8 +84,10 @@ def Virtual_execute(Sensor_val):
                 cal_func_set = True
 
     for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-        retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)])
-        if ( retrived_input == 'no data'):
+        try:
+            retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)])
+        except KeyError:
+            retrived_input = 'no data'
             break
         calibration_func = calibration_func.replace(key,retrived_input)
 
