@@ -29,12 +29,14 @@ last_calc_vals = {}
 def execute(Sensor_val):
     #Retrieve Calibration Function From Yaml Configuration File
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
+    ouput = ''
 
     #Debuggin
     print(str(Sensor_val[0]) +":  Sensor Value: " + Sensor_val[1] )
 
     if (Sensor_val[1] == 'no data'): 
         output = 'no data'
+        last_calc_vals[Sensor_val[0]] = output
     else:
         if type(calibration_func) is not str and type(list(calibration_func.keys())[0]) is str:
             cal_func_set = False
@@ -63,6 +65,7 @@ def execute(Sensor_val):
 
 #Method to peform Calibration on virtual sensors 
 def Virtual_execute(Sensor_val):
+    output = ''
     #Debuggin
     print(str(Sensor_val[0]) +":  Sensor Value: " + Sensor_val[1] )
     no_data_bolean = False
@@ -103,7 +106,8 @@ def Virtual_execute(Sensor_val):
     return(output)
 
 #Method to perform Calibration on State Sensors 
-def State_execute(Sensor_val): 
+def State_execute(Sensor_val):
+    output = '' 
     #Retrieving Calibrated State from YAML
     #print("STATE CAL FUNCTION:")
     #print(config.get('Sensors').get(Sensor_val[0]).get('cal_function'))
@@ -116,6 +120,7 @@ def State_execute(Sensor_val):
 
 #Method to perform Calibration on String Display Variables
 def String_execute(Sensor_val):
+    output = ''
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
 
     if (Sensor_val[1] == 'no data'):
