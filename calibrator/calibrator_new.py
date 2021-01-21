@@ -29,7 +29,7 @@ last_calc_vals = {}
 def execute(Sensor_val):
     #Retrieve Calibration Function From Yaml Configuration File
     calibration_func = config.get('Sensors').get(Sensor_val[0]).get('cal_function')
-    ouput = ''
+    output = ''
 
     #Debuggin
     print(str(Sensor_val[0]) +":  Sensor Value: " + Sensor_val[1] )
