@@ -20,7 +20,7 @@ SensorList = config.get('Sensors')
 #set up CAN bus connection
 # os.system('ip link set can0 down')
 # os.system('ip link set can0 up type can bitrate 125000')
-can_drive = can_driver.CanDriver()
+can_drive = can_driver.CanDriver() #TODO: Fix this ambiguous ass name
 
 #Set RTC Time to Sys Time 
 #os.system ()
@@ -42,8 +42,8 @@ def read(Sensor):
         return 'Sensor Protocol Not Found'
         #Redis Write Command 
 
-    if data == None:
-        data = 'no data'
+    # if data == None:
+    #     data = 'no data'
     return data
 
 
