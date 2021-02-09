@@ -11,17 +11,16 @@ sys.path.append(config_path)
 
 import utils
 import config
-#import can_driver
 
 from drivers import i2c_driver
-#from drivers import can_driver
+from drivers import can_driver
 
 SensorList = config.get('Sensors')
 
 #set up CAN bus connection
 # os.system('ip link set can0 down')
 # os.system('ip link set can0 up type can bitrate 125000')
-#can_drive = can_driver.CanDriver()
+can_drive = can_driver.CanDriver()
 
 #Set RTC Time to Sys Time 
 #os.system ()
@@ -34,7 +33,7 @@ def read(Sensor):
     if(sensor_protocol == 'I2C'):
         data = i2c_driver.read(Sensor)
     elif(sensor_protocol =='CAN'):
-        data = can_driver.read(Sensor)
+        data = can_drive.read(Sensor)
     #elif(sensor_protocol == 'USB'):
         #data= usb_sorter.read(Sensor)
     elif(sensor_protocol == 'VIRTUAL'):
@@ -56,7 +55,7 @@ def write(Sensor,Value):
     if(sensor_protocol == 'I2C'):
         i2c_driver.write(Sensor, Value)
     elif(sensor_protocol =='CAN'):
-        can_driver.write(Sensor,Value)
+        can_drive.write(Sensor,Value)
 #     elif(sensor_protocol == 'USB'):
 #         usb_sorter.write(Sensor,Value)
     else:

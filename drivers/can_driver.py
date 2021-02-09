@@ -19,8 +19,8 @@ import time
 
 
 
-# open a connection to the redis server where we will
-# be writing data
+open a connection to the redis server where we will
+ be writing data
 #data = redis.Redis(host='localhost', port=6379, db=0)
 
 class CanDriver:
