@@ -16,7 +16,6 @@ import time
 import sys, os
 import datetime
 #from decimal import *
-
 import database
 
 data = redis.Redis(host='localhost', port=6379, db=0)
