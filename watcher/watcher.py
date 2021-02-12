@@ -21,7 +21,7 @@ import datetime
         #Tempin: TSI-Temp
     #Condition: 'Tempin > 200'
     #Action: LOG
-    #Action_Details: 'TSI Temperature over 200'         #if LOG put text, if WARNING put text (maybe color/flashing?), if ACTION need some kind of syntax for actions
+    #Action_Details: 'TSI Temperature over 200'         #if LOG put text, if WARNING put text (maybe color/flashing?), if ACTION write to a sensor on the vehicle
     #Condition_Type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
     #Action_Type: LATCH                                 #LATCH or PULSE
     #Condition_Inputs: 5-10                             #Repetitions-Seconds for REPETITION and Seconds for PERIOD
@@ -32,17 +32,20 @@ import datetime
         # writeValue: value
 
 #Setting up connectiion to Redis Server
+#Harry: THIS SHOULD BE CONNECTING TO POSTGRES DATABASE, NOT REDIS
 Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
 data.subscribe('Sensor_data')
 
 ControlsList = config.get('Controls')
 
+#Harry: NOT CLEAR ON WHAT EACH OF THESE DATA STRUCTURES ACTUALLY CONTAINS
 condition_storage = {}
 data_storage = {}
 latch_storage = {}
 
 def watch(message):
+    #Harry: WOULDN'T THIS JUST BE THE NAME OF THE SENSOR? CONTROLS LIST WOULD HAVE THE NAME OF THE CONTROL, RIGHT?
     name = message.split(':')[0]
     if name in ControlsList:
         val = message.split(':')[1]
@@ -80,7 +83,7 @@ def repetition(name,val,Control):
     max_repetitions = Control.get('Condition_Inputs').split('-')[0]
     max_duration = Control.get('Condition_Inputs').split('-')[1]
     for _ in condition_storage[name]:
-        if time.time() - float(condition_storage[name][0]) > float(max_duration):
+        if time.time() - float(condition_storage[name][0]) > float(max_duration): #Harry: would use condition_storage[name][len(condition_storage)-1] since you've already stored it
             condition_storage[name].pop(0)
         else:
             break
