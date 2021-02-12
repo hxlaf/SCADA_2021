@@ -46,6 +46,8 @@ latch_storage = {}
 
 def watch(message):
     #Harry: WOULDN'T THIS JUST BE THE NAME OF THE SENSOR? CONTROLS LIST WOULD HAVE THE NAME OF THE CONTROL, RIGHT?
+    #Harry: SINCE WE CAN'T USE REDIS, WE NEED A WAY TO CHECK FOR NEW DATA. MAYBE A "previousValues" like logger has?
+    #Harry: MAYBE THERE'S A WAY TO LOOK AT REDIS WITHOUT TAKING THE DATA OUT OF IT, LIKE A "peek" METHOD
     name = message.split(':')[0]
     if name in ControlsList:
         val = message.split(':')[1]
@@ -83,7 +85,7 @@ def repetition(name,val,Control):
     max_repetitions = Control.get('Condition_Inputs').split('-')[0]
     max_duration = Control.get('Condition_Inputs').split('-')[1]
     for _ in condition_storage[name]:
-        if time.time() - float(condition_storage[name][0]) > float(max_duration): #Harry: would use condition_storage[name][len(condition_storage)-1] since you've already stored it
+        if time.time() - float(condition_storage[name][0]) > float(max_duration): #Harry: would use condition_storage[name][len(condition_storage)-1] instead of time.time() since you've already stored it
             condition_storage[name].pop(0)
         else:
             break
