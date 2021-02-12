@@ -175,6 +175,7 @@ class NewGUI_2(tk.Frame):
                 # inriment row for next sensor 
                 self.row_place = self.row_place + 1
                 # break loop once sensor is found
+                
                 break
             
             # create elif so that pop up displays uf user incorrectly entered a sensor name 
@@ -200,17 +201,15 @@ class NewGUI_2(tk.Frame):
             ## Add value to entry box on screen 
             entry_ = tk.Entry(self, width = BOX_WIDTH)
 
+            ## take unit out if there is no data
+            if value is "NO DATA":
+                unit = " "
+
             ## get sensor unit
             if sensor.get('unit') is None: 
                 unit = " "
             else:
                 unit = sensor.get('unit')
-
-            
-            ## add if != "Buss Error"
-            if value is "NO DATA":
-                unit = " "
-            #if value != "buss error":
 
 
             text = str(value) + " " + unit
