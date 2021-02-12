@@ -37,10 +37,10 @@ class NewGUI_2(tk.Frame):
 
         self.tempList = [] ## this is a temp list until we have new config file formatted 
         self.entryBoxList = [] ## list on entry boxes diaplyed on screen
-        self.column_place = 0
-        self.row_place = 0
+        self.column_place = 0 ## column place for each box
+        self.row_place = 0 ## row place for each box
 
-        self.pageNumber = pageNum
+        self.pageNumber = pageNum ## The Page number 
 
         ## Set the title of the window to the page number 
         self.winfo_toplevel().title("SPARKY")
