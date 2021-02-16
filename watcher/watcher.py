@@ -32,7 +32,7 @@ import datetime
         # writeValue: value
 
 #Setting up connectiion to Redis Server
-#Harry: THIS SHOULD BE CONNECTING TO POSTGRES DATABASE, NOT REDIS
+#Harry: THIS SHOULD BE CONNECTING TO POSTGRES DATABASE, NOT REDIS SERVER
 Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
 data.subscribe('Sensor_data')
