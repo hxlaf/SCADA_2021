@@ -17,62 +17,92 @@ import datetime
 
 ##Example Control
 #TSI-Heat_Check:
-    #inputs:
-        #Tempin: TSI-Temp
-    #Condition: 'Tempin > 200'
-    #Action: LOG
-    #Action_Details: 'TSI Temperature over 200'         #if LOG put text, if WARNING put text (maybe color/flashing?), if ACTION write to a sensor on the vehicle
-    #Condition_Type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
-    #Action_Type: LATCH                                 #LATCH or PULSE
-    #Condition_Inputs: 5-10                             #Repetitions-Seconds for REPETITION and Seconds for PERIOD
+    #timeout: 10                                        #minimum time between activating (seconds)
 
-    #Action: ACTION
+    #inputs:
+        #Tempin: TSI-Temp     
+    #Condition: 'Tempin > 60'
+    #Condition_Type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
+    #Condition_Details: 5-10                            #Repetitions-Seconds for REPETITION and Seconds for PERIOD; INSTANTANEOUS does not use this field
+    
+    #Action_Type: LOG                                   #if LOG put text, if WARNING put text (maybe color/flashing?), if WRITE write to a sensor on the vehicle
+    #Action_Details:
+        # message: 'TSI Temperature over 60'  
+    #Persistence: PULSE                                #LATCH or PULSE
+    
+    #Off_Condition: 'Tempin <= 40'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
+    #Off_Condition_Type: DURATION
+    #Off_Condition_Details: 10
+
+    #NOTE: these are not full configurations. Just examples of Action_Details for alternate Action_Type's
+
+    #Action_Type: WARNING
+    #Action_Details:
+        # warningmsg: "msg1"
+        # suggestion: "suggestion1"
+        # priority: 5
+    
+    #Action_Type: WRITE
     #Action_Details:
         # writeSensor: sensorName
         # writeValue: value
 
-#Setting up connectiion to Redis Server
-#Harry: THIS SHOULD BE CONNECTING TO POSTGRES DATABASE, NOT REDIS SERVER
+    #Nadovich notes:
+    #need standard kind of threshold so we only have 1 type of condition for each
+    #watcher controls should be objects, should have a boolean variable for whether they're active
+    #pulses need to go into a FIFO queue
+    #retriggerable vs. not retriggerable controls
+
+#Setting up connection to Redis Server
 Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
-data.subscribe('Sensor_data')
+data.subscribe('watcher_data')
 
 ControlsList = config.get('Controls')
 
-#Harry: NOT CLEAR ON WHAT EACH OF THESE DATA STRUCTURES ACTUALLY CONTAINS
+#stores timestamps for repetition and period type controls
 condition_storage = {}
+#Same as previousValues list
 data_storage = {}
+#stores latches (whether an action should currently be performed)
 latch_storage = {}
 
 def watch(message):
-    #Harry: WOULDN'T THIS JUST BE THE NAME OF THE SENSOR? CONTROLS LIST WOULD HAVE THE NAME OF THE CONTROL, RIGHT?
-    #Harry: SINCE WE CAN'T USE REDIS, WE NEED A WAY TO CHECK FOR NEW DATA. MAYBE A "previousValues" like logger has?
-    #Harry: MAYBE THERE'S A WAY TO LOOK AT REDIS WITHOUT TAKING THE DATA OUT OF IT, LIKE A "peek" METHOD
     name = message.split(':')[0]
-    if name in ControlsList:
-        val = message.split(':')[1]
-        data_storage[name] = val
-        Control = config.get('Controls').get(name)
-        Condition_Type = Control.get('Condition_Type')
+    for control in ControlsList:
+        inputs = control.get('Inputs').values()
+        if name in inputs:
+            val = message.split(':')[1]
+            data_storage[name] = val
+            Control = config.get('Controls').get(name)
 
-        if (Condition_Type == 'REPETITION') and evaluate(Control):
-            repetition(name,val,Control)
+            if latch_storage[Control] = 
 
-        elif Condition_Type == 'PERIOD':
-            period(name,val,Control)
+            Condition_Type = Control.get('Condition_Type')
 
-        elif Condition_Type == 'INSTANTANEOUS' and evaluate(Control):
-            instantaneous(name,val,Control)
+            if (Condition_Type == 'REPETITION') and evaluate(Control):
+                repetition(name,val,Control)
 
-        elif evaluate(Control):
-            print('Error: unrecognized Condition_Type in Control: ' + name)
+            elif Condition_Type == 'PERIOD':
+                period(name,val,Control)
+
+            elif Condition_Type == 'INSTANTANEOUS' and evaluate(Control):
+                instantaneous(name,val,Control)
+
+            elif evaluate(Control):
+                print('Error: unrecognized Condition_Type in Control: ' + name)
 
 #Determines whether action condition has been met
 def evaluate(Control):
     condition = str(Control.get('Condition'))
     inputs  = Control.get('inputs')
     for i in inputs:
-        condition = condition.replace(i.split(':')[0], data_storage[inputs.get(i)]).replace('\n','')
+        try:
+            if data_storage[inputs.get(i)] = 'BUS ERROR':
+                return False
+            condition = condition.replace(i.split(':')[0], data_storage[inputs.get(i)]).replace('\n','')
+        except KeyError:
+            return False
     return eval(condition)
 
 #function for determining if a condition has been met the required number of times within the specified period
@@ -84,11 +114,10 @@ def repetition(name,val,Control):
 
     max_repetitions = Control.get('Condition_Inputs').split('-')[0]
     max_duration = Control.get('Condition_Inputs').split('-')[1]
-    for _ in condition_storage[name]:
-        if time.time() - float(condition_storage[name][0]) > float(max_duration): #Harry: would use condition_storage[name][len(condition_storage)-1] instead of time.time() since you've already stored it
+
+    while condition_storage[name][len(condition_storage[name])-1] - float(condition_storage[name][0]) > float(max_duration):
             condition_storage[name].pop(0)
-        else:
-            break
+
     time_diff = condition_storage[name][len(condition_storage[name])-1]-condition_storage[name][0]
     if (len(condition_storage[name]) > int(max_repetitions)) and (time_diff < int(max_duration)):
         execute(name, val, Control)

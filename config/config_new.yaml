@@ -1684,3 +1684,24 @@ Sensors:
 #     cal_function: '(x0 * (9/5) +32)' ## shoudl we just use the avergae?? ## why does he have all 3 ?? 
 #     bus_type: Can       
 #     bus_addr:    
+
+
+
+################## WATCHER STUFF ##########################
+
+Controls:
+
+  TSI-Heat_Check:
+      inputs:
+          Tempin: TSI-Temp
+      Condition: 'Tempin > 200'
+      Action: LOG
+      Action_Details: 'TSI Temperature over 200'         #if LOG put text, if WARNING put text (maybe color/flashing?), if ACTION write to a sensor on the vehicle
+      Condition_Type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
+      Action_Type: LATCH                                 #LATCH or PULSE
+      Condition_Inputs: 5-10                             #Repetitions-Seconds for REPETITION and Seconds for PERIOD
+
+      Action: ACTION
+      Action_Details:
+          writeSensor: sensorName
+          writeValue: value

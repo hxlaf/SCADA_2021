@@ -132,6 +132,7 @@ def update(message, key):
 
   #   # Harry: Builds list of all the ignore keys (why is it doing this every time it updates??)
     ignore_keys = []
+    #commented out for efficiency. we aren't using any 'ignore keys' at the moment
 #     for key_string in config.get('dont_log', []):
 #         ignore_keys = ignore_keys + redis_data.keys(key_string)
     
@@ -153,6 +154,10 @@ def update(message, key):
             VALUES (%s, %s)
         """, [Sensor_key, Sensor_value])
 
+        # #ADDED FOR WATCHER, add 'new' data (copy of postgres data) back to redis
+        # data.publish('watcher_data', '{}:{}'.format(Sensor_key, Sensor_value))
+        #I MOVED THIS TO CALIBRATOR
+
         # updates previous value/timestamp for check_update_ready method on next loop
         previous_values[Sensor_key] = (Sensor_value, datetime.datetime.now())
 
@@ -170,7 +175,6 @@ while True:
         # Harry: calls update method (checks if it should be logged and executes database queries to log it)
         if message['channel'] in ['calculated_data']:  
             update(message['channel'], message['data'])
-            #Harry: to get live view, we could print the "previous_values" table here
         elif message['channel'] == 'new-session':
             delimit_session()        
 
