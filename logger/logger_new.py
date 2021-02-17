@@ -136,7 +136,7 @@ def update(msgData):
 #     for key_string in config.get('dont_log', []):
 #         ignore_keys = ignore_keys + redis_data.keys(key_string)
     
-    if not key in ignore_keys:
+    if not Sensor_key in ignore_keys:
         # Harry: attempts to put sensor key in the sensor table if not already
         # Harry: WHY IS THIS DONE ON EVERY UPDATE? This should be in the config.py, right?
         # Harry: Unless the idea here is to only have sensor info for the sensors involved in any
@@ -166,11 +166,11 @@ while True:
     # Harry: Note: this "message" object is just a dict with keys 'type', 'pattern', 'channel', and 'data'
     message = p.get_message()
     #Debugging Comments
-    print(message)
+    #print(message)
     if (message and (message['data'] != 1 )):
         # Harry: calls update method (checks if it should be logged and executes database queries to log it)
         if message['channel'] in ['calculated_data']:  
-            update(message['channel'], message['data'])
+            update(message['data'])
         elif message['channel'] == 'new-session':
             delimit_session()        
 

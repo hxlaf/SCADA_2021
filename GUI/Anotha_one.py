@@ -201,10 +201,10 @@ class NewGUI_2(tk.Frame):
             ## Add value to entry box on screen 
             entry_ = tk.Entry(self, width = BOX_WIDTH)
 
-            ## add if != "Buss Error"
-            #if value != "buss error":
-            
-            if sensor.get('unit') is None: 
+            ## Display units according to data status
+            if str(value) == 'NO DATA':
+                unit = " "
+            elif sensor.get('unit') is None: 
                 unit = " "
             else:
                 unit = sensor.get('unit')
