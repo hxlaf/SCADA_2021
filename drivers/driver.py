@@ -13,14 +13,15 @@ import utils
 import config
 
 from drivers import i2c_driver
-from drivers import can_driver
+#from drivers import can_driver   #UNCOMMENT!!
 
 SensorList = config.get('Sensors')
 
 #set up CAN bus connection
 # os.system('ip link set can0 down')
 # os.system('ip link set can0 up type can bitrate 125000')
-can_drive = can_driver.CanDriver() #TODO: Fix this ambiguous ass name
+
+#can_drive = can_driver.CanDriver() #TODO: Fix this ambiguous ass name  ##UNCOMENNETTTT!!!
 
 #Set RTC Time to Sys Time 
 #os.system ()
