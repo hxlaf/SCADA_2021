@@ -166,11 +166,11 @@ while True:
     # Harry: Note: this "message" object is just a dict with keys 'type', 'pattern', 'channel', and 'data'
     message = p.get_message()
     #Debugging Comments
-    print(message)
+    #print(message)
     if (message and (message['data'] != 1 )):
         # Harry: calls update method (checks if it should be logged and executes database queries to log it)
         if message['channel'] in ['calculated_data']:  
-            update(message['channel'], message['data'])
+            update(message['data'])
         elif message['channel'] == 'new-session':
             delimit_session()        
 
