@@ -56,7 +56,7 @@ import datetime
 #Setting up connection to Redis Server
 Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
-data.subscribe('watcher_data')
+data.subscribe('calculated_data')
 
 ControlsList = config.get('Controls')
 

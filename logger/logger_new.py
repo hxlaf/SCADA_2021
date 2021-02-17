@@ -154,10 +154,6 @@ def update(message, key):
             VALUES (%s, %s)
         """, [Sensor_key, Sensor_value])
 
-        # #ADDED FOR WATCHER, add 'new' data (copy of postgres data) back to redis
-        # data.publish('watcher_data', '{}:{}'.format(Sensor_key, Sensor_value))
-        #I MOVED THIS TO CALIBRATOR
-
         # updates previous value/timestamp for check_update_ready method on next loop
         previous_values[Sensor_key] = (Sensor_value, datetime.datetime.now())
 

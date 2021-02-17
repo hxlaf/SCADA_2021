@@ -139,19 +139,13 @@ def update(sensor_key):
     
     if split_key[1] == 'bus error':
         data.publish('calculated_data', '{}:{}'.format(split_key[0], 'BUS ERROR'))
-        #ADDED FOR WATCHER, add 'new' data (copy of postgres data) back to redis
-        data.publish('watcher_data', '{}:{}'.format(split_key[0], 'BUS ERROR'))
 
     #Check For Display Variable to Differientiate between states and number values 
     elif config.get('Sensors').get(split_key[0]).get('display_variable') == 'state':
         data.publish('calculated_data', '{}:{}'.format(split_key[0], str(State_execute(split_key))))
-        #ADDED FOR WATCHER, add 'new' data (copy of postgres data) back to redis
-        data.publish('watcher_data', '{}:{}'.format(split_key[0], str(State_execute(split_key))))
     
     elif config.get('Sensors').get(split_key[0]).get('display_variable') == 'string':
         data.publish('calculated_data', '{}:{}'.format(split_key[0], str(String_execute(split_key))))
-        #ADDED FOR WATCHER, add 'new' data (copy of postgres data) back to redis
-        data.publish('watcher_data', '{}:{}'.format(split_key[0], str(String_execute(split_key))))
 
     #Display Variable is a number and can be calibrated with functions 
     else: 
@@ -160,12 +154,8 @@ def update(sensor_key):
     #Else - Virtual Sensor Calibration Method Called 
         if config.get('Sensors').get(split_key[0]).get('bus_type') != 'VIRTUAL':
             data.publish('calculated_data', '{}:{}'.format(split_key[0], str(execute(split_key)) ))
-            #ADDED FOR WATCHER, add 'new' data (copy of postgres data) back to redis
-            data.publish('watcher_data', '{}:{}'.format(split_key[0], str(execute(split_key)) ))
         else:
             data.publish('calculated_data', '{}:{}'.format(split_key[0], str(Virtual_execute(split_key))))
-            #ADDED FOR WATCHER, add 'new' data (copy of postgres data) back to redis
-            data.publish('watcher_data', '{}:{}'.format(split_key[0], str(Virtual_execute(split_key))))
         
 
 #Listening to the Calculated Data Channel for New Messages 
