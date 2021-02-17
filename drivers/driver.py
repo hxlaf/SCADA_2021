@@ -13,7 +13,7 @@ import utils
 import config
 
 from drivers import i2c_driver
-#from drivers import can_driver   #UNCOMMENT!!
+#from drivers import can_driver   #UNCOMMENT
 
 SensorList = config.get('Sensors')
 
@@ -39,11 +39,11 @@ def read(Sensor):
         #data= usb_sorter.read(Sensor)
     elif(sensor_protocol == 'VIRTUAL'):
         data= 0
-    else:
-        return 'Sensor Protocol Not Found'
-        #Redis Write Command 
+    # else:
+    #     return 'Sensor Protocol Not Found'
+    #     #Redis Write Command 
 
-    if data == None:
+    else:
         data = 'no data'
     return data
 
