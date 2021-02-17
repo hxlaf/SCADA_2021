@@ -118,15 +118,15 @@ def check_update_ready(key,sensor_value):
     # default
     return False
 
-def update(message, key):
+def update(msgData):
     # Don't log the value if an identical
     # value has been logged recently
-    # message = calculated_data
-    # {sensern_name}:{calculated_data}
+    # msgData = contents of redis message
+    # {sensor_name}:{calculated_data}
 
-    split_key = key.split(":",1)
-    Sensor_value= split_key[1]
-    Sensor_key = split_key[0]
+    split_msg = msgData.split(":",1)
+    Sensor_value= split_msg[1]
+    Sensor_key = split_msg[0]
     if not check_update_ready(Sensor_key,Sensor_value):
         return
 
