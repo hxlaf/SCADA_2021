@@ -40,7 +40,7 @@ import datetime
         # message: "msg1"
         # suggestion: "suggestion1"
         # priority: 5
-    
+
     #action:
         # type: WRITE
         # sensor: sensorName
@@ -50,7 +50,7 @@ ControlsList = config.get('Controls')
 DataStorage = {}
 defaultControl = Control(ControlsList.get('default_control'))
 
-class Control: 
+class Control:
     def __init__(self, configDict):
         self.active = False
         self.lastActive = 0
@@ -59,7 +59,7 @@ class Control:
         #list of strings of input sensor names
         inputs = configDict.get('inputs')
         #loads all data for entry condition
-        
+
         typ = configDict.get('entry_condition').get('type')
         if typ == 'INSTANTANEOUS':
             self.entryConditon = Instantaneous(config.get('entry_condition'), inputs)
@@ -67,7 +67,7 @@ class Control:
             self.entryConditon = Duration(config.get('entry_condition'), inputs)
         elif typ == 'REPETITION':
             self.entryConditon = Repetition(config.get('entry_condition'), inputs)
-        
+
         #optional attributses
         try:
             if typ == 'INSTANTANEOUS':
@@ -98,14 +98,14 @@ class Control:
     #returns boolean
     def checkEntryCondition(self):
         return (time.time() - lastActive) > self.cooldown and self.entryCondition.check()
-    
+
     #returns boolean
     def checkExitCondition(self):
         if self.exitCondition is not None:
             return (self.maxDuration is not None and time.time() - lastActive > self.maxDuration) or self.exitCondition.check()
         else:
             return (self.maxDuration is not None and time.time() - lastActive > self.maxDuration) 
-        
+
 
     def update(self):
         #self.checkEntryCondition == self.checkExitCondition?
@@ -125,7 +125,7 @@ class Condition:
         self.inputs = inputs.values()
         for i in inputs:
             self.str.replace(i, inputs[i].replace('\n','')
-    
+
     def evaluate(self):
         for i in self.inputs:
             try:
