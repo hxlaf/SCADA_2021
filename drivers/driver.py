@@ -42,8 +42,8 @@ def read(Sensor):
         return 'Sensor Protocol Not Found'
         #Redis Write Command 
 
-    # if data == None:
-    #     data = 'no data'
+    if data == None:
+        data = 'no data'
     return data
 
 
