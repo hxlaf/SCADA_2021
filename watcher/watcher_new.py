@@ -124,14 +124,14 @@ class Condition:
         self.str = configDict.get('entry_condition').get('str')
         self.inputs = inputs.values()
         for i in inputs:
-            self.str.replace(i, inputs[i].replace('\n','')
+            self.str.replace(i, inputs[i].replace('\n',''))
 
     def evaluate(self):
         for i in self.inputs:
             try:
                 if data_storage[i] == 'no data': #will anything need to be triggered
                     return False
-                condition = self.str.replace(i, data_storage[i].replace('\n','')
+                condition = self.str.replace(i, data_storage[i].replace('\n',''))
             except KeyError:
                 return False
         return eval(condition)
