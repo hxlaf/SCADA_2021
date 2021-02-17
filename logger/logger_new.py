@@ -136,7 +136,7 @@ def update(msgData):
 #     for key_string in config.get('dont_log', []):
 #         ignore_keys = ignore_keys + redis_data.keys(key_string)
     
-    if not key in ignore_keys:
+    if not Sensor_key in ignore_keys:
         # Harry: attempts to put sensor key in the sensor table if not already
         # Harry: WHY IS THIS DONE ON EVERY UPDATE? This should be in the config.py, right?
         # Harry: Unless the idea here is to only have sensor info for the sensors involved in any
