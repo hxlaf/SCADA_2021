@@ -206,7 +206,7 @@ class NewGUI_2(tk.Frame):
 
             if str(value) is "NO DATA":
                 unit = " "
-            else if sensor.get('unit') is None: 
+            elif sensor.get('unit') is None: 
                 unit = " "
             else:
                 unit = sensor.get('unit')
