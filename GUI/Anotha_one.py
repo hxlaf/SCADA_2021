@@ -203,8 +203,10 @@ class NewGUI_2(tk.Frame):
 
             ## add if != "Buss Error"
             #if value != "buss error":
-            
-            if sensor.get('unit') is None: 
+
+            if value = "NO DATA":
+                unit = " "
+            else if sensor.get('unit') is None: 
                 unit = " "
             else:
                 unit = sensor.get('unit')
