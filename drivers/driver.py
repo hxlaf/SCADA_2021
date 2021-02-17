@@ -39,11 +39,11 @@ def read(Sensor):
         #data= usb_sorter.read(Sensor)
     elif(sensor_protocol == 'VIRTUAL'):
         data= 0
-    # else:
-    #     return 'Sensor Protocol Not Found'
-    #     #Redis Write Command 
-
     else:
+        return 'Sensor Protocol Not Found'
+    #  #Redis Write Command 
+
+    if(data == None): #Sensor is either unavialble or disconnected 
         data = 'no data'
     return data
 
