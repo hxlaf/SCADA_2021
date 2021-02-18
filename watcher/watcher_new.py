@@ -46,7 +46,8 @@ import datetime
         # sensor: sensorName
         # value: val
 
-ControlsList = config.get('Controls')
+ControlsList = config.get('Controls') #complete list of sensors to make objects from
+ControlsDict = {} #dictionary of controls organized by the input sensor (key = sensor name)
 DataStorage = {}
 defaultControl = Control(ControlsList.get('default_control'))
 
@@ -126,6 +127,7 @@ class Condition:
         for i in inputs:
             self.str.replace(i, inputs[i].replace('\n',''))
 
+    #evaluates the condition string
     def evaluate(self):
         for i in self.inputs:
             try:
@@ -142,6 +144,10 @@ class Instantaneous(Condition):
         return evaluate()
 
 class Duration(Condition):
+    def __init__(self, configDict, inputs)
+        #set duration
+        pass
+
     def check(self):
         max_duration = Control.get('Condition_Inputs')
         if evaluate(Control):
@@ -154,7 +160,11 @@ class Duration(Condition):
         else:
             condition_storage[name] = [0,0]
 
-class Repetition(Condtion):
+class Repetition(Condition):
+    def __init__(self, configDict, inputs)
+        #set duration and number of repitititions
+        pass
+
     def check(self):
         try:
             condition_storage[name].append(time.time())
@@ -173,13 +183,13 @@ class Repetition(Condtion):
 
 
 
-# class Action:
+class Action:
 
-# class Log(Action):
+class Log(Action):
 
-# class Warning(Action):
+class Warning(Action):
 
-# class Write(Action):
+class Write(Action):
 
 
 
