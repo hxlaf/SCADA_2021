@@ -11,6 +11,7 @@ import redis
 
 import utils
 from utils import calibration
+import driver
 
 import time
 import datetime
@@ -59,8 +60,8 @@ class Control:
         self.maxDuration = configDict.get('max_duration')
         #list of strings of input sensor names
         inputs = configDict.get('inputs')
-        #loads all data for entry condition
 
+        #initializes entry condition attributes
         typ = configDict.get('entry_condition').get('type')
         if typ == 'INSTANTANEOUS':
             self.entryConditon = Instantaneous(config.get('entry_condition'), inputs)
@@ -68,9 +69,21 @@ class Control:
             self.entryConditon = Duration(config.get('entry_condition'), inputs)
         elif typ == 'REPETITION':
             self.entryConditon = Repetition(config.get('entry_condition'), inputs)
+        
+        #initializes action attributes
+        typ = configDict.get('action').get('type')
+        if typ == 'LOG':
+            self.action = Log(self.entryCondition)
+        elif typ == 'WARNING':
+            self.action = Warning(self.entryCondition)
+        elif typ == 'WRITE':
+            self.action = Write(self.entryCondition)
 
-        #optional attributses
+        #optional attributes:
+
+        #initializes exit condition attributes
         try:
+            typ = configDict.get('exit_condition').get('type')
             if typ == 'INSTANTANEOUS':
                 self.exitConditon = Instantaneous(config.get('exit_condition'), inputs)
             elif typ == 'DURATION':
@@ -79,6 +92,8 @@ class Control:
                 self.exitConditon = Repetition(config.get('exit_condition'), inputs)
         except:
             self.exitCondition = defaultControl.exitCondition
+        
+        #initializes max duration and cooldwon attributes
         try:
             self.maxDuration = configDict.get('max_duration')
         except:
@@ -87,14 +102,6 @@ class Control:
             self.cooldown = configDict.get('cooldown')
         except:
             self.cooldown = defaultControl.exitCondition
-
-
-        if self.actionType == 'LOG':
-            self.action = Log(self.entryCondition)
-        elif self.actionType == 'WARNING':
-            self.action = Warning(self.entryCondition)
-        elif self.actionType == 'WRITE':
-            self.action = Write(self.entryCondition)
 
     #returns boolean
     def checkEntryCondition(self):
@@ -107,7 +114,7 @@ class Control:
         else:
             return (self.maxDuration is not None and time.time() - lastActive > self.maxDuration) 
 
-
+    #checks conditions and changes active/inactive state accordingly
     def update(self):
         #self.checkEntryCondition == self.checkExitCondition?
         if not self.active:
@@ -184,12 +191,35 @@ class Repetition(Condition):
 
 
 class Action:
+    def __init__(self):
+        pass
+    
 
 class Log(Action):
+    def __init__(self, configDict):
+        self.message = configDict.get('message')
+
+    def execute(self):
+        #log message to log
+        pass
 
 class Warning(Action):
+    def __init__(self, configDict):
+        self.message = configDict.get('message')
+        self.suggestion = configDict.get('suggestion')
+        self.priority = configDict.get('priority')
+
+    def execute(self):
+        #add warning to JSON file
+        pass
 
 class Write(Action):
+    def __init__(self, configDict):
+        self.sensor = configDict.get('sensor')
+        self.value = configDict.get('value')
+
+    def execute(self):
+        driver.write(sensor, value)
 
 
 
