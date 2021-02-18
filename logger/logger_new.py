@@ -137,7 +137,7 @@ def update(msgData):
 #         ignore_keys = ignore_keys + redis_data.keys(key_string)
     
     #Check is sensor name is not in ignore keys and whether sensor data is 'no data' before storing in database 
-    if not Sensor_key in ignore_keys and Sensor_value != 'no data' :
+    if not Sensor_key in ignore_keys:
     
         cursor.execute("""
             INSERT INTO sensors
