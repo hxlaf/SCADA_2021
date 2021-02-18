@@ -51,6 +51,8 @@ ControlsList = config.get('Controls') #complete list of sensors to make objects 
 ControlsDict = {} #dictionary of controls organized by the input sensor (key = sensor name)
 DataStorage = {}
 defaultControl = Control(ControlsList.get('default_control'))
+warningTotal = 0
+warnings = {}
 
 class Control:
     def __init__(self, configDict):
@@ -210,8 +212,11 @@ class Warning(Action):
         self.priority = configDict.get('priority')
 
     def execute(self):
-        #add warning to JSON file
-        pass
+        warningTotal += 1
+        warnings['warning'][warningTotal] = {'message':self.message, 'suggestion':self.message,'priority':self.priority}
+        open('usr\etc\dashboard.json', 'w').close()
+        with open('usr\etc\dashboard.json','a') as outfile:
+            outfile.write(json.dumps(warnings))
 
 class Write(Action):
     def __init__(self, configDict):
