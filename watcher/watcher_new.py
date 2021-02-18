@@ -22,7 +22,7 @@ import datetime
     #inputs:
         #Tempin: TSI-Temp 
     #entry_condition:
-        #str 'Tempin > 60'
+        #str: 'Tempin > 60'
         #type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
         #details: 5-10                            #Repetitions-Seconds for REPETITION and Seconds for PERIOD; INSTANTANEOUS does not use this field
     #exit_condition:
@@ -40,43 +40,76 @@ import datetime
         # message: "msg1"
         # suggestion: "suggestion1"
         # priority: 5
-    
+
     #action:
         # type: WRITE
         # sensor: sensorName
         # value: val
 
+ControlsList = config.get('Controls') #complete list of sensors to make objects from
+ControlsDict = {} #dictionary of controls organized by the input sensor (key = sensor name)
+DataStorage = {}
+defaultControl = Control(ControlsList.get('default_control'))
 
-ControlsList = config.get(Controls)
-
-class Control: 
+class Control:
     def __init__(self, configDict):
         self.active = False
         self.lastActive = 0
-        self.cooldown = configDict.get(cooldown)
+        self.cooldown = configDict.get('cooldown')
+        self.maxDuration = configDict.get('max_duration')
         #list of strings of input sensor names
-        self.inputs = configDict.get(inputs).values()
+        inputs = configDict.get('inputs')
         #loads all data for entry condition
-        
-        
-        
-        
-        self.entryCondition = Condition(configDict.get(entry_condition))
-        
-        
+
+        typ = configDict.get('entry_condition').get('type')
+        if typ == 'INSTANTANEOUS':
+            self.entryConditon = Instantaneous(config.get('entry_condition'), inputs)
+        elif typ == 'DURATION':
+            self.entryConditon = Duration(config.get('entry_condition'), inputs)
+        elif typ == 'REPETITION':
+            self.entryConditon = Repetition(config.get('entry_condition'), inputs)
+
+        #optional attributses
+        try:
+            if typ == 'INSTANTANEOUS':
+                self.exitConditon = Instantaneous(config.get('exit_condition'), inputs)
+            elif typ == 'DURATION':
+                self.exitConditon = Duration(config.get('exit_condition'), inputs)
+            elif typ == 'REPETITION':
+                self.exitConditon = Repetition(config.get('exit_condition'), inputs)
+        except:
+            self.exitCondition = defaultControl.exitCondition
+        try:
+            self.maxDuration = configDict.get('max_duration')
+        except:
+            self.maxDuration = defaultControl.exitCondition
+        try:
+            self.cooldown = configDict.get('cooldown')
+        except:
+            self.cooldown = defaultControl.exitCondition
 
 
         if self.actionType == 'LOG':
-            pass
-        elif self.actionType == 'WARNING'
-            pass
+            self.action = Log(self.entryCondition)
+        elif self.actionType == 'WARNING':
+            self.action = Warning(self.entryCondition)
         elif self.actionType == 'WRITE':
-            pass
+            self.action = Write(self.entryCondition)
 
-    def checkEntryCondition(self)
-        return (time.time() - lastActive) > 0 and self.entryCondition.check()
+    #returns boolean
+    def checkEntryCondition(self):
+        return (time.time() - lastActive) > self.cooldown and self.entryCondition.check()
+
+    #returns boolean
+    def checkExitCondition(self):
+        if self.exitCondition is not None:
+            return (self.maxDuration is not None and time.time() - lastActive > self.maxDuration) or self.exitCondition.check()
+        else:
+            return (self.maxDuration is not None and time.time() - lastActive > self.maxDuration) 
+
 
     def update(self):
+        #self.checkEntryCondition == self.checkExitCondition?
         if not self.active:
             if self.checkEntryCondition():
                 active = True
@@ -88,38 +121,75 @@ class Control:
             self.action.execute()
 
 class Condition:
-    def __init__(self, configDict, inputs)
-        self.str = config.get(entry_condition)
-        #INSTANTANEOUS, REPETITION, or DURATION
-        self.type = configDict.get(entry_condition_type)
-    def check(self):
-        pass
+    def __init__(self, configDict, inputs):
+        self.str = configDict.get('entry_condition').get('str')
+        self.inputs = inputs.values()
+        for i in inputs:
+            self.str.replace(i, inputs[i].replace('\n',''))
+
+    #evaluates the condition string
+    def evaluate(self):
+        for i in self.inputs:
+            try:
+                if data_storage[i] == 'no data': #will anything need to be triggered
+                    return False
+                condition = self.str.replace(i, data_storage[i].replace('\n',''))
+            except KeyError:
+                return False
+        return eval(condition)
+
 
 class Instantaneous(Condition):
     def check(self):
+        return evaluate()
 
 class Duration(Condition):
-    def check(self):
+    def __init__(self, configDict, inputs)
+        #set duration
+        pass
 
-class Reptition(Condtion):
     def check(self):
+        max_duration = Control.get('Condition_Inputs')
+        if evaluate(Control):
+            try:
+                condition_storage[name] = [time.time(),time.time()-condition_storage[name][0]+condition_storage[name][1]]
+            except KeyError:
+                condition_storage[name] = [time.time(),0]
+            if condition_storage[name][1] > int(max_duration):
+                execute(name, val, Control)
+        else:
+            condition_storage[name] = [0,0]
+
+class Repetition(Condition):
+    def __init__(self, configDict, inputs)
+        #set duration and number of repitititions
+        pass
+
+    def check(self):
+        try:
+            condition_storage[name].append(time.time())
+        except KeyError:
+            condition_storage[name] = [time.time()]
+
+        max_repetitions = Control.get('Condition_Inputs').split('-')[0]
+        max_duration = Control.get('Condition_Inputs').split('-')[1]
+
+        while condition_storage[name][len(condition_storage[name])-1] - float(condition_storage[name][0]) > float(max_duration):
+                condition_storage[name].pop(0)
+
+        time_diff = condition_storage[name][len(condition_storage[name])-1]-condition_storage[name][0]
+        if (len(condition_storage[name]) > int(max_repetitions)) and (time_diff < int(max_duration)):
+            execute(name, val, Control)
 
 
 
 class Action:
 
-class Log(Condition):
+class Log(Action):
 
-class Warning(Condtion):
+class Warning(Action):
 
-class Write(Condition):
+class Write(Action):
 
 
-# Driver code
-# Object instantiation
-Rodger = Dog()
- 
-# Accessing class attributes
-# and method through objects
-print(Rodger.attr1)
-Rodger.fun()
+
