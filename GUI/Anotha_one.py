@@ -168,7 +168,7 @@ class NewGUI_2(tk.Frame):
                 ## it is labaled var_name
                 for key, value in val.items():
                     if( key == "var_name"):
-                        print(value)
+                        #print(value)
                         display_name = value ## set to display_name 
                         break
                 
