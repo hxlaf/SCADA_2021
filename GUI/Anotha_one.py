@@ -159,12 +159,12 @@ class NewGUI_2(tk.Frame):
         #for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
 
         for sen, val in self.sensorDict.items():
-            count = count + 1
+
             #print("sen " + str(sen))
             #print("value " + str(val))
             
             if(sen == sensorName):
-                count = count + 1
+
                 ## get the display variable name in config file 
                 ## it is labaled var_name
                 for key, value in val.items():
