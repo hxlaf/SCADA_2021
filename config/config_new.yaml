@@ -450,7 +450,7 @@ Sensors:
 
 
 ## Lia: var_name ADDED FOR ALL IMU LISTED!!! NOT YET FOR CAN
-# I2C #
+# I2C 
   rtc_time: 
     unit: ' '
     inputs:

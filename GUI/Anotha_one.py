@@ -161,6 +161,10 @@ class NewGUI_2(tk.Frame):
             
             # if the sensor in sensor list = sensorName in Display section
             if(sen == sensorName):
+
+                ## find var_name and display that name on the screen 
+                new_name = sen.get('var_name')
+                print(str(new_name))
                 
                 # put sensor on screen 
                 label = tk.Label(self, text = str(sen), font= LARGE_FONT )
