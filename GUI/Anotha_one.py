@@ -154,7 +154,6 @@ class NewGUI_2(tk.Frame):
     
     def find_group_in_SensorList(self, sensorName): 
         self.sensorDict = config.get('Sensors') # listed name of sensors under Sensor in config file 
-        count = 0 # counter to follow where in the list sensor is iterating through 
         
         # for each sensor in the Sensors list  ## COMMENT OUT 2/19          
         #for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
@@ -189,8 +188,6 @@ class NewGUI_2(tk.Frame):
                 self.row_place = self.row_place + 1
                 # break loop once sensor is found
                 break
-        print("list size" + str(len(list(self.sensorDict.keys()))))
-        print("count " + str(count))
             
             #elif((sen != sensorName) and ()
             # create elif so that pop up displays uf user incorrectly entered a sensor name 
