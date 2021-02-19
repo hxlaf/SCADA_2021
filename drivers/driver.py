@@ -43,8 +43,9 @@ def read(Sensor):
         return 'Sensor Protocol Not Found'
     #  #Redis Write Command 
 
-    # if(data == None): #Sensor is either unavialble or disconnected 
-    #     data = 'no data'
+    if(data == None): #Sensor is either unavialble or disconnected 
+        data = 'no data'
+        
     return data
 
 

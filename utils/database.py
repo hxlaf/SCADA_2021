@@ -31,7 +31,9 @@ def getData(sensor_id):
     """, [sensor_id])
 
     data = cursor.fetchall()
-    if data == None or len(data) == 0:
+    # if data == None or len(data) == 0:
+    if len(data)==0:
         #If this is the case then there is an issue with the logger class' update method
-        return 'NO DATA'
+        return 'ERR IN DATAPATH'
+        
     return data[0][0]
