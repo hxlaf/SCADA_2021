@@ -189,7 +189,7 @@ class NewGUI_2(tk.Frame):
                 self.row_place = self.row_place + 1
                 # break loop once sensor is found
                 break
-        print("list size" + len(list(self.sensorDict.keys())))
+        print("list size" + str(len(list(self.sensorDict.keys()))))
         print("count " + str(count))
             
             #elif((sen != sensorName) and ()
