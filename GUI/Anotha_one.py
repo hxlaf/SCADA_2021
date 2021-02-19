@@ -167,9 +167,9 @@ class NewGUI_2(tk.Frame):
                 print(key_list)
 
                 ## find var_name and display that name on the screen 
-                for new_name in list(sen.keys()):
-                    display_name = new_name.get('var_name')
-                    print(str(new_name))
+                # for new_name in list(sen.keys()):
+                #     display_name = new_name.get('var_name')
+                #     print(str(new_name))
                 
                 # put sensor on screen 
                 label = tk.Label(self, text = str(sen), font= LARGE_FONT )
