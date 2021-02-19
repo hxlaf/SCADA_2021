@@ -156,7 +156,7 @@ class NewGUI_2(tk.Frame):
         self.sensorDict = config.get('Sensors') # listed name of sensors under Sensor in config file 
 
         # for each sensor in the Sensors list  ## COMMENT OUT 2/19          
-        for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
+        #for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
 
         for sen, val in self.sensorDict.items():
             
