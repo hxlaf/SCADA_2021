@@ -159,6 +159,7 @@ class NewGUI_2(tk.Frame):
         #for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
 
         for sen, val in self.sensorDict.items():
+            print("sen " + str(sen))
             
             if(sen == sensorName):
             
