@@ -39,9 +39,9 @@ Display:
       - Motor_Group3
     
     3: 
-      - BNO055_IMU_REG_1
-      - BNO055_IMU_REG_2 
-      - BNO055_IMU_REG_3
+      - BNO055_IMU_1
+      - BNO055_IMU_2 
+      - BNO055_IMU_3
 
   Groups: 
   # max 22 sensor per 1 group

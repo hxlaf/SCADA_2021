@@ -164,21 +164,14 @@ class NewGUI_2(tk.Frame):
             
             if(sen == sensorName):
             
-                #key_list = sen.keys()
-                #correct_sensor = self.sensorDict.get(sen)
-                #correct_sensor = val
+                ## get the display variable name in config file 
+                ## it is labaled var_name
                 for key, value in val.items():
                     if( key == "var_name"):
                         print(value)
-                        display_name = value
+                        display_name = value ## set to display_name 
                         break
                 
- 
-
-                ## find var_name and display that name on the screen 
-                # for new_name in list(sen.keys()):
-                #     display_name = new_name.get('var_name')
-                #     print(str(new_name))
                 
                 # put sensor on screen 
                 label = tk.Label(self, text = str(display_name), font= LARGE_FONT )
