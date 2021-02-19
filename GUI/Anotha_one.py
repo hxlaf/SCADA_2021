@@ -190,7 +190,7 @@ class NewGUI_2(tk.Frame):
                 # break loop once sensor is found
                 break
 
-        print("count " + count)
+        print("count " + str(count))
             
             #elif((sen != sensorName) and ()
             # create elif so that pop up displays uf user incorrectly entered a sensor name 
