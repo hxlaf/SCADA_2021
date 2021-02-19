@@ -165,7 +165,8 @@ class NewGUI_2(tk.Frame):
 
                 # key_list = self.sensorDict.get('var_name')
                 # print(key_list)
-                print(sen.keys())
+                yur = self.sensorDict.keys()
+                print(yur.keys())
 
                 ## find var_name and display that name on the screen 
                 # for new_name in list(sen.keys()):
