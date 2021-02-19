@@ -163,8 +163,9 @@ class NewGUI_2(tk.Frame):
             # if the sensor in sensor list = sensorName in Display section
             if(sen == sensorName):
 
-                key_list = self.sensorDict.get('var_name')
-                print(key_list)
+                # key_list = self.sensorDict.get('var_name')
+                # print(key_list)
+                print(str(sen))
 
                 ## find var_name and display that name on the screen 
                 # for new_name in list(sen.keys()):
