@@ -608,7 +608,7 @@ Sensors:
     description: "IMU Linear Acceleration X Component"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
-    linacc_x
+    var_name: linacc_x
 
   linacc_y:
     unit: 'm/s^2'
