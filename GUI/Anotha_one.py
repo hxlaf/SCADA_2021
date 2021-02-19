@@ -158,12 +158,13 @@ class NewGUI_2(tk.Frame):
         # for each sensor in the Sensors list  ## COMMENT OUT 2/19          
         for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
 
-        #for sen, val in self.sensorDict.items():
+        for sen, val in self.sensorDict.items():
             
             if(sen == sensorName):
             
                 #key_list = sen.keys()
-                correct_sensor = self.sensorDict.get(sen)
+                #correct_sensor = self.sensorDict.get(sen)
+                correct_sensor = sen
                 for key, value in correct_sensor.items():
                     if( key == "var_name"):
                         print(value)
