@@ -45,6 +45,7 @@ Display:
 
   Groups: 
   # max 22 sensor per 1 group
+  # Try to limit # of characters for Group name to avoid wasting space on screen
     Motor_Group1:
       - rtc_time
       - motor_throttle_voltage
@@ -177,6 +178,7 @@ IMU_Config_Constants:
 
 
 ## LIA: ADDED var_name FOR CAN SENSORS 
+## Tip: Recommended max 15 characters for var_name in order to avoid cutting off data on screen 
 Sensors:
 # CAN #
 
@@ -193,7 +195,7 @@ Sensors:
   #   description: 'This is the network state of the motor controller'
   #   sample_period: 0
   #   bit_length: 16
-  #   var_name: MtrNMTState
+  #   var_name: MtrNMTState ## Name displayed on screen 
 
   # motor_select_application:
   #   unit: ''
@@ -477,11 +479,11 @@ Sensors:
     primary_address: 0x68
     secondary_address: [0x03,0x04,0x05,0x06,0x08,0x09]
     precision: 0
-    display_variable: string
+    display_variable: string  # type of data displayed on screen 
     description: "This is time"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
-    var_name: rtc_time
+    var_name: rtc_time  ## Name displayed on screen 
 
 #I2C IMU REGISTER CONFIG#
   imu_temp:
