@@ -83,7 +83,7 @@ Display:
       # - acc_y 
       # - acc_z 
     
-    BNO055_IMU_REG_1: 
+    BNO055_IMU_1: 
       - imu_temp 
       - imu_calsts
       - gyro_cal 
@@ -99,7 +99,7 @@ Display:
       - angle_y 
       - angle_z
     
-    BNO055_IMU_REG_2: 
+    BNO055_IMU_2: 
       - gravity_x 
       - gravity_y 
       - gravity_z 
@@ -123,7 +123,7 @@ Display:
       - gyro_zoffset_lsb 
       - gyro_zoffset_msb
 
-    BNO055_IMU_REG_3:
+    BNO055_IMU_3:
       - acc_raduis_lsb 
       - acc_raduis_msb 
       - mag_raduis_lsb 
