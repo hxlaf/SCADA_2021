@@ -160,6 +160,7 @@ class NewGUI_2(tk.Frame):
 
         for sen, val in self.sensorDict.items():
             print("sen " + str(sen))
+            print("value " + str(val))
             
             if(sen == sensorName):
             
