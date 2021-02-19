@@ -164,7 +164,7 @@ class NewGUI_2(tk.Frame):
             
                 #key_list = sen.keys()
                 correct_sensor = self.sensorDict.get(sen)
-                for key, value in correct_sensor.itmes():
+                for key, value in correct_sensor.items():
                     if( key == "var_name"):
                         print(key)
                 
