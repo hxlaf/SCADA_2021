@@ -202,7 +202,7 @@ class NewGUI_2(tk.Frame):
             entry_ = tk.Entry(self, width = BOX_WIDTH)
 
             ## Display units according to data status
-            if str(value) == 'NO DATA':
+            if str(value) == 'no data':
                 unit = " "
             elif sensor.get('unit') is None: 
                 unit = " "
