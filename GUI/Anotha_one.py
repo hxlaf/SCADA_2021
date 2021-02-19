@@ -154,16 +154,15 @@ class NewGUI_2(tk.Frame):
     
     def find_group_in_SensorList(self, sensorName): 
         self.sensorDict = config.get('Sensors') # listed name of sensors under Sensor in config file 
-        #print("value " + self.sensorDict.values())
-        #print("key " + self.sensorDict.keys())
-        # for each sensor in the Sensors list            
-        for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
-            #print("\nvalue " + str(list(self.sensorDict.values())))
-            # if the sensor in sensor list = sensorName in Display section
+
+        # for each sensor in the Sensors list  ## COMMENT OUT 2/19          
+        #for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
+
+        for sen, val in data["Sensors"].items():
             if(sen == sensorName):
             
-                if data['Sensors'][sen].has_key('var_name'):
-                    print( data['Sensors'][sen]['var_name'])
+                if data["Sensors"][sen].has_key("var_name"):
+                    print( data["Sensors"][sen]["var_name"])
  
 
                 ## find var_name and display that name on the screen 
