@@ -176,7 +176,7 @@ IMU_Config_Constants:
 
 
 
-
+## LIA: HAVE NOT ADDED var_name FOR CAN SENSORS 
 Sensors:
 # CAN #
 
@@ -448,6 +448,8 @@ Sensors:
   #   bit_length: 8 #probably don't need this
   #   sample_period: 5
 
+
+## Lia: var_name ADDED FOR ALL IMU LISTED!!! NOT YET FOR CAN
 # I2C #
   rtc_time: 
     unit: ' '
@@ -462,6 +464,7 @@ Sensors:
     description: "This is time"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: rtc_time
 
 #I2C IMU REGISTER CONFIG#
   imu_temp:
@@ -477,6 +480,7 @@ Sensors:
     description: "IMU Temperature"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: imu_temp
 
   imu_calsts:
     unit: ''
@@ -491,6 +495,7 @@ Sensors:
     description: "IMU Calibration Status"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: imu_calsts
 
   gyro_cal:
     unit: ''
@@ -505,6 +510,7 @@ Sensors:
     description: "GYRO Calibration Status " #Needs to be 3 to be fully calibrated 
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: gyro_cal
 
   acc_cal:
     unit: ''
@@ -519,6 +525,7 @@ Sensors:
     description: "ACCEL Calibration Status" #Needs to be 3 to be fully calibrated 
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: acc_cal
   
   mag_cal:
     unit: ''
@@ -533,6 +540,7 @@ Sensors:
     description: "Magntometer Calibration Status" #Needs to be 3 to be fully calibrated
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: mag_cal
 
   acc_x:
     unit: 'm/s^2'
@@ -549,6 +557,7 @@ Sensors:
     description: "IMU Acclerometer X Vector"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: acc_x
 
   acc_y:
     unit: 'm/s^2'
@@ -565,6 +574,7 @@ Sensors:
     description: "IMU Acclerometer Y Vector"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: acc_y
 
   acc_z:
     unit: 'm/s^2'
@@ -581,6 +591,7 @@ Sensors:
     description: "IMU Acclerometer Z Vector"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: acc_2
 
   linacc_x:
     unit: 'm/s^2'
@@ -597,6 +608,7 @@ Sensors:
     description: "IMU Linear Acceleration X Component"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    linacc_x
 
   linacc_y:
     unit: 'm/s^2'
@@ -613,6 +625,7 @@ Sensors:
     description: "IMU Linear Acceleration Y Component"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds  
+    var_name: linacc_y
 
   linacc_z:
     unit: 'm/s^2'
@@ -629,6 +642,7 @@ Sensors:
     description: "IMU Linear Acceleration Z Component"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: linacc_z
 
   angle_x:
     unit: '°'
@@ -645,6 +659,7 @@ Sensors:
     description: "IMU Euler Angle X Component"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: angle_x
 
   angle_y:
     unit: '°'
@@ -661,6 +676,7 @@ Sensors:
     description: "IMU Euler Angle Y Component"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds  
+    var_name: angle_y
 
   angle_z:
     unit: '°'
@@ -677,6 +693,7 @@ Sensors:
     description: "IMU Euler Angle Z Component"
     bit_length: 16 #probably don't need this
     sample_period: 1 #sample period in seconds
+    var_name: angle_z
 
   gravity_x:
     unit: 'm/s^2'
@@ -693,6 +710,7 @@ Sensors:
     description: "IMU Gravity X Component"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: grravity_x
 
   gravity_y:
     unit: 'm/s^2'
@@ -709,6 +727,7 @@ Sensors:
     description: "IMU Gravity Y Component"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds  
+    var_name: gravity_y
 
   gravity_z:
     unit: 'm/s^2'
@@ -725,6 +744,7 @@ Sensors:
     description: "IMU Gravity Z Component"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: gravity_z
 
 #IMU Confiuratoin Registers 
 
@@ -741,6 +761,7 @@ Sensors:
     description: "Page Register of IMU"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: page_reg
 
   trigger_reg:
     unit: ''
@@ -755,6 +776,7 @@ Sensors:
     description: "Trigger Register of IMU"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: trigger_reg
 
   power_reg:
     unit: ''
@@ -769,6 +791,7 @@ Sensors:
     description: "Page Register of IMU"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: power_reg
 
   opr_mode_reg:
     unit: ''
@@ -783,6 +806,7 @@ Sensors:
     description: "Operation Range of IMU"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: opr_reg
     
   acc_config_reg:
     unit: ''
@@ -797,6 +821,7 @@ Sensors:
     description: "Acceleration Config Reg of IMU"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: acc_reg
 
   mag_config_reg:
     unit: ''
@@ -811,6 +836,7 @@ Sensors:
     description: "Magnotometer Configuration of IMU"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: mag_reg
 
   gyro_config_reg:
     unit: ''
@@ -825,6 +851,7 @@ Sensors:
     description: "Gyro Configuration Reg of IMU"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: gyro_reg
 
   acc_xoffset_lsb:
     unit: ''
@@ -839,6 +866,7 @@ Sensors:
     description: "ACC x offset lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: acc_xos_lsb
 
   acc_xoffset_msb:
     unit: ''
@@ -853,6 +881,7 @@ Sensors:
     description: "ACC x offset msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: acc_xos_msb
 
   acc_yoffset_lsb:
     unit: ''
@@ -867,6 +896,7 @@ Sensors:
     description: "ACC y offset lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: acc_yos_lsb
 
   acc_yoffset_msb:
     unit: ''
@@ -881,6 +911,7 @@ Sensors:
     description: "ACC y offset msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: acc_yos_msb
 
   acc_zoffset_lsb:
     unit: ''
@@ -895,6 +926,7 @@ Sensors:
     description: "ACC z offset lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: acc_zos_lsb
 
   acc_zoffset_msb:
     unit: ''
@@ -909,6 +941,7 @@ Sensors:
     description: "ACC z offset msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: acc_zos_msb
 
   mag_xoffset_lsb:
     unit: ''
@@ -923,6 +956,7 @@ Sensors:
     description: "MAG x offset lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: mag_xos_lsb
 
   mag_xoffset_msb:
     unit: ''
@@ -937,6 +971,7 @@ Sensors:
     description: "MAG x offset msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: mag_xos_msb
 
   mag_yoffset_lsb:
     unit: ''
@@ -951,6 +986,7 @@ Sensors:
     description: "MAG y offset lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: mag_yos_lsb
 
   mag_yoffset_msb:
     unit: ''
@@ -965,6 +1001,7 @@ Sensors:
     description: "Mag y offset msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: mag_yos_msb
 
   mag_zoffset_lsb:
     unit: ''
@@ -979,6 +1016,7 @@ Sensors:
     description: "MAG z offset lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: mag_zos_lsb
 
   mag_zoffset_msb:
     unit: ''
@@ -993,6 +1031,7 @@ Sensors:
     description: "Mag z offset msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: mag_zos_msb
 
   gyro_xoffset_lsb:
     unit: ''
@@ -1007,6 +1046,7 @@ Sensors:
     description: "Gyro x offset lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: gyro_xos_lsb
 
   gyro_xoffset_msb:
     unit: ''
@@ -1021,6 +1061,7 @@ Sensors:
     description: "Gyro x offset msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: gyro_xos_msb
 
   gyro_yoffset_lsb:
     unit: ''
@@ -1035,6 +1076,7 @@ Sensors:
     description: "Gyro y offset lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: gryo_yos_lsb
 
   gyro_yoffset_msb:
     unit: ''
@@ -1049,6 +1091,7 @@ Sensors:
     description: "Gyro y offset msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: gryo_yos_msb
 
   gyro_zoffset_lsb:
     unit: ''
@@ -1063,6 +1106,7 @@ Sensors:
     description: "Gyro z offset lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: gyro_zos_lsb
 
   gyro_zoffset_msb:
     unit: ''
@@ -1077,6 +1121,7 @@ Sensors:
     description: "Mag z offset msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: gyro_zos_msb
 
   acc_raduis_lsb:
     unit: ''
@@ -1091,6 +1136,7 @@ Sensors:
     description: "Acc raduis lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: accRadLsb
 
   acc_raduis_msb:
     unit: ''
@@ -1105,6 +1151,7 @@ Sensors:
     description: "Acc Raduis msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: accRadMsb
 
   mag_raduis_lsb:
     unit: ''
@@ -1119,6 +1166,7 @@ Sensors:
     description: "MAG raduis lsb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds 
+    var_name: magRadLsb
 
   mag_raduis_msb:
     unit: ''
@@ -1133,6 +1181,7 @@ Sensors:
     description: "Acc Raduis msb for calibration"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: MagRadMsb
 
   st_result:
     unit: ''
@@ -1147,6 +1196,7 @@ Sensors:
     description: "Power on self test reuslts"
     bit_length: 16 #probably don't need this
     sample_period: 0.2 #sample period in seconds
+    var_name: stReslt
 
 
     #ACTUAL SENSORS LISTEDED HERE WITH BASIC FORMAT
