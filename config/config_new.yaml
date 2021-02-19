@@ -176,7 +176,7 @@ IMU_Config_Constants:
 
 
 
-## LIA: HAVE NOT ADDED var_name FOR CAN SENSORS 
+## LIA: ADDED var_name FOR CAN SENSORS 
 Sensors:
 # CAN #
 
@@ -193,6 +193,7 @@ Sensors:
   #   description: 'This is the network state of the motor controller'
   #   sample_period: 0
   #   bit_length: 16
+  #   var_name: MtrNMTState
 
   # motor_select_application:
   #   unit: ''
@@ -209,6 +210,7 @@ Sensors:
   #   description: "Used to select different applications in eDrive. Need to be in APP 1 to drive."
   #   bit_length: 16 #probably don't need this
   #   sample_period: 1
+  #   var_name: MtrApplication
 
   # motor_throttle_voltage:
   #   unit: 'mV'
@@ -223,6 +225,7 @@ Sensors:
   #   description: "voltage measured on AD pin in mV"
   #   bit_length: 16 
   #   sample_period: 5
+  #   var_name: MtrThrottleVltg
 
   # #all can sensors from this point down have unfinished configuration
   # motor_status:
@@ -248,6 +251,7 @@ Sensors:
   #   description: "voltage measured on AD pin in mV"
   #   bit_length: 16 #probably don't need this
   #   sample_period: 5
+  #   var_name: MtrStatus
 
   # motor_flux_actual_current:
   #   unit: 'mA'
@@ -262,6 +266,7 @@ Sensors:
   #   description: "positive is field weekening, value is actual field weakening current"
   #   bit_length: 16
   #   sample_period: 5
+  #   var_name: MtrFluxCurrent
   
   # motor_temp:
   #   unit: '°C'
@@ -275,7 +280,8 @@ Sensors:
   #   display_variable: number 
   #   description: "measured motor temperature"
   #   bit_length: 16 #probably don't need this
-  #   sample_period: 5    
+  #   sample_period: 5   
+  #   var_name:  MtrTemp
 
   # motor_velocity_actual_avg:
   #   unit: 'm/s'
@@ -290,6 +296,7 @@ Sensors:
   #   description: "velocity is averaging over 1s"
   #   bit_length: 16 #probably don't need this
   #   sample_period: 5
+  #   var_name: MtrVelocityAvg
 
   # motor_velocity_actual_value:
   #   unit: 'm/s'
@@ -304,6 +311,7 @@ Sensors:
   #   description: "Motor velocity"
   #   bit_length: 16 #probably don't need this
   #   sample_period: 5
+  #   var_name: MtrVelocity
     
   # motor_digital_inputs:
   #   unit: ''
@@ -324,6 +332,7 @@ Sensors:
   #   description: ""
   #   bit_length: 16 #probably don't need this
   #   sample_period: 5
+  #   var_name: MtrDigInput
     
   # motor_controller_temp:
   #   unit: '°C'
@@ -338,6 +347,7 @@ Sensors:
   #   description: "Temperature of the motor controller"
   #   bit_length: 8 #probably don't need this
   #   sample_period: 5
+  #   var_name: mtrCntrlTemp
 
   # motor_dc_link_circuit_voltage:
   #   unit: 'V'
@@ -352,6 +362,7 @@ Sensors:
   #   description: "Voltage of the motor controller's DC link circuit"
   #   bit_length: 1 #probably don't need this
   #   sample_period: 5
+  #   var_name: mtr_dc_voltg
     
   # motor_warnings:
   #   unit: ''
@@ -375,7 +386,7 @@ Sensors:
   #   description: "Motor Warnings"
   #   bit_length: 16 
   #   sample_period: 5
-    
+  #   var_name: mtr_warning
   
   # motor_electric_power:
   #   #this is coming directly from the CAN controller
@@ -392,6 +403,7 @@ Sensors:
   #   description: "calculated DC powerconsumption"
   #   bit_length: 16 #probably don't need this
   #   sample_period: 5
+  #   var_name: MC_elecPwr
     
   # motor_current_demand:
   #   unit: 'mA'
@@ -406,6 +418,7 @@ Sensors:
   #   description: "The desired value of motor current which is inserted into current regulator in units 1/1000 Motor rated current"
   #   bit_length: 16 #probably don't need this
   #   sample_period: 5
+  #   var_name: MC_demand
 
   # motor_current_torque_actual:
   #   unit: 'A'
@@ -420,6 +433,7 @@ Sensors:
   #   description: "Current Torque Actual Value"
   #   bit_length: 16 #probably don't need this
   #   sample_period: 5
+  #   var_name: MC_torq_real
 
   # motor_controller_temp_fahrenheit:
   #   unit: '°F'
@@ -432,6 +446,8 @@ Sensors:
   #   description: "Temperature of the motor controller in fahrenheit"
   #   bit_length: 8 #probably don't need this
   #   sample_period: 5
+  #   var_name: MC_tempF
+  
 
   # motor_controller_temp_over_23:
   #   unit: ''
@@ -447,9 +463,10 @@ Sensors:
   #   description: "Temperature of the motor controller in fahrenheit"
   #   bit_length: 8 #probably don't need this
   #   sample_period: 5
+  #   var_name: MC_temp>23
 
 
-## Lia: var_name ADDED FOR ALL IMU LISTED!!! NOT YET FOR CAN
+## Lia: var_name ADDED FOR ALL IMU LISTED!!!
 # I2C 
   rtc_time: 
     unit: ' '
