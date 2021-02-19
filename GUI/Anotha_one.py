@@ -154,21 +154,22 @@ class NewGUI_2(tk.Frame):
     
     def find_group_in_SensorList(self, sensorName): 
         self.sensorDict = config.get('Sensors') # listed name of sensors under Sensor in config file 
-
+        count = 0 # counter to follow where in the list sensor is iterating through 
+        
         # for each sensor in the Sensors list  ## COMMENT OUT 2/19          
         #for sen in list(self.sensorDict.keys()): # go though list of sensors to match correct display var
 
         for sen, val in self.sensorDict.items():
+            count = count + 1
             #print("sen " + str(sen))
             #print("value " + str(val))
             
             if(sen == sensorName):
-            
+                count = count + 1
                 ## get the display variable name in config file 
                 ## it is labaled var_name
                 for key, value in val.items():
                     if( key == "var_name"):
-                        #print(value)
                         display_name = value ## set to display_name 
                         break
                 
@@ -178,7 +179,7 @@ class NewGUI_2(tk.Frame):
                 placeRow = 1 + self.row_place
                 label.grid(row = placeRow, column = self.column_place, sticky = "w")
 
-                #unit = self.getUnit(sen)
+                #get the unit of the sensor -- look at getUnit method 
                 unit = self.getUnit(self.sensorDict.get(sen))
                 
                 # add to sensor list that holds the sensor name and its place on screen
@@ -188,7 +189,10 @@ class NewGUI_2(tk.Frame):
                 self.row_place = self.row_place + 1
                 # break loop once sensor is found
                 break
+
+        print("count " + count)
             
+            #elif((sen != sensorName) and ()
             # create elif so that pop up displays uf user incorrectly entered a sensor name 
             #elif((sen != sensorName) and )
 
