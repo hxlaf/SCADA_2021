@@ -170,7 +170,7 @@ class NewGUI_2(tk.Frame):
                 for key, value in val.items():
                     if( key == "var_name"):
                         print(value)
-                        sensorName = value
+                        display_name = value
                         break
                 
  
@@ -181,7 +181,7 @@ class NewGUI_2(tk.Frame):
                 #     print(str(new_name))
                 
                 # put sensor on screen 
-                label = tk.Label(self, text = str(sen), font= LARGE_FONT )
+                label = tk.Label(self, text = str(display_name), font= LARGE_FONT )
                 placeRow = 1 + self.row_place
                 label.grid(row = placeRow, column = self.column_place, sticky = "w")
 
