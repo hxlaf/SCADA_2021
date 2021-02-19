@@ -171,6 +171,7 @@ class NewGUI_2(tk.Frame):
                     if( key == "var_name"):
                         display_name = value ## set to display_name 
                         break
+                        
                 
                 
                 # put sensor on screen 
