@@ -47,12 +47,31 @@ import datetime
         # sensor: sensorName
         # value: val
 
+#Setting up connection to Redis Server
+Redisdata = redis.Redis(host='localhost', port=6379, db=0)
+data = Redisdata.pubsub()
+data.subscribe('calculated_data')
+
 ControlsList = config.get('Controls') #complete list of sensors to make objects from
-ControlsDict = {} #dictionary of controls organized by the input sensor (key = sensor name)
-DataStorage = {}
+ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
+DataStorage = {} #dictionary of current values of every sensor
 defaultControl = Control(ControlsList.get('default_control'))
 warningTotal = 0
 warnings = {}
+
+#Control object instantiation procedure
+for configDict in ControlsList:
+    inputs = configDict.get().values()
+    for i in inputs:
+        ControlsDict[i].append(Control(configDict)) #stores controls under the sensor inputs they use
+        #this is done because the Watcher looks for controls on incoming data inputs
+    
+
+def watch(message):
+    sensor, val = message.split(':')
+    relevantControls = ControlsDict[sensor]
+    for control in relevantControls:
+        control.update()
 
 class Control:
     def __init__(self, configDict):
@@ -140,7 +159,7 @@ class Condition:
     def evaluate(self):
         for i in self.inputs:
             try:
-                if data_storage[i] == 'no data': #will anything need to be triggered
+                if data_storage[i] == 'no data': #will not trigger anything unless there is data for all inputs
                     return False
                 condition = self.str.replace(i, data_storage[i].replace('\n',''))
             except KeyError:
@@ -227,4 +246,9 @@ class Write(Action):
         driver.write(sensor, value)
 
 
-
+#ACTUAL CODE THAT RUNS
+while True:
+    message = data.get_message()
+    if message:
+        watch(message)
+    time.sleep(.01)
