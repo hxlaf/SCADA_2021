@@ -25,11 +25,12 @@ import datetime
     #entry_condition:
         #str: 'Tempin > 60'
         #type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
-        #details: 5-10                            #Repetitions-Seconds for REPETITION and Seconds for PERIOD; INSTANTANEOUS does not use this field
+        #reps: 5
+        #duration: 10                       #Repetitions-Seconds for REPETITION and Seconds for DURATION; INSTANTANEOUS does not use this field
     #exit_condition:
         #str: 'Tempin <= 40'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
         #type: DURATION
-        #details: 10
+        #duration: 8
     #action:
         #type: LOG                                  #if LOG put text, if WARNING put text (maybe color/flashing?), if WRITE write to a sensor on the vehicle:
         #message: 'TSI Temperature over 60'  
@@ -52,7 +53,7 @@ Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
 data.subscribe('calculated_data')
 
-ControlsList = config.get('Controls') #complete list of sensors to make objects from
+ControlsList = config.get('Controls') #complete list of sensor configurations to make objects from
 ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
 DataStorage = {} #dictionary of current values of every sensor
 defaultControl = Control(ControlsList.get('default_control'))
@@ -68,7 +69,7 @@ for configDict in ControlsList:
     
 
 def watch(message):
-    sensor, val = message.split(':')
+    sensor,val = message.split(':')
     relevantControls = ControlsDict[sensor]
     for control in relevantControls:
         control.update()
@@ -153,8 +154,8 @@ class Condition:
         self.str = configDict.get('entry_condition').get('str')
         self.inputs = inputs.values()
         for i in inputs:
-            self.str.replace(i, inputs[i].replace('\n',''))
-
+            self.str.replace(i, inputs[i].replace('\n','')) #TODO: need to fix this
+-
     #evaluates the condition string
     def evaluate(self):
         for i in self.inputs:
@@ -169,46 +170,41 @@ class Condition:
 
 class Instantaneous(Condition):
     def check(self):
-        return evaluate()
+        return self.evaluate()
 
 class Duration(Condition):
     def __init__(self, configDict, inputs)
-        #set duration
+        self.duration = configDict.get('duration')
+        self.times = []
         pass
 
     def check(self):
-        max_duration = Control.get('Condition_Inputs')
-        if evaluate(Control):
-            try:
-                condition_storage[name] = [time.time(),time.time()-condition_storage[name][0]+condition_storage[name][1]]
-            except KeyError:
-                condition_storage[name] = [time.time(),0]
-            if condition_storage[name][1] > int(max_duration):
-                execute(name, val, Control)
+        if self.evaluate():
+            self.times.append(time.time()) 
+
+            if self.times and self.times[-1] - self.times[0] > max_duration:
+                return True
+
         else:
-            condition_storage[name] = [0,0]
+            times.clear()
+            return False
 
 class Repetition(Condition):
     def __init__(self, configDict, inputs)
-        #set duration and number of repitititions
-        pass
+        self.duration = configDict.get('duration')
+        self.reps = configDict.get('reps')
+        self.times = []
 
     def check(self):
-        try:
-            condition_storage[name].append(time.time())
-        except KeyError:
-            condition_storage[name] = [time.time()]
+        if self.evaluate():
+            self.times.append(time.time())
 
-        max_repetitions = Control.get('Condition_Inputs').split('-')[0]
-        max_duration = Control.get('Condition_Inputs').split('-')[1]
+            while self.times and self.times[-1] - self.times[0] > float(self.duration):
+                self.times.pop(0)
 
-        while condition_storage[name][len(condition_storage[name])-1] - float(condition_storage[name][0]) > float(max_duration):
-                condition_storage[name].pop(0)
-
-        time_diff = condition_storage[name][len(condition_storage[name])-1]-condition_storage[name][0]
-        if (len(condition_storage[name]) > int(max_repetitions)) and (time_diff < int(max_duration)):
-            execute(name, val, Control)
-
+            if len(self.times) > int(self.reps):
+                return True
+        return False
 
 
 class Action:
