@@ -1,4 +1,4 @@
-import sys, os, yaml, logging
+import sys, os, logging
 
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
@@ -101,7 +101,7 @@ class Control:
         elif typ == 'WRITE':
             self.action = Write(self.entryCondition)
 
-        #optional attributes:
+        #optional attributes (must use try in case they are not there):
 
         #initializes exit condition attributes
         try:
@@ -155,7 +155,7 @@ class Condition:
         self.inputs = inputs.values()
         for i in inputs:
             self.str.replace(i, inputs[i].replace('\n','')) #TODO: need to fix this
--
+
     #evaluates the condition string
     def evaluate(self):
         for i in self.inputs:
@@ -169,14 +169,18 @@ class Condition:
 
 
 class Instantaneous(Condition):
+    def __init__(self, configDict, inputs):
+        super().__init__(configDict, inputs)
+
     def check(self):
         return self.evaluate()
 
 class Duration(Condition):
-    def __init__(self, configDict, inputs)
+    def __init__(self, configDict, inputs):
         self.duration = configDict.get('duration')
         self.times = []
-        pass
+        super().__init__(configDict, inputs)
+        
 
     def check(self):
         if self.evaluate():
@@ -190,10 +194,11 @@ class Duration(Condition):
             return False
 
 class Repetition(Condition):
-    def __init__(self, configDict, inputs)
+    def __init__(self, configDict, inputs):
         self.duration = configDict.get('duration')
         self.reps = configDict.get('reps')
         self.times = []
+        super().__init__(configDict, inputs)
 
     def check(self):
         if self.evaluate():
@@ -243,8 +248,8 @@ class Write(Action):
 
 
 #ACTUAL CODE THAT RUNS
-while True:
-    message = data.get_message()
-    if message:
-        watch(message)
-    time.sleep(.01)
+# while True:
+#     message = data.get_message()
+#     if message:
+#         watch(message)
+#     time.sleep(.01)
