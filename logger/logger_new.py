@@ -80,6 +80,7 @@ def delimit_session():
         This is a row with sensor_id of "scada:session"
         and value of "NEW-SESSION"
     """
+    
     # Harry: This is the statement that has tabulation errors
     # Harry: THE REASON IS RANDOM SPACES AND INDENTS AFTER THE "INSERT INTO" LINE
     cursor.execute("""
@@ -114,7 +115,7 @@ def check_update_ready(key,sensor_value):
     elapsed_time = datetime.datetime.now() - timestamp
     if elapsed_time > datetime.timedelta(seconds=60):
         return True
-
+    
     # default
     return False
 
@@ -167,11 +168,10 @@ while True:
     #print(message)
     if (message and (message['data'] != 1 )):
         # Harry: calls update method (checks if it should be logged and executes database queries to log it)
-        if message['channel'] in ['calculated_data']:  
+        if message['channel'] in ['calculated_data']:
             update(message['data'])
-        elif message['channel'] == 'new-session':
-            #delimit_session()
-            pass      
+        elif message['channel'] in ['new-session']:
+            delimit_session()
 
     # Harry: if no messages available, commit changes to database and wait for next loop
     else:

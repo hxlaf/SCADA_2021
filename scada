@@ -84,11 +84,11 @@ parser_logs.set_defaults(func=logs)
 
 
 
-def new_session(args):
-	os.system('redis-cli publish new-session 0')
+# def new_session(args):
+# 	os.system('redis-cli publish new-session 0')
 
-parser_session = subparsers.add_parser('new-session', help='start a new data session')
-parser_session.set_defaults(func=new_session)
+# parser_session = subparsers.add_parser('new-session', help='start a new data session')
+# parser_session.set_defaults(func=new_session)
 
 args = parser.parse_args()
 args.func(args)
