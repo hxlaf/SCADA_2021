@@ -170,7 +170,8 @@ while True:
         if message['channel'] in ['calculated_data']:  
             update(message['data'])
         elif message['channel'] == 'new-session':
-            delimit_session()        
+            #delimit_session()
+            pass      
 
     # Harry: if no messages available, commit changes to database and wait for next loop
     else:

@@ -10,7 +10,7 @@ config_path = '/usr/etc/scada/config'
 sys.path.append(lib_path)
 sys.path.append(config_path)
 
-from drivers import driver
+from drivers import driver, emulated_driver
 import utils
 import config
 import redis
@@ -23,8 +23,12 @@ Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
 data.subscribe('raw_data')
 
-#Local Dictionary for Sensor Period Count 
+#Local Dictionary for Sensor Period Count
 SensorList = config.get('Sensors')
+
+if config.get('emulated') == True:
+    SensorList.append(config.get('Emulated_Sensors'))
+
 last_sampled = {}
 sample_period = {}
 for key in config.get('Sensors'):

@@ -18,10 +18,12 @@ can_nodes:
 
 ########## PART 2: SOFTWARE SYSTEM CONFIGUREATION ##########
 
+emulation: True
+
 ########## PART 2A: LOGGER ##########
 
 # a list of keys to be ignored by the logger
-dont_log: ['*-raw','emulator-*']
+dont_log: ['*_raw','emulator_*']
 
 ########## PART 2B: GUI DISPLAY ##########
 
@@ -175,11 +177,29 @@ IMU_Config_Constants:
   GYRO_2000_DPS: 0x00
   MAGNETOMETER_20HZ: 0x05
 
+Emulated_Sensors:
+  
 
 
 ## LIA: ADDED var_name FOR CAN SENSORS 
 ## Tip: Recommended max 15 characters for var_name in order to avoid cutting off data on screen 
 Sensors:
+#emulated sensors
+  emulator_motor_temp:
+    unit: '°C'
+    inputs:
+      Tin: motor_temp 
+    cal_function: 'Tin'
+    bus_type: EMULATED
+    precision: 0
+    display_variable: number 
+    description: "measured motor temperature"
+    sample_period: 5   
+    var_name:  MtrTemp
+    value_range: [20, 80] #number for CONSTANT, [] range for RAMP or SINE, [] list of states for CYCLE
+    plot_shape: RAMP #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    plot_period: 60 #period for plot shape to repeat
+
 # CAN #
 
   # motor_nmt_state:

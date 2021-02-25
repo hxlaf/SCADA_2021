@@ -12,7 +12,7 @@ sys.path.append(config_path)
 import utils
 import config
 
-from drivers import i2c_driver
+from drivers import i2c_driver, emulated_driver
 #from drivers import can_driver   #UNCOMMENT
 
 SensorList = config.get('Sensors')
@@ -39,6 +39,8 @@ def read(Sensor):
         #data= usb_sorter.read(Sensor)
     elif(sensor_protocol == 'VIRTUAL'):
         data= 0
+    elif(sensor_protocol == 'EMULATED'):
+        data = emulated_driver.read(Sensor)
     else:
         return 'Sensor Protocol Not Found'
     #  #Redis Write Command 
@@ -60,6 +62,8 @@ def write(Sensor,Value):
         can_drive.write(Sensor,Value)
 #     elif(sensor_protocol == 'USB'):
 #         usb_sorter.write(Sensor,Value)
+    elif(sensor_protocol == 'EMULATED')
+        emulated_driver.write(Sensor,Value)
     else:
         return 'Sensor Protocol Not Found'
 
