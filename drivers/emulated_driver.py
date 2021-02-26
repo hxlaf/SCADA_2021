@@ -17,7 +17,7 @@ emulators = {}
 for sensorName in allSensors:
     sensorDict = allSensors.get(sensorName)
     if sensorDict['bus_type'] == 'EMULATED':
-        emulators.append(configure_emulator(sensorDict))
+        emulators[sensorName] = (configure_emulator(sensorDict))
 
 def read(sensorName):
     return emulators[sensorName].getValue()
