@@ -41,12 +41,12 @@ def getTimeStamps():
     for row in data:
 
         # Car just went intto DRIVE Mode
-        if(row[0] == DRIVE and drive_status == False):
+        if(row[0] == 'DRIVE' and drive_status == False):
             drive_status = True
             begin_time = row[1]
 
         # Car just went into OFF Mode
-        elif(row[0] == OFF and drive_status == True):
+        elif(row[0] == 'OFF' and drive_status == True):
             drive_status = False
             end_time = row[1]
             time = end_time - begin_time
