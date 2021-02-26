@@ -40,7 +40,7 @@ def read(Sensor):
         #data= usb_sorter.read(Sensor)
     elif(sensor_protocol == 'VIRTUAL'):
         data= 0
-    elif(sensor_protocol == 'EMULATED'):
+    elif(emulated and sensor_protocol == 'EMULATED'):
         data = emulated_driver.read(Sensor)
     else:
         return 'Sensor Protocol Not Found'
@@ -63,7 +63,7 @@ def write(Sensor,Value):
         can_drive.write(Sensor,Value)
 #     elif(sensor_protocol == 'USB'):
 #         usb_sorter.write(Sensor,Value)
-    elif(sensor_protocol == 'EMULATED')
+    elif(emulated and sensor_protocol == 'EMULATED'):
         emulated_driver.write(Sensor,Value)
     else:
         return 'Sensor Protocol Not Found'
