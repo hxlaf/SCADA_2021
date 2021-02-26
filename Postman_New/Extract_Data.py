@@ -54,7 +54,7 @@ def getTimeStamps():
 
     
     
-    return self.timeStampList
+    return timeStampList
 
 
 def getSensorData(sensor_id, data):
