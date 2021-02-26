@@ -16,6 +16,7 @@ from drivers import i2c_driver, emulated_driver
 #from drivers import can_driver   #UNCOMMENT
 
 SensorList = config.get('Sensors')
+emulated = config.get('emulated')
 
 #set up CAN bus connection
 # os.system('ip link set can0 down')

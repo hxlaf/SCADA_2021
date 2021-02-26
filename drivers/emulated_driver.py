@@ -11,24 +11,37 @@ import config
 import redis
 import time
 
-emulatedSensorDict = config.get('Emulated_Sensors')
-emulatorObjs = {}
+FullSensorDict = config.get('Sensors')
+emulators = {}
 
+for sensorDict in FullSensorDict:
+    if bus_type == 'EMULATED':
+        emulatorObjs.append(configure_emulator(sensorDict))
 
 def read(sensorName):
-    return emulatedSensorDict[sensorName].currValue()
+    return emulators[sensorName].getValue()
         
 def write(sensorName, value):
-    emulatorObjs[sensorName].currValue = value
+    emulators[sensorName].currValue = value
 
 def configure_emulator(sensorName, sensorDict):
-    #sensor name is composed of the node name and the value name
-    pass
+    if sensor_dict.get('data_pattern') == 'CYCLE':
+        return CycleEmulator(sensorDict)
+    else:
+        return None
 
 class SensorEmulator():
     def __init__(self, configDict):
-        self.currValue = 0
+        self.period = configDict.get('sample_period')
+        self.periodStart = time.time()
         pass
+
+    def getValue(self)
+        return self.calculateValue(time.time()-self.periodStart)
+    
+    def calculateValue(self, timeElapsed):
+        pass
+    
 
 class ConstantEmulator(SensorEmulator):
     def __init__(self, configDict):
@@ -44,4 +57,9 @@ class RampEmulator(SensorEmulator):
 
 class CycleEmulator(SensorEmulator):
     def __init__(self, configDict):
-        pass
+        self.values = configDict.get('data_values')
+
+    def calculateValue(self, timeElapsed )
+        index = int((timeElapsed/self.period)*len(values))
+        return self.values[index]
+        
