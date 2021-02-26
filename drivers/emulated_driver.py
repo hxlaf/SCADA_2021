@@ -36,7 +36,7 @@ class SensorEmulator():
         self.periodStart = time.time()
         pass
 
-    def getValue(self)
+    def getValue(self):
         return self.calculateValue(time.time()-self.periodStart)
     
     def calculateValue(self, timeElapsed):
@@ -59,7 +59,7 @@ class CycleEmulator(SensorEmulator):
     def __init__(self, configDict):
         self.values = configDict.get('data_values')
 
-    def calculateValue(self, timeElapsed )
+    def calculateValue(self, timeElapsed):
         index = int((timeElapsed/self.period)*len(values))
         return self.values[index]
         
