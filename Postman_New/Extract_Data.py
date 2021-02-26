@@ -24,7 +24,7 @@ def getTimeStamps():
     cursor.execute("""
         SELECT value, timestamp
         FROM data
-        WHERE sensor_id = DRIVE_MODE
+        WHERE sensor_id = emulator_tsi_drive_state
         ORDER BY timestamp ASC
     """)
 
