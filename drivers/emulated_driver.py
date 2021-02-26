@@ -11,26 +11,6 @@ import config
 import redis
 import time
 
-allSensors = config.get('Sensors')
-emulators = {}
-
-for sensorName in allSensors:
-    sensorDict = allSensors.get(sensorName)
-    if sensorDict['bus_type'] == 'EMULATED':
-        emulators[sensorName] = (configure_emulator(sensorDict))
-
-def read(sensorName):
-    return emulators[sensorName].getValue()
-        
-def write(sensorName, value):
-    emulators[sensorName].currValue = value
-
-def configure_emulator(sensorName, sensorDict):
-    if sensor_dict.get('data_pattern') == 'CYCLE':
-        return CycleEmulator(sensorDict)
-    else:
-        return None
-
 class SensorEmulator():
     def __init__(self, configDict):
         self.period = configDict.get('data_period')
@@ -63,4 +43,25 @@ class CycleEmulator(SensorEmulator):
     def calculateValue(self, timeElapsed):
         index = int((timeElapsed/self.period)*len(values))
         return self.values[index]
+
+def read(sensorName):
+    return emulators[sensorName].getValue()
         
+def write(sensorName, value):
+    emulators[sensorName].currValue = value
+
+def configure_emulator(sensorName, sensorDict):
+    if sensor_dict.get('data_pattern') == 'CYCLE':
+        return CycleEmulator(sensorDict)
+    else:
+        return None 
+
+allSensors = config.get('Sensors')
+emulators = {}
+
+for sensorName in allSensors:
+    sensorDict = allSensors.get(sensorName)
+    if sensorDict['bus_type'] == 'EMULATED':
+        emulators[sensorName] = (configure_emulator(sensorDict))
+
+
