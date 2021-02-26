@@ -29,6 +29,7 @@ def getTimeStamps():
     """)
 
     data = cursor.fetchall()
+    print("data " + str(data))
     if len(data)==0:
         #If this is the case then there is an issue with the logger class' update method
         return 'NO DATA FOUND FOR POSTGRES'
@@ -44,6 +45,7 @@ def getTimeStamps():
         if(row[0] == 'DRIVE' and drive_status == False):
             drive_status = True
             begin_time = row[1]
+            #print("Begin ")
 
         # Car just went into OFF Mode
         elif(row[0] == 'OFF' and drive_status == True):
