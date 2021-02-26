@@ -15,7 +15,7 @@ FullSensorDict = config.get('Sensors')
 emulators = {}
 
 for sensorDict in FullSensorDict:
-    if bus_type == 'EMULATED':
+    if sensorDict['bus_type'] == 'EMULATED':
         emulatorObjs.append(configure_emulator(sensorDict))
 
 def read(sensorName):
