@@ -11,10 +11,11 @@ import config
 import redis
 import time
 
-FullSensorDict = config.get('Sensors')
+allSensors = config.get('Sensors')
 emulators = {}
 
-for sensorDict in FullSensorDict:
+for sensorName in allSensors:
+    sensorDict = allSensors.get(sensorName)
     if sensorDict['bus_type'] == 'EMULATED':
         emulatorObjs.append(configure_emulator(sensorDict))
 
