@@ -199,7 +199,7 @@ Sensors:
   #   data_pattern: RAMP #options are RAMP, SINE, CONSTANT, CYCLE (for states)
   #   data_period: 60 #period for plot shape to repeat
   
-  emulator_tsi_drive_mode:
+  emulator_tsi_drive_state:
     unit: ''
     inputs:
       num: emulator_tsi_drive_mode
