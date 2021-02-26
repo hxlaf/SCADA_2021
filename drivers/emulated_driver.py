@@ -26,19 +26,20 @@ class SensorEmulator():
 
 class ConstantEmulator(SensorEmulator):
     def __init__(self, configDict):
-        pass
+        super().__init__(configDict)
 
 class SineEmulator(SensorEmulator):
     def __init__(self, configDict):
-        pass
+        super().__init__(configDict)
 
 class RampEmulator(SensorEmulator):
     def __init__(self, configDict):
-        pass
+        super().__init__(configDict)
 
 class CycleEmulator(SensorEmulator):
     def __init__(self, configDict):
         self.values = configDict.get('data_values')
+        super().__init__(configDict)
 
     def calculateValue(self, timeElapsed):
         index = int((timeElapsed/self.period)*len(values))
