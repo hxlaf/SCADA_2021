@@ -210,7 +210,7 @@ Sensors:
     precision: 0
     display_variable: state 
     description: "drive mode determined by TSI board"
-    sample_period: 5   
+    sample_period: 0.5
     var_name:  DriveStateEm
     data_values: [0, 1]
     data_pattern: CYCLE
