@@ -17,7 +17,7 @@ emulators = {}
 for sensorName in allSensors:
     sensorDict = allSensors.get(sensorName)
     if sensorDict['bus_type'] == 'EMULATED':
-        emulatorObjs.append(configure_emulator(sensorDict))
+        emulators.append(configure_emulator(sensorDict))
 
 def read(sensorName):
     return emulators[sensorName].getValue()
@@ -33,7 +33,7 @@ def configure_emulator(sensorName, sensorDict):
 
 class SensorEmulator():
     def __init__(self, configDict):
-        self.period = configDict.get('sample_period')
+        self.period = configDict.get('data_period')
         self.periodStart = time.time()
         pass
 
