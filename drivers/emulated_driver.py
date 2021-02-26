@@ -51,7 +51,7 @@ def write(sensorName, value):
     emulators[sensorName].currValue = value
 
 def configure_emulator(sensorDict):
-    if sensor_dict.get('data_pattern') == 'CYCLE':
+    if sensorDict.get('data_pattern') == 'CYCLE':
         return CycleEmulator(sensorDict)
     else:
         return None 
