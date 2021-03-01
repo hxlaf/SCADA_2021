@@ -14,7 +14,6 @@ import config
 import redis
 import can
 import canopen
-# from utils import database
 import time
 
 
