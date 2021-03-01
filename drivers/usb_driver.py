@@ -12,32 +12,27 @@ sys.path.append(local_path)
 
 import config
 import redis
-import usb
+import usb.core
+import usb.util
 import time
 
-class USBSensor():
-    def __init__(self, configDict):
-        self.vendorID
-
-    def calculateValue(self, timeElapsed):
-        pass
-
 allSensors = config.get('Sensors')
-emulators = {}
+usbDevices = {}
 
 for sensorName in allSensors:
     sensorDict = allSensors.get(sensorName)
     if sensorDict['bus_type'] == 'USB':
-        emulators[sensorName] = (configure_emulator(sensorDict))
+        usbDevices[sensorName] = (configure_sensor(sensorDict))
 
 
 def write(sensorName, value):
-    
+    pass
 
 def read(self,sensorName):
-    #dummy method contents
     pass
 
 def configure_sensor(self, sensorName, sensorDict):
-    
+    vendorID = sensorDict.get('primary_address')
+    productID = sensorDict.get('secondary_address')
+    return usb.core.find(idVendor=vendorID, idProduct = productID)
     
