@@ -45,8 +45,8 @@ class MainGUI(tk.Tk):
         }
 
 
-        # self.screenWidth = self.winfo_screenwidth() # Get current width of canvas
-        # self.screenHeight = self.winfo_screenheight() # Get current height of canvas
+        self.screenWidth = self.winfo_screenwidth() # Get current width of canvas
+        self.screenHeight = self.winfo_screenheight() # Get current height of canvas
         
         self.attributes('-fullscreen', True)  
         self.fullScreenState = False
@@ -58,7 +58,7 @@ class MainGUI(tk.Tk):
         #print("height" + str(self.screenHeight))
 
         # set screen to full size 
-        #self.container = tk.Frame(self, width = self.screenWidth, height = self.screenHeight)
+        self.container = tk.Frame(self, width = self.screenWidth, height = self.screenHeight)
 
         self.container.grid_propagate(False)
 
