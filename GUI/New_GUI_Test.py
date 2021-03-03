@@ -120,6 +120,10 @@ class MainGUI(tk.Tk):
         #print("num pages " + str(len(self.pagesNum)))
         self.numOfPages = len(self.pagesNum)
 
+    def quitFullScreen(self, event):
+        self.fullScreenState = False
+        self.attributes("-fullscreen", self.fullScreenState)
+
 
 
 app = MainGUI()
