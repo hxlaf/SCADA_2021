@@ -50,8 +50,8 @@ class MainGUI(tk.Tk):
         
         self.attributes('-fullscreen', True)  
         self.fullScreenState = False
-        self.bind("<F11>", self.toggleFullScreen)
-        self.bind("<Escape>", self.quitFullScreen)
+        # self.bind("<F11>", self.toggleFullScreen)
+        # self.bind("<Escape>", self.quitFullScreen)
         
         #print("width" + str(self.screenWidth))
         #print("height" + str(self.screenHeight))
