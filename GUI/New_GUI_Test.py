@@ -45,8 +45,13 @@ class MainGUI(tk.Tk):
         }
 
 
-        self.screenWidth = self.winfo_screenwidth() # Get current width of canvas
-        self.screenHeight = self.winfo_screenheight() # Get current height of canvas
+        # self.screenWidth = self.winfo_screenwidth() # Get current width of canvas
+        # self.screenHeight = self.winfo_screenheight() # Get current height of canvas
+        
+        self.attributes('-fullscreen', True)  
+        self.fullScreenState = False
+        self.bind("<F11>", self.toggleFullScreen)
+        self.bind("<Escape>", self.quitFullScreen)
         
         #print("width" + str(self.screenWidth))
         #print("height" + str(self.screenHeight))
