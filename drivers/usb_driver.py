@@ -22,7 +22,8 @@ usbDevices = {}
 for sensorName in allSensors:
     sensorDict = allSensors.get(sensorName)
     if sensorDict['bus_type'] == 'USB':
-        usbDevices[sensorName] = (configure_sensor(sensorDict))
+        usbDevices[sensorName] = configure_sensor(sensorDict)
+        print('just added usb device called' + sensorName)
 
 
 def write(sensorName, value):
