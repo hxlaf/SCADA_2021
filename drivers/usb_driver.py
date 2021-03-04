@@ -12,7 +12,7 @@ sys.path.append(local_path)
 
 import config
 import redis
-import usb #.core
+import usb.core
 # import usb.util
 import time
 
