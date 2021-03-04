@@ -19,13 +19,6 @@ import time
 allSensors = config.get('Sensors')
 usbDevices = {}
 
-for sensorName in allSensors:
-    sensorDict = allSensors.get(sensorName)
-    if sensorDict['bus_type'] == 'USB':
-        usbDevices[sensorName] = configure_sensor(sensorDict)
-        print('just added usb device called' + sensorName)
-
-
 def write(sensorName, value):
     pass
 
@@ -54,3 +47,9 @@ def configure_sensor(sensorName, sensorDict):
             usb.util.ENDPOINT_OUT)
 
     return dev
+
+for sensorName in allSensors:
+    sensorDict = allSensors.get(sensorName)
+    if sensorDict['bus_type'] == 'USB':
+        usbDevices[sensorName] = configure_sensor(sensorDict)
+        print('just added usb device called' + sensorName)
