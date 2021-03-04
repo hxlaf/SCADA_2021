@@ -28,11 +28,11 @@ for sensorName in allSensors:
 def write(sensorName, value):
     pass
 
-def read(self,sensorName):
+def read(sensorName):
     usbDevices[sensorName].read()
     pass
 
-def configure_sensor(self, sensorName, sensorDict):
+def configure_sensor(sensorName, sensorDict):
     vendorID = sensorDict.get('primary_address')
     productID = sensorDict.get('secondary_address')
     
