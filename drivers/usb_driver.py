@@ -26,7 +26,7 @@ def read(sensorName):
     usbDevices[sensorName].read()
     pass
 
-def configure_sensor(sensorName, sensorDict):
+def configure_sensor(sensorDict):
     vendorID = sensorDict.get('primary_address')
     productID = sensorDict.get('secondary_address')
     
