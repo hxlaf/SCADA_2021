@@ -23,7 +23,8 @@ def write(sensorName, value):
     pass
 
 def read(sensorName):
-    usbDevices[sensorName].read()
+    usbDevices[sensorName].read(0x81, 64, 100)
+    # parameters here are the endpoint address, byte length and timeout, respectively
     pass
 
 def configure_sensor(sensorDict):
@@ -35,16 +36,16 @@ def configure_sensor(sensorDict):
     if dev is None:
         raise ValueError('Device not found')
     dev.set_configuration()
-    cfg = dev.get_active_configuration()
-    intf = cfg[(0,0)]
+    # cfg = dev.get_active_configuration()
+    # intf = cfg[(0,0)]
 
-    ep = usb.util.find_descriptor(
-        intf,
-        # match the first OUT endpoint
-        custom_match = \
-        lambda e: \
-            usb.util.endpoint_direction(e.bEndpointAddress) == \
-            usb.util.ENDPOINT_OUT)
+    # ep = usb.util.find_descriptor(
+    #     intf,
+    #     # match the first OUT endpoint
+    #     custom_match = \
+    #     lambda e: \
+    #         usb.util.endpoint_direction(e.bEndpointAddress) == \
+    #         usb.util.ENDPOINT_OUT)
 
     return dev
 
