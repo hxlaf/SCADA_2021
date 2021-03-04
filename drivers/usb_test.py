@@ -1,3 +1,4 @@
+import sys, os
 #Importing the config file
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
