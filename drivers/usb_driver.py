@@ -29,7 +29,7 @@ def write(sensorName, value):
     pass
 
 def read(self,sensorName):
-    usbDevices[sensorName].read
+    usbDevices[sensorName].read()
     pass
 
 def configure_sensor(self, sensorName, sensorDict):
