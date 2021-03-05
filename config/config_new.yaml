@@ -1935,5 +1935,5 @@ Controls:
     action:
         type: WRITE
         sensor: emulator_sloop
-        value: 1
+        value: 0
     

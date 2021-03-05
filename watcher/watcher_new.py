@@ -166,7 +166,7 @@ class Duration(Condition):
         if self.evaluate():
             self.times.append(time.time()) 
 
-            if self.times and self.times[-1] - self.times[0] > max_duration:
+            if self.times and self.times[-1] - self.times[0] > self.duration:
                 return True
 
         else:
