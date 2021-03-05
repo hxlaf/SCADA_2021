@@ -136,6 +136,7 @@ class Condition:
         print('self.inputs = ' + str(self.inputs))
         for i in inputs:
             self.str.replace(i, inputs[i].replace('\n','')) #TODO: need to fix this
+        print(self.str)
 
     #evaluates the condition string
     def evaluate(self):
