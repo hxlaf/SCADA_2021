@@ -27,7 +27,8 @@ class SensorEmulator():
             #reset periodStart and timeElapsed for new period
             self.periodStart = time.time()
             timeElapsed = timeElapsed - self.period
-        return self.currValue = self.calculateValue(timeElapsed)
+        self.currValue = self.calculateValue(timeElapsed)
+        return self.currValue
     
     def calculateValue(self, timeElapsed):
         pass
