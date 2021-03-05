@@ -118,12 +118,12 @@ class Control:
         #self.checkEntryCondition == self.checkExitCondition?
         if not self.active:
             if self.checkEntryCondition():
-                active = True
+                self.active = True
         else:
             if self.checkExitCondition():
-                active = False
+                self.active = False
 
-        if active:
+        if self.active:
             self.action.execute()
 
 class Condition:
