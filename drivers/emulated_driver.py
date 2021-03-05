@@ -27,7 +27,7 @@ class SensorEmulator():
             #reset periodStart and timeElapsed for new period
             self.periodStart = time.time()
             timeElapsed = timeElapsed - self.period
-        return self.calculateValue(timeElapsed)
+        return self.currValue = self.calculateValue(timeElapsed)
     
     def calculateValue(self, timeElapsed):
         pass
@@ -35,10 +35,11 @@ class SensorEmulator():
 
 class ConstantEmulator(SensorEmulator):
     def __init__(self, configDict):
+        self.currValue = self.values
         super().__init__(configDict)
     
     def calculateValue(self,timeElapsed):
-        return self.values
+        return self.currValue
 
 class SineEmulator(SensorEmulator):
     def __init__(self, configDict):
@@ -74,6 +75,7 @@ def read(sensorName):
         
 def write(sensorName, value):
     emulators[sensorName].currValue = value
+
 
 def configure_emulator(sensorDict):
     if sensorDict.get('data_pattern') == 'CYCLE':
