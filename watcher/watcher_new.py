@@ -137,7 +137,7 @@ class Condition:
         for key in inputs:
             print('key = '+ key)
             print('inputs[key] = ' + inputs[key].replace('\n',''))
-            self.str.replace(key, inputs[key].replace('\n','')) #TODO: need to fix this
+            self.str = self.str.replace(key, inputs[key].replace('\n','')) #TODO: need to fix this
         print(self.str)
 
     #evaluates the condition string
