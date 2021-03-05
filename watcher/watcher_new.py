@@ -105,9 +105,9 @@ class Control:
     #returns boolean
     def checkEntryCondition(self):
         print('time.time() - self.lastActive) > self.cooldown = ' + str((time.time() - self.lastActive) > self.cooldown))
-        return (time.time() - self.lastActive) > self.cooldown and self.entryCondition.check()
-
-    #returns boolean
+        print(type(self.entryCondition))
+        return ((time.time() - self.lastActive) > self.cooldown and self.entryCondition.check())
+    
     def checkExitCondition(self):
         if self.exitCondition is not None:
             return (self.maxDuration is not None and time.time() - lastActive > self.maxDuration) or self.exitCondition.check()
