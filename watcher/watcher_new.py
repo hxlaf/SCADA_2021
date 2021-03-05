@@ -255,5 +255,5 @@ for controlString in allControls:
 while True:
     message = data.get_message()
     if message:
-        watch(message)
+        watch(message['data'])
     time.sleep(.01)
