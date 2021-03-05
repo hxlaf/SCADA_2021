@@ -51,7 +51,9 @@ from collections import defaultdict
         # value: val
 
 def watch(message):
-    sensor,val = message.split(':')
+    split_key = message.split(':',1)
+    sensor = split_key[0]
+    val = split_key[1]
     relevantControls = ControlsDict[sensor]
     for control in relevantControls:
         control.update()
