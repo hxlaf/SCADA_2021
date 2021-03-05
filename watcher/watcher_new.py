@@ -62,11 +62,12 @@ class Control:
         #initializes entry condition attributes
         typ = configDict.get('entry_condition').get('type')
         if typ == 'INSTANTANEOUS':
-            self.entryConditon = Instantaneous(configDict.get('entry_condition'), inputs)
+            self.entryCondition = Instantaneous(configDict.get('entry_condition'), inputs)
         elif typ == 'DURATION':
-            self.entryConditon = Duration(configDict.get('entry_condition'), inputs)
+            self.entryCondition = Duration(configDict.get('entry_condition'), inputs)
         elif typ == 'REPETITION':
-            self.entryConditon = Repetition(configDict.get('entry_condition'), inputs)
+            self.entryCondition = Repetition(configDict.get('entry_condition'), inputs)
+        
         
         #initializes action attributes
         typ = configDict.get('action').get('type')
@@ -83,11 +84,11 @@ class Control:
         try:
             typ = configDict.get('exit_condition').get('type')
             if typ == 'INSTANTANEOUS':
-                self.exitConditon = Instantaneous(configDict.get('exit_condition'), inputs)
+                self.exitCondition = Instantaneous(configDict.get('exit_condition'), inputs)
             elif typ == 'DURATION':
-                self.exitConditon = Duration(configDict.get('exit_condition'), inputs)
+                self.exitCondition = Duration(configDict.get('exit_condition'), inputs)
             elif typ == 'REPETITION':
-                self.exitConditon = Repetition(configDict.get('exit_condition'), inputs)
+                self.exitCondition = Repetition(configDict.get('exit_condition'), inputs)
         except:
             self.exitCondition = None
         
