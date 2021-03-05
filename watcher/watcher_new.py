@@ -132,14 +132,9 @@ class Condition:
     def __init__(self, configDict, inputs):
         self.str = configDict.get('str')
         self.inputs = inputs.values()
-        print('input keys are ' + str(inputs))
-        print('self.inputs = ' + str(self.inputs))
         for key in inputs:
-            print('key = '+ key)
-            print('inputs[key] = ' + inputs[key].replace('\n',''))
             self.str = self.str.replace(key, inputs[key].replace('\n','')) #TODO: need to fix this
-        print(self.str)
-
+            
     #evaluates the condition string
     def evaluate(self):
         for i in self.inputs:
@@ -147,6 +142,7 @@ class Condition:
                 if DataStorage[i] == 'no data': #will not trigger anything unless there is data for all inputs
                     return False
                 condition = self.str.replace(i, DataStorage[i].replace('\n',''))
+                print( 'about to evaluate ' + condition)
             except KeyError:
                 return False
         return eval(condition)
