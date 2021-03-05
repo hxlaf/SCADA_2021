@@ -134,10 +134,10 @@ class Condition:
         self.inputs = inputs.values()
         print('input keys are ' + str(inputs))
         print('self.inputs = ' + str(self.inputs))
-        for i in inputs:
+        for key in inputs:
             print('i= '+ i)
-            print('inputs[i] = ' + inputs[i])
-            self.str.replace(i, inputs[i].replace('\n','')) #TODO: need to fix this
+            print('inputs[key] = ' + inputs[key].replace('\n',''))
+            self.str.replace(key, inputs[key].replace('\n','')) #TODO: need to fix this
         print(self.str)
 
     #evaluates the condition string
