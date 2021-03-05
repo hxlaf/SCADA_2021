@@ -104,6 +104,7 @@ class Control:
 
     #returns boolean
     def checkEntryCondition(self):
+        print('time.time() - self.lastActive) > self.cooldown = ' + str((time.time() - self.lastActive) > self.cooldown))
         return (time.time() - self.lastActive) > self.cooldown and self.entryCondition.check()
 
     #returns boolean
@@ -134,7 +135,7 @@ class Condition:
         self.inputs = inputs.values()
         for key in inputs:
             self.str = self.str.replace(key, inputs[key].replace('\n','')) #TODO: need to fix this
-            
+
     #evaluates the condition string
     def evaluate(self):
         for i in self.inputs:
@@ -153,6 +154,7 @@ class Instantaneous(Condition):
         super().__init__(configDict, inputs)
 
     def check(self):
+        print('Condition.check()')
         return self.evaluate()
 
 class Duration(Condition):
