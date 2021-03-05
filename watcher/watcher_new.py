@@ -221,6 +221,7 @@ class Write(Action):
         self.value = configDict.get('value')
 
     def execute(self):
+        print('Trying to execute WRITE action')
         driver.write(self.sensor, self.value)
 
 def watch(message):

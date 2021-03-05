@@ -1925,15 +1925,15 @@ Controls:
         Tempin: emulator_temperature
     entry_condition:
         str: 'Tempin > 60'
-        type: REPETITION                       
-        reps: 2
-        duration: 5                      
+        type: INSTANTANEOUS                       
+        # reps: 2
+        # duration: 5                      
     exit_condition:
         str: 'Tempin <= 40'                   
         type: DURATION
         duration: 2
     action:
-        type: WRITE                                  
+        type: WRITE
         sensor: emulator_sloop
         value: 1
     
