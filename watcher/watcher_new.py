@@ -50,28 +50,6 @@ from collections import defaultdict
         # sensor: sensorName
         # value: val
 
-#Setting up connection to Redis Server
-Redisdata = redis.Redis(host='localhost', port=6379, db=0)
-data = Redisdata.pubsub()
-data.subscribe('calculated_data')
-
-allControls = config.get('Controls') #complete list of sensor configurations to make objects from
-ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
-DataStorage = {} #dictionary of current values of every sensor
-# defaultControlDict = ControlsList.get('default_control')
-warningTotal = 0
-warnings = {}
-
-#Control object instantiation procedure
-for controlString in allControls:
-    configDict = allControls.get(controlString)
-    control = Control(configDict)
-    inputs = configDict.get('inputs').values()
-    for i in inputs:
-        ControlsDict[i].append(control) #stores controls under the sensor inputs they use
-        #this is done because the Watcher looks for controls on incoming data inputs
-    
-
 def watch(message):
     sensor,val = message.split(':')
     relevantControls = ControlsDict[sensor]
@@ -250,7 +228,29 @@ class Write(Action):
     def execute(self):
         driver.write(self.sensor, self.value)
 
+#Setting up connection to Redis Server
+Redisdata = redis.Redis(host='localhost', port=6379, db=0)
+data = Redisdata.pubsub()
+data.subscribe('calculated_data')
 
+allControls = config.get('Controls') #complete list of sensor configurations to make objects from
+ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
+DataStorage = {} #dictionary of current values of every sensor
+# defaultControlDict = ControlsList.get('default_control')
+warningTotal = 0
+warnings = {}   
+
+
+#Control object instantiation procedure
+for controlString in allControls:
+    configDict = allControls.get(controlString)
+    control = Control(configDict)
+    inputs = configDict.get('inputs').values()
+    for i in inputs:
+        ControlsDict[i].append(control) #stores controls under the sensor inputs they use
+        #this is done because the Watcher looks for controls on incoming data inputs
+
+        
 #ACTUAL CODE THAT RUNS
 # while True:
 #     message = data.get_message()
