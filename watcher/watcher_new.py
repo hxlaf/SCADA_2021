@@ -64,7 +64,7 @@ warnings = {}
 
 #Control object instantiation procedure
 for controlString in allControls:
-    configDict = ControlsList.get(controlString)
+    configDict = allControls.get(controlString)
     control = Control(configDict)
     inputs = configDict.get('inputs').values()
     for i in inputs:
