@@ -48,6 +48,12 @@ class MainGUI(tk.Tk):
         self.screenWidth = self.winfo_screenwidth() # Get current width of canvas
         self.screenHeight = self.winfo_screenheight() # Get current height of canvas
         
+        self.attributes('-fullscreen', True)  
+        self.fullScreenState = False
+        
+        ## Press the ESC button to escape out of full screen (Kiosk) mode
+        self.bind("<Escape>", self.quitFullScreen)
+        
         #print("width" + str(self.screenWidth))
         #print("height" + str(self.screenHeight))
 
@@ -113,6 +119,10 @@ class MainGUI(tk.Tk):
         self.pagesNum = self.displayDict.get('Pages')
         #print("num pages " + str(len(self.pagesNum)))
         self.numOfPages = len(self.pagesNum)
+
+    def quitFullScreen(self, event):
+        self.fullScreenState = False
+        self.attributes("-fullscreen", self.fullScreenState)
 
 
 

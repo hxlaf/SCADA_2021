@@ -10,15 +10,24 @@ sys.path.append(config_path)
 import config
 import redis
 import time
+import math
 
 class SensorEmulator():
     def __init__(self, configDict):
         self.period = configDict.get('data_period')
         self.periodStart = time.time()
+        self.values = configDict.get('data_values')
         pass
 
     def getValue(self):
-        return self.calculateValue(time.time()-self.periodStart)
+        # calculate time into period
+        timeElapsed = time.time()-self.periodStart
+        # check to see if in new period
+        if timeElapsed > self.period:
+            #reset periodStart and timeElapsed for new period
+            self.periodStart = time.time()
+            timeElapsed = timeElapsed - self.period
+        return self.currValue = self.calculateValue(timeElapsed)
     
     def calculateValue(self, timeElapsed):
         pass
@@ -26,19 +35,35 @@ class SensorEmulator():
 
 class ConstantEmulator(SensorEmulator):
     def __init__(self, configDict):
+        self.currValue = self.values
         super().__init__(configDict)
+    
+    def calculateValue(self,timeElapsed):
+        return self.currValue
 
 class SineEmulator(SensorEmulator):
     def __init__(self, configDict):
         super().__init__(configDict)
 
+    def calculateValue(self,timeElapsed):
+        return math.sin(2*math.pi/self.period * timeElapsed)
+    
+
 class RampEmulator(SensorEmulator):
     def __init__(self, configDict):
         super().__init__(configDict)
+        self.slope = (self.values[1] - self.values[0])/self.period
+
+    # generates a value for the "triangle wave" form at a given time int
+    def calculateValue(self,timeElapsed):
+        # second half of period going down
+        if timeElapsed > 0.5 * self.period:
+            return self.values[1] - self.slope*timeElapsed
+        # first half of period going down
+        return self.values[0] + self.slope*timeElapsed
 
 class CycleEmulator(SensorEmulator):
     def __init__(self, configDict):
-        self.values = configDict.get('data_values')
         super().__init__(configDict)
 
     def calculateValue(self, timeElapsed):
@@ -50,6 +75,7 @@ def read(sensorName):
         
 def write(sensorName, value):
     emulators[sensorName].currValue = value
+
 
 def configure_emulator(sensorDict):
     if sensorDict.get('data_pattern') == 'CYCLE':
