@@ -233,7 +233,7 @@ Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
 data.subscribe('calculated_data')
 
-allControls = configDict.get('Controls') #complete list of sensor configurations to make objects from
+allControls = config.get('Controls') #complete list of sensor configurations to make objects from
 ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
 DataStorage = {} #dictionary of current values of every sensor
 # defaultControlDict = ControlsList.get('default_control')
