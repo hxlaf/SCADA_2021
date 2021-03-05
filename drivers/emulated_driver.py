@@ -92,3 +92,29 @@ for sensorName in allSensors:
         emulators[sensorName] = (configure_emulator(sensorDict))
 
 
+    def calculateValue(self, timeElapsed):
+        index = int((timeElapsed/self.period)*len(self.values))
+        return self.values[index]
+
+def read(sensorName):
+    return emulators[sensorName].getValue()
+        
+def write(sensorName, value):
+    emulators[sensorName].currValue = value
+
+
+def configure_emulator(sensorDict):
+    if sensorDict.get('data_pattern') == 'CYCLE':
+        return CycleEmulator(sensorDict)
+    else:
+        return None 
+
+allSensors = config.get('Sensors')
+emulators = {}
+
+for sensorName in allSensors:
+    sensorDict = allSensors.get(sensorName)
+    if sensorDict['bus_type'] == 'EMULATED':
+        emulators[sensorName] = (configure_emulator(sensorDict))
+
+
