@@ -74,7 +74,9 @@ def read(sensorName):
     return emulators[sensorName].getValue()
         
 def write(sensorName, value):
+    print('About to write to ' + sensorName + ', ' + str(value))
     emulators[sensorName].currValue = value
+    print(emulators[sensorName].currValue)
 
 def configure_emulator(sensorDict):
     pattern = sensorDict.get('data_pattern')
