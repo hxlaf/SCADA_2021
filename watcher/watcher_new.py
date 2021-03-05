@@ -254,6 +254,6 @@ for controlString in allControls:
 #ACTUAL CODE THAT RUNS
 while True:
     message = data.get_message()
-    if message:
+    if (message and (message['data'] != 1 )):
         watch(message['data'])
     time.sleep(.01)
