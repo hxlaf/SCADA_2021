@@ -68,20 +68,20 @@ class Control:
         #initializes entry condition attributes
         typ = configDict.get('entry_condition').get('type')
         if typ == 'INSTANTANEOUS':
-            self.entryConditon = Instantaneous(config.get('entry_condition'), inputs)
+            self.entryConditon = Instantaneous(configDict.get('entry_condition'), inputs)
         elif typ == 'DURATION':
-            self.entryConditon = Duration(config.get('entry_condition'), inputs)
+            self.entryConditon = Duration(configDict.get('entry_condition'), inputs)
         elif typ == 'REPETITION':
-            self.entryConditon = Repetition(config.get('entry_condition'), inputs)
+            self.entryConditon = Repetition(configDict.get('entry_condition'), inputs)
         
         #initializes action attributes
         typ = configDict.get('action').get('type')
         if typ == 'LOG':
-            self.action = Log(self.entryCondition)
+            self.action = Log(configDict.get('action'))
         elif typ == 'WARNING':
-            self.action = Warning(self.entryCondition)
+            self.action = Warning(configDict.get('action'))
         elif typ == 'WRITE':
-            self.action = Write(self.entryCondition)
+            self.action = Write(configDict.get('action'))
 
         #optional attributes (must use "try" in case they are not there):
 
@@ -89,11 +89,11 @@ class Control:
         try:
             typ = configDict.get('exit_condition').get('type')
             if typ == 'INSTANTANEOUS':
-                self.exitConditon = Instantaneous(config.get('exit_condition'), inputs)
+                self.exitConditon = Instantaneous(configDict.get('exit_condition'), inputs)
             elif typ == 'DURATION':
-                self.exitConditon = Duration(config.get('exit_condition'), inputs)
+                self.exitConditon = Duration(configDict.get('exit_condition'), inputs)
             elif typ == 'REPETITION':
-                self.exitConditon = Repetition(config.get('exit_condition'), inputs)
+                self.exitConditon = Repetition(configDict.get('exit_condition'), inputs)
         except:
             self.exitCondition = None
         
@@ -233,7 +233,7 @@ Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
 data.subscribe('calculated_data')
 
-allControls = config.get('Controls') #complete list of sensor configurations to make objects from
+allControls = configDict.get('Controls') #complete list of sensor configurations to make objects from
 ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
 DataStorage = {} #dictionary of current values of every sensor
 # defaultControlDict = ControlsList.get('default_control')
@@ -250,7 +250,7 @@ for controlString in allControls:
         ControlsDict[i].append(control) #stores controls under the sensor inputs they use
         #this is done because the Watcher looks for controls on incoming data inputs
 
-        
+
 #ACTUAL CODE THAT RUNS
 # while True:
 #     message = data.get_message()
