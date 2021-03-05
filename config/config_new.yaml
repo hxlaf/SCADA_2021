@@ -49,7 +49,9 @@ Display:
   # max 22 sensor per 1 group
   # Try to limit # of characters for Group name to avoid wasting space on screen
     Motor_Group1:
-      - usb_torque
+      # - usb_torque
+      - emulator_temperature
+      - emulator_sloop
       - emulator_tsi_drive_state
       - rtc_time
       - motor_throttle_voltage
@@ -217,22 +219,22 @@ Sensors:
   #   data_pattern: RAMP #options are RAMP, SINE, CONSTANT, CYCLE (for states)
   #   data_period: 60 #period for plot shape to repeat
   
-  # emulator_tsi_drive_state:
-  #   unit: ''
-  #   inputs:
-  #     num: emulator_tsi_drive_mode
-  #   cal_function:
-  #     0: 'OFF'
-  #     1: 'DRIVE'
-  #   bus_type: EMULATED
-  #   precision: 0
-  #   display_variable: state 
-  #   description: "drive mode determined by TSI board"
-  #   sample_period: 0.5
-  #   var_name:  DriveStateEm
-  #   data_values: [0, 1]
-  #   data_pattern: CYCLE
-  #   data_period: 30
+  emulator_tsi_drive_state:
+    unit: ''
+    inputs:
+      num: emulator_tsi_drive_mode
+    cal_function:
+      0: 'OFF'
+      1: 'DRIVE'
+    bus_type: EMULATED
+    precision: 0
+    display_variable: state 
+    description: "drive mode determined by TSI board"
+    sample_period: 0.5
+    var_name:  DriveStateEm
+    data_values: [0, 1]
+    data_pattern: CYCLE
+    data_period: 30
   
 
   emulator_temperature:
