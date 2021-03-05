@@ -104,8 +104,6 @@ class Control:
 
     #returns boolean
     def checkEntryCondition(self):
-        print('time.time() - self.lastActive) > self.cooldown = ' + str((time.time() - self.lastActive) > self.cooldown))
-        print(type(self.entryCondition))
         return ((time.time() - self.lastActive) > self.cooldown and self.entryCondition.check())
     
     def checkExitCondition(self):
@@ -233,6 +231,7 @@ def watch(message):
     split_key = message.split(':',1)
     sensor = split_key[0]
     val = split_key[1]
+    DataStorage[sensor] = val
     relevantControls = ControlsDict[sensor]
     for control in relevantControls:
         print ('updating control ' + str(control))
