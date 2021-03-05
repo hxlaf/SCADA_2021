@@ -27,7 +27,7 @@ class SensorEmulator():
             self.periodStart = time.time()
             timeElapsed = timeElapsed - self.period
         self.currValue = self.calculateValue(timeElapsed)
-        print('Getting value of ' + self.currValue)
+        print('about to return a current value of ' + self.currValue)
         return self.currValue
     
     def calculateValue(self, timeElapsed):
@@ -41,6 +41,7 @@ class ConstantEmulator(SensorEmulator):
     
     def calculateValue(self,timeElapsed):
         return self.currValue
+        #done this way so that a different constant value can be written to the sensor
 
 class SineEmulator(SensorEmulator):
     def __init__(self, configDict):
@@ -95,7 +96,7 @@ def configure_emulator(sensorDict):
         return None 
 
 allSensors = config.get('Sensors')
-emulators = {}
+emulators = {} #holds all the emulated sensor objects
 
 for sensorName in allSensors:
     sensorDict = allSensors.get(sensorName)
