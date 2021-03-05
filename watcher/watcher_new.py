@@ -252,8 +252,8 @@ for controlString in allControls:
 
 
 #ACTUAL CODE THAT RUNS
-# while True:
-#     message = data.get_message()
-#     if message:
-#         watch(message)
-#     time.sleep(.01)
+while True:
+    message = data.get_message()
+    if message:
+        watch(message)
+    time.sleep(.01)
