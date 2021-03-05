@@ -57,6 +57,7 @@ def write(Sensor,Value):
     #Debuggin
     print( "Sensor: " + str(Sensor) + " Value: " + str(Value))
     sensor_protocol = SensorList.get(str(Sensor)).get('bus_type')
+    print('Protocol: ' + sensosr_protocol)
     if(sensor_protocol == 'I2C'):
         i2c_driver.write(Sensor, Value)
     elif(sensor_protocol =='CAN'):
