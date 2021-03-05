@@ -135,7 +135,7 @@ class Condition:
         print('input keys are ' + str(inputs))
         print('self.inputs = ' + str(self.inputs))
         for key in inputs:
-            print('i= '+ i)
+            print('key = '+ key)
             print('inputs[key] = ' + inputs[key].replace('\n',''))
             self.str.replace(key, inputs[key].replace('\n','')) #TODO: need to fix this
         print(self.str)
