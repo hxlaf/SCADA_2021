@@ -10,6 +10,7 @@ sys.path.append(config_path)
 import config
 import redis
 import time
+import math
 
 class SensorEmulator():
     def __init__(self, configDict):
@@ -42,6 +43,10 @@ class ConstantEmulator(SensorEmulator):
 class SineEmulator(SensorEmulator):
     def __init__(self, configDict):
         super().__init__(configDict)
+
+    def calculateValue(self,timeElapsed):
+        return math.sin(2*math.pi/self.period * timeElapsed)
+    
 
 class RampEmulator(SensorEmulator):
     def __init__(self, configDict):
