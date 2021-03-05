@@ -115,15 +115,17 @@ class Control:
 
     #checks conditions and changes active/inactive state accordingly
     def update(self):
-        #self.checkEntryCondition == self.checkExitCondition?
         if not self.active:
+            print('CHECKING ENTRY CONDITION')
             if self.checkEntryCondition():
                 self.active = True
         else:
+            print('CHECKING EXIT CONDITION')
             if self.checkExitCondition():
                 self.active = False
 
         if self.active:
+            print('ABOUT TO EXECUTE')
             self.action.execute()
 
 class Condition:
@@ -230,6 +232,7 @@ def watch(message):
     val = split_key[1]
     relevantControls = ControlsDict[sensor]
     for control in relevantControls:
+        print ('updating control ' + str(control))
         control.update()
 
 #Setting up connection to Redis Server
