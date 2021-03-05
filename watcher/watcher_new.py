@@ -55,7 +55,7 @@ Redisdata = redis.Redis(host='localhost', port=6379, db=0)
 data = Redisdata.pubsub()
 data.subscribe('calculated_data')
 
-ControlsList = config.get('Controls') #complete list of sensor configurations to make objects from
+allControls = config.get('Controls') #complete list of sensor configurations to make objects from
 ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
 DataStorage = {} #dictionary of current values of every sensor
 # defaultControlDict = ControlsList.get('default_control')
@@ -63,10 +63,12 @@ warningTotal = 0
 warnings = {}
 
 #Control object instantiation procedure
-for configDict in ControlsList:
+for controlString in allControls:
+    configDict = ControlsList.get(controlString)
+    control = Control(configDict)
     inputs = configDict.get('inputs').values()
     for i in inputs:
-        ControlsDict[i].append(Control(configDict)) #stores controls under the sensor inputs they use
+        ControlsDict[i].append(control) #stores controls under the sensor inputs they use
         #this is done because the Watcher looks for controls on incoming data inputs
     
 
