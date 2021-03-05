@@ -101,7 +101,7 @@ class Control:
         elif typ == 'WRITE':
             self.action = Write(self.entryCondition)
 
-        #optional attributes (must use try in case they are not there):
+        #optional attributes (must use "try" in case they are not there):
 
         #initializes exit condition attributes
         try:
@@ -127,7 +127,7 @@ class Control:
 
     #returns boolean
     def checkEntryCondition(self):
-        return (time.time() - lastActive) > self.cooldown and self.entryCondition.check()
+        return (time.time() - self.lastActive) > self.cooldown and self.entryCondition.check()
 
     #returns boolean
     def checkExitCondition(self):
@@ -160,9 +160,9 @@ class Condition:
     def evaluate(self):
         for i in self.inputs:
             try:
-                if data_storage[i] == 'no data': #will not trigger anything unless there is data for all inputs
+                if DataStorage[i] == 'no data': #will not trigger anything unless there is data for all inputs
                     return False
-                condition = self.str.replace(i, data_storage[i].replace('\n',''))
+                condition = self.str.replace(i, DataStorage[i].replace('\n',''))
             except KeyError:
                 return False
         return eval(condition)
@@ -190,7 +190,7 @@ class Duration(Condition):
                 return True
 
         else:
-            times.clear()
+            self.times.clear()
             return False
 
 class Repetition(Condition):
@@ -244,7 +244,7 @@ class Write(Action):
         self.value = configDict.get('value')
 
     def execute(self):
-        driver.write(sensor, value)
+        driver.write(self.sensor, self.value)
 
 
 #ACTUAL CODE THAT RUNS
