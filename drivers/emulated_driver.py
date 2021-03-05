@@ -36,8 +36,8 @@ class SensorEmulator():
 
 class ConstantEmulator(SensorEmulator):
     def __init__(self, configDict):
-        self.currValue = self.values
         super().__init__(configDict)
+        self.currValue = self.values
     
     def calculateValue(self,timeElapsed):
         return self.currValue
