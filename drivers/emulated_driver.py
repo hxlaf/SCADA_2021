@@ -30,7 +30,7 @@ class SensorEmulator():
         return self.currValue
     
     def calculateValue(self, timeElapsed):
-        pass
+        return None
     
 
 class ConstantEmulator(SensorEmulator):
@@ -76,9 +76,9 @@ def read(sensorName):
 def write(sensorName, value):
     emulators[sensorName].currValue = value
 
-
 def configure_emulator(sensorDict):
     pattern = sensorDict.get('data_pattern')
+    print('sensor called' + sensorDict['var_name'] + 'has pattern_type' + pattern)
     if pattern == 'CYCLE':
         return CycleEmulator(sensorDict)
     elif pattern == 'SINE':
@@ -89,32 +89,6 @@ def configure_emulator(sensorDict):
         return ConstantEmulator(sensorDict)
     else:
         print('sensor called' + sensorDict['var_name'] + 'could not be configured')
-        return None 
-
-allSensors = config.get('Sensors')
-emulators = {}
-
-for sensorName in allSensors:
-    sensorDict = allSensors.get(sensorName)
-    if sensorDict['bus_type'] == 'EMULATED':
-        emulators[sensorName] = (configure_emulator(sensorDict))
-
-
-    def calculateValue(self, timeElapsed):
-        index = int((timeElapsed/self.period)*len(self.values))
-        return self.values[index]
-
-def read(sensorName):
-    return emulators[sensorName].getValue()
-        
-def write(sensorName, value):
-    emulators[sensorName].currValue = value
-
-
-def configure_emulator(sensorDict):
-    if sensorDict.get('data_pattern') == 'CYCLE':
-        return CycleEmulator(sensorDict)
-    else:
         return None 
 
 allSensors = config.get('Sensors')
