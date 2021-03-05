@@ -50,14 +50,6 @@ from collections import defaultdict
         # sensor: sensorName
         # value: val
 
-def watch(message):
-    split_key = message.split(':',1)
-    sensor = split_key[0]
-    val = split_key[1]
-    relevantControls = ControlsDict[sensor]
-    for control in relevantControls:
-        control.update()
-
 class Control:
     def __init__(self, configDict):
         self.active = False
@@ -230,8 +222,16 @@ class Write(Action):
     def execute(self):
         driver.write(self.sensor, self.value)
 
+def watch(message):
+    split_key = message.split(':',1)
+    sensor = split_key[0]
+    val = split_key[1]
+    relevantControls = ControlsDict[sensor]
+    for control in relevantControls:
+        control.update()
+
 #Setting up connection to Redis Server
-Redisdata = redis.Redis(host='localhost', port=6379, db=0)
+Redisdata = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 data = Redisdata.pubsub()
 data.subscribe('calculated_data')
 
