@@ -132,6 +132,8 @@ class Condition:
     def __init__(self, configDict, inputs):
         self.str = configDict.get('str')
         self.inputs = inputs.values()
+        print('input keys are ' + str(inputs))
+        print('self.inputs = ' + str(self.inputs))
         for i in inputs:
             self.str.replace(i, inputs[i].replace('\n','')) #TODO: need to fix this
 
