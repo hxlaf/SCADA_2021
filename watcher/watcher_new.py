@@ -116,7 +116,7 @@ class Control:
     #checks conditions and changes active/inactive state accordingly
     def update(self):
         if not self.active:
-            print('CHECKING ENTRY CONDITION')
+            print('CHECKING ENTRY CONDITION' + self.entryCondition.str)
             if self.checkEntryCondition():
                 self.active = True
         else:
