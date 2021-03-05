@@ -133,7 +133,7 @@ class Control:
 
 class Condition:
     def __init__(self, configDict, inputs):
-        self.str = configDict.get('entry_condition').get('str')
+        self.str = configDict.get('str')
         self.inputs = inputs.values()
         for i in inputs:
             self.str.replace(i, inputs[i].replace('\n','')) #TODO: need to fix this
