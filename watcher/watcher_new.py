@@ -58,7 +58,7 @@ data.subscribe('calculated_data')
 ControlsList = config.get('Controls') #complete list of sensor configurations to make objects from
 ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
 DataStorage = {} #dictionary of current values of every sensor
-defaultControl = Control(ControlsList.get('default_control'))
+# defaultControlDict = ControlsList.get('default_control')
 warningTotal = 0
 warnings = {}
 
@@ -115,17 +115,17 @@ class Control:
             elif typ == 'REPETITION':
                 self.exitConditon = Repetition(config.get('exit_condition'), inputs)
         except:
-            self.exitCondition = defaultControl.exitCondition
+            self.exitCondition = None
         
         #initializes max duration and cooldwon attributes
         try:
             self.maxDuration = configDict.get('max_duration')
         except:
-            self.maxDuration = defaultControl.exitCondition
+            self.maxDuration = None
         try:
             self.cooldown = configDict.get('cooldown')
         except:
-            self.cooldown = defaultControl.exitCondition
+            self.cooldown = 0
 
     #returns boolean
     def checkEntryCondition(self):

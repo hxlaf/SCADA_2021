@@ -1883,6 +1883,7 @@ Sensors:
 
 Controls:
 
+
   # TSI-Heat_Check:
   #     inputs:
   #         Tempin: TSI-Temp
@@ -1897,6 +1898,26 @@ Controls:
   #     Action_Details:
   #         writeSensor: sensorName
   #         writeValue: value
+
+  #WE PROBABLY DON'T NEED THIS
+  # default_control:
+  #   cooldown: 0
+  #   inputs:
+  #       Tempin: emulator_temperature
+  #   entry_condition:
+  #       str: 'Tempin > 60'
+  #       type: REPETITION                       
+  #       reps: 2
+  #       duration: 5                      
+  #   exit_condition:
+  #       str: 'Tempin <= 40'                   
+  #       type: DURATION
+  #       duration: 2
+  #   action:
+  #       type: WRITE                                  
+  #       sensor: emulator_sloop
+  #       value: 1
+  #   max_duration: 999999
 
   Emulated-Temp_Check:
     cooldown: 1
