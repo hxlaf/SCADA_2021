@@ -81,6 +81,12 @@ def write(sensorName, value):
 def configure_emulator(sensorDict):
     if sensorDict.get('data_pattern') == 'CYCLE':
         return CycleEmulator(sensorDict)
+    elif sensorDict.get('data_pattern') == 'SINE':
+        return SineEmulator(sensorDict)
+    elif sensorDict.get('data_pattern') == 'RAMP':
+        return RampEmulator(sensorDict)
+    elif sensorDict.get('data_pattern') == 'CONSTANT':
+        return ConstantEmulator(sensorDict)
     else:
         return None 
 
