@@ -58,7 +58,7 @@ class RampEmulator(SensorEmulator):
     def calculateValue(self,timeElapsed):
         # second half of period going down
         if timeElapsed > 0.5 * self.period:
-            return self.values[1] - self.slope*timeElapsed
+            return 2 * self.values[1] - self.slope*timeElapsed
         # first half of period going down
         return self.values[0] + self.slope*timeElapsed
 
