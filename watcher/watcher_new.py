@@ -64,7 +64,7 @@ warnings = {}
 
 #Control object instantiation procedure
 for configDict in ControlsList:
-    inputs = configDict.get().values()
+    inputs = configDict.get('inputs').values()
     for i in inputs:
         ControlsDict[i].append(Control(configDict)) #stores controls under the sensor inputs they use
         #this is done because the Watcher looks for controls on incoming data inputs
