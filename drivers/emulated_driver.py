@@ -17,7 +17,6 @@ class SensorEmulator():
         self.period = configDict.get('data_period')
         self.periodStart = time.time()
         self.values = configDict.get('data_values')
-        pass
 
     def getValue(self):
         # calculate time into period
