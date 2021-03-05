@@ -52,7 +52,7 @@ class SineEmulator(SensorEmulator):
 class RampEmulator(SensorEmulator):
     def __init__(self, configDict):
         super().__init__(configDict)
-        self.slope = (self.values[1] - self.values[0])/self.period
+        self.slope = 2 * (self.values[1] - self.values[0])/self.period
 
     # generates a value for the "triangle wave" form at a given time int
     def calculateValue(self,timeElapsed):
