@@ -13,26 +13,44 @@ sys.path.append(local_path)
 import config
 import redis
 import usb.core
-import usb.util
+# import usb.util
 import time
 
 allSensors = config.get('Sensors')
 usbDevices = {}
 
-for sensorName in allSensors:
-    sensorDict = allSensors.get(sensorName)
-    if sensorDict['bus_type'] == 'USB':
-        usbDevices[sensorName] = (configure_sensor(sensorDict))
-
-
 def write(sensorName, value):
     pass
 
-def read(self,sensorName):
+def read(sensorName):
+    usbDevices[sensorName].read(0x81, 64, 1000)
+    # parameters here are the endpoint address, byte length and timeout, respectively
     pass
 
-def configure_sensor(self, sensorName, sensorDict):
+def configure_sensor(sensorDict):
     vendorID = sensorDict.get('primary_address')
     productID = sensorDict.get('secondary_address')
-    return usb.core.find(idVendor=vendorID, idProduct = productID)
     
+    #stuff from pyusb github example
+    dev =  usb.core.find(idVendor=vendorID, idProduct = productID)
+    if dev is None:
+        raise ValueError('Device not found')
+    dev.set_configuration()
+    # cfg = dev.get_active_configuration()
+    # intf = cfg[(0,0)]
+
+    # ep = usb.util.find_descriptor(
+    #     intf,
+    #     # match the first OUT endpoint
+    #     custom_match = \
+    #     lambda e: \
+    #         usb.util.endpoint_direction(e.bEndpointAddress) == \
+    #         usb.util.ENDPOINT_OUT)
+
+    return dev
+
+for sensorName in allSensors:
+    sensorDict = allSensors.get(sensorName)
+    if sensorDict['bus_type'] == 'USB':
+        usbDevices[sensorName] = configure_sensor(sensorDict)
+        print('just added usb device called' + sensorName)

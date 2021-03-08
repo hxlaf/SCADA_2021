@@ -4,7 +4,7 @@ apt-get install python3
 apt-get install python3-pip
 apt-get install redis-server
 apt-get install can-utils
-apt-get install i2c-tool
+apt-get install i2c-tools
 apt-get install python-smbus
 apt install python3-tk
 apt install postgresql libpq-dev postgresql-client postgresql-client-common -y
@@ -19,6 +19,7 @@ pip3 install pyyaml
 pip3 install smbus
 pip install pyyaml #not sure why we need this, but we do
 pip3 install canopen
+pip3 install pyusb
 
 #Creating GUI Startup Files 
 

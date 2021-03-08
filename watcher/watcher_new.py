@@ -11,10 +11,12 @@ import redis
 
 import utils
 from utils import calibration
-import driver
+from drivers import driver
 
 import time
 import datetime
+import json
+from collections import defaultdict
 
 ##Example Control
 #TSI-Heat_Check:
@@ -48,32 +50,6 @@ import datetime
         # sensor: sensorName
         # value: val
 
-#Setting up connection to Redis Server
-Redisdata = redis.Redis(host='localhost', port=6379, db=0)
-data = Redisdata.pubsub()
-data.subscribe('calculated_data')
-
-ControlsList = config.get('Controls') #complete list of sensor configurations to make objects from
-ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
-DataStorage = {} #dictionary of current values of every sensor
-defaultControl = Control(ControlsList.get('default_control'))
-warningTotal = 0
-warnings = {}
-
-#Control object instantiation procedure
-for configDict in ControlsList:
-    inputs = configDict.get().values()
-    for i in inputs:
-        ControlsDict[i].append(Control(configDict)) #stores controls under the sensor inputs they use
-        #this is done because the Watcher looks for controls on incoming data inputs
-    
-
-def watch(message):
-    sensor,val = message.split(':')
-    relevantControls = ControlsDict[sensor]
-    for control in relevantControls:
-        control.update()
-
 class Control:
     def __init__(self, configDict):
         self.active = False
@@ -86,50 +62,50 @@ class Control:
         #initializes entry condition attributes
         typ = configDict.get('entry_condition').get('type')
         if typ == 'INSTANTANEOUS':
-            self.entryConditon = Instantaneous(config.get('entry_condition'), inputs)
+            self.entryCondition = Instantaneous(configDict.get('entry_condition'), inputs)
         elif typ == 'DURATION':
-            self.entryConditon = Duration(config.get('entry_condition'), inputs)
+            self.entryCondition = Duration(configDict.get('entry_condition'), inputs)
         elif typ == 'REPETITION':
-            self.entryConditon = Repetition(config.get('entry_condition'), inputs)
+            self.entryCondition = Repetition(configDict.get('entry_condition'), inputs)
+        
         
         #initializes action attributes
         typ = configDict.get('action').get('type')
         if typ == 'LOG':
-            self.action = Log(self.entryCondition)
+            self.action = Log(configDict.get('action'))
         elif typ == 'WARNING':
-            self.action = Warning(self.entryCondition)
+            self.action = Warning(configDict.get('action'))
         elif typ == 'WRITE':
-            self.action = Write(self.entryCondition)
+            self.action = Write(configDict.get('action'))
 
-        #optional attributes (must use try in case they are not there):
+        #optional attributes (must use "try" in case they are not there):
 
         #initializes exit condition attributes
         try:
             typ = configDict.get('exit_condition').get('type')
             if typ == 'INSTANTANEOUS':
-                self.exitConditon = Instantaneous(config.get('exit_condition'), inputs)
+                self.exitCondition = Instantaneous(configDict.get('exit_condition'), inputs)
             elif typ == 'DURATION':
-                self.exitConditon = Duration(config.get('exit_condition'), inputs)
+                self.exitCondition = Duration(configDict.get('exit_condition'), inputs)
             elif typ == 'REPETITION':
-                self.exitConditon = Repetition(config.get('exit_condition'), inputs)
+                self.exitCondition = Repetition(configDict.get('exit_condition'), inputs)
         except:
-            self.exitCondition = defaultControl.exitCondition
+            self.exitCondition = None
         
         #initializes max duration and cooldwon attributes
         try:
             self.maxDuration = configDict.get('max_duration')
         except:
-            self.maxDuration = defaultControl.exitCondition
+            self.maxDuration = None
         try:
             self.cooldown = configDict.get('cooldown')
         except:
-            self.cooldown = defaultControl.exitCondition
+            self.cooldown = 0
 
     #returns boolean
     def checkEntryCondition(self):
-        return (time.time() - lastActive) > self.cooldown and self.entryCondition.check()
-
-    #returns boolean
+        return ((time.time() - self.lastActive) > self.cooldown and self.entryCondition.check())
+    
     def checkExitCondition(self):
         if self.exitCondition is not None:
             return (self.maxDuration is not None and time.time() - lastActive > self.maxDuration) or self.exitCondition.check()
@@ -138,31 +114,34 @@ class Control:
 
     #checks conditions and changes active/inactive state accordingly
     def update(self):
-        #self.checkEntryCondition == self.checkExitCondition?
         if not self.active:
+            print('CHECKING ENTRY CONDITION' + self.entryCondition.str)
             if self.checkEntryCondition():
-                active = True
+                self.active = True
         else:
+            print('CHECKING EXIT CONDITION')
             if self.checkExitCondition():
-                active = False
+                self.active = False
 
-        if active:
+        if self.active:
+            print('ABOUT TO EXECUTE')
             self.action.execute()
 
 class Condition:
     def __init__(self, configDict, inputs):
-        self.str = configDict.get('entry_condition').get('str')
+        self.str = configDict.get('str')
         self.inputs = inputs.values()
-        for i in inputs:
-            self.str.replace(i, inputs[i].replace('\n','')) #TODO: need to fix this
+        for key in inputs:
+            self.str = self.str.replace(key, inputs[key].replace('\n','')) #TODO: need to fix this
 
     #evaluates the condition string
     def evaluate(self):
         for i in self.inputs:
             try:
-                if data_storage[i] == 'no data': #will not trigger anything unless there is data for all inputs
+                if DataStorage[i] == 'no data': #will not trigger anything unless there is data for all inputs
                     return False
-                condition = self.str.replace(i, data_storage[i].replace('\n',''))
+                condition = self.str.replace(i, DataStorage[i].replace('\n',''))
+                print( 'about to evaluate ' + condition)
             except KeyError:
                 return False
         return eval(condition)
@@ -173,6 +152,7 @@ class Instantaneous(Condition):
         super().__init__(configDict, inputs)
 
     def check(self):
+        print('Condition.check()')
         return self.evaluate()
 
 class Duration(Condition):
@@ -186,11 +166,11 @@ class Duration(Condition):
         if self.evaluate():
             self.times.append(time.time()) 
 
-            if self.times and self.times[-1] - self.times[0] > max_duration:
+            if self.times and self.times[-1] - self.times[0] > self.duration:
                 return True
 
         else:
-            times.clear()
+            self.times.clear()
             return False
 
 class Repetition(Condition):
@@ -244,12 +224,45 @@ class Write(Action):
         self.value = configDict.get('value')
 
     def execute(self):
-        driver.write(sensor, value)
+        print('Trying to execute WRITE action')
+        driver.write(self.sensor, self.value)
+
+def watch(message):
+    split_key = message.split(':',1)
+    sensor = split_key[0]
+    val = split_key[1]
+    DataStorage[sensor] = val
+    relevantControls = ControlsDict[sensor]
+    for control in relevantControls:
+        print ('updating control ' + str(control))
+        control.update()
+
+#Setting up connection to Redis Server
+Redisdata = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+data = Redisdata.pubsub()
+data.subscribe('calculated_data')
+
+allControls = config.get('Controls') #complete list of sensor configurations to make objects from
+ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
+DataStorage = {} #dictionary of current values of every sensor
+# defaultControlDict = ControlsList.get('default_control')
+warningTotal = 0
+warnings = {}   
+
+
+#Control object instantiation procedure
+for controlString in allControls:
+    configDict = allControls.get(controlString)
+    control = Control(configDict)
+    inputs = configDict.get('inputs').values()
+    for i in inputs:
+        ControlsDict[i].append(control) #stores controls under the sensor inputs they use
+        #this is done because the Watcher looks for controls on incoming data inputs
 
 
 #ACTUAL CODE THAT RUNS
-# while True:
-#     message = data.get_message()
-#     if message:
-#         watch(message)
-#     time.sleep(.01)
+while True:
+    message = data.get_message()
+    if (message and (message['data'] != 1 )):
+        watch(message['data'])
+    time.sleep(.01)

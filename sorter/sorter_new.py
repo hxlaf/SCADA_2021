@@ -10,7 +10,7 @@ config_path = '/usr/etc/scada/config'
 sys.path.append(lib_path)
 sys.path.append(config_path)
 
-from drivers import driver, emulated_driver
+from drivers import driver
 import utils
 import config
 import redis
@@ -25,9 +25,6 @@ data.subscribe('raw_data')
 
 #Local Dictionary for Sensor Period Count
 SensorList = config.get('Sensors')
-
-if config.get('emulated') == True:
-    SensorList.append(config.get('Emulated_Sensors'))
 
 last_sampled = {}
 sample_period = {}
@@ -52,7 +49,7 @@ def imu_reset():
 def imu_setup():
     #Debuggin: 
     opr_mode_reg_read = driver.read('opr_mode_reg')
-    print("Value of Opr_Mode: " + str(opr_mode_reg_read))
+    # print("Value of Opr_Mode: " + str(opr_mode_reg_read))
    # print( "SensorList Dictionary: " + str(SensorList))
     global onSetup # Python UnboundLocalError fix
    # if (opr_mode_reg_read == 0 or opr_mode_reg_read != 12): #If its in Config Mode and not in NDOF mode, want to configure it
@@ -84,14 +81,14 @@ while True:
     for sensorName in SensorList :
         if(time.time() - last_sampled[sensorName] > sample_period[sensorName] and float(sample_period[sensorName]) != 0.0):
             
-            print('SENSOR NAME IS ' + sensorName + 'and its type is')
-            print(type(sensorName))
+            # print('SENSOR NAME IS ' + sensorName + 'and its type is')
+            # print(type(sensorName))
 
             #Appending sensor name to sensor value for distinction in redis database
             key = '{}:{}'.format(sensorName, driver.read(sensorName))
             #Python String Method that makes everything lowercase
             key = key.lower()
-            print(key)
+            # print(key)
             #Putting Sensor Data into redis channel
             Redisdata.publish('raw_data',key)
             last_sampled[sensorName] = time.time()

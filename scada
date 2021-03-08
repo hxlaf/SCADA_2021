@@ -83,7 +83,7 @@ parser_logs = subparsers.add_parser('logs', help='fetch the daemon logs from sys
 parser_logs.set_defaults(func=logs)
 
 
-
+# commented while trying to debug NEW-SESSION in Postgres
 # def new_session(args):
 # 	os.system('redis-cli publish new-session 0')
 

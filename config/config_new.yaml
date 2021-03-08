@@ -49,6 +49,9 @@ Display:
   # max 22 sensor per 1 group
   # Try to limit # of characters for Group name to avoid wasting space on screen
     Motor_Group1:
+      # - usb_torque
+      - emulator_temperature
+      - emulator_sloop
       - emulator_tsi_drive_state
       - rtc_time
       - motor_throttle_voltage
@@ -183,6 +186,22 @@ IMU_Config_Constants:
 ## LIA: ADDED var_name FOR CAN SENSORS 
 ## Tip: Recommended max 15 characters for var_name in order to avoid cutting off data on screen 
 Sensors:
+#USB sensors
+  usb_torque:
+    unit: 'Nm'
+    inputs:
+      Vin: usb_torque
+    cal_function: '101.7018*Vin + 145.5199'
+    bus_type: USB
+    primary_address: 0x09db #vendor id
+    secondary_address: 0x00f0 #product id
+    precision: 2
+    display_variable: number 
+    description: "Torque value read from USB torque sensor"
+    bit_length: 16 #probably don't need this
+    sample_period: 1
+    var_name: usb_torque
+
 #emulated sensors
   # emulator_motor_temp:
   #   unit: '°C'
@@ -200,22 +219,57 @@ Sensors:
   #   data_pattern: RAMP #options are RAMP, SINE, CONSTANT, CYCLE (for states)
   #   data_period: 60 #period for plot shape to repeat
   
-  emulator_tsi_drive_state:
-    unit: ''
+  # emulator_tsi_drive_state:
+  #   unit: ''
+  #   inputs:
+  #     num: emulator_tsi_drive_mode
+  #   cal_function:
+  #     0: 'OFF'
+  #     1: 'DRIVE'
+  #   bus_type: EMULATED
+  #   precision: 0
+  #   display_variable: state 
+  #   description: "drive mode determined by TSI board"
+  #   sample_period: 0.5
+  #   var_name:  DriveStateEm
+  #   data_values: [0, 1]
+  #   data_pattern: CYCLE
+  #   data_period: 30
+  
+
+  emulator_temperature:
+    unit: '°C'
     inputs:
-      num: emulator_tsi_drive_mode
-    cal_function:
-      0: 'OFF'
-      1: 'DRIVE'
+      Tin: temp
+    cal_function: Tin
     bus_type: EMULATED
     precision: 0
-    display_variable: state 
-    description: "drive mode determined by TSI board"
-    sample_period: 0.5
-    var_name:  DriveStateEm
-    data_values: [0, 1]
-    data_pattern: CYCLE
-    data_period: 30
+    display_variable: number
+    description: "measured motor temperature"
+    sample_period: 1
+    var_name:  TempEm
+    data_values: [20, 80] #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
+    data_pattern: RAMP #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    data_period: 20 #period for plot shape to repeat
+
+  emulator_sloop:
+    unit: ''
+    inputs:
+      in: emulator_sloop
+    cal_function:
+      0: OPEN
+      1: CLOSED
+    bus_type: EMULATED
+    precision: 0
+    display_variable: state
+    description: "measured motor temperature"
+    sample_period: 1   
+    var_name:  'SAFETY LOOP'
+    data_values: 1 #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
+    data_pattern: CONSTANT #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    data_period: 0 #period for plot shape to repeat
+    
+
 
 # CAN #
 
@@ -1795,19 +1849,91 @@ Sensors:
 
 ################## WATCHER STUFF ##########################
 
+##Example Control
+#TSI-Heat_Check:
+    #cooldown: 10                                      #minimum time between activating (seconds)
+    #max_duration: 30                           #time after which it will automatically turn off
+    #inputs:
+        #Tempin: TSI-Temp 
+    #entry_condition:
+        #str: 'Tempin > 60'
+        #type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
+        #reps: 5
+        #duration: 10                       #Repetitions-Seconds for REPETITION and Seconds for DURATION; INSTANTANEOUS does not use this field
+    #exit_condition:
+        #str: 'Tempin <= 40'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
+        #type: DURATION
+        #duration: 8
+    #action:
+        #type: LOG                                  #if LOG put text, if WARNING put text (maybe color/flashing?), if WRITE write to a sensor on the vehicle:
+        #message: 'TSI Temperature over 60'  
+
+    #NOTE: these are not full configurations. Just examples of Action_Details for alternate Action_Type's
+
+    #action:
+        # type: WARNING
+        # message: "msg1"
+        # suggestion: "suggestion1"
+        # priority: 5
+
+    #action:
+        # type: WRITE
+        # sensor: sensorName
+        # value: val
+
 Controls:
 
-  TSI-Heat_Check:
-      inputs:
-          Tempin: TSI-Temp
-      Condition: 'Tempin > 200'
-      Action: LOG
-      Action_Details: 'TSI Temperature over 200'         #if LOG put text, if WARNING put text (maybe color/flashing?), if ACTION write to a sensor on the vehicle
-      Condition_Type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
-      Action_Type: LATCH                                 #LATCH or PULSE
-      Condition_Inputs: 5-10                             #Repetitions-Seconds for REPETITION and Seconds for PERIOD
 
-      Action: ACTION
-      Action_Details:
-          writeSensor: sensorName
-          writeValue: value
+  # TSI-Heat_Check:
+  #     inputs:
+  #         Tempin: TSI-Temp
+  #     Condition: 'Tempin > 200'
+  #     Action: LOG
+  #     Action_Details: 'TSI Temperature over 200'         #if LOG put text, if WARNING put text (maybe color/flashing?), if ACTION write to a sensor on the vehicle
+  #     Condition_Type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
+  #     Action_Type: LATCH                                 #LATCH or PULSE
+  #     Condition_Inputs: 5-10                             #Repetitions-Seconds for REPETITION and Seconds for PERIOD
+
+  #     Action: ACTION
+  #     Action_Details:
+  #         writeSensor: sensorName
+  #         writeValue: value
+
+  #WE PROBABLY DON'T NEED THIS
+  # default_control:
+  #   cooldown: 0
+  #   inputs:
+  #       Tempin: emulator_temperature
+  #   entry_condition:
+  #       str: 'Tempin > 60'
+  #       type: REPETITION                       
+  #       reps: 2
+  #       duration: 5                      
+  #   exit_condition:
+  #       str: 'Tempin <= 40'                   
+  #       type: DURATION
+  #       duration: 2
+  #   action:
+  #       type: WRITE                                  
+  #       sensor: emulator_sloop
+  #       value: 1
+  #   max_duration: 999999
+
+  Emulated-Temp_Check:
+    cooldown: 1
+    inputs:
+        Tempin: emulator_temperature
+    entry_condition:
+        str: 'Tempin > 60'
+        type: INSTANTANEOUS                       
+        # reps: 2
+        # duration: 5                      
+    exit_condition:
+        str: 'Tempin <= 40'                   
+        type: DURATION
+        duration: 2
+    action:
+        type: WRITE
+        sensor: emulator_sloop
+        value: 0
+    
