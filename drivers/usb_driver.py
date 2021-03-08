@@ -23,7 +23,7 @@ def write(sensorName, value):
     pass
 
 def read(sensorName):
-    usbDevices[sensorName].read(0x81, 64, 100)
+    usbDevices[sensorName].read(0x81, 64, 1000)
     # parameters here are the endpoint address, byte length and timeout, respectively
     pass
 
