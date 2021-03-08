@@ -193,8 +193,11 @@ Sensors:
       Vin: usb_torque
     cal_function: '101.7018*Vin + 145.5199'
     bus_type: USB
-    primary_address: 0x09db #vendor id
-    secondary_address: 0x00f0 #product id
+    # primary_address: 0x09db #vendor id
+    # secondary_address: 0x00f0 #product id
+    #mouse
+    primary_address: 0x413c #vendor id
+    secondary_address: 0x301a #product id
     precision: 2
     display_variable: number 
     description: "Torque value read from USB torque sensor"
