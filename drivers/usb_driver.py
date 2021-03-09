@@ -25,7 +25,7 @@ def write(sensorName, value):
 
 def read(sensorName):
     # parameters here are the endpoint address, byte length and timeout, respectively
-    val = usbDevices[sensorName].read(endPoints[sensorName], 1024, 10000) #byte length for torque is 64
+    val = usbDevices[sensorName].read(endPoints[sensorName], 1024) #byte length for torque is 64
     print(len(val))
     return val
 
