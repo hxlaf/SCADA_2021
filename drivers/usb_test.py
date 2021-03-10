@@ -33,6 +33,5 @@ try:
                                   Range.BIP10VOLTS, AInFlag.DEFAULT)
             print('Channel', channel, 'Data:', data)
 
-# except ULException as e:
-except as e:
+except ULException as e:
     print('\n', e)  # Display any error messages
