@@ -25,7 +25,7 @@ def __init__(self):
     self.getSensorList()
     name = self.sensorList[0]
     #self.getTimeStamps(name)
-    print(self.getTimeStamps(name)) 
+    print("HEY" + str(self.getTimeStamps(name)) )
 
 
 def getTimeStamps(self, sensorName):
