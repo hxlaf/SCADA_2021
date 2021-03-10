@@ -23,6 +23,7 @@ def __init__(self):
     self.sensorList = [] # list to hold the sensors from the config file. 
 
     self.getSensorList()
+    print("here")
     name = self.sensorList[0]
     #self.getTimeStamps(name)
     print("HEY" + str(self.getTimeStamps(name)) )
