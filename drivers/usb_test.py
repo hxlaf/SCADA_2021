@@ -34,5 +34,5 @@ try:
             print('Channel', channel, 'Data:', data)
 
 # except ULException as e:
-except e:
+except as e:
     print('\n', e)  # Display any error messages
