@@ -88,7 +88,7 @@ def getSensorData(self, sensor_id, data):
 def getSensorList(self):
     self.nameList = config.get('Postman')
 
-    for name in self.nameList
+    for name in self.nameList:
         self.sensorList.append(name)
 
 
