@@ -40,9 +40,9 @@ class Extract_Data:
         cursor.execute("""
             SELECT value, timestamp
             FROM data
-            WHERE sensor_id = sensorName
+            WHERE sensor_id = %s
             ORDER BY timestamp ASC
-        """)
+        """, [sensorName])
 
         data = cursor.fetchall()
         print("data " + str(data))
