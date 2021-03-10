@@ -21,7 +21,7 @@ cursor = database.cursor()
 
 def __init__(self):
     self.sensorList = [] # list to hold the sensors from the config file. 
-
+    print("first")
     self.getSensorList()
     print("here")
     name = self.sensorList[0]
