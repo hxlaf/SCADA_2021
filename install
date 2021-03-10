@@ -8,6 +8,7 @@ apt-get install i2c-tools
 apt-get install python-smbus
 apt install python3-tk
 apt install postgresql libpq-dev postgresql-client postgresql-client-common -y
+sudo apt-get install python-usb python3-usb
 
 
 # install python dependencies

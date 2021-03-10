@@ -17,17 +17,19 @@ import usb.core
 import time
 
 allSensors = config.get('Sensors')
-usbDevices = {}
+usbDevices = {} # holds all the USB device python objects
+endPoints = {} #holds all the endpoint addresses
 
 def write(sensorName, value):
     pass
 
 def read(sensorName):
-    usbDevices[sensorName].read(0x81, 64, 1000)
     # parameters here are the endpoint address, byte length and timeout, respectively
-    pass
+    val = usbDevices[sensorName].read(endPoints[sensorName], 1024,10000) #byte length for torque is 64
+    print(len(val))
+    return val
 
-def configure_sensor(sensorDict):
+def configure_sensor(sensorName, sensorDict):
     vendorID = sensorDict.get('primary_address')
     productID = sensorDict.get('secondary_address')
     
@@ -35,7 +37,23 @@ def configure_sensor(sensorDict):
     dev =  usb.core.find(idVendor=vendorID, idProduct = productID)
     if dev is None:
         raise ValueError('Device not found')
+
+    #from YouTube video tutorial
+    ep = dev[0].interfaces()[0].endpoints()[0]
+    i = dev[0].interfaces()[0].bInterfaceNumber
+    dev.reset()
+
+    if dev.is_kernel_driver_active(i):
+        dev.detach_kernel_driver(i)
+
     dev.set_configuration()
+    eaddr = ep.bEndpointAddress
+    #end YouTube tutorial
+
+    endPoints[sensorName] = eaddr
+
+    # dev.set_configuration()
+
     # cfg = dev.get_active_configuration()
     # intf = cfg[(0,0)]
 
@@ -52,5 +70,5 @@ def configure_sensor(sensorDict):
 for sensorName in allSensors:
     sensorDict = allSensors.get(sensorName)
     if sensorDict['bus_type'] == 'USB':
-        usbDevices[sensorName] = configure_sensor(sensorDict)
+        usbDevices[sensorName] = configure_sensor(sensorName, sensorDict)
         print('just added usb device called' + sensorName)
