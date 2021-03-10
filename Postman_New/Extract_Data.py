@@ -7,33 +7,32 @@ config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
 
 
-class Extract_Data:
+database = psycopg2.connect(
+    user='pi',
+    password='scada',
+    host='localhost',
+    port='5432',
+    database='test'
+)
 
-
-    database = psycopg2.connect(
-        user='pi',
-        password='scada',
-        host='localhost',
-        port='5432',
-        database='test'
-    )
+class Extract_Data: 
 
 
     timeStampList = []
     cursor = database.cursor()
 
-
     def __init__(self):
-        self.sensorList = []  # list to hold the sensors from the config file.
+        self.sensorList = [] # list to hold the sensors from the config file. 
         print("first")
         self.getSensorList()
         print("here")
         name = self.sensorList[0]
-        # self.getTimeStamps(name)
-        print("HEY" + str(self.getTimeStamps(name)))
+        #self.getTimeStamps(name)
+        print("HEY" + str(self.getTimeStamps(name)) )
 
 
     def getTimeStamps(self, sensorName):
+
         """
             Return the timestamps for DRIVE mode. 
         """
@@ -46,13 +45,13 @@ class Extract_Data:
 
         data = cursor.fetchall()
         print("data " + str(data))
-        if len(data) == 0:
-            # If this is the case then there is an issue with the logger class' update method
+        if len(data)==0:
+            #If this is the case then there is an issue with the logger class' update method
             return 'NO DATA FOUND FOR POSTGRES'
 
-        # local variables for time stamps
+        # local variables for time stamps 
         drive_status = False
-        begin_time = 0
+        begin_time = 0 
         end_time = 0
 
         for row in data:
@@ -70,7 +69,10 @@ class Extract_Data:
                 time = end_time - begin_time
                 timeStampList.append(time)
 
+        
+        
         return timeStampList
+
 
 
     def getSensorList(self):
@@ -89,24 +91,21 @@ class Extract_Data:
         # """, [sensor_id])
 
         # data = cursor.fetchall()
-
+        
         # if len(data)==0:
         #     #If this is the case then there is an issue with the logger class' update method
-        #     return 'ERR IN DATAPATH'
-
+        #     return 'ERR IN DATAPATH'    
 
     def getMean(self, data):
         pass
 
-
     def getMax(self, data):
         pass
-
 
     def getMin(self, data):
         pass
 
 
-    # print(self.getTimeStamps())
+    #print(self.getTimeStamps())
 
 Data = Extract_Data()
