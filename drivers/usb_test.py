@@ -10,7 +10,7 @@ sys.path.append(config_path)
 sys.path.append(local_path)
 
 import config
-import usb_driver
+# import usb_driver
 
 # print('Reading from USB torque sensor:')
 # print(usb_driver.read('usb_torque'))
@@ -33,5 +33,6 @@ try:
                                   Range.BIP10VOLTS, AInFlag.DEFAULT)
             print('Channel', channel, 'Data:', data)
 
-except ULException as e:
+# except ULException as e:
+except e:
     print('\n', e)  # Display any error messages
