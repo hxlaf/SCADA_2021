@@ -24,11 +24,11 @@ def __init__(self):
 
     self.getSensorList()
     name = self.sensorList[0]
-    self.getTimeStamps(name)
+    #self.getTimeStamps(name)
+    print(self.getTimeStamps(name)) 
 
 
 def getTimeStamps(self, sensorName):
-
 
     """
         Return the timestamps for DRIVE mode. 
@@ -71,6 +71,14 @@ def getTimeStamps(self, sensorName):
     return timeStampList
 
 
+
+def getSensorList(self):
+    self.nameList = config.get('PostProcessing')
+
+    for name in self.nameList:
+        self.sensorList.append(name)
+
+
 def getSensorData(self, sensor_id, data):
     pass
     # cursor.execute("""
@@ -83,16 +91,7 @@ def getSensorData(self, sensor_id, data):
     
     # if len(data)==0:
     #     #If this is the case then there is an issue with the logger class' update method
-    #     return 'ERR IN DATAPATH'
-
-def getSensorList(self):
-    self.nameList = config.get('Postman')
-
-    for name in self.nameList:
-        self.sensorList.append(name)
-
-
-    
+    #     return 'ERR IN DATAPATH'    
 
 def getMean(self, data):
     pass
@@ -104,4 +103,4 @@ def getMin(self, data):
     pass
 
 
-print(self.getTimeStamps())
+#print(self.getTimeStamps())
