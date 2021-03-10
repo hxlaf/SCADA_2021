@@ -109,4 +109,4 @@ def getMin(self, data):
 
 #print(self.getTimeStamps())
 
-Data = Extract_Data()
+#Data = Extract_Data()
