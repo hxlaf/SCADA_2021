@@ -2,6 +2,10 @@ import sys
 import os
 import psycopg2
 
+config_path = '/usr/etc/scada/config'
+sys.path.append(config_path)
+
+import config
 
 database = psycopg2.connect(
     user='pi',
@@ -15,7 +19,15 @@ database = psycopg2.connect(
 timeStampList = []
 cursor = database.cursor()
 
-def getTimeStamps():
+def __init__(self):
+    self.sensorList = [] # list to hold the sensors from the config file. 
+
+    self.getSensorList()
+    name = self.sensorList[0]
+    self.getTimeStamps(name)
+
+
+def getTimeStamps(self, sensorName):
 
 
     """
@@ -24,7 +36,7 @@ def getTimeStamps():
     cursor.execute("""
         SELECT value, timestamp
         FROM data
-        WHERE sensor_id = 'emulator_tsi_drive_state'
+        WHERE sensor_id = sensorName
         ORDER BY timestamp ASC
     """)
 
@@ -59,7 +71,7 @@ def getTimeStamps():
     return timeStampList
 
 
-def getSensorData(sensor_id, data):
+def getSensorData(self, sensor_id, data):
     pass
     # cursor.execute("""
     #     SELECT * from data
@@ -73,16 +85,23 @@ def getSensorData(sensor_id, data):
     #     #If this is the case then there is an issue with the logger class' update method
     #     return 'ERR IN DATAPATH'
 
+def getSensorList(self):
+    self.nameList = config.get('Postman')
+
+    for name in self.nameList:
+        self.sensorList.append(name)
+
+
     
 
-def getMean(data):
+def getMean(self, data):
     pass
 
-def getMax(data):
+def getMax(self, data):
     pass
 
-def getMin(data):
+def getMin(self, data):
     pass
 
 
-print(getTimeStamps())
+print(self.getTimeStamps())

@@ -222,22 +222,22 @@ Sensors:
   #   data_pattern: RAMP #options are RAMP, SINE, CONSTANT, CYCLE (for states)
   #   data_period: 60 #period for plot shape to repeat
   
-  # emulator_tsi_drive_state:
-  #   unit: ''
-  #   inputs:
-  #     num: emulator_tsi_drive_mode
-  #   cal_function:
-  #     0: 'OFF'
-  #     1: 'DRIVE'
-  #   bus_type: EMULATED
-  #   precision: 0
-  #   display_variable: state 
-  #   description: "drive mode determined by TSI board"
-  #   sample_period: 0.5
-  #   var_name:  DriveStateEm
-  #   data_values: [0, 1]
-  #   data_pattern: CYCLE
-  #   data_period: 30
+  emulator_tsi_drive_state:
+    unit: ''
+    inputs:
+      num: emulator_tsi_drive_mode
+    cal_function:
+      0: 'OFF'
+      1: 'DRIVE'
+    bus_type: EMULATED
+    precision: 0
+    display_variable: state 
+    description: "drive mode determined by TSI board"
+    sample_period: 0.5
+    var_name:  DriveStateEm
+    data_values: [0, 1]
+    data_pattern: CYCLE
+    data_period: 30
   
 
   emulator_temperature:
@@ -1940,3 +1940,9 @@ Controls:
         sensor: emulator_sloop
         value: 0
     
+
+
+PostProcessing: 
+  emulator_tsi_drive_state
+  emulator_temperature
+  emulator_sloop
