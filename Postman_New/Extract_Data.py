@@ -7,6 +7,8 @@ sys.path.append(config_path)
 
 import config
 
+class Extract_Data: 
+
 database = psycopg2.connect(
     user='pi',
     password='scada',
@@ -105,3 +107,5 @@ def getMin(self, data):
 
 
 #print(self.getTimeStamps())
+
+Data = Extract_Data()
