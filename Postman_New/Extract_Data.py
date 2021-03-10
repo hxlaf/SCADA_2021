@@ -1,10 +1,10 @@
-import config
+
 import sys
 import os
 import psycopg2
-
 config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
+import config
 
 
 database = psycopg2.connect(
