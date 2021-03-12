@@ -17,6 +17,7 @@ import time
 import datetime
 import json
 from collections import defaultdict
+from queue import PriorityQueue
 
 ##Example Control
 #TSI-Heat_Check:
@@ -205,6 +206,7 @@ class Log(Action):
         #log message to log
         pass
 
+
 class Warning(Action):
     def __init__(self, configDict):
         self.message = configDict.get('message')
@@ -212,11 +214,10 @@ class Warning(Action):
         self.priority = configDict.get('priority')
 
     def execute(self):
-        warningTotal += 1
-        warnings['warning'][warningTotal] = {'message':self.message, 'suggestion':self.message,'priority':self.priority}
+        warnings['warning'].put(10-self.priority, {'message':self.message, 'suggestion':self.message})
         open('usr\etc\dashboard.json', 'w').close()
         with open('usr\etc\dashboard.json','a') as outfile:
-            outfile.write(json.dumps(warnings))
+            outfile.write(json.dumps(dashboardDict))
 
 class Write(Action):
     def __init__(self, configDict):
@@ -246,8 +247,7 @@ allControls = config.get('Controls') #complete list of sensor configurations to 
 ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
 DataStorage = {} #dictionary of current values of every sensor
 # defaultControlDict = ControlsList.get('default_control')
-warningTotal = 0
-warnings = {}   
+dashboardDict =  { 'readings': { }, 'warnings': PriorityQueue()}
 
 
 #Control object instantiation procedure
