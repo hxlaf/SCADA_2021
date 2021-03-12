@@ -214,7 +214,7 @@ class Warning(Action):
         self.priority = configDict.get('priority')
 
     def execute(self):
-        warnings['warning'].put(10-self.priority, {'message':self.message, 'suggestion':self.message})
+        dashboardDict['warnings'].put(10-self.priority, {'message':self.message, 'suggestion':self.message})
         open('usr\etc\dashboard.json', 'w').close()
         with open('usr\etc\dashboard.json','a') as outfile:
             outfile.write(json.dumps(dashboardDict))
