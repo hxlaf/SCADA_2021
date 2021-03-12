@@ -214,12 +214,12 @@ class Warning(Action):
         self.priority = configDict.get('priority')
 
     def execute(self):
-        print('Trying to execute WARNING action')
+        print('Trying to execute WRITE action')
         warnings.put(10-self.priority, {'message':self.message, 'suggestion':self.message})
         dashboardDict['warnings'] = list(warnings.queue)
-        open('usr\etc\dashboard.json', 'w').close()
-        with open('usr\etc\dashboard.json','w') as outfile:
-            json.dumps(dashboardDict, outfile)
+        # open('usr\etc\dashboard.json', 'w').close()
+        with open('/usr/etc/dashboard.json','w') as outfile:
+            outfile.write(json.dumps(dashboardDict))
 
 class Write(Action):
     def __init__(self, configDict):
