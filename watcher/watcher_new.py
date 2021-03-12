@@ -219,7 +219,7 @@ class Warning(Action):
         dashboardDict['warnings'] = list(warnings.queue)
         open('usr\etc\dashboard.json', 'w').close()
         with open('usr\etc\dashboard.json','w') as outfile:
-            json.dumps(dashboardDict), outfile)
+            json.dumps(dashboardDict, outfile)
 
 class Write(Action):
     def __init__(self, configDict):
