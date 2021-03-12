@@ -214,7 +214,8 @@ class Warning(Action):
         self.priority = configDict.get('priority')
 
     def execute(self):
-        dashboardDict['warnings'].put(10-self.priority, {'message':self.message, 'suggestion':self.message})
+        warnings.put(10-self.priority, {'message':self.message, 'suggestion':self.message})
+        dashboardDict['warnings'] = list(warnings.queue)
         open('usr\etc\dashboard.json', 'w').close()
         with open('usr\etc\dashboard.json','a') as outfile:
             outfile.write(json.dumps(dashboardDict))
@@ -247,7 +248,8 @@ allControls = config.get('Controls') #complete list of sensor configurations to 
 ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
 DataStorage = {} #dictionary of current values of every sensor
 # defaultControlDict = ControlsList.get('default_control')
-dashboardDict =  { 'readings': { }, 'warnings': PriorityQueue()}
+dashboardDict =  { 'readings': {}, 'warnings': [] }
+warnings = PriorityQueue()
 
 
 #Control object instantiation procedure
