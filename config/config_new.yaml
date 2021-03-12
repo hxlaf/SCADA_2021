@@ -1935,10 +1935,15 @@ Controls:
         str: 'Tempin <= 40'                   
         type: DURATION
         duration: 2
+    # action:
+    #     type: WRITE
+    #     sensor: emulator_sloop
+    #     value: 0
     action:
-        type: WRITE
-        sensor: emulator_sloop
-        value: 0
+      type: WARNING
+      message: "CRITICAL TEMPERATURE"
+      suggestion: "Throttle down or safety loop will shut off"
+      priority: 5
     
 
 
