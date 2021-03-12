@@ -216,7 +216,7 @@ class Warning(Action):
     def execute(self):
         print('Trying to execute WRITE action')
         warnings.put(10-self.priority, {'message':self.message, 'suggestion':self.message})
-        dashboardDict['warnings'] = list(warnings.queue)
+        dashboardDict['warnings'] = list(warnings)
         # open('usr\etc\dashboard.json', 'w').close()
         with open('/usr/etc/dashboard.json','w') as outfile:
             outfile.write(json.dumps(dashboardDict))
