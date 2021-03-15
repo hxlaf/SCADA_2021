@@ -33,6 +33,7 @@ Display:
   #max of 3 groups per page
     1:
       - Motor_Group1
+      - Motor_Group2
       - Motor_Group3
 
     2:
@@ -48,7 +49,7 @@ Display:
   # max 22 sensor per 1 group
   # Try to limit # of characters for Group name to avoid wasting space on screen
     Motor_Group1:
-      - usb_torque
+      # - usb_torque
       - emulator_temperature
       - emulator_sloop
       - emulator_tsi_drive_state
@@ -65,9 +66,9 @@ Display:
       - motor_electric_power
       - motor_current_demand
       - motor_current_torque_actual
-      - motor_controller_temp_over_23
+      # - motor_controller_temp_over_23
 
-    Motor_Controller:
+    Motor_Group2:
       - rtc_time
       - motor_throttle_voltage
       - motor_status
@@ -558,9 +559,10 @@ Sensors:
   #   description: "Temperature of the motor controller in fahrenheit"
   #   bit_length: 8 #probably don't need this
   #   sample_period: 5
-  #   var_name: MC_temp>23s
+  #   var_name: MC_temp>23
 
 
+## Lia: var_name ADDED FOR ALL IMU LISTED!!!
 # I2C 
   rtc_time: 
     unit: ' '
