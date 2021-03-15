@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import *
 import os, time
+os.environ["SDL_FBDEV"] = "/dev/feb0"
 
 lib_path = '/usr/etc/scada/GUI'
 sys.path.append(lib_path)
@@ -20,11 +21,6 @@ import ctypes  # for screen size
 LARGE_FONT = ("Times New Roman", 12)
 
 
-# driver = 'fbturbo'
-# print("setting up vars")
-os.environ["SDL_FBDEV"] = "/dev/feb0"
-# os.environ["SDL_VIDEODRIVER"] = driver
-# print("done")
 
 class Main_GUI(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -99,12 +95,12 @@ class Main_GUI(tk.Tk):
 
    ## Method to seet os environment variables for dual display
     
-    def setSDLVariable(self):
-        driver = 'fbturbo'
-        print("setting up vars")
-        os.environ["SDL_FBDEV"] = "/dev/feb0"
-        os.environ["SDL_VIDEODRIVER"] = driver
-        print("done")
+    # def setSDLVariable(self):
+    #     driver = 'fbturbo'
+    #     print("setting up vars")
+    #     os.environ["SDL_FBDEV"] = "/dev/feb0"
+    #     os.environ["SDL_VIDEODRIVER"] = driver
+    #     print("done")
 
 
 
