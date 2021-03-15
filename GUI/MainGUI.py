@@ -2,10 +2,8 @@
 import tkinter as tk
 from tkinter import *
 import os
-#os.environ["SDL_FBDEV"] = "/dev/feb0"
-if os.environ.get('DISPLAY','') == '':
-    print('no display found. Using :0.0')
-    os.environ.__setitem__('DISPLAY', ':0.0')
+os.environ["SDL_FBDEV"] = "/dev/fb0"
+
 
 lib_path = '/usr/etc/scada/GUI'
 sys.path.append(lib_path)
