@@ -24,12 +24,10 @@ class Extract_Data:
     def __init__(self):
         self.sensorList = [] # list to hold the sensors from the config file. 
 
-        print("first")
         self.getSensorList()
-        print("here")
         name = self.sensorList[0]
         #self.getTimeStamps(name)
-        print("HEY" + str(self.getTimeStamps(name)) )
+        print(str(self.getTimeStamps(name)) )
 
 
     def getTimeStamps(self, sensorName):
@@ -54,17 +52,18 @@ class Extract_Data:
         drive_status = False
         begin_time = 0 
         end_time = 0
-
+        session_start_delimeter = 'DRIVE'
+        session_end_delimeter = 'OFF'
         for row in data:
 
             # Car just went intto DRIVE Mode
-            if(row[0] == 'DRIVE' and drive_status == False):
+            if(row[0] == session_start_delimeter and drive_status == False):
                 drive_status = True
                 begin_time = row[1]
                 #print("Begin ")
 
             # Car just went into OFF Mode
-            elif(row[0] == 'OFF' and drive_status == True):
+            elif(row[0] == session_end_delimeter and drive_status == True):
                 drive_status = False
                 end_time = row[1]
                 time = end_time - begin_time
