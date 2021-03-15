@@ -1,6 +1,7 @@
 
 import tkinter as tk
 from tkinter import *
+import os, time
 
 lib_path = '/usr/etc/scada/GUI'
 sys.path.append(lib_path)
@@ -22,7 +23,10 @@ LARGE_FONT = ("Times New Roman", 12)
 class Main_GUI(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-
+        
+        #call method to set up dual display
+        self.setSDLVariable()
+        
         self.numOfPages = 0
 
         self.display_vars = {
@@ -86,6 +90,15 @@ class Main_GUI(tk.Tk):
     def quitFullScreen(self, event):
         self.fullScreenState = False
         self.attributes("-fullscreen", self.fullScreenState)
+
+   ## Method to seet os environment variables for dual display
+    
+    def setSDLVariable(self):
+        driver = 'fbturbo'
+        print("setting up vars")
+        os.environ["SDL_FBDEV"] = "/dev/feb0"
+        os.environ["SDL_VIDEODRIVER"] = driver
+        print("done")
 
 
 
