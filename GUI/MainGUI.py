@@ -20,10 +20,10 @@ import ctypes  # for screen size
 LARGE_FONT = ("Times New Roman", 12)
 
 
-#driver = 'fbturbo'
+driver = 'fbturbo'
 print("setting up vars")
 os.environ["SDL_FBDEV"] = "/dev/feb0"
-#os.environ["SDL_VIDEODRIVER"] = driver
+os.environ["SDL_VIDEODRIVER"] = driver
 print("done")
 
 class Main_GUI(tk.Tk):
