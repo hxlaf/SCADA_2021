@@ -1,7 +1,7 @@
 
 import tkinter as tk
 from tkinter import *
-import os, time
+import os
 os.environ["SDL_FBDEV"] = "/dev/feb0"
 
 lib_path = '/usr/etc/scada/GUI'
