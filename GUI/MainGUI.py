@@ -1,6 +1,7 @@
-
+#!/usr/bin/python3
 import tkinter as tk
 from tkinter import *
+from tkinter import ttk
 import os, sys
 #os.environ["SDL_FBDEV"] = "/dev/fb0"
 
@@ -11,6 +12,7 @@ sys.path.append(lib_path)
 from GUI_Setup import GUISetup
 config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
+
 import config
 import yaml
 import collections
