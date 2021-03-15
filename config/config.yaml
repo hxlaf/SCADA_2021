@@ -105,13 +105,13 @@ Display:
 
 
     Motor_Controller:
-      - motor_throttle_voltage
-      - motor_status
-      - motor_controller_temp_fahrenheit
-      - motor_temp
-      - motor_controller_temp
-      - motor_nmt_state #I just put this in, part of new CAN functionality -Harry
-      - motor_select_application #same with this -Harry
+      # - motor_throttle_voltage
+      # - motor_status
+      # - motor_controller_temp_fahrenheit
+      # - motor_temp
+      # - motor_controller_temp
+      # - motor_nmt_state #I just put this in, part of new CAN functionality -Harry
+      # - motor_select_application #same with this -Harry
  
     
     BNO055_IMU_1: 
