@@ -11,14 +11,14 @@ ip link set can0 up type can bitrate 125000
 # ip link add dev vcan0 type vcan
 # ip link set up vcan0
 
-# make binary files executable
+# make binary files executable, these are the looping files run by our services
 chmod +x install
 chmod +x make
 chmod +x scada
-chmod +x sorter/sorter_new.py
-chmod +x calibrator/calibrator_new.py
-chmod +x logger/logger_new.py
-chmod +x GUI/New_GUI_Test.py
+chmod +x sorter/sorter.py
+chmod +x calibrator/calibrator.py
+chmod +x logger/logger.py
+chmod +x GUI/MainGUI.py
 
 
 # copy binary files to /usr/bin
@@ -29,10 +29,10 @@ cp scada /usr/bin/scada
 # #copying down can sorter
 # cp drivers/can_driver.py /usr/bin/can_driver.py
 
-cp sorter/sorter_new.py /usr/bin/scada_sorter.py
-cp calibrator/calibrator_new.py /usr/bin/scada_calibrator.py
-cp logger/logger_new.py /usr/bin/scada_logger.py
-cp GUI/New_GUI_Test.py /usr/bin/scada_gui.py
+cp sorter/sorter.py /usr/bin/scada_sorter.py
+cp calibrator/calibrator.py /usr/bin/scada_calibrator.py
+cp logger/logger.py /usr/bin/scada_logger.py
+cp GUI/MainGUI.py /usr/bin/scada_gui.py
 
 # create a workspace and copy important files into it
 mkdir -p /usr/etc/scada

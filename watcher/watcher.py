@@ -1,4 +1,4 @@
-import sys, os, yaml, logging
+import sys, os, logging
 
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
@@ -11,219 +11,261 @@ import redis
 
 import utils
 from utils import calibration
+from drivers import driver
 
 import time
 import datetime
+import json
+from collections import defaultdict
+from queue import PriorityQueue
 
 ##Example Control
 #TSI-Heat_Check:
-    #timeout: 10                                        #minimum time between activating (seconds)
-
+    #cooldown: 10                                      #minimum time between activating (seconds)
+    #max_duration: 30                           #time after which it will automatically turn off
     #inputs:
-        #Tempin: TSI-Temp     
-    #Condition: 'Tempin > 60'
-    #Condition_Type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
-    #Condition_Details: 5-10                            #Repetitions-Seconds for REPETITION and Seconds for PERIOD; INSTANTANEOUS does not use this field
-    
-    #Action_Type: LOG                                   #if LOG put text, if WARNING put text (maybe color/flashing?), if WRITE write to a sensor on the vehicle
-    #Action_Details:
-        # message: 'TSI Temperature over 60'  
-    #Persistence: PULSE                                #LATCH or PULSE
-    
-    #Off_Condition: 'Tempin <= 40'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
-    #Off_Condition_Type: DURATION
-    #Off_Condition_Details: 10
+        #Tempin: TSI-Temp 
+    #entry_condition:
+        #str: 'Tempin > 60'
+        #type: REPETITION                         #REPETITION or PERIOD or INSTANTANEOUS
+        #reps: 5
+        #duration: 10                       #Repetitions-Seconds for REPETITION and Seconds for DURATION; INSTANTANEOUS does not use this field
+    #exit_condition:
+        #str: 'Tempin <= 40'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
+        #type: DURATION
+        #duration: 8
+    #action:
+        #type: LOG                                  #if LOG put text, if WARNING put text (maybe color/flashing?), if WRITE write to a sensor on the vehicle:
+        #message: 'TSI Temperature over 60'  
 
     #NOTE: these are not full configurations. Just examples of Action_Details for alternate Action_Type's
 
-    #Action_Type: WARNING
-    #Action_Details:
-        # warningmsg: "msg1"
+    #action:
+        # type: WARNING
+        # message: "msg1"
         # suggestion: "suggestion1"
         # priority: 5
-    
-    #Action_Type: WRITE
-    #Action_Details:
-        # writeSensor: sensorName
-        # writeValue: value
 
-    #Nadovich notes:
-    #need standard kind of threshold so we only have 1 type of condition for each
-    #watcher controls should be objects, should have a boolean variable for whether they're active
-    #pulses need to go into a FIFO queue
-    #retriggerable vs. not retriggerable controls
+    #action:
+        # type: WRITE
+        # sensor: sensorName
+        # value: val
+
+class Control:
+    def __init__(self, configDict):
+        self.active = False
+        self.lastActive = 0
+        self.cooldown = configDict.get('cooldown')
+        self.maxDuration = configDict.get('max_duration')
+        #list of strings of input sensor names
+        inputs = configDict.get('inputs')
+
+        #initializes entry condition attributes
+        typ = configDict.get('entry_condition').get('type')
+        if typ == 'INSTANTANEOUS':
+            self.entryCondition = Instantaneous(configDict.get('entry_condition'), inputs)
+        elif typ == 'DURATION':
+            self.entryCondition = Duration(configDict.get('entry_condition'), inputs)
+        elif typ == 'REPETITION':
+            self.entryCondition = Repetition(configDict.get('entry_condition'), inputs)
+        
+        
+        #initializes action attributes
+        typ = configDict.get('action').get('type')
+        if typ == 'LOG':
+            self.action = Log(configDict.get('action'))
+        elif typ == 'WARNING':
+            self.action = Warning(configDict.get('action'))
+        elif typ == 'WRITE':
+            self.action = Write(configDict.get('action'))
+
+        #optional attributes (must use "try" in case they are not there):
+
+        #initializes exit condition attributes
+        try:
+            typ = configDict.get('exit_condition').get('type')
+            if typ == 'INSTANTANEOUS':
+                self.exitCondition = Instantaneous(configDict.get('exit_condition'), inputs)
+            elif typ == 'DURATION':
+                self.exitCondition = Duration(configDict.get('exit_condition'), inputs)
+            elif typ == 'REPETITION':
+                self.exitCondition = Repetition(configDict.get('exit_condition'), inputs)
+        except:
+            self.exitCondition = None
+        
+        #initializes max duration and cooldwon attributes
+        try:
+            self.maxDuration = configDict.get('max_duration')
+        except:
+            self.maxDuration = None
+        try:
+            self.cooldown = configDict.get('cooldown')
+        except:
+            self.cooldown = 0
+
+    #returns boolean
+    def checkEntryCondition(self):
+        return ((time.time() - self.lastActive) > self.cooldown and self.entryCondition.check())
+    
+    def checkExitCondition(self):
+        if self.exitCondition is not None:
+            return (self.maxDuration is not None and time.time() - lastActive > self.maxDuration) or self.exitCondition.check()
+        else:
+            return (self.maxDuration is not None and time.time() - lastActive > self.maxDuration) 
+
+    #checks conditions and changes active/inactive state accordingly
+    def update(self):
+        if not self.active:
+            print('CHECKING ENTRY CONDITION' + self.entryCondition.str)
+            if self.checkEntryCondition():
+                self.active = True
+        else:
+            print('CHECKING EXIT CONDITION')
+            if self.checkExitCondition():
+                self.active = False
+
+        if self.active:
+            print('ABOUT TO EXECUTE')
+            self.action.execute()
+
+class Condition:
+    def __init__(self, configDict, inputs):
+        self.str = configDict.get('str')
+        self.inputs = inputs.values()
+        for key in inputs:
+            self.str = self.str.replace(key, inputs[key].replace('\n','')) #TODO: need to fix this
+
+    #evaluates the condition string
+    def evaluate(self):
+        for i in self.inputs:
+            try:
+                if DataStorage[i] == 'no data': #will not trigger anything unless there is data for all inputs
+                    return False
+                condition = self.str.replace(i, DataStorage[i].replace('\n',''))
+                print( 'about to evaluate ' + condition)
+            except KeyError:
+                return False
+        return eval(condition)
+
+
+class Instantaneous(Condition):
+    def __init__(self, configDict, inputs):
+        super().__init__(configDict, inputs)
+
+    def check(self):
+        print('Condition.check()')
+        return self.evaluate()
+
+class Duration(Condition):
+    def __init__(self, configDict, inputs):
+        self.duration = configDict.get('duration')
+        self.times = []
+        super().__init__(configDict, inputs)
+        
+
+    def check(self):
+        if self.evaluate():
+            self.times.append(time.time()) 
+
+            if self.times and self.times[-1] - self.times[0] > self.duration:
+                return True
+
+        else:
+            self.times.clear()
+            return False
+
+class Repetition(Condition):
+    def __init__(self, configDict, inputs):
+        self.duration = configDict.get('duration')
+        self.reps = configDict.get('reps')
+        self.times = []
+        super().__init__(configDict, inputs)
+
+    def check(self):
+        if self.evaluate():
+            self.times.append(time.time())
+
+            while self.times and self.times[-1] - self.times[0] > float(self.duration):
+                self.times.pop(0)
+
+            if len(self.times) > int(self.reps):
+                return True
+        return False
+
+
+class Action:
+    def __init__(self):
+        pass
+    
+
+class Log(Action):
+    def __init__(self, configDict):
+        self.message = configDict.get('message')
+
+    def execute(self):
+        #log message to log
+        pass
+
+
+class Warning(Action):
+    def __init__(self, configDict):
+        self.message = configDict.get('message')
+        self.suggestion = configDict.get('suggestion')
+        self.priority = configDict.get('priority')
+
+    def execute(self):
+        print('Trying to execute WRITE action')
+        warnings.put(10-self.priority, {'message':self.message, 'suggestion':self.message})
+        dashboardDict['warnings'] = list(warnings)
+        # open('usr\etc\dashboard.json', 'w').close()
+        with open('/usr/etc/dashboard.json','w') as outfile:
+            outfile.write(json.dumps(dashboardDict))
+
+class Write(Action):
+    def __init__(self, configDict):
+        self.sensor = configDict.get('sensor')
+        self.value = configDict.get('value')
+
+    def execute(self):
+        print('Trying to execute WRITE action')
+        driver.write(self.sensor, self.value)
+
+def watch(message):
+    split_key = message.split(':',1)
+    sensor = split_key[0]
+    val = split_key[1]
+    DataStorage[sensor] = val
+    relevantControls = ControlsDict[sensor]
+    for control in relevantControls:
+        print ('updating control ' + str(control))
+        control.update()
 
 #Setting up connection to Redis Server
-Redisdata = redis.Redis(host='localhost', port=6379, db=0)
+Redisdata = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 data = Redisdata.pubsub()
 data.subscribe('calculated_data')
 
-ControlsList = config.get('Controls')
+allControls = config.get('Controls') #complete list of sensor configurations to make objects from
+ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
+DataStorage = {} #dictionary of current values of every sensor
+# defaultControlDict = ControlsList.get('default_control')
+dashboardDict =  { 'readings': {}, 'warnings': [] }
+warnings = PriorityQueue()
 
-#stores timestamps for repetition and period type controls
-condition_storage = {}
-#Same as previousValues list
-data_storage = {}
-#stores latches (whether an action should currently be performed)
-latch_storage = {}
 
-def watch(message):
-    name = message.split(':')[0]
-    for control in ControlsList:
-        inputs = control.get('Inputs').values()
-        if name in inputs:
-            val = message.split(':')[1]
-            data_storage[name] = val
-            Control = config.get('Controls').get(name)
-
-            if latch_storage[Control] = 
-
-            Condition_Type = Control.get('Condition_Type')
-
-            if (Condition_Type == 'REPETITION') and evaluate(Control):
-                repetition(name,val,Control)
-
-            elif Condition_Type == 'PERIOD':
-                period(name,val,Control)
-
-            elif Condition_Type == 'INSTANTANEOUS' and evaluate(Control):
-                instantaneous(name,val,Control)
-
-            elif evaluate(Control):
-                print('Error: unrecognized Condition_Type in Control: ' + name)
-
-#Determines whether action condition has been met
-def evaluate(Control):
-    condition = str(Control.get('Condition'))
-    inputs  = Control.get('inputs')
+#Control object instantiation procedure
+for controlString in allControls:
+    configDict = allControls.get(controlString)
+    control = Control(configDict)
+    inputs = configDict.get('inputs').values()
     for i in inputs:
-        try:
-            if data_storage[inputs.get(i)] = 'BUS ERROR':
-                return False
-            condition = condition.replace(i.split(':')[0], data_storage[inputs.get(i)]).replace('\n','')
-        except KeyError:
-            return False
-    return eval(condition)
+        ControlsDict[i].append(control) #stores controls under the sensor inputs they use
+        #this is done because the Watcher looks for controls on incoming data inputs
 
-#function for determining if a condition has been met the required number of times within the specified period
-def repetition(name,val,Control):
-    try:
-        condition_storage[name].append(time.time())
-    except KeyError:
-        condition_storage[name] = [time.time()]
 
-    max_repetitions = Control.get('Condition_Inputs').split('-')[0]
-    max_duration = Control.get('Condition_Inputs').split('-')[1]
-
-    while condition_storage[name][len(condition_storage[name])-1] - float(condition_storage[name][0]) > float(max_duration):
-            condition_storage[name].pop(0)
-
-    time_diff = condition_storage[name][len(condition_storage[name])-1]-condition_storage[name][0]
-    if (len(condition_storage[name]) > int(max_repetitions)) and (time_diff < int(max_duration)):
-        execute(name, val, Control)
-
-#function for determining if a condition has been met continuously for the entire specified period
-def period(name,val,Control):
-    max_duration = Control.get('Condition_Inputs')
-    if evaluate(Control):
-        try:
-            condition_storage[name] = [time.time(),time.time()-condition_storage[name][0]+condition_storage[name][1]]
-        except KeyError:
-            condition_storage[name] = [time.time(),0]
-        if condition_storage[name][1] > int(max_duration):
-            execute(name, val, Control)
-    else:
-        condition_storage[name] = [0,0]
-
-#default funtion for conditions that only need to be met once
-def instantaneous(name,val,Control):
-    if evaluate(Control):
-        execute(name, val, Control)
-
-#determines whether action needs to happen as a pulse or a latch and executes the action when a pulse and stores the action if a latch
-def execute(name, val, Control):
-    Action_Type = Control.get('Action_Type')
-    if Action_Type == 'LATCH':
-        latch_storage[name] = Control.get('Action')
-    elif Action_Type == 'PULSE':
-        #send the action to the instruction parser
-        print("Pulse: " + Control.get('Action_Details'))
-        #parser.execute(name)
-    else:
-        print('Error: Unrecognized Action Type in Control: ' + name)
-
-#executes stored latches
-#CURRENTLY NO WAY OF GETTING RID OF LATCHES
-def update():
-    for key in latch_storage:
-        #send the action to the instruction parser
-        print("Latch: " + key)
-        #parser.execute(key,latch_storage[key])
-
+#ACTUAL CODE THAT RUNS
 while True:
     message = data.get_message()
-    if message:
-        watch(message)
-    update()
+    if (message and (message['data'] != 1 )):
+        watch(message['data'])
     time.sleep(.01)
-
-# #for conditions that have to happen with respect to past values
-# condition_storage = {}
-
-# data_storage = {}
-
-# # Configure Redis interface
-# data = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
-# p = data.pubsub()
-# p.subscribe('calibrated_data')
-
-# #main function that decides whether the incoming value has a control and what function to use for it
-# def watch(message):
-#     name = message.split(':')[0]
-#     if name in config.get('Controls'):
-#         val = message.split(':')[1]
-#         data_storage[name] = val
-#         Action = config.get('Controls').get(name)
-#         Condition_Type = Action.get('Condition_Type')
-
-#         if Condition_Type == 'REPETITION':
-#             repetition(name,val,Action)
-
-#         elif Condition_Type == 'PERIOD':
-#             period(name,val,Action)
-
-#         elif Condition_Type == 'INSTANTANEOUS':
-#             instantaneous(name,val,Action)
-
-#         else:
-#             return 'Error: unrecognized Condition_Type in Control: ' + name
-
-
-# def repetition(name,val,Action):
-#     condition_storage[name].append(val)
-#     max_repetitions = Action.get('Condition_Inputs').split[0]
-#     max_duration = Action.get('Condition_Inputs').split[1]
-#     for _ in condition_storage[name]:
-#         if time.time() - condition_storage[name][0] > max_duration:
-#             condition_storage[name].pop(0)
-#         else:
-#             break
-#     time_diff = condition_storage[name][0]-condition_storage[name][len(condition_storage[name])-1]
-#     if (len(condition_storage[name]) > max_repetitions) and (time_diff > max_duration):
-#         parser.execute(Action)
-    
-# def period(name,val,Action):
-
-#     return
-
-# def instantaneous(name,val,Action):
-
-#     return
-
-# def execute(Action):
-
-#     return
-
-
-
-

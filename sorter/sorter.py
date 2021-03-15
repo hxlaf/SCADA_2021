@@ -1,96 +1,94 @@
 #!/usr/bin/python3
-
 import sys, os
+import time
+import smbus
 
-#Importing the config file
+#CONFIG PATH
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
 
 sys.path.append(lib_path)
 sys.path.append(config_path)
 
-
+from drivers import driver
+import utils
 import config
 import redis
-import can
-import utils
-#importing messages.py from utils directory
-from utils import messages
 
-# open a connection to the redis server where we will
-# be writing data
-data = redis.Redis(host='localhost', port=6379, db=0)
+#Setting Up I2C Bus Connection 
+bus = smbus.SMBus(3) ##Currently On Bus 3 with clock stretching 
 
-#Python-Can Listener class
-class Listener(can.Listener):
-	# Part of the Python_can Listener class and called to hangdle the given message
-	def on_message_received(self, msg):
+#Setting up connectiion to Redis Server
+Redisdata = redis.Redis(host='localhost', port=6379, db=0)
+data = Redisdata.pubsub()
+data.subscribe('raw_data')
 
-		# infer the CANOpen protocol used and node id of sender
-		#Calling a method in the messages class that returns function id
-		# which is the protocol and the node id
-		# message.get_info ===> from the utils folder 
-		protocol, node_id = messages.get_info(msg)
+#Local Dictionary for Sensor Period Count
+SensorList = config.get('Sensors')
 
-#		if protocol == 'SDO-WRITE':
-#			if len(msg.data) == 0:
-#				return
-#
-#			# check the config file to find out name of node
-#			try:
-#				node = config.get('can_nodes').get(node_id)
-#			except:
-#				return
-#
-#			control_byte = msg.data[0]
-#			index = msg.data[2] * 256 + msg.data[1]
-#			subindex = msg.data[3]
-#
-#			if index == 0x3003:
-#				temp = msg.data[5] * 256 + msg.data[4]
-#				print(f"cell: {subindex} at temp: {temp}")
-#				data.setex(f"pack1:temp:cell_{subindex}",60,temp)
+last_sampled = {}
+sample_period = {}
+for key in config.get('Sensors'):
+    sample_period[key] = SensorList.get(key).get('sample_period')
+    last_sampled[key] = time.time()
 
-		# if the protocol used is one of the four types
-		# of PDOs (Process Data Objects), then log it
-		if protocol in ['PDO-1', 'PDO-2', 'PDO-3', 'PDO-4']:
+####### Methods to Configure BNO055 IMU #######
+onSetup = False  #Boolean var used to peform imu setup on startup
 
-			_, pdo_number = protocol.split('-')
+def imu_reset():
+    #IMU IN CONFIG MODE
+    print("IMU defined constant: " + str(config.get('IMU_Config_Constants').get('CONFIG_MODE'))) 
+    driver.write('opr_mode_reg',config.get('IMU_Config_Constants').get('CONFIG_MODE'))
+    try:
+        driver.write('trigger_reg',0x20)
+    except OSError:
+        pass
+    time.sleep(0.7)
+    
 
-			# check the config file to find out name of node
-			try:
-				#Can Nodes in config YAML File (Motor, TSI, Pack 1 and Pack 2) and get the node id to store it
-				# in the variable node
-				node = config.get('can_nodes').get(node_id)
-			except:
-				return
+def imu_setup():
+    #Debuggin: 
+    opr_mode_reg_read = driver.read('opr_mode_reg')
+    # print("Value of Opr_Mode: " + str(opr_mode_reg_read))
+   # print( "SensorList Dictionary: " + str(SensorList))
+    global onSetup # Python UnboundLocalError fix
+   # if (opr_mode_reg_read == 0 or opr_mode_reg_read != 12): #If its in Config Mode and not in NDOF mode, want to configure it
+    if (opr_mode_reg_read == 0 or (bool(onSetup) == False)):
+        onSetup = True #OnSetup has been achieved 
+        imu_reset()
+        driver.write('power_reg',config.get('IMU_Config_Constants').get('POWER_NORMAL'))
+        driver.write('page_reg',0x00)
+        driver.write('trigger_reg',0x00)
+        driver.write('acc_config_reg',config.get('IMU_Config_Constants').get('ACCEL_4G'))
+        driver.write('gyro_config_reg',config.get('IMU_Config_Constants').get('GYRO_2000_DPS'))
+        driver.write('mag_config_reg',config.get('IMU_Config_Constants').get('MAGNETOMETER_20HZ'))
+        time.sleep(0.01)
+    
+        ##Setting IMU TO NDOF MODE
+        driver.write('opr_mode_reg',config.get('IMU_Config_Constants').get('NDOF_MODE'))
+        time.sleep(0.7)
 
-			# check the config file to figure out expected
-			# structure of the process data
-			if pdo_number == '1':
-				pdo_structure = config.get('process_data').get(node)
-			else:
-				pdo_structure = config.get('process_data').get('{}-{}'.format(node, pdo_number))
 
-			# separate can message into bytes and write each one
-			# to the redis server with its name as defined in the
-			# config file
+while True: 
+    #for Sensors: <-- needs to be name of list of sensors
+    # milliseconds = int(time()*1000)
 
-			pipe = data.pipeline()
+    ## IMU Setup
+    imu_setup()
 
-			for index, byte in enumerate(msg.data, start=0):
-				## creating the key name for redis
-				key = '{}:{}'.format(node, pdo_structure[index])
-				#Python String Method that makes everything lowercase
-				key = key.lower()
-				pipe.setex(key, 10, int(byte))
 
-			data.publish('bus_data', key)
-			pipe.execute()
+    # Reading
+    for sensorName in SensorList :
+        if(time.time() - last_sampled[sensorName] > sample_period[sensorName] and float(sample_period[sensorName]) != 0.0):
+            
+            # print('SENSOR NAME IS ' + sensorName + 'and its type is')
+            # print(type(sensorName))
 
-if __name__ == "__main__":
-	bus = utils.bus(config.get('bus_info'))
-	notifier = can.Notifier(bus, [Listener()])
-
-	for msg in bus:
-		pass
+            #Appending sensor name to sensor value for distinction in redis database
+            key = '{}:{}'.format(sensorName, driver.read(sensorName))
+            #Python String Method that makes everything lowercase
+            key = key.lower()
+            # print(key)
+            #Putting Sensor Data into redis channel
+            Redisdata.publish('raw_data',key)
+            last_sampled[sensorName] = time.time()
