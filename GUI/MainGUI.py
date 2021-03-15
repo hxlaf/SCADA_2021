@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import *
 import os
-os.environ["SDL_FBDEV"] = "/dev/feb0"
+#os.environ["SDL_FBDEV"] = "/dev/feb0"
 
 lib_path = '/usr/etc/scada/GUI'
 sys.path.append(lib_path)
