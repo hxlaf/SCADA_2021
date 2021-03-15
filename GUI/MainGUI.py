@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import *
 import os, time
-os.environ["SDL_FBDEV"] = "/dev/feb0"
+
 
 lib_path = '/usr/etc/scada/GUI'
 sys.path.append(lib_path)
@@ -23,6 +23,7 @@ LARGE_FONT = ("Times New Roman", 12)
 
 
 class Main_GUI(tk.Tk):
+    os.environ["SDL_FBDEV"] = "/dev/feb0"
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         
