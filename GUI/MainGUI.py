@@ -1,7 +1,7 @@
 
 import tkinter as tk
 from tkinter import *
-import os
+import os, sys
 #os.environ["SDL_FBDEV"] = "/dev/fb0"
 
 
@@ -103,7 +103,6 @@ class Main_GUI(tk.Tk):
     #     os.environ["SDL_FBDEV"] = "/dev/feb0"
     #     os.environ["SDL_VIDEODRIVER"] = driver
     #     print("done")
-
 
 
 app = Main_GUI()
