@@ -6,7 +6,7 @@ from tkinter import *
 lib_path = '/usr/etc/scada/GUI'
 sys.path.append(lib_path)
 #from ProcessData import ProcessData_sensors
-from Anotha_one import NewGUI_2
+from MainGUI import Main_GUI
 config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
 import config
@@ -20,7 +20,7 @@ import ctypes  # for screen size
 LARGE_FONT = ("Times New Roman", 12)
 
 
-class MainGUI(tk.Tk):
+class GUI_Setup(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
@@ -126,6 +126,6 @@ class MainGUI(tk.Tk):
 
 
 
-app = MainGUI()
+app = GUI_Setup()
 app.mainloop()
 

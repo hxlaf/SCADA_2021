@@ -27,7 +27,7 @@ TITLE_FONT = ("Times", 14, "bold italic")
 START_ROW = 1
 BOX_WIDTH = 11
 
-class NewGUI_2(tk.Frame):
+class Main_GUI(tk.Frame):
     def __init__(self, parent, controller, pageNum): 
         tk.Frame.__init__(self, parent)
         self.controller = controller
