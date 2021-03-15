@@ -27,18 +27,18 @@ class GUI_Setup(tk.Tk):
         self.numOfPages = 0
 
         self.display_vars = {
-            "sort_by_data" : tk.StringVar(), # String from drop down menu 
-            "checkBox_list" : [],   #ints 
-            "checkBox_label" : [],   #strings
-            #"state" : "Name", 
-            "display_list" : {},
-            "INDEX" : 0,
-            "STATUS" : '',
-            ## for parent class
-            "column_place" : 0,
-            "row_place" : 0, 
-            "newPage" : 0, 
-            "groupIndex" : 0,
+        #     "sort_by_data" : tk.StringVar(), # String from drop down menu 
+        #     "checkBox_list" : [],   #ints 
+        #     "checkBox_label" : [],   #strings
+        #     #"state" : "Name", 
+        #     "display_list" : {},
+        #     "INDEX" : 0,
+        #     "STATUS" : '',
+        #     ## for parent class
+        #     "column_place" : 0,
+        #     "row_place" : 0, 
+        #     "newPage" : 0, 
+        #     "groupIndex" : 0,
             "frames" : {}
 
 
@@ -86,7 +86,7 @@ class GUI_Setup(tk.Tk):
         i = 0
         #while iterator is less than totalNum of pages 
         while i<max:
-            frame = NewGUI_2(self.container, self, i)
+            frame = Main_GUI(self.container, self, i)
            
             self.frames[i] = frame
             frame.grid(row=0, column=0, sticky="nsew")
