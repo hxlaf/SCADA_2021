@@ -93,12 +93,12 @@ class Main_GUI(tk.Tk):
 
    ## Method to seet os environment variables for dual display
     
-    def setSDLVariable(self):
-        driver = 'fbturbo'
-        print("setting up vars")
-        os.environ["SDL_FBDEV"] = "/dev/feb0"
-        os.environ["SDL_VIDEODRIVER"] = driver
-        print("done")
+    # def setSDLVariable(self):
+    #     driver = 'fbturbo'
+    #     print("setting up vars")
+    #     os.environ["SDL_FBDEV"] = "/dev/feb0"
+    #     os.environ["SDL_VIDEODRIVER"] = driver
+    #     print("done")
 
 
 
