@@ -23,7 +23,7 @@ LARGE_FONT = ("Times New Roman", 12)
 
 
 class Main_GUI(tk.Tk):
-    os.environ["SDL_FBDEV"] = "/dev/feb0"
+   # os.environ["SDL_FBDEV"] = "/dev/feb0"
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         
