@@ -37,11 +37,11 @@ Display:
 
 
     2:
-      - IMU Configuration Reg
-      - IMU Configuration Reg2
+      - IMU_Configuration_Reg
+      - IMU_Configuration_Reg2
     
     3: 
-      - Motor_Controller
+     # - Motor_Controller
       - BNO055_IMU_2 
       - BNO055_IMU_3
 
@@ -70,7 +70,7 @@ Display:
       - gravity_y
       - gravity_z
 
-    IMU Configuration Reg: 
+    IMU_Configuration_Reg: 
       - page_reg
       - trigger_reg
       - power_reg
@@ -94,7 +94,7 @@ Display:
       - gyro_xoffset_msb
       - gyro_yoffset_lsb
     
-    IMU Configuration Reg2:
+    IMU_Configuration_Reg2:
       - gyro_zoffset_lsb
       - gyro_zoffset_msb
       - acc_raduis_lsb
@@ -159,7 +159,7 @@ Display:
       - acc_raduis_msb 
       - mag_raduis_lsb 
       - mag_raduis_msb
-      - ST_Result
+
 
 
       
