@@ -1,11 +1,10 @@
-#!/usr/bin/python3
+
 import tkinter as tk
 from tkinter import *
-# import config
-#import MainMenu
+
 lib_path = '/usr/etc/scada/GUI'
 sys.path.append(lib_path)
-#from ProcessData import ProcessData_sensors
+
 from GUI_Setup import GUISetup
 config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
@@ -27,18 +26,6 @@ class Main_GUI(tk.Tk):
         self.numOfPages = 0
 
         self.display_vars = {
-        #     "sort_by_data" : tk.StringVar(), # String from drop down menu 
-        #     "checkBox_list" : [],   #ints 
-        #     "checkBox_label" : [],   #strings
-        #     #"state" : "Name", 
-        #     "display_list" : {},
-        #     "INDEX" : 0,
-        #     "STATUS" : '',
-        #     ## for parent class
-        #     "column_place" : 0,
-        #     "row_place" : 0, 
-        #     "newPage" : 0, 
-        #     "groupIndex" : 0,
             "frames" : {}
         }
 
@@ -52,8 +39,6 @@ class Main_GUI(tk.Tk):
         ## Press the ESC button to escape out of full screen (Kiosk) mode
         self.bind("<Escape>", self.quitFullScreen)
         
-        #print("width" + str(self.screenWidth))
-        #print("height" + str(self.screenHeight))
 
         # set screen to full size 
         self.container = tk.Frame(self, width = self.screenWidth, height = self.screenHeight)
@@ -67,17 +52,6 @@ class Main_GUI(tk.Tk):
 
         self.frames = {}
 
-
-        # for F in (NewGUI, NextPage, PageThree):
-        #     #page_name = F.__name__
-        #     frame = F(self.container, self)
-           
-        #     self.frames[F] = frame
-        #     frame.grid(row=0, column=0, sticky="nsew")
-
-        # self.setState() ## Get the run state from the config file
-        
-        # self.show_frame(NewGUI)
         
         self.get_pages() #call function to get number of pages to display
         max = self.numOfPages
@@ -92,16 +66,8 @@ class Main_GUI(tk.Tk):
 
 
             i = i+1
-        #self.setState() ## Get the run state from the config file
         
         self.show_frame(0)
-
- 
-        # frame  = Parent(self.container, self, self.display_vars["column_place"], self.display_vars["row_place"], self.display_vars["groupIndex"])
-        # self.frames = frame
-        # frame.grid(row=0, column=0, sticky="nsew")
-        # self.setState()
-        # self.show_frame
             
 
     def show_frame(self, cont):
@@ -115,7 +81,6 @@ class Main_GUI(tk.Tk):
         config.load(forceLoad=True)
         self.displayDict = config.get('Display')
         self.pagesNum = self.displayDict.get('Pages')
-        #print("num pages " + str(len(self.pagesNum)))
         self.numOfPages = len(self.pagesNum)
 
     def quitFullScreen(self, event):

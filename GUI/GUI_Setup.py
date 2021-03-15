@@ -1,7 +1,7 @@
 import tkinter as tk 
 from tkinter import *
 from tkinter import ttk 
-# import tkinter.ttk
+
 config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
 
@@ -14,8 +14,6 @@ import redis
 import time
 import sys, os
 import datetime
-#from decimal import *
-
 import database
 
 data = redis.Redis(host='localhost', port=6379, db=0)
@@ -186,10 +184,6 @@ class GUISetup(tk.Frame):
                 self.row_place = self.row_place + 1
                 # break loop once sensor is found
                 break
-            
-            #elif((sen != sensorName) and ()
-            # create elif so that pop up displays uf user incorrectly entered a sensor name 
-            #elif((sen != sensorName) and )
 
 
     # Method gets the data to display on the screen 
@@ -286,9 +280,7 @@ class GUISetup(tk.Frame):
             if(key == "unit"):
                 return value
 
-
-
-
+# HELPER METHODS #
 ##########################################################################################
 
 
@@ -298,10 +290,9 @@ class GUISetup(tk.Frame):
 
         label = tk.Label(popup, text=msg, font=LARGE_FONT)
         label.grid(row=0, column = 3)
-        #label.pack(side="top", fill="x", pady=10)
         B1 = ttk.Button(popup, text="Okay", command = popup.destroy)
         B1.grid(row = 3, column = 3)
-        #popup.mainloop()
+
 
     def add_space(self, row_, col_):
         label = tk.Label(self, text="      ", font=LARGE_FONT)
