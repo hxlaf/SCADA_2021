@@ -1414,7 +1414,7 @@ Controls:
 #         suggestion: "level out"
 #         priority: 1
 
-mtr_selct_app:
+  mtr_selct_app:
     cooldown: 10                                      #minimum time between activating (seconds)
     max_duration: 30                           #time after which it will automatically turn off
     inputs:
