@@ -43,6 +43,14 @@ echo '@/usr/bin/scada_gui.py' >> autostart
 cd /boot 
 echo 'dtoverlay=i2c-gpio,bus=3,i2c_gpio_sda=02,i2c_gpio_scl=03' >> config.txt
 
+
+
+# Setup Can 
+cd /boot
+echo 'dtparam=spi=on' >> config
+echo 'dtoverlay=mcp2515-can0,oscillator=16000000,interrupt=25' >> config 
+echo 'dtoverlay=spi-bcm2835-overlay' >> conifg 
+
 echo 'INSTALL COMPLETE'
 
 #bash make
