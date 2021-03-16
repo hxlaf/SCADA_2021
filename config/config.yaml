@@ -1418,12 +1418,12 @@ Controls:
     cooldown: 10                                      #minimum time between activating (seconds)
     max_duration: 30                           #time after which it will automatically turn off
     inputs:
-        MSA: motor_select_application 
+        state: emulator_tsi_drive_state
     entry_condition:
-        str: 'emulator_tsi_drive_state == "DRIVE" '
+        str: 'state == "DRIVE"'
         type: INSTANTANEOUS                         #REPETITION or PERIOD or INSTANTANEOUS                    
     exit_condition:
-        str: 'emulator_tsi_drive_state == "OFF" '                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
+        str: 'state == "OFF"'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
         type: INSTANTANEOUS
     action:
         type: WRITE                                  #if LOG put text, if WARNING put text (maybe color/flashing?), if WRITE write to a sensor on the vehicle:
