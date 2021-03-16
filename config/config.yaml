@@ -101,8 +101,8 @@ Display:
       - st_result
 
     Motor_Controller:
-      - motor_throttle_voltage
       - motor_dc_link_circuit_voltage
+      - motor_throttle_voltage
       - motor_controller_temp_over_23
       - motor_controller_temp_fahrenheit
       - motor_current_torque_actual
