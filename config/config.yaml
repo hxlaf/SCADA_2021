@@ -39,8 +39,8 @@ Display:
       - IMU_Config_Reg
       - IMU_Config_Reg2
     
-    3: 
-      - Motor_Controller
+    # 3: 
+    #   - Motor_Controller
 
   Groups: 
   # max 22 sensor per 1 group
@@ -100,23 +100,23 @@ Display:
       - mag_raduis_msb
       - st_result
 
-    Motor_Controller:
-      - motor_throttle_voltage
-      - motor_dc_link_circuit_voltage
-      - motor_controller_temp_over_23
-      - motor_controller_temp_fahrenheit
-      - motor_current_torque_actual
-      - motor_current_demand
-      - motor_electric_power
-      - motor_warnings
-      - motor_controller_temp
-      - motor_digital_inputs
-      - motor_velocity_actual_value
-      - motor_velocity_actual_avg
-      - motor_temp
-      - motor_flux_actual_current
-      - motor_status
-      - motor_select_application
+    # Motor_Controller:
+    #   - motor_throttle_voltage
+    #   - motor_dc_link_circuit_voltage
+    #   - motor_controller_temp_over_23
+    #   - motor_controller_temp_fahrenheit
+    #   - motor_current_torque_actual
+    #   - motor_current_demand
+    #   - motor_electric_power
+    #   - motor_warnings
+    #   - motor_controller_temp
+    #   - motor_digital_inputs
+    #   - motor_velocity_actual_value
+    #   - motor_velocity_actual_avg
+    #   - motor_temp
+    #   - motor_flux_actual_current
+    #   - motor_status
+    #   - motor_select_application
 
 
       
