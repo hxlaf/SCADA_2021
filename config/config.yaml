@@ -34,7 +34,6 @@ Display:
     1:
       - I2C_Sensors
       - I2C_Additional
-      - Motor_Group3
 
     2:
       - IMU_Config_Reg
