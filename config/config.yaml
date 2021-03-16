@@ -1396,22 +1396,22 @@ Sensors:
 Controls:
 
 ## Watcher Sensor 
-IMU_gravityZ:
-    cooldown: 10                                      #minimum time between activating (seconds)
-    max_duration: 30                           #time after which it will automatically turn off
-    inputs:
-        grav: gravity_z 
-    entry_condition:
-        str: 'grav < 5'
-        type: INSTANTANEOUS                         #REPETITION or PERIOD or INSTANTANEOUS                    
-    exit_condition:
-        str: 'grav > 8'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
-        type: INSTANTANEOUS
-    action:
-        type: WARNING                                  #if LOG put text, if WARNING put text (maybe color/flashing?), if WRITE write to a sensor on the vehicle:
-        message: "gravity under 5 "
-        suggestion: "level out"
-        priority: 1
+# IMU_gravityZ:
+#     cooldown: 10                                      #minimum time between activating (seconds)
+#     max_duration: 30                           #time after which it will automatically turn off
+#     inputs:
+#         grav: gravity_z 
+#     entry_condition:
+#         str: 'grav < 5'
+#         type: INSTANTANEOUS                         #REPETITION or PERIOD or INSTANTANEOUS                    
+#     exit_condition:
+#         str: 'grav > 8'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
+#         type: INSTANTANEOUS
+#     action:
+#         type: WARNING                                  #if LOG put text, if WARNING put text (maybe color/flashing?), if WRITE write to a sensor on the vehicle:
+#         message: "gravity under 5 "
+#         suggestion: "level out"
+#         priority: 1
 
 
   Emulated-Temp_Check:
