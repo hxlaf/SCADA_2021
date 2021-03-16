@@ -24,6 +24,7 @@ pip install pyyaml #not sure why we need this, but we do
 pip3 install canopen
 pip3 install pyusb
 
+
 #Creating GUI Startup Files 
 
 # copy lxsession file into the .config folder
