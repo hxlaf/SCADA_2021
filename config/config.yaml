@@ -39,8 +39,8 @@ Display:
       - IMU_Config_Reg
       - IMU_Config_Reg2
     
-    # 3: 
-    #   - Motor_Controller
+    3: 
+      - Motor_Controller
 
   Groups: 
   # max 22 sensor per 1 group
@@ -100,8 +100,8 @@ Display:
       - mag_raduis_msb
       - st_result
 
-    # Motor_Controller:
-    #   - motor_throttle_voltage
+    Motor_Controller:
+      - motor_throttle_voltage
     #   - motor_dc_link_circuit_voltage
     #   - motor_controller_temp_over_23
     #   - motor_controller_temp_fahrenheit
@@ -289,20 +289,20 @@ Sensors:
   #   sample_period: 1
   #   var_name: MtrApplication
 
-  # motor_throttle_voltage:
-  #   unit: 'mV'
-  #   inputs:
-  #     Vin: motor_throttle_voltage
-  #   cal_function: 'Vin'
-  #   bus_type: CAN
-  #   primary_address: 0x2070
-  #   secondary_address: 0x01
-  #   precision: 0
-  #   display_variable: number 
-  #   description: "voltage measured on AD pin in mV"
-  #   bit_length: 16 
-  #   sample_period: 5
-  #   var_name: MtrThrottleVltg
+  motor_throttle_voltage:
+    unit: 'mV'
+    inputs:
+      Vin: motor_throttle_voltage
+    cal_function: 'Vin'
+    bus_type: CAN
+    primary_address: 0x2070
+    secondary_address: 0x01
+    precision: 0
+    display_variable: number 
+    description: "voltage measured on AD pin in mV"
+    bit_length: 16 
+    sample_period: 5
+    var_name: MtrThrottleVltg
 
   
   # motor_status:
