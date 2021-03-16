@@ -1422,7 +1422,7 @@ Controls:
     entry_condition:
         str: 'state == "DRIVE"'
         type: INSTANTANEOUS                         #REPETITION or PERIOD or INSTANTANEOUS                    
-    exit_condition:
+    exit_condition:                                 
         str: 'state == "OFF"'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
         type: INSTANTANEOUS
     action:
