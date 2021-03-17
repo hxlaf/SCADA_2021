@@ -17,7 +17,7 @@ import time
 import datetime
 import json
 from collections import defaultdict
-from queue import PriorityQueue
+from queue import PriorityQueue, Node
 
 ##Example Control
 #TSI-Heat_Check:
@@ -127,6 +127,9 @@ class Control:
         if self.active:
             print('ABOUT TO EXECUTE')
             self.action.execute()
+        elif type(self) is Warning:
+            self.action.unexecute()
+        
 
 class Condition:
     def __init__(self, configDict, inputs):
@@ -197,6 +200,13 @@ class Action:
     def __init__(self):
         pass
     
+    def execute(self):
+        pass
+    
+    def unexecute(self):
+        #this is just to remove WARNINGS
+        pass
+    
 
 class Log(Action):
     def __init__(self, configDict):
@@ -215,7 +225,17 @@ class Warning(Action):
 
     def execute(self):
         print('Trying to execute WRITE action')
-        warnings.put(10-self.priority, {'message':self.message, 'suggestion':self.message})
+        warnings.append( {'message':self.message, 'suggestion':self.suggestion, 'priority':self.priority})
+        dashboardDict['warnings'] = 
+        print('warnings as a list = ' + str(dashboardDict['warnings']))
+        # open('usr\etc\dashboard.json', 'w').close()
+        with open('/usr/etc/dashboard.json','w') as outfile:
+            outfile.write(json.dumps(dashboardDict))
+    
+    def unexecute(self):
+        for wrn in list(warnings)
+
+        warnings.put(10-self.priority, {'message':self.message, 'suggestion':self.suggestion})
         dashboardDict['warnings'] = list(warnings)
         # open('usr\etc\dashboard.json', 'w').close()
         with open('/usr/etc/dashboard.json','w') as outfile:
@@ -235,10 +255,12 @@ def watch(message):
     sensor = split_key[0]
     val = split_key[1]
     DataStorage[sensor] = val
+    if sensor in dashboardSensors
     relevantControls = ControlsDict[sensor]
-    for control in relevantControls:
-        print ('updating control ' + str(control))
-        control.update()
+    if relevantControls != None:
+        for control in relevantControls:
+            print ('updating control ' + str(control))
+            control.update()
 
 #Setting up connection to Redis Server
 Redisdata = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
@@ -250,7 +272,8 @@ ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by
 DataStorage = {} #dictionary of current values of every sensor
 # defaultControlDict = ControlsList.get('default_control')
 dashboardDict =  { 'readings': {}, 'warnings': [] }
-warnings = PriorityQueue()
+warnings = []
+dashboardSensors = config.get('EPAL').get('display_sensors')
 
 
 #Control object instantiation procedure
