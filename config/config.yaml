@@ -39,6 +39,7 @@ Display:
     2:
       - IMU_Config_Reg
       - IMU_Config_Reg2
+      - EPAL_Demo
     
     3: 
       - Motor_Controller
@@ -118,7 +119,13 @@ Display:
       - motor_temp
       - motor_flux_actual_current
       - motor_status
-
+    
+    EPAL_Demo:
+      - emulator_bool_drive_signal
+      - emulator_car_mph
+      - emulator_battery_percentage
+      - emulator_battery_temperature
+      - emulator_engine_temperature
 
       
 ########## PART 3: INDIVIDUAL SENSORS ##########
@@ -335,6 +342,7 @@ Sensors:
 
 # CAN #
 
+  #THIS ONE DOES NOT WORK. DO NOT UNCOMMENT IT
   # motor_nmt_state:
   #   units: ''
   #   bus_type: CAN
