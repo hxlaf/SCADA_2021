@@ -22,7 +22,7 @@ emulating = config.get('emulation')
 os.system('ip link set can0 down')
 os.system('ip link set can0 up type can bitrate 125000')
 
-#can_drive = can_driver.CanDriver() #TODO: Fix this ambiguous ass name  ##UNCOMENNETTTT!!!
+can_drive = can_driver.CanDriver() #TODO: Fix this ambiguous ass name  ##UNCOMENNETTTT!!!
 
 #Set RTC Time to Sys Time 
 #os.system ()
