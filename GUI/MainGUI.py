@@ -1,7 +1,9 @@
-
+#!/usr/bin/python3
 import tkinter as tk
 from tkinter import *
-import os, time
+from tkinter import ttk
+import os, sys
+os.environ["SDL_FBDEV"] = "/dev/fb0"
 
 
 lib_path = '/usr/etc/scada/GUI'
@@ -10,6 +12,7 @@ sys.path.append(lib_path)
 from GUI_Setup import GUISetup
 config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
+
 import config
 import yaml
 import collections
@@ -23,7 +26,7 @@ LARGE_FONT = ("Times New Roman", 12)
 
 
 class Main_GUI(tk.Tk):
-    os.environ["SDL_FBDEV"] = "/dev/feb0"
+
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         
@@ -102,7 +105,6 @@ class Main_GUI(tk.Tk):
     #     os.environ["SDL_FBDEV"] = "/dev/feb0"
     #     os.environ["SDL_VIDEODRIVER"] = driver
     #     print("done")
-
 
 
 app = Main_GUI()

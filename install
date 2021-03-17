@@ -24,6 +24,7 @@ pip install pyyaml #not sure why we need this, but we do
 pip3 install canopen
 pip3 install pyusb
 
+
 #Creating GUI Startup Files 
 
 # copy lxsession file into the .config folder
@@ -41,6 +42,14 @@ echo '@/usr/bin/scada_gui.py' >> autostart
 # Creating Bit-Banged I2C BUS to support clock strecthing for BNO-055 IMU 
 cd /boot 
 echo 'dtoverlay=i2c-gpio,bus=3,i2c_gpio_sda=02,i2c_gpio_scl=03' >> config.txt
+
+
+
+# Setup Can 
+cd /boot
+echo 'dtparam=spi=on' >> config.txt
+echo 'dtoverlay=mcp2515-can0,oscillator=16000000,interrupt=25' >> config.txt 
+echo 'dtoverlay=spi-bcm2835-overlay' >> conifg.txt 
 
 echo 'INSTALL COMPLETE'
 
