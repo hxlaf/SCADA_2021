@@ -225,7 +225,7 @@ Sensors:
   emulator_temperature:
     unit: '°C'
     inputs:
-      Tin: temp
+      Tin: emulator_temperature
     cal_function: Tin
     bus_type: EMULATED
     precision: 0
@@ -253,8 +253,85 @@ Sensors:
     data_values: 1 #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
     data_pattern: CONSTANT #options are RAMP, SINE, CONSTANT, CYCLE (for states)
     data_period: 0 #period for plot shape to repeat
-    
 
+  #EMULATORS FOR HAN'S EPAL DEMO <3
+
+  emulator_bool_drive_signal:
+    unit: ''
+    inputs:
+      num: emulator_bool_drive_signal
+    cal_function:
+      0: 'FALSE'
+      1: 'TRUE'
+    bus_type: EMULATED
+    precision: 0
+    display_variable: state
+    description: "drive mode determined by TSI board"
+    sample_period: 0.5
+    var_name:  DriveSignal
+    data_values: [0, 1]
+    data_pattern: CYCLE
+    data_period: 30
+
+  emulator_car_mph:
+    unit: 'mph'
+    inputs:
+      in: emulator_car_mph
+    cal_function: in
+    bus_type: EMULATED
+    precision: 0
+    display_variable: number
+    description: "vehicle speed in MPH"
+    sample_period: 1
+    var_name:  CarMPH
+    data_values: [0, 60] #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
+    data_pattern: SINE #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    data_period: 20 #period for plot shape to repeat
+
+  emulator_battery_percentage:
+    unit: '%'
+    inputs:
+      in: emulator_battery_percentage
+    cal_function: in
+    bus_type: EMULATED
+    precision: 1
+    display_variable: number
+    description: "charge state of batteries expressed as a percent"
+    sample_period: 1
+    var_name:  BattPercent
+    data_values: [100, 0] #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
+    data_pattern: RAMP #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    data_period: 120 #period for plot shape to repeat
+  
+  emulator_battery_temperature:
+    unit: '°F'
+    inputs:
+      Tin: emulator_battery_temperature
+    cal_function: Tin
+    bus_type: EMULATED
+    precision: 0
+    display_variable: number
+    description: "measured battery temperature"
+    sample_period: 1
+    var_name:  BattTemp
+    data_values: [70, 100] #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
+    data_pattern: SINE #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    data_period: 60 #period for plot shape to repeat
+
+  emulator_engine_temperature:
+    unit: '°F'
+    inputs:
+      Tin: emulator_engine_temperature
+    cal_function: Tin
+    bus_type: EMULATED
+    precision: 0
+    display_variable: number
+    description: "measured engine temperature"
+    sample_period: 1
+    var_name:  BattTemp
+    data_values: [70, 200] #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
+    data_pattern: SINE #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    data_period: 60 #period for plot shape to repeat
 
 # CAN #
 
