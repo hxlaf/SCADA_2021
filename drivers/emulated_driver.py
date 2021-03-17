@@ -46,9 +46,9 @@ class ConstantEmulator(SensorEmulator):
 
 class SineEmulator(SensorEmulator):
     def __init__(self, configDict):
+        super().__init__(configDict)
         self.avg = (self.values[0] + self.values[1]) / 2
         self.mag = abs(self.values[1] - self.values[0]) / 2
-        super().__init__(configDict)
 
     def calculateValue(self, timeElapsed):
         return self.avg + self.mag * math.sin(2 * math.pi / self.period * timeElapsed)
