@@ -49,7 +49,7 @@ echo 'dtoverlay=i2c-gpio,bus=3,i2c_gpio_sda=02,i2c_gpio_scl=03' >> config.txt
 cd /boot
 echo 'dtparam=spi=on' >> config.txt
 echo 'dtoverlay=mcp2515-can0,oscillator=16000000,interrupt=25' >> config.txt 
-echo 'dtoverlay=spi-bcm2835-overlay' >> conifg.txt 
+echo 'dtoverlay=spi-bcm2835-overlay' >> config.txt 
 
 echo 'INSTALL COMPLETE'
 
