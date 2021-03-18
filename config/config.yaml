@@ -34,10 +34,12 @@ Display:
     1:
       - I2C_Sensors
       - I2C_Additional
+      - Motor_Controller
 
     2:
       - IMU_Config_Reg
       - IMU_Config_Reg2
+      - EPAL_Demo
     
     3: 
       - Motor_Controller
@@ -101,8 +103,9 @@ Display:
       - st_result
 
     Motor_Controller:
-      - motor_throttle_voltage
+      - motor_select_application
       - motor_dc_link_circuit_voltage
+      - motor_throttle_voltage
       - motor_controller_temp_over_23
       - motor_controller_temp_fahrenheit
       - motor_current_torque_actual
@@ -116,7 +119,13 @@ Display:
       - motor_temp
       - motor_flux_actual_current
       - motor_status
-
+    
+    EPAL_Demo:
+      - emulator_bool_drive_signal
+      - emulator_car_mph
+      - emulator_battery_percentage
+      - emulator_battery_temperature
+      - emulator_engine_temperature
 
       
 ########## PART 3: INDIVIDUAL SENSORS ##########
@@ -223,7 +232,7 @@ Sensors:
   emulator_temperature:
     unit: '°C'
     inputs:
-      Tin: temp
+      Tin: emulator_temperature
     cal_function: Tin
     bus_type: EMULATED
     precision: 0
@@ -251,11 +260,89 @@ Sensors:
     data_values: 1 #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
     data_pattern: CONSTANT #options are RAMP, SINE, CONSTANT, CYCLE (for states)
     data_period: 0 #period for plot shape to repeat
-    
 
+  #EMULATORS FOR HAN'S EPAL DEMO <3
+
+  emulator_bool_drive_signal:
+    unit: ''
+    inputs:
+      num: emulator_bool_drive_signal
+    cal_function:
+      0: 'FALSE'
+      1: 'TRUE'
+    bus_type: EMULATED
+    precision: 0
+    display_variable: state
+    description: "drive mode determined by TSI board"
+    sample_period: 0.5
+    var_name:  DriveSignal
+    data_values: [0, 1]
+    data_pattern: CYCLE
+    data_period: 30
+
+  emulator_car_mph:
+    unit: 'mph'
+    inputs:
+      in: emulator_car_mph
+    cal_function: in
+    bus_type: EMULATED
+    precision: 0
+    display_variable: number
+    description: "vehicle speed in MPH"
+    sample_period: 1
+    var_name:  CarMPH
+    data_values: [0, 40] #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
+    data_pattern: SINE #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    data_period: 20 #period for plot shape to repeat
+
+  emulator_battery_percentage:
+    unit: '%'
+    inputs:
+      in: emulator_battery_percentage
+    cal_function: in
+    bus_type: EMULATED
+    precision: 1
+    display_variable: number
+    description: "charge state of batteries expressed as a percent"
+    sample_period: 1
+    var_name:  BattPercent
+    data_values: [100, 0] #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
+    data_pattern: RAMP #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    data_period: 120 #period for plot shape to repeat
+  
+  emulator_battery_temperature:
+    unit: '°F'
+    inputs:
+      Tin: emulator_battery_temperature
+    cal_function: Tin
+    bus_type: EMULATED
+    precision: 0
+    display_variable: number
+    description: "measured battery temperature"
+    sample_period: 1
+    var_name:  BattTemp
+    data_values: [70, 100] #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
+    data_pattern: SINE #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    data_period: 60 #period for plot shape to repeat
+
+  emulator_engine_temperature:
+    unit: '°F'
+    inputs:
+      Tin: emulator_engine_temperature
+    cal_function: Tin
+    bus_type: EMULATED
+    precision: 0
+    display_variable: number
+    description: "measured engine temperature"
+    sample_period: 1
+    var_name:  EngineTemp
+    data_values: [70, 200] #number for CONSTANT, [] range for RAMP or SINE, list of values for CYCLE
+    data_pattern: SINE #options are RAMP, SINE, CONSTANT, CYCLE (for states)
+    data_period: 60 #period for plot shape to repeat
 
 # CAN #
 
+  #THIS ONE DOES NOT WORK. DO NOT UNCOMMENT IT
   # motor_nmt_state:
   #   units: ''
   #   bus_type: CAN
@@ -271,22 +358,22 @@ Sensors:
   #   bit_length: 16
   #   var_name: MtrNMTState ## Name displayed on screen 
 
-  # motor_select_application:
-  #   unit: ''
-  #   inputs:
-  #     in: motor_select_application
-  #   cal_function:
-  #     0: 'NO APP'
-  #     1: 'APP 1 (Up to 4WD)'
-  #   bus_type: CAN
-  #   primary_address: 0x3000
-  #   secondary_address: Null
-  #   precision: 0
-  #   display_variable: state
-  #   description: "Used to select different applications in eDrive. Need to be in APP 1 to drive."
-  #   bit_length: 16 #probably don't need this
-  #   sample_period: 1
-  #   var_name: MtrApplication
+  motor_select_application:
+    unit: ''
+    inputs:
+      in: motor_select_application
+    cal_function:
+      0: 'NO APP'
+      1: 'APP 1 (Up to 4WD)'
+    bus_type: CAN
+    primary_address: 0x3000
+    secondary_address: Null
+    precision: 0
+    display_variable: state
+    description: "Used to select different applications in eDrive. Need to be in APP 1 to drive."
+    bit_length: 16 #probably don't need this
+    sample_period: 1
+    var_name: MtrApplication
 
   motor_throttle_voltage:
     unit: 'mV'
@@ -1412,29 +1499,45 @@ Controls:
 #         suggestion: "level out"
 #         priority: 1
 
-
-  Emulated-Temp_Check:
-    cooldown: 1
+  mtr_selct_app:
+    cooldown: 10                                      #minimum time between activating (seconds)
+    max_duration: 30                           #time after which it will automatically turn off
     inputs:
-        Tempin: emulator_temperature
+        state: emulator_tsi_drive_state
     entry_condition:
-        str: 'Tempin > 60'
-        type: INSTANTANEOUS                       
-        # reps: 2
-        # duration: 5                      
-    exit_condition:
-        str: 'Tempin <= 40'                   
-        type: DURATION
-        duration: 2
-    # action:
-    #     type: WRITE
-    #     sensor: emulator_sloop
-    #     value: 0
+        str: 'state == "DRIVE"'
+        type: INSTANTANEOUS                         #REPETITION or PERIOD or INSTANTANEOUS                    
+    exit_condition:                                 
+        str: 'state == "OFF"'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
+        type: INSTANTANEOUS
     action:
-      type: WARNING
-      message: "CRITICAL TEMPERATURE"
-      suggestion: "Throttle down or safety loop will shut off"
-      priority: 5
+        type: WRITE                                  #if LOG put text, if WARNING put text (maybe color/flashing?), if WRITE write to a sensor on the vehicle:
+        sensor: motor_select_application
+        value: 1
+
+
+  # Emulated-Temp_Check:
+  #   cooldown: 1
+  #   inputs:
+  #       Tempin: emulator_temperature
+  #   entry_condition:
+  #       str: 'Tempin > 60'
+  #       type: INSTANTANEOUS                       
+  #       # reps: 2
+  #       # duration: 5                      
+  #   exit_condition:
+  #       str: 'Tempin <= 40'                   
+  #       type: DURATION
+  #       duration: 2
+  #   # action:
+  #   #     type: WRITE
+  #   #     sensor: emulator_sloop
+  #   #     value: 0
+  #   action:
+  #     type: WARNING
+  #     message: "CRITICAL TEMPERATURE"
+  #     suggestion: "Throttle down or safety loop will shut off"
+  #     priority: 5
     
 
 
@@ -1442,3 +1545,10 @@ PostProcessing:
   emulator_tsi_drive_state
   emulator_temperature
   emulator_sloop
+
+EPAL:
+  - emulator_bool_drive_signal
+  - emulator_car_mph
+  - emulator_battery_percentage
+  - emulator_battery_temperature
+  - emulator_engine_temperature

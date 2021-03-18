@@ -1,5 +1,7 @@
 import sys, os
 
+# THIS FILE IS INTENDED TO TEST EMULATORS WHICH ARE PERSISTENT ACROSS SERVICES, AS OPPOSED TO EACH SERVICE HAVING A DIFFERENT COPY
+
 #Importing the config file
 lib_path = '/usr/etc/scada'
 config_path = '/usr/etc/scada/config'
