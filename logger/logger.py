@@ -153,6 +153,9 @@ def update(msgData):
             VALUES (%s, %s)
         """, [Sensor_key, Sensor_value])
 
+        #publish data to update GUI
+        p.publish('logger_data', msgData)
+
         # updates previous value/timestamp for check_update_ready method on next loop
         previous_values[Sensor_key] = (Sensor_value, datetime.datetime.now())
 
