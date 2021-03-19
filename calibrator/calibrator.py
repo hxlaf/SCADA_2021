@@ -82,7 +82,7 @@ def Virtual_execute(Sensor_val):
                 if (input_key_val == 'no data'):
                     no_data_bolean = True
                 new_key = new_key.replace(input_key,input_key_val)
-            if (eval(new_key) == True and cal_func_set == False and no_data_bolean == False):
+            if (no_data_bolean == False and eval(new_key) == True and cal_func_set == False):
                 calibration_func = calibration_func[key]
                 cal_func_set = True
 
