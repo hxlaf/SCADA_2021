@@ -214,7 +214,7 @@ class Log(Action):
         self.message = configDict.get('message')
 
     def execute(self):
-        #log message to log
+        Redisdata.publish('log',self.message)
         pass
 
 
@@ -291,7 +291,6 @@ def watch(message):
 Redisdata = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 data = Redisdata.pubsub()
 data.subscribe('calculated_data')
-data.subscribe('logger_data')
 
 allControls = config.get('Controls') #complete list of sensor configurations to make objects from
 ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
