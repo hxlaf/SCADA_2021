@@ -34,7 +34,7 @@ def read(Sensor):
     sensor_protocol = SensorList.get(str(Sensor)).get('bus_type')
     if(sensor_protocol == 'I2C'):
         data = i2c_driver.read(Sensor)
-    elif(can_drive.connected and sensor_protocol =='CAN'):
+    elif(sensor_protocol =='CAN'):
         data = can_drive.read(Sensor)
     #elif(sensor_protocol == 'USB'):
         #data= usb_sorter.read(Sensor)
@@ -60,7 +60,7 @@ def write(Sensor,Value):
     print('Protocol: ' + sensor_protocol)
     if(sensor_protocol == 'I2C'):
         i2c_driver.write(Sensor, Value)
-    elif(can_drive.connected and sensor_protocol =='CAN'):
+    elif(sensor_protocol =='CAN'):
         can_drive.write(Sensor,Value)
 #     elif(sensor_protocol == 'USB'):
 #         usb_sorter.write(Sensor,Value)

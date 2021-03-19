@@ -90,27 +90,30 @@ class CanDriver:
     def read(self,sensorName):
         #for now this is a redundant step, but if we use other CAN-subprotocols
         #or other canOpen structures, we would want to do some decision making here
-        
-        try:
-            #WHY DOES THIS NOT WORK
-            if 'nmt' in str(sensorName):
-            #if sensorName.find('nmt') != -1:
-                return self.read_nmt(sensorName)
-            else:
-                return self.read_sdo(sensorName)
-        except OSError:
+        if self.connected:
+            try:
+                #WHY DOES THIS NOT WORK
+                if 'nmt' in str(sensorName):
+                #if sensorName.find('nmt') != -1:
+                    return self.read_nmt(sensorName)
+                else:
+                    return self.read_sdo(sensorName)
+            except OSError:
+                return None
+        else:
             return None
 
     def write(self,sensorName, value):
         #for now this is a redundant step, but if we use other CAN-subprotocols
         #or other canOpen structures, we would want to do some decision making here
-        try:
-            if 'nmt' in sensorName:
-                self.write_nmt(sensorName, value)
-            else: 
-                self.write_sdo(sensorName, value)
-        except OSError:
-            pass
+        if self.connected:
+            try:
+                if 'nmt' in sensorName:
+                    self.write_nmt(sensorName, value)
+                else: 
+                    self.write_sdo(sensorName, value)
+            except OSError:
+                pass
 
     #using SDOs for now
     def read_sdo(self,sensorName):
