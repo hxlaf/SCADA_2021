@@ -28,11 +28,9 @@ class CanDriver:
         self.network = canopen.Network()
         # #eventually the following lines should take arguments from config
         can_info = config.get('bus_info').get('CAN')
-        # TODO: SHOULD I HAVE A TRY CATCH HERE?  THAT WOULD ALERT PROGRAM THAT CANBUS NOT CONNECTED
         try:
             self.network.connect(channel=can_info.get('channel'), bustype=can_info.get('bus_type'))
         
-            # TODO: this will eventually be a loop that goes through nodes' EDS's
             nodes = config.get('can_nodes')
             for node in nodes:
                 nodeData = nodes.get(node)
@@ -75,8 +73,9 @@ class CanDriver:
                         self.sdoDict[sensorName] = self.configure_sdo(sensorName,sensorDict)
                     #DEBUG:
                     # print('sdoDict =')
-                    # print(sdoDict)
-        except:
+                    # print(sdoDict)]
+                    
+        except can.CanError:
             print('CAN Bus not connecting')
             return None
  
