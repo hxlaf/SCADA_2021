@@ -318,9 +318,3 @@ for controlString in allControls:
 
 
 #ACTUAL CODE THAT RUNS
-while True:
-    message = data.get_message()
-    if (message and (message['data'] != 1 )):
-        if message['channel'] == 'calculated_data':
-            watch(message['data'])
-    time.sleep(.01)

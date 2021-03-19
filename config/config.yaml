@@ -1542,13 +1542,14 @@ Controls:
 
 
 PostProcessing: 
-  emulator_tsi_drive_state
-  emulator_temperature
-  emulator_sloop
+  - emulator_tsi_drive_state
+  - emulator_temperature
+  - emulator_sloop
 
 EPAL:
-  - emulator_bool_drive_signal
-  - emulator_car_mph
-  - emulator_battery_percentage
-  - emulator_battery_temperature
-  - emulator_engine_temperature
+  display_sensors:
+    - emulator_bool_drive_signal
+    - emulator_car_mph
+    - emulator_battery_percentage
+    - emulator_battery_temperature
+    - emulator_engine_temperature
