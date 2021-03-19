@@ -86,7 +86,7 @@ def Virtual_execute(Sensor_val):
                 calibration_func = calibration_func[key]
                 cal_func_set = True
     
-    else:           
+    if not no_data_bolean:           
         for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
             try:
                 retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)])
