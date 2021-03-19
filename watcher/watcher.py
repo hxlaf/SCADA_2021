@@ -254,7 +254,7 @@ class Warning(Action):
         if warningEntry not in warnings:
             warnings.append(warningEntry)
             #sorts list of warnings by priority, reverse = true means it sorts high to low
-            warnings = sorted(warnings, key = lambda i: i['priority'], reverse = true)
+            warnings = sorted(warnings, key = lambda i: i['priority'], reverse = True)
             updateJSON()
         
         print('warnings as a list after updating = ' + str(warnings))
