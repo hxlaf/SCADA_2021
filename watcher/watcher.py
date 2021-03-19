@@ -142,10 +142,13 @@ class Condition:
     #evaluates the condition string
     def evaluate(self):
         for i in self.inputs:
+            inputData = DataStorage[i]
             try:
-                if DataStorage[i] == 'no data': #will not trigger anything unless there is data for all inputs
+                if inputData == 'no data': #will not trigger anything unless there is data for all inputs
                     return False
-                condition = self.str.replace(i, DataStorage[i].replace('\n',''))
+                elif not inputData.isdecimal() #for string variables i.e. states
+                    inputData = '"' + inputData + '"' 
+                condition = self.str.replace(i, inputData.replace('\n',''))
                 print( 'about to evaluate ' + condition)
             except KeyError:
                 return False
