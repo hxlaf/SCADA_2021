@@ -255,7 +255,7 @@ class Warning(Action):
                 del warnings[i] 
                 break
         #no need to sort here because deleting an item will not affect the order of the rest
-    
+        updateJSON()
         # open('usr\etc\dashboard.json', 'w').close()
         print('list of warnings for JSON (after delete):')
         print(warnings)
