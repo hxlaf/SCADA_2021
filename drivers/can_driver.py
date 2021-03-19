@@ -74,9 +74,10 @@ class CanDriver:
                     #DEBUG:
                     # print('sdoDict =')
                     # print(sdoDict)]
+            print('Made it here for some reason')
 
         except OSError:
-            print('CAN Bus not connecting')
+            print('CAN Bus not connecting!')
             return None
  
 
