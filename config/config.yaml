@@ -49,7 +49,7 @@ Display:
       - IMU_Config_Reg2
       - EPAL_Demo
     
-    3: 
+    # 3: 
       # - Motor_Controller
 
   Groups: 
