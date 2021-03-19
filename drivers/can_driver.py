@@ -101,7 +101,7 @@ class CanDriver:
             except OSError:
                 return None
         else:
-            return 'bus error'
+            return None
 
     def write(self,sensorName, value):
         #for now this is a redundant step, but if we use other CAN-subprotocols
