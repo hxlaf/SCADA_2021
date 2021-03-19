@@ -274,7 +274,7 @@ class Write(Action):
         driver.write(self.sensor, self.value)
 
 def updateJSON():
-    # dashboardDict =  { 'sensor_readings': sensorReadings, 'warnings': warnings }
+    dashboardDict =  { 'sensor_readings': sensorReadings, 'warnings': warnings }
     print('DASHBOARD DICT BEFORE JSON WRITE')
     print(dashboardDict)
     with open('/usr/etc/dashboard.json','w') as outfile:
