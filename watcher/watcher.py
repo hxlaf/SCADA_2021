@@ -250,15 +250,19 @@ class Warning(Action):
         print(warnings)
 
         #find warning to remove and remove it
-        for i in range(len(warnings)): 
-            if warnings[i]['message'] == self.message: 
-                del warnings[i] 
-                break
+        # for i in range(len(warnings)): 
+        #     if warnings[i]['message'] == self.message: 
+        #         del warnings[i] 
+        #         break
+        
+        #keep warnings other than the one we want to remove
+        warnings = [i for i in warnings if not (i['message'] == self.message)] 
         #no need to sort here because deleting an item will not affect the order of the rest
-        updateJSON()
+        
         # open('usr\etc\dashboard.json', 'w').close()
         print('list of warnings for JSON (after delete):')
         print(warnings)
+        updateJSON()
 
 class Write(Action):
     def __init__(self, configDict):
@@ -292,6 +296,7 @@ def watch(message):
         for control in relevantControls:
             print ('updating control ' + str(control))
             control.update()
+    
 
 #Setting up connection to Redis Server
 Redisdata = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
