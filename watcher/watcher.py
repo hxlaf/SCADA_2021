@@ -271,6 +271,8 @@ class Write(Action):
 
 def updateJSON():
     # dashboardDict =  { 'sensor_readings': sensorReadings, 'warnings': warnings }
+    print('DASHBOARD DICT BEFORE JSON WRITE')
+    print(dashboardDict)
     with open('/usr/etc/dashboard.json','w') as outfile:
         # outfile.write(json.dumps(dashboardDict))
         json.dump(dashboardDict, outfile)
