@@ -123,7 +123,7 @@ class Control:
             print('CHECKING EXIT CONDITION')
             if self.checkExitCondition():
                 self.active = False
-                if type(self) is Warning:
+                if type(self.action) is Warning:
                     self.action.unexecute()
 
         if self.active:
@@ -308,6 +308,7 @@ dashboardSensors = config.get('EPAL').get('display_sensors')
 for sensorName in dashboardSensors:
     sensorReadings[sensorName] = -1.0
 dashboardDict =  { 'sensor_readings': sensorReadings, 'warnings': warnings }
+updateJSON
 
 #Control object instantiation procedure
 for controlString in allControls:
