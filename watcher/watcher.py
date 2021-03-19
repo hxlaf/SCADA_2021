@@ -238,30 +238,14 @@ class Warning(Action):
             warnings = sorted(warnings, key = lambda i: i['priority'], reverse = True)
             updateJSON()
         
-        print('warnings as a list after updating = ' + str(warnings))
-        # open('usr\etc\dashboard.json', 'w').close()
-        # with open('/usr/etc/dashboard.json','w') as outfile:
-        #     outfile.write(json.dumps(dashboardDict))
     
     def unexecute(self):
         global warnings
-        print('list of warnings for JSON:')
-        
-        print(warnings)
 
-        #find warning to remove and remove it
-        # for i in range(len(warnings)): 
-        #     if warnings[i]['message'] == self.message: 
-        #         del warnings[i] 
-        #         break
-        
         #keep warnings other than the one we want to remove
         warnings = [i for i in warnings if not (i['message'] == self.message)] 
         #no need to sort here because deleting an item will not affect the order of the rest
         
-        # open('usr\etc\dashboard.json', 'w').close()
-        print('list of warnings for JSON (after delete):')
-        print(warnings)
         updateJSON()
 
 class Write(Action):
