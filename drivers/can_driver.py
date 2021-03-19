@@ -29,9 +29,8 @@ class CanDriver:
         # #eventually the following lines should take arguments from config
         can_info = config.get('bus_info').get('CAN')
         try:
-            print('Made it here 1')
             self.network.connect(channel=can_info.get('channel'), bustype=can_info.get('bus_type'))
-            print('Made it here 2')
+            self.connected = True
 
             nodes = config.get('can_nodes')
             for node in nodes:
@@ -79,6 +78,7 @@ class CanDriver:
             print('Made it here for some reason')
 
         except OSError:
+            self.connected = False
             print('CAN Bus not connecting!')
             return None
  
