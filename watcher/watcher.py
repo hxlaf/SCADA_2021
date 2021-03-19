@@ -146,7 +146,7 @@ class Condition:
             try:
                 if inputData == 'no data': #will not trigger anything unless there is data for all inputs
                     return False
-                elif not inputData.isdecimal() #for string variables i.e. states
+                elif not inputData.isdecimal(): #for string variables i.e. states
                     inputData = '"' + inputData + '"' 
                 condition = self.str.replace(i, inputData.replace('\n',''))
                 print( 'about to evaluate ' + condition)
