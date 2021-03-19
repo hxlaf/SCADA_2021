@@ -254,6 +254,7 @@ class GUISetup(tk.Frame):
             #Harry: I put this in for debugging
             print('Iterator:' + str(itr))
             print('Sensor:' + sensorName )
+            print('New Data:' + new_data)
 
             itr = itr + 1
         # refresh data every 1 ms
