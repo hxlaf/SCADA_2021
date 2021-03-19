@@ -42,7 +42,7 @@ Display:
     1:
       - I2C_Sensors
       - I2C_Additional
-      - Motor_Controller
+      # - Motor_Controller
 
     2:
       - IMU_Config_Reg
@@ -50,7 +50,7 @@ Display:
       - EPAL_Demo
     
     3: 
-      - Motor_Controller
+      # - Motor_Controller
 
   Groups: 
   # max 22 sensor per 1 group
