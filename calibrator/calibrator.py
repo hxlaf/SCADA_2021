@@ -85,14 +85,15 @@ def Virtual_execute(Sensor_val):
             if (no_data_bolean == False and eval(new_key) == True and cal_func_set == False):
                 calibration_func = calibration_func[key]
                 cal_func_set = True
-
-    for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
-        try:
-            retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)])
-        except KeyError:
-            retrived_input = 'no data'
-            break
-        calibration_func = calibration_func.replace(key,retrived_input)
+    
+    else:           
+        for key in config.get('Sensors').get(Sensor_val[0]).get('inputs'):
+            try:
+                retrived_input = str(last_calc_vals[config.get('Sensors').get(Sensor_val[0]).get('inputs').get(key)])
+            except KeyError:
+                retrived_input = 'no data'
+                break
+            calibration_func = calibration_func.replace(key,retrived_input)
 
     if (no_data_bolean or retrived_input == 'no data'):
         output = 'no data'
