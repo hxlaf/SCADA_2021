@@ -11,10 +11,18 @@ bus_info:
 
 # CAN node ids
 can_nodes:
-  motor: 1
-  tsi: 3
-  pack1: 4
-  pack2: 5
+  motor:
+      id: 1
+      eds_file: '[nodeId=001]eds_eDrive150.eds'
+  tsi:
+      id: 3
+      eds_file:
+  pack1:
+      id: 4
+      eds_file: 'Pack.eds'
+  pack2: 
+      id: 5
+      eds_file: 'Pack.eds'
 
 ########## PART 2: SOFTWARE SYSTEM CONFIGUREATION ##########
 
@@ -1515,6 +1523,21 @@ Controls:
         sensor: motor_select_application
         value: 1
 
+  mtr_selct_app:
+    cooldown: 10                                      #minimum time between activating (seconds)
+    max_duration: 30                           #time after which it will automatically turn off
+    inputs:
+        state: emulator_tsi_drive_state
+    entry_condition:
+        str: 'state == "DRIVE"'
+        type: INSTANTANEOUS                         #REPETITION or PERIOD or INSTANTANEOUS                    
+    exit_condition:                                 
+        str: 'state == "OFF"'                     #Condition to turn off Watcher action once its been activated, only used for LATCH persistence, cannot be true at same time as Condition
+        type: INSTANTANEOUS
+    action:
+        type: WRITE                                  #if LOG put text, if WARNING put text (maybe color/flashing?), if WRITE write to a sensor on the vehicle:
+        sensor: motor_select_application
+        value: 1
 
   # Emulated-Temp_Check:
   #   cooldown: 1

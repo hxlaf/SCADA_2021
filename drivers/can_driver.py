@@ -29,31 +29,55 @@ class CanDriver:
         # #eventually the following lines should take arguments from config
         can_info = config.get('bus_info').get('CAN')
         # TODO: SHOULD I HAVE A TRY CATCH HERE?  THAT WOULD ALERT PROGRAM THAT CANBUS NOT CONNECTED
-        self.network.connect(channel=can_info.get('channel'), bustype=can_info.get('bus_type'))
-        # TODO: this will eventually be a loop that goes through nodes' EDS's
-        self.network.add_node(1, lib_path + '/utils/eds-files/[nodeId=001]eds_eDrive150.eds')
+        try:
+            self.network.connect(channel=can_info.get('channel'), bustype=can_info.get('bus_type'))
         
-        #ensure nodes are connected
-        # self.network.scanner.search()
-        # time.sleep(1)
-        # print("Connected Nodes:")
-        # for node_id in self.network.scanner.nodes:
-        #     print("Found node %d!" % node_id)
+            # TODO: this will eventually be a loop that goes through nodes' EDS's
+            nodes = config.get('can_nodes')
+            for node in nodes:
+                nodeData = nodes.get(node)
+                self.network.add_node(nodeData['id'], lib_path + '/utils/eds-files/' + nodeData['eds_file'])
+            
+            '''
+            # To do this new procedure, the CAN part of the config must look like this
+            can_nodes:
+                motor:
+                    id: 1
+                    eds_file: '[nodeId=001]eds_eDrive150.eds'
+                tsi:
+                    id: 3
+                    eds_file:
+                pack1:
+                    id: 4
+                    eds_file: 'Pack.eds'
+                pack2: 
+                    id: 5
+                    eds_file: 'Pack.eds'
+            '''
+            
+            #ensure nodes are connected
+            # self.network.scanner.search()
+            # time.sleep(1)
+            # print("Connected Nodes:")
+            # for node_id in self.network.scanner.nodes:
+            #     print("Found node %d!" % node_id)
 
-        allSensors = config.get('Sensors')
-        self.sdoDict = {}
-        for sensorName in allSensors:
-            sensorDict = allSensors.get(sensorName)
-            if sensorDict['bus_type'] == 'CAN':
-                #DEBUG:
-                print(sensorName)
-                print(sensorDict)
-                # print config.get('Sensors').get(sensorDict)
-                if 'nmt' not in sensorName:
-                    self.sdoDict[sensorName] = self.configure_sdo(sensorName,sensorDict)
-                #DEBUG:
-                # print('sdoDict =')
-                # print(sdoDict)
+            allSensors = config.get('Sensors')
+            self.sdoDict = {}
+            for sensorName in allSensors:
+                sensorDict = allSensors.get(sensorName)
+                if sensorDict['bus_type'] == 'CAN':
+                    #DEBUG:
+                    print(sensorName)
+                    print(sensorDict)
+                    # print config.get('Sensors').get(sensorDict)
+                    if 'nmt' not in sensorName:
+                        self.sdoDict[sensorName] = self.configure_sdo(sensorName,sensorDict)
+                    #DEBUG:
+                    # print('sdoDict =')
+                    # print(sdoDict)
+        except:
+            print('CAN Bus not connecting')
  
 
     def __del__(self):
@@ -125,7 +149,7 @@ class CanDriver:
         #sensor name is composed of the node name and the value name
         [nodeName, *valueName] = sensorName.split('_')
         #get node ID from config
-        nodeNum = config.get('can_nodes').get(nodeName)
+        nodeNum = config.get('can_nodes').get(nodeName).get('id')
         #select node on network
         node = self.network[nodeNum]
 
