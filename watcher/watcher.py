@@ -310,7 +310,7 @@ dashboardSensors = config.get('EPAL').get('display_sensors')
 for sensorName in dashboardSensors:
     sensorReadings[sensorName] = -1.0
 dashboardDict =  { 'sensor_readings': sensorReadings, 'warnings': warnings }
-updateJSON
+updateJSON()
 
 #Control object instantiation procedure
 for controlString in allControls:
