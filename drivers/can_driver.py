@@ -78,6 +78,7 @@ class CanDriver:
                     # print(sdoDict)
         except:
             print('CAN Bus not connecting')
+            return None
  
 
     def __del__(self):
