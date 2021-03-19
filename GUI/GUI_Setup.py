@@ -247,6 +247,10 @@ class GUISetup(tk.Frame):
             sensorName = sensor.get('sensor')
             new_data = database.getData(sensorName)
             
+            #Harry: I put this in for debugging
+            print('Iterator:' + str(itr))
+            print('Sensor:' + sensorName )
+        
 
             # if the data has been updated
             if(new_data != old_data):
@@ -254,7 +258,6 @@ class GUISetup(tk.Frame):
                 self.placedata_on_screen(itr, new_data, sensor)
 
             itr = itr + 1
-        
         # refresh data every 1 ms
         self.after(1000, self.refresh_sensors)
 
