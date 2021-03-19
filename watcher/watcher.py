@@ -19,6 +19,25 @@ import json
 from collections import defaultdict
 # from queue import PriorityQueue, Node
 
+#Setting up connection to Redis Server
+Redisdata = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+data = Redisdata.pubsub()
+data.subscribe('calculated_data')
+
+allControls = config.get('Controls') #complete list of sensor configurations to make objects from
+ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
+DataStorage = {} #dictionary of current values of every sensor
+# defaultControlDict = ControlsList.get('default_control')
+
+#create dashboard data objects, fill sensor_Readings with preliminary data
+warnings = []
+sensorReadings = {}
+dashboardSensors = config.get('EPAL').get('display_sensors')
+for sensorName in dashboardSensors:
+    sensorReadings[sensorName] = -1.0
+dashboardDict =  { 'sensor_readings': sensorReadings, 'warnings': warnings }
+
+
 ##Example Control
 #TSI-Heat_Check:
     #cooldown: 10                                      #minimum time between activating (seconds)
@@ -228,7 +247,7 @@ class Warning(Action):
         self.priority = configDict.get('priority')
 
     def execute(self):
-        print('Trying to execute WRITE action')
+        print('Trying to execute WARNING action')
         
         warningEntry = {'message':self.message, 'suggestion':self.suggestion, 'priority':self.priority}
         #check if warning is already present, add it if it's not
@@ -289,25 +308,6 @@ def watch(message):
             print ('updating control ' + str(control))
             control.update()
         
-
-#Setting up connection to Redis Server
-Redisdata = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
-data = Redisdata.pubsub()
-data.subscribe('calculated_data')
-
-allControls = config.get('Controls') #complete list of sensor configurations to make objects from
-ControlsDict = defaultdict(list) #dictionary of (lists of) controls organized by the input sensor (key = sensor name)
-DataStorage = {} #dictionary of current values of every sensor
-# defaultControlDict = ControlsList.get('default_control')
-
-#create dashboard data objects, fill sensor_Readings with preliminary data
-warnings = []
-sensorReadings = {}
-dashboardSensors = config.get('EPAL').get('display_sensors')
-for sensorName in dashboardSensors:
-    sensorReadings[sensorName] = -1.0
-dashboardDict =  { 'sensor_readings': sensorReadings, 'warnings': warnings }
-
 
 #Control object instantiation procedure
 for controlString in allControls:
