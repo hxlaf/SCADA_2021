@@ -248,7 +248,7 @@ class Warning(Action):
 
     def execute(self):
         print('Trying to execute WARNING action')
-        
+        global warnings
         warningEntry = {'message':self.message, 'suggestion':self.suggestion, 'priority':self.priority}
         #check if warning is already present, add it if it's not
         if warningEntry not in warnings:
@@ -263,7 +263,9 @@ class Warning(Action):
         #     outfile.write(json.dumps(dashboardDict))
     
     def unexecute(self):
+        global warnings
         print('list of warnings for JSON:')
+        
         print(warnings)
 
         #find warning to remove and remove it
