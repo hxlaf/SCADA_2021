@@ -29,8 +29,10 @@ class CanDriver:
         # #eventually the following lines should take arguments from config
         can_info = config.get('bus_info').get('CAN')
         try:
+            print('Made it here 1')
             self.network.connect(channel=can_info.get('channel'), bustype=can_info.get('bus_type'))
-        
+            print('Made it here 2')
+
             nodes = config.get('can_nodes')
             for node in nodes:
                 nodeData = nodes.get(node)
