@@ -60,7 +60,7 @@ def write(Sensor,Value):
     print('Protocol: ' + sensor_protocol)
     if(sensor_protocol == 'I2C'):
         i2c_driver.write(Sensor, Value)
-    elif(sensor_protocol =='CAN'):
+    elif(can_drive and sensor_protocol =='CAN'):
         can_drive.write(Sensor,Value)
 #     elif(sensor_protocol == 'USB'):
 #         usb_sorter.write(Sensor,Value)
