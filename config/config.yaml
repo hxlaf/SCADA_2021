@@ -14,15 +14,15 @@ can_nodes:
   motor:
       id: 1
       eds_file: '[nodeId=001]eds_eDrive150.eds'
-  tsi:
-      id: 3
-      eds_file:
+  # tsi:
+  #     id: 3
+  #     eds_file:
   pack1:
       id: 4
       eds_file: 'Pack.eds'
-  pack2: 
-      id: 5
-      eds_file: 'Pack.eds'
+  # pack2: 
+  #     id: 5
+  #     eds_file: 'Pack.eds'
 
 ########## PART 2: SOFTWARE SYSTEM CONFIGUREATION ##########
 
