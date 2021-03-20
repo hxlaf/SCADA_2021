@@ -25,6 +25,7 @@ print("Connected Nodes:")
 for node_id in network.scanner.nodes:
     print("Found node %d!" % node_id)
     print('NODE %d INFORMATION:' % node_id)
+    node = network[node_id]
     for obj in node.object_dictionary.values():
         print('0x%X: %s' % (obj.index, obj.name))
         if isinstance(obj, canopen.objectdictionary.Record):
