@@ -188,7 +188,8 @@ class GUISetup(tk.Frame):
                 
                 # add to sensor list that holds the sensor name and its place on screen
                 #self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place, 'unit': unit})                
-                
+                # puts keys in dict with no value
+                self.coordDict[sensorName] = []
                 #self.coordDict[sensorName].append(entry)                
  
                 # inriment row for next sensor 
@@ -253,6 +254,7 @@ class GUISetup(tk.Frame):
 
         # for each sensor in the list of sensors to be displayed
         for sensor in self.coordDict:
+            
             sensorCoords = self.coordDict[sensor]
 
             for coordEntry in sensorCoords:
@@ -261,7 +263,8 @@ class GUISetup(tk.Frame):
                 ## Add value to entry box on screen 
                 entry_ = tk.Entry(self, width = BOX_WIDTH)
 
-                text = "no data yet"
+                #gets most recent value in database
+                text = database.getData(sensor)
                 entry_.insert(0, str(text))
 
                 # find the corresponding row and column places 
@@ -307,17 +310,18 @@ class GUISetup(tk.Frame):
 
     def getNewData(self): 
 
-        while True: 
-            message = p.get_message() 
-            ## checking for one is a redis default set value 
-            ## message = sensor:value
-            if (message and (message['data'] != 1 )):
-                split_msg = message['data'].split(":",1)
-                sensor_value= split_msg[1]
-                sensor_key = split_msg[0]
+        message = p.get_message() 
+        ## checking for one is a redis default set value 
+        ## message = sensor:value
+        if (message and (message['data'] != 1 )):
+            split_msg = message['data'].split(":",1)
+            sensor_value= split_msg[1]
+            sensor_key = split_msg[0]
 
-                for coordEntry in self.coordDict[sensor_key]:
-                    self.placedata_on_screen2(sensor_value, coordEntry)
+            for coordEntry in self.coordDict[sensor_key]:
+                self.placedata_on_screen2(sensor_value, coordEntry)
+
+        self.after(1, self.getNewData)
 
             
 
