@@ -101,7 +101,8 @@ class GUISetup(tk.Frame):
 
 
         self.get_page_groups(curr_page)
-        self.get_sensor_data()
+        #self.get_sensor_data()
+        self.initial_data_settup()
 
 
 
