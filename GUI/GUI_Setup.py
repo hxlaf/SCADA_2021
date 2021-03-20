@@ -257,8 +257,8 @@ class GUISetup(tk.Frame):
             print('New Data:' + new_data)
 
             itr = itr + 1
-        # refresh data every 1 ms
-        self.after(5000, self.refresh_sensors)
+        # refresh data every 2 s
+        self.after(2000, self.refresh_sensors)
 
 
     
