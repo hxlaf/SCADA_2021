@@ -187,7 +187,7 @@ class GUISetup(tk.Frame):
                 unit = self.getUnit(self.sensorDict.get(sen))
                 
                 # add to sensor list that holds the sensor name and its place on screen
-                #self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place, 'unit': unit})                
+                self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place, 'unit': unit})                
                 # puts keys in dict with no value
                 self.coordDict[sensorName] = []
                 #self.coordDict[sensorName].append(entry)                
@@ -252,31 +252,27 @@ class GUISetup(tk.Frame):
         
         itr = 0 ## iterator to keep track of name_list index 
 
-        # for each sensor in the list of sensors to be displayed
-        for sensor in self.coordDict:
+         # for each entry in the list of sensors to be displayed
+        for sensorEntry in self.sensorList:
             
-            sensorCoords = self.coordDict[sensor]
+            ## Add value to entry box on screen 
+            entry_ = tk.Entry(self, width = BOX_WIDTH)
 
-            for coordEntry in sensorCoords:
-                
+            #gets most recent value in database
+            sensor = sensorEntry.get('sensor')
+            text = database.getData(sensor)
+            entry_.insert(0, str(text))
 
-                ## Add value to entry box on screen 
-                entry_ = tk.Entry(self, width = BOX_WIDTH)
+            # find the corresponding row and column places 
+            rowPlace = sensorEntry.get('row') + 1
+            column_place = sensorEntry.get('column') + 1
 
-                #gets most recent value in database
-                text = database.getData(sensor)
-                entry_.insert(0, str(text))
-
-                # find the corresponding row and column places 
-                rowPlace = coordEntry.get('row') + 1
-                column_place = coordEntry.get('column') + 1
-
-                entry_.grid( row = rowPlace, column = column_place)
-                
-                
-                # add the entryBox to the entryBox list 
-               # self.entryBoxList.append(entry_)
-                self.coordDict[sensor].append(entry_)
+            entry_.grid( row = rowPlace, column = column_place)
+            
+            
+            # add the entryBox to the entryBox list 
+            # self.entryBoxList.append(entry_)
+            self.coordDict[sensor].append(entry_)
             
         ## go to refresh sensor data method
         #self.getNewData()
