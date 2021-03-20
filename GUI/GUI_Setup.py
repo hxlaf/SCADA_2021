@@ -276,7 +276,7 @@ class GUISetup(tk.Frame):
                 self.coordDict[sensor].append(entry_)
             
         ## go to refresh sensor data method
-        self.getNewData()
+        #self.getNewData()
             
 
 
