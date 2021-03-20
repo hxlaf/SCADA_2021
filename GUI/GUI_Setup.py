@@ -317,7 +317,7 @@ class GUISetup(tk.Frame):
             for coordEntry in self.coordDict[sensor_key]:
                 self.placedata_on_screen2(sensor_value, coordEntry)
 
-        self.after(1, self.getNewData)
+        self.after(100, self.getNewData)
 
             
 
