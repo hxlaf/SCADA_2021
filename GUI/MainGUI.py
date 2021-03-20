@@ -78,12 +78,14 @@ class Main_GUI(tk.Tk):
             i = i+1
         
         self.show_frame(0)
-        frame.getNewData()
+        
             
 
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
+        frame.getNewData()
+
 
 
 
