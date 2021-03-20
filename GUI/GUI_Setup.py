@@ -16,8 +16,14 @@ import time
 import sys, os
 import datetime
 import database
+from collections import defaultdict
 
-data = redis.Redis(host='localhost', port=6379, db=0)
+redis_data = redis.Redis(host='localhost', port=6379, db=0)
+# creates Publish/Subscribe Redis object called 'p'
+p = redis_data.pubsub()
+#subscribes object to logger
+p.subscribe('logger_data')
+
 
 
 LARGE_FONT = ("Times New Roman", 12)
@@ -32,6 +38,7 @@ class GUISetup(tk.Frame):
 
         self.name_list = [] ## list of values from output_target attribubte
         self.sensorList = [] # list of sensors to be displayed
+        self.coordDict = defaultdict(list) # dictinoary of sensors and their corresponding boxes on screen
         self.dataList = [] ## list of current data from each sensor on the screen
 
         self.tempList = [] ## this is a temp list until we have new config file formatted 
@@ -179,87 +186,153 @@ class GUISetup(tk.Frame):
                 unit = self.getUnit(self.sensorDict.get(sen))
                 
                 # add to sensor list that holds the sensor name and its place on screen
-                self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place, 'unit': unit})
-                                
+                #self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place, 'unit': unit})                
+                
+                #self.coordDict[sensorName].append(entry)                
+ 
                 # inriment row for next sensor 
                 self.row_place = self.row_place + 1
                 # break loop once sensor is found
                 break
 
 
-    # Method gets the data to display on the screen 
-    def get_sensor_data(self):
+    # # Method gets the data to display on the screen 
+    # def get_sensor_data(self):
+        
+    #     itr = 0 ## iterator to keep track of name_list index 
+
+    #     # for each sensor in the list of sensors to be displayed
+    #     for sensor in self.sensorList:
+
+    #         sensorName = sensor.get('sensor')
+    #         value = database.getData(sensorName)
+
+    #         if value is None:
+    #             value = 'None'
+            
+
+
+    #         ## Add value to entry box on screen 
+    #         entry_ = tk.Entry(self, width = BOX_WIDTH)
+
+    #         ## Display units according to data status
+    #         if str(value) == 'no data':
+    #             unit = " "
+    #         elif sensor.get('unit') is None: 
+    #             unit = " "
+    #         else:
+    #             unit = sensor.get('unit')
+
+
+    #         text = str(value) + " " + unit
+    #         entry_.insert(0, str(text))
+
+    #         # find the corresponding row and column places 
+    #         rowPlace = sensor.get('row') + 1
+    #         column_place = sensor.get('column') + 1
+
+    #         entry_.grid( row = rowPlace, column = column_place)
+            
+            
+    #         # add the entryBox to the entryBox list 
+    #         self.entryBoxList.append(entry_)
+    #         # add to dataList 
+    #         self.dataList.append(value)
+            
+
+    #     ## go to refresh sensor data method
+    #     self.refresh_sensors()
+
+
+
+     # Method gets the data to display on the screen 
+    def initial_data_settup(self):
         
         itr = 0 ## iterator to keep track of name_list index 
 
         # for each sensor in the list of sensors to be displayed
-        for sensor in self.sensorList:
+        for sensor in self.coordDict:
+            sensorCoords = self.coordDict[sensor]
 
-            sensorName = sensor.get('sensor')
-            value = database.getData(sensorName)
+            for coordEntry in sensorCoords:
+                
 
-            if value is None:
-                value = 'None'
+                ## Add value to entry box on screen 
+                entry_ = tk.Entry(self, width = BOX_WIDTH)
+
+                text = "no data yet"
+                entry_.insert(0, str(text))
+
+                # find the corresponding row and column places 
+                rowPlace = coordEntry.get('row') + 1
+                column_place = coordEntry.get('column') + 1
+
+                entry_.grid( row = rowPlace, column = column_place)
+                
+                
+                # add the entryBox to the entryBox list 
+               # self.entryBoxList.append(entry_)
+                self.coordDict[sensor].append(entry_)
             
-
-
-            ## Add value to entry box on screen 
-            entry_ = tk.Entry(self, width = BOX_WIDTH)
-
-            ## Display units according to data status
-            if str(value) == 'no data':
-                unit = " "
-            elif sensor.get('unit') is None: 
-                unit = " "
-            else:
-                unit = sensor.get('unit')
-
-
-            text = str(value) + " " + unit
-            entry_.insert(0, str(text))
-
-            # find the corresponding row and column places 
-            rowPlace = sensor.get('row') + 1
-            column_place = sensor.get('column') + 1
-
-            entry_.grid( row = rowPlace, column = column_place)
-            
-            
-            # add the entryBox to the entryBox list 
-            self.entryBoxList.append(entry_)
-            # add to dataList 
-            self.dataList.append(value)
-            
-
         ## go to refresh sensor data method
-        self.refresh_sensors()
+        self.getNewData()
             
 
 
-    ## This method runs on a continuous loop to refresh the sensor data
-    def refresh_sensors(self):
-        itr = 0 ## iterator for datalist index 
+    # ## This method runs on a continuous loop to refresh the sensor data
+    # def refresh_sensors(self):
+    #     itr = 0 ## iterator for datalist index 
 
-        # for a sensors in the list of sensors to be displayed
-        for sensor in self.sensorList:
-            old_data = self.dataList[itr]
+    #     # for a sensors in the list of sensors to be displayed
+    #     for sensor in self.sensorList:
+    #         old_data = self.dataList[itr]
             
-            sensorName = sensor.get('sensor')
-            new_data = database.getData(sensorName)      
-            # if the data has been updated
-            if(new_data != old_data):
-                self.dataList[itr] = new_data
-                self.placedata_on_screen(itr, new_data, sensor)
+    #         sensorName = sensor.get('sensor')
+    #         new_data = database.getData(sensorName)      
+    #         # if the data has been updated
+    #         if(new_data != old_data):
+    #             self.dataList[itr] = new_data
+    #             self.placedata_on_screen(itr, new_data, sensor)
 
-            #Harry: I put this in for debugging
-            print('Iterator:' + str(itr))
-            print('Sensor:' + sensorName )
-            print('New Data:' + new_data)
+    #         #Harry: I put this in for debugging
+    #         print('Iterator:' + str(itr))
+    #         print('Sensor:' + sensorName )
+    #         print('New Data:' + new_data)
 
-            itr = itr + 1
-        # refresh data every 2 s
-        self.after(5000, self.refresh_sensors)
+    #         itr = itr + 1
+    #     # refresh data every 2 s
+    #     self.after(5000, self.refresh_sensors)
 
+
+    def getNewData(self): 
+
+        while True: 
+            message = p.get_message() 
+            ## checking for one is a redis default set value 
+            ## message = sensor:value
+            if (message and (message['data'] != 1 )):
+                split_msg = message['data'].split(":",1)
+                sensor_value= split_msg[1]
+                sensor_key = split_msg[0]
+
+                for coordEntry in self.coordDict[sensor_key]:
+                    self.placedata_on_screen2(sensor_value, coordEntry)
+
+            
+
+    def placedata_on_screen2(self, value, entryBox):
+        
+        # delete entry box with old information
+
+        entryBox.delete(0, "end")
+       
+        if value is None: 
+            value = 'None'
+
+        text = str(value) # + " " + str(sensor.get('unit'))
+        
+        # insert new data in the entryBox
+        entryBox.insert(0, str(text))
 
     
     # this method puts the data on the screen after it has been updated
@@ -300,3 +373,5 @@ class GUISetup(tk.Frame):
     def add_space(self, row_, col_):
         label = tk.Label(self, text="      ", font=LARGE_FONT)
         label.grid(row=row_, column = col_, sticky = "e")
+
+
