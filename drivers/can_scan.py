@@ -25,4 +25,4 @@ print("Connected Nodes:")
 for node_id in network.scanner.nodes:
     print("Found node %d!" % node_id)
     print('NODE %d INFORMATION:' % node_id)
-    print(network[node_id])
+    print(network[node_id].object_dictionary)
