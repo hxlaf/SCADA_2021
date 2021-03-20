@@ -37,7 +37,6 @@ class CanDriver:
             for node in nodes:
                 nodeData = nodes.get(node)
                 self.network.add_node(nodeData['id'], lib_path + '/utils/eds-files/' + nodeData['eds_file'])
-            
             '''
             # To do this new procedure, the CAN part of the config must look like this
             can_nodes:
@@ -78,7 +77,7 @@ class CanDriver:
                     # print(sdoDict)]
             print('Made it here for some reason')
 
-        except OSError:
+        except OSError: #can.CanError is an OSError
             self.connected = False
             print('CAN Bus not connecting!')
             return None

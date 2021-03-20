@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import sys, os
+import time
 
 #Importing the config file
 lib_path = '/usr/etc/scada'
