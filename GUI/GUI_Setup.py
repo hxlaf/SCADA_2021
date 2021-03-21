@@ -212,8 +212,6 @@ class GUISetup(tk.Frame):
     #         if value is None:
     #             value = 'None'
             
-
-
     #         ## Add value to entry box on screen 
     #         entry_ = tk.Entry(self, width = BOX_WIDTH)
 
@@ -306,6 +304,7 @@ class GUISetup(tk.Frame):
     #     self.after(5000, self.refresh_sensors)
 
 
+## COORDICT STOPS HAVING ENTRIES AFTER A FEW RUNS WHYYY!!
     def getNewData(self): 
 
         message = p.get_message() 
@@ -314,10 +313,14 @@ class GUISetup(tk.Frame):
         #print("message " + str(message))
         if (message and (message['data'] != 1 )):
             [sensor_key, sensor_value] = self.splitMsg(message['data'])
-            print("list" + str(self.coordDict))
+            #print("list" + str(self.coordDict))
+            
             for coordEntry in self.coordDict[sensor_key]:
+                # print("coord entrry" + str(coordEntry))
                 print("entry" + str(coordEntry))
-                self.placedata_on_screen2(sensor_value, coordEntry)
+
+                #self.placedata_on_screen2(sensor_value, coordEntry)
+                self.placedata_on_screen(coordEntry, sensor_value, sensor_key)
 
         self.after(1000, self.getNewData)
 
@@ -364,7 +367,7 @@ class GUISetup(tk.Frame):
 
     
     def getUnit(self, sensor): 
-        key_list = sensor.keys()
+        #key_list = sensor.keys()
         for key, value in sensor.items():
             if(key == "unit"):
                 return value
