@@ -314,7 +314,7 @@ class GUISetup(tk.Frame):
         #print("message " + str(message))
         if (message and (message['data'] != 1 )):
             [sensor_key, sensor_value] = self.splitMsg(message['data'])
-            
+            print(str(self.coordDict))
             for coordEntry in self.coordDict[sensor_key]:
                 print("entry" + str(coordEntry))
                 self.placedata_on_screen2(sensor_value, coordEntry)
