@@ -311,15 +311,20 @@ class GUISetup(tk.Frame):
         ## message = sensor:value
         print("message " + str(message))
         if (message and (message['data'] != 1 )):
-            msgData= message['data']
-            split_msg = msgData.split(":",1)
-            sensor_value= split_msg[1]
-            sensor_key = split_msg[0]
-
+            [sensor_key, sensor_value] = self.splitMsg(message['data'])
+            
             for coordEntry in self.coordDict[sensor_key]:
                 self.placedata_on_screen2(sensor_value, coordEntry)
 
         self.after(100, self.getNewData)
+
+   
+    def splitMsg(self, message): 
+        
+        split_msg = message.split(":",1)
+        sensor_value= split_msg[1]
+        sensor_key = split_msg[0]
+        return [sensor_key, sensor_value]
 
             
 
