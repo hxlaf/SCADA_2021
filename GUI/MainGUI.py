@@ -55,7 +55,7 @@ class Main_GUI(tk.Tk):
 
         self.container.grid_propagate(False)
 
-        self.container.pack(side="top", fill="both", expand=True, bg = "white")
+        self.container.pack(side="top", fill="both", expand=True)
 
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
@@ -71,7 +71,7 @@ class Main_GUI(tk.Tk):
             frame = GUISetup(self.container, self, i)
            
             self.frames[i] = frame
-            frame.grid(row=0, column=0, sticky="nsew")
+            frame.grid(row=0, column=0, sticky="nsew", bg = "white")
             self.display_vars["frames"][i] = self.frames[i]
 
 
