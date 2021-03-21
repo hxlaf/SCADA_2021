@@ -309,12 +309,12 @@ class GUISetup(tk.Frame):
         message = p.get_message() 
         ## checking for one is a redis default set value 
         ## message = sensor:value
-        print("message " + str(message))
+        #print("message " + str(message))
         if (message and (message['data'] != 1 )):
             [sensor_key, sensor_value] = self.splitMsg(message['data'])
             
             for coordEntry in self.coordDict[sensor_key]:
-                print(str(coordEntry))
+                print("entry" + str(coordEntry))
                 self.placedata_on_screen2(sensor_value, coordEntry)
 
         self.after(100, self.getNewData)
