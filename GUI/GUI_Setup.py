@@ -386,7 +386,7 @@ class GUISetup(tk.Frame):
         
         unit = self.unitList[key]
 
-        text = str(value) + " " + str(unit)
+        text = str(value) + " " + unit
         
         # insert new data in the entryBox
         self.entryBoxList[listIndex].insert(0, str(text))
