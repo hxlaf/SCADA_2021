@@ -43,7 +43,6 @@ class GUISetup(tk.Frame):
 
         self.dataList = [] ## list of current data from each sensor on the screen
 
-        self.tempList = [] ## this is a temp list until we have new config file formatted 
         self.entryBoxList = [] ## list on entry boxes diaplyed on screen
         self.column_place = 0
         self.row_place = 0
@@ -324,19 +323,14 @@ class GUISetup(tk.Frame):
     def getNewData(self): 
 
         message = p.get_message() 
-        ## checking for one is a redis default set value 
         ## message = sensor:value
         if (message and (message['data'] != 1 )):
             [sensor_key, sensor_value] = self.splitMsg(message['data'])
-            # print("sensor Key: " + str(sensor_key))
-            # print("sensor value: " + str(sensor_value))
-            # print("list" + str(self.coordDict.get(sensor_key)))
 
             for coordEntry in self.coordDict[sensor_key]:
-
-                #self.placedata_on_screen2(sensor_value, coordEntry)
                 self.placedata_on_screen(coordEntry, sensor_value, sensor_key)
 
+        ## call this method after 1s to refresh data
         self.after(1000, self.getNewData)
 
       
@@ -346,7 +340,6 @@ class GUISetup(tk.Frame):
         
         sensor_valueOLD= split_msg[1]
         #print("sensor_valueOLD: " + str(split_msg[1]))
-        
         sensor_keyOLD = split_msg[0]
         #print("sensor_keyOLD " + str(split_msg[0]))
 
@@ -356,23 +349,6 @@ class GUISetup(tk.Frame):
 
         return [sensor_key, sensor_value]
 
- 
-
-            
-
-    def placedata_on_screen2(self, value, index):
-        
-        # delete entry box with old information
-
-        self.entryBoxList[index].delete(0, "end")
-       
-        if value is None: 
-            value = 'None'
-
-        text = str(value) # + " " + str(sensor.get('unit'))
-        
-        # insert new data in the entryBox
-        self.entryBoxList[index].insert(0, str(text))
 
     
     # this method puts the data on the screen after it has been updated
@@ -385,7 +361,6 @@ class GUISetup(tk.Frame):
             value = 'None'
         
         unit = self.unitList[listIndex]
-
         text = str(value) + " " + str(unit)
         
         # insert new data in the entryBox

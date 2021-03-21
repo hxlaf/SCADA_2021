@@ -55,7 +55,7 @@ class Main_GUI(tk.Tk):
 
         self.container.grid_propagate(False)
 
-        self.container.pack(side="top", fill="both", expand=True)
+        self.container.pack(side="top", fill="both", expand=True, bg = "white")
 
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
