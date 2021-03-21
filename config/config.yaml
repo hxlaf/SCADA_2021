@@ -111,7 +111,7 @@ Display:
       - st_result
 
     Motor_Controller:
-      - pack1_serialnumber
+      # - pack1_serialnumber
       - motor_select_application
       - motor_dc_link_circuit_voltage
       - motor_throttle_voltage
@@ -637,20 +637,20 @@ Sensors:
     sample_period: 5
     var_name: MC_temp>23
 
-  pack1_serialnumber:
-    unit: ''
-    inputs:
-      in: pack1_serialnumber
-    cal_function: 'in'
-    bus_type: CAN
-    primary_address: 0x1018
-    secondary_address: 0x04
-    precision: 0
-    display_variable: number 
-    description: "Serial number of pacman1"
-    bit_length: 16 #probably don't need this
-    sample_period: 5
-    var_name: PackSerial
+  # pack1_serialnumber:
+  #   unit: ''
+  #   inputs:
+  #     in: pack1_serialnumber
+  #   cal_function: 'in'
+  #   bus_type: CAN
+  #   primary_address: 0x1018
+  #   secondary_address: 0x04
+  #   precision: 0
+  #   display_variable: number 
+  #   description: "Serial number of pacman1"
+  #   bit_length: 16 #probably don't need this
+  #   sample_period: 5
+  #   var_name: PackSerial
       
 
 
