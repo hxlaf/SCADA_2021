@@ -313,8 +313,8 @@ class GUISetup(tk.Frame):
         #print("message " + str(message))
         if (message and (message['data'] != 1 )):
             [sensor_key, sensor_value] = self.splitMsg(message['data'])
-            print("sensor Key" + str(sensor_key))
-            print("sensor value" + str(sensor_value))
+            print("sensor Key: " + str(sensor_key))
+            print("sensor value: " + str(sensor_value))
             print("list" + str(self.coordDict[sensor_key]))
             
             for coordEntry in self.coordDict[sensor_key]:
@@ -332,10 +332,12 @@ class GUISetup(tk.Frame):
         split_msg = message.split(b":",1)
         
         sensor_valueOLD= split_msg[1]
+        sensor_keyOLD = split_msg[0]
+
         # remove the random b in the beginging of string
         sensor_value = sensor_valueOLD[1:]
-        
-        sensor_key = split_msg[0]
+        sensor_key = sensor_keyOLD[1:]
+
         return [sensor_key, sensor_value]
 
  
