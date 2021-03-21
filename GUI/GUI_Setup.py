@@ -378,7 +378,7 @@ class GUISetup(tk.Frame):
 
 
   
-def splitMsg(self, message): 
+def splitMsg(message): 
     
     split_msg = message.split(":",1)
     sensor_value= split_msg[1]
