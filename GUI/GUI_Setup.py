@@ -316,7 +316,8 @@ class GUISetup(tk.Frame):
             [sensor_key, sensor_value] = self.splitMsg(message['data'])
             print("sensor Key: " + str(sensor_key))
             print("sensor value: " + str(sensor_value))
-            print("list" + str(self.coordDict[sensor_key]))
+            print("list" + str(self.coordDict.get(sensor_key)))
+
             
             for coordEntry in self.coordDict[sensor_key]:
                 # print("coord entrry" + str(coordEntry))
