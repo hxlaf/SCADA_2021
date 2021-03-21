@@ -332,7 +332,10 @@ class GUISetup(tk.Frame):
         split_msg = message.split(b":",1)
         
         sensor_valueOLD= split_msg[1]
+        print("sensor_valueOLD: " + str(split_msg[1]))
+        
         sensor_keyOLD = split_msg[0]
+        print("sensor_keyOLD " + str(split_msg[0]))
 
         # remove the random b in the beginging of string
         sensor_value = sensor_valueOLD[1:]
