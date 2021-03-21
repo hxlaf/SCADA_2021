@@ -328,10 +328,9 @@ class GUISetup(tk.Frame):
       
     def splitMsg(self, message): 
         
-        split_msg = message.split(b":",1)
-        split_msg = message.split(":",1)
+        split_msgOG = message.split(b":",1)
         # remove the random b in the beginging of string
-       # new_str = split_msg[]
+        split_msg = split_msgOG[1:]
         
         sensor_value= split_msg[1]
         sensor_key = split_msg[0]
