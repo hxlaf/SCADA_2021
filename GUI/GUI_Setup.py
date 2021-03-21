@@ -68,6 +68,7 @@ class GUISetup(tk.Frame):
         curr_page = self.pageNumber +1
         next_frame = self.pageNumber + 1
 
+        # add spaces for asthetic purposes
         self.add_space(13, 4)
         self.add_space(14, 4)
 
@@ -158,7 +159,7 @@ class GUISetup(tk.Frame):
                     self.row_place = START_ROW
 
 
-    
+    # MEthod finds matches the sensor names and retrieves the display variable name called var_name
     def find_group_in_SensorList(self, sensorName): 
         self.sensorDict = config.get('Sensors') # listed name of sensors under Sensor in config file 
         
@@ -319,7 +320,7 @@ class GUISetup(tk.Frame):
     #     self.after(5000, self.refresh_sensors)
 
 
-## COORDICT STOPS HAVING ENTRIES AFTER A FEW RUNS WHYYY!!
+## This method is recursive in order to update and display changes in data
     def getNewData(self): 
 
         message = p.get_message() 
@@ -334,6 +335,7 @@ class GUISetup(tk.Frame):
         self.after(1000, self.getNewData)
 
       
+## This method splits the sting from the postgres channel into sensorValue and sensorKey 
     def splitMsg(self, message): 
         
         split_msg = message.split(b":",1)
@@ -366,12 +368,7 @@ class GUISetup(tk.Frame):
         # insert new data in the entryBox
         self.entryBoxList[listIndex].insert(0, str(text))
 
-    
-    def getUnit(self, sensor): 
-        #key_list = sensor.keys()
-        for key, value in sensor.items():
-            if(key == "unit"):
-                return value
+   
 
 # HELPER METHODS #
 ##########################################################################################
@@ -391,4 +388,9 @@ class GUISetup(tk.Frame):
         label = tk.Label(self, text="      ", font=LARGE_FONT)
         label.grid(row=row_, column = col_, sticky = "e")
 
-
+    ## proabbly dont need this method
+    def getUnit(self, sensor): 
+        #key_list = sensor.keys()
+        for key, value in sensor.items():
+            if(key == "unit"):
+                return value
