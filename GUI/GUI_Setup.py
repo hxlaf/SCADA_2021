@@ -39,6 +39,8 @@ class GUISetup(tk.Frame):
         self.name_list = [] ## list of values from output_target attribubte
         self.sensorList = [] # list of sensors to be displayed
         self.coordDict = defaultdict(list) # dictinoary of sensors and their corresponding boxes on screen
+        self.unitList = defaultdict(list) # dictinoary of sensors and their corresponding boxes on screen
+
         self.dataList = [] ## list of current data from each sensor on the screen
 
         self.tempList = [] ## this is a temp list until we have new config file formatted 
@@ -190,6 +192,7 @@ class GUISetup(tk.Frame):
                 self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place, 'unit': unit})                
                 # puts keys in dict with no value
                 self.coordDict[sensorName] = []
+                self.unitList[sensorName] = []
                 #self.coordDict[sensorName].append(entry)                
  
                 # inriment row for next sensor 
@@ -258,7 +261,19 @@ class GUISetup(tk.Frame):
 
             #gets most recent value in database
             sensor = sensorEntry.get('sensor')
-            text = database.getData(sensor)
+            value = database.getData(sensor)
+            #entry_.insert(0, str(text))
+
+
+            ## Display units according to data status
+            if str(value) == 'no data':
+                unit = " "
+            elif sensor.get('unit') is None: 
+                unit = " "
+            else:
+                unit = sensor.get('unit')
+
+            text = str(value) + " " + unit
             entry_.insert(0, str(text))
 
             # find the corresponding row and column places 
@@ -271,6 +286,7 @@ class GUISetup(tk.Frame):
             # add the entryBox to the entryBox list 
             self.entryBoxList.append(entry_)
             self.coordDict[sensor].append(itr)
+            self.unitList[sensorEntry].append(unit) # append unit to unit list for use in replace_data_on_screen()
 
             itr = itr+1
             
@@ -310,20 +326,16 @@ class GUISetup(tk.Frame):
         message = p.get_message() 
         ## checking for one is a redis default set value 
         ## message = sensor:value
-        #print("message " + str(message))
         if (message and (message['data'] != 1 )):
             [sensor_key, sensor_value] = self.splitMsg(message['data'])
-            print("sensor Key: " + str(sensor_key))
-            print("sensor value: " + str(sensor_value))
-            print("list" + str(self.coordDict.get(sensor_key)))
+            # print("sensor Key: " + str(sensor_key))
+            # print("sensor value: " + str(sensor_value))
+            # print("list" + str(self.coordDict.get(sensor_key)))
 
-            
             for coordEntry in self.coordDict[sensor_key]:
-                # print("coord entrry" + str(coordEntry))
-                print("entry" + str(coordEntry))
 
                 #self.placedata_on_screen2(sensor_value, coordEntry)
-                self.placedata_on_screen(coordEntry, sensor_value, sensor_key)
+                self.placedata_on_screen(coordEntry, sensor_value)
 
         self.after(1000, self.getNewData)
 
@@ -333,10 +345,10 @@ class GUISetup(tk.Frame):
         split_msg = message.split(b":",1)
         
         sensor_valueOLD= split_msg[1]
-        print("sensor_valueOLD: " + str(split_msg[1]))
+        #print("sensor_valueOLD: " + str(split_msg[1]))
         
         sensor_keyOLD = split_msg[0]
-        print("sensor_keyOLD " + str(split_msg[0]))
+        #print("sensor_keyOLD " + str(split_msg[0]))
 
         # remove the random b in the beginging of string
         sensor_value = sensor_valueOLD.decode('utf-8')
@@ -364,15 +376,17 @@ class GUISetup(tk.Frame):
 
     
     # this method puts the data on the screen after it has been updated
-    def placedata_on_screen(self, listIndex, value, sensor):
+    def placedata_on_screen(self, listIndex, value):
         
         # delete entry box with old information
         self.entryBoxList[listIndex].delete(0, "end")
        
         if value is None: 
             value = 'None'
+        
+        unit = self.unitList[listIndex]
 
-        text = str(value) #+ " " + str(sensor.get('unit'))
+        text = str(value) + " " + str(unit)
         
         # insert new data in the entryBox
         self.entryBoxList[listIndex].insert(0, str(text))
