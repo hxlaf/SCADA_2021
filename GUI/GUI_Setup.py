@@ -268,10 +268,10 @@ class GUISetup(tk.Frame):
             ## Display units according to data status
             if str(value) == 'no data':
                 unit = " "
-            elif sensor.get('unit') is None: 
+            elif sensorEntry.get('unit') is None: 
                 unit = " "
             else:
-                unit = sensor.get('unit')
+                unit = sensorEntry.get('unit')
 
             text = str(value) + " " + unit
             entry_.insert(0, str(text))
