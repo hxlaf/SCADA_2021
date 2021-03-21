@@ -271,8 +271,10 @@ class GUISetup(tk.Frame):
             
             
             # add the entryBox to the entryBox list 
-            # self.entryBoxList.append(entry_)
-            self.coordDict[sensor].append(entry_)
+            self.entryBoxList.append(entry_)
+            self.coordDict[sensor].append(itr)
+
+            itr = itr+1
             
         ## go to refresh sensor data method
         self.getNewData()
@@ -317,7 +319,7 @@ class GUISetup(tk.Frame):
                 print("entry" + str(coordEntry))
                 self.placedata_on_screen2(sensor_value, coordEntry)
 
-        self.after(100, self.getNewData)
+        self.after(1000, self.getNewData)
 
       
     def splitMsg(self, message): 
@@ -331,11 +333,11 @@ class GUISetup(tk.Frame):
 
             
 
-    def placedata_on_screen2(self, value, entryBox):
+    def placedata_on_screen2(self, value, index):
         
         # delete entry box with old information
 
-        entryBox.delete(0, "end")
+        self.entryBoxList[index].delete(0, "end")
        
         if value is None: 
             value = 'None'
@@ -343,7 +345,7 @@ class GUISetup(tk.Frame):
         text = str(value) # + " " + str(sensor.get('unit'))
         
         # insert new data in the entryBox
-        entryBox.insert(0, str(text))
+        self.entryBoxList[index].insert(0, str(text))
 
     
     # this method puts the data on the screen after it has been updated
