@@ -286,7 +286,7 @@ class GUISetup(tk.Frame):
             # add the entryBox to the entryBox list 
             self.entryBoxList.append(entry_)
             self.coordDict[sensor].append(itr)
-            self.unitList[sensorEntry].append(unit) # append unit to unit list for use in replace_data_on_screen()
+            self.unitList[sensor].append(unit) # append unit to unit list for use in replace_data_on_screen()
 
             itr = itr+1
             
