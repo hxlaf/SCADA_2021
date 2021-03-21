@@ -39,7 +39,7 @@ class GUISetup(tk.Frame):
         self.name_list = [] ## list of values from output_target attribubte
         self.sensorList = [] # list of sensors to be displayed
         self.coordDict = defaultdict(list) # dictinoary of sensors and their corresponding boxes on screen
-        self.unitList = defaultdict(list) # dictinoary of sensors and their corresponding boxes on screen
+        self.unitList = [] # dictinoary of sensors and their corresponding boxes on screen
 
         self.dataList = [] ## list of current data from each sensor on the screen
 
@@ -192,7 +192,7 @@ class GUISetup(tk.Frame):
                 self.sensorList.append({'sensor' : sensorName, 'column': self.column_place, 'row': self.row_place, 'unit': unit})                
                 # puts keys in dict with no value
                 self.coordDict[sensorName] = []
-                self.unitList[sensorName] = []
+
                 #self.coordDict[sensorName].append(entry)                
  
                 # inriment row for next sensor 
@@ -286,7 +286,7 @@ class GUISetup(tk.Frame):
             # add the entryBox to the entryBox list 
             self.entryBoxList.append(entry_)
             self.coordDict[sensor].append(itr)
-            self.unitList[sensor].append(unit) # append unit to unit list for use in replace_data_on_screen()
+            self.unitList.append(unit) # append unit to unit list for use in replace_data_on_screen()
 
             itr = itr+1
             
@@ -384,9 +384,9 @@ class GUISetup(tk.Frame):
         if value is None: 
             value = 'None'
         
-        unit = self.unitList[key]
+        unit = self.unitList[listIndex]
 
-        text = str(value) + " " + unit
+        text = str(value) + " " + str(unit)
         
         # insert new data in the entryBox
         self.entryBoxList[listIndex].insert(0, str(text))
