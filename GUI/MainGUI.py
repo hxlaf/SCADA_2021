@@ -73,7 +73,7 @@ class Main_GUI(tk.Tk):
            
             self.frames[i] = frame
             frame.grid(row=0, column=0, sticky="nsew")
-            frame.configure(bg = 'white')
+            frame.configure(bg = 'red')
             self.display_vars["frames"][i] = self.frames[i]
 
 
