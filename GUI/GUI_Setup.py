@@ -335,7 +335,7 @@ class GUISetup(tk.Frame):
             for coordEntry in self.coordDict[sensor_key]:
 
                 #self.placedata_on_screen2(sensor_value, coordEntry)
-                self.placedata_on_screen(coordEntry, sensor_value)
+                self.placedata_on_screen(coordEntry, sensor_value, sensor_key)
 
         self.after(1000, self.getNewData)
 
@@ -376,7 +376,7 @@ class GUISetup(tk.Frame):
 
     
     # this method puts the data on the screen after it has been updated
-    def placedata_on_screen(self, listIndex, value):
+    def placedata_on_screen(self, listIndex, value, key):
         
         # delete entry box with old information
         self.entryBoxList[listIndex].delete(0, "end")
@@ -384,7 +384,7 @@ class GUISetup(tk.Frame):
         if value is None: 
             value = 'None'
         
-        unit = self.unitList[listIndex]
+        unit = self.unitList[key]
 
         text = str(value) + " " + str(unit)
         
