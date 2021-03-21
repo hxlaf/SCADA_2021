@@ -53,7 +53,7 @@ Display:
       - Motor_Controller
 
   Groups: 
-  # max 22 sensor per 1 group
+  # max 18 sensor per 1 group
   # Try to limit # of characters for Group name to avoid wasting space on screen
     I2C_Sensors:
       - emulator_tsi_drive_state
@@ -98,11 +98,12 @@ Display:
       - mag_yoffset_msb
       - mag_zoffset_lsb
       - mag_zoffset_msb
+
+
+    IMU_Config_Reg2:
       - gyro_xoffset_lsb
       - gyro_xoffset_msb
       - gyro_yoffset_lsb
-
-    IMU_Config_Reg2:
       - gyro_zoffset_lsb
       - gyro_zoffset_msb
       - acc_raduis_lsb
