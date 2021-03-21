@@ -310,7 +310,8 @@ class GUISetup(tk.Frame):
         ## checking for one is a redis default set value 
         ## message = sensor:value
         if (message and (message['data'] != 1 )):
-            split_msg = message['data'].split(":",1)
+            msgData= message['data']
+            split_msg = msgData.split(":",1)
             sensor_value= split_msg[1]
             sensor_key = split_msg[0]
 
