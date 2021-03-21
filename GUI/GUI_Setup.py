@@ -258,7 +258,6 @@ class GUISetup(tk.Frame):
 
             #gets most recent value in database
             sensor = sensorEntry.get('sensor')
-            print("sensor " + str(sensor))
             text = database.getData(sensor)
             entry_.insert(0, str(text))
 
@@ -373,7 +372,7 @@ class GUISetup(tk.Frame):
         if value is None: 
             value = 'None'
 
-        text = str(value) + " " + str(sensor.get('unit'))
+        text = str(value) #+ " " + str(sensor.get('unit'))
         
         # insert new data in the entryBox
         self.entryBoxList[listIndex].insert(0, str(text))
