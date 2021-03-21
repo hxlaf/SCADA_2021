@@ -338,8 +338,8 @@ class GUISetup(tk.Frame):
         print("sensor_keyOLD " + str(split_msg[0]))
 
         # remove the random b in the beginging of string
-        sensor_value = sensor_valueOLD[1:]
-        sensor_key = sensor_keyOLD[1:]
+        sensor_value = sensor_valueOLD.decode('utf-8')
+        sensor_key = sensor_keyOLD.decode('utf-8')
 
         return [sensor_key, sensor_value]
 
