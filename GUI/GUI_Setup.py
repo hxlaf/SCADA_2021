@@ -276,9 +276,7 @@ class GUISetup(tk.Frame):
             text = str(value) + " " + unit
 
             #need to make sure entry box is not edit-able
-            entry_.configure(state='normal')
             entry_.insert(0, str(text))
-            entry_.configure(state='disabled')
 
             # find the corresponding row and column places 
             rowPlace = sensorEntry.get('row') + 1
@@ -361,9 +359,7 @@ class GUISetup(tk.Frame):
     def placedata_on_screen(self, listIndex, value, key):
         
         # delete entry box with old information
-        self.entryBoxList[listIndex].configure(state='normal')
         self.entryBoxList[listIndex].delete(0, "end")
-        self.entryBoxList[listIndex].configure(state='disabled')
        
         if value is None: 
             value = 'None'
