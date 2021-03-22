@@ -338,8 +338,11 @@ class GUISetup(tk.Frame):
             end = time.time()
             print("time " + str(end - start))
 
-        ## call this method after 1s to refresh data
-        self.after(1000, self.getNewData)
+            ## call this method after 1s to refresh data
+            self.after(3000, self.getNewData)
+        else :
+            
+            self.after(1000, self.getNewData)
 
       
 ## This method splits the sting from the postgres channel into sensorValue and sensorKey 
