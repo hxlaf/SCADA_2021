@@ -27,7 +27,7 @@ class Extract_Data:
         self.getSensorList()
         name = self.sensorList[0]
         #self.getTimeStamps(name)
-        print(str(self.getTimeStamps(name)) )
+       # print(str(self.getTimeStamps(name)) )
 
 
     def getTimeStamps(self, sensorName):
