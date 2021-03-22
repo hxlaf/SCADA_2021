@@ -113,11 +113,7 @@ Display:
       - st_result
 
     Motor_Controller:
-<<<<<<< HEAD
-      # - pack1_serialnumber
-=======
-      #- pack1_serialnumber
->>>>>>> guitesting
+      - pack1_serialnumber
       - motor_select_application
       - motor_dc_link_circuit_voltage
       - motor_throttle_voltage
