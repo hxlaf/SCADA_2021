@@ -66,7 +66,8 @@ CREATE TABLE IF NOT EXISTS sensors(
     redis_key VARCHAR(255) NOT NULL UNIQUE,
     display_name VARCHAR(255),
     datatype VARCHAR(255),
-    unit VARCHAR(255)
+    unit VARCHAR(255),
+    sample_period REAL
 );
 """)
 
