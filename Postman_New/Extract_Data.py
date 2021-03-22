@@ -23,11 +23,11 @@ class Extract_Data:
 
     def __init__(self):
         self.sensorList = [] # list to hold the sensors from the config file. 
-
+    ##YUS
         self.getSensorList()
         name = self.sensorList[0]
-        #self.getTimeStamps(name)
-        print(str(self.getTimeStamps(name)) )
+        self.getTimeStamps(name)
+       # print(str(self.getTimeStamps(name)) )
 
 
     def getTimeStamps(self, sensorName):
@@ -43,7 +43,7 @@ class Extract_Data:
         """, [sensorName])
 
         data = cursor.fetchall()
-        print("data " + str(data))
+        #print("data " + str(data))
         if len(data)==0:
             #If this is the case then there is an issue with the logger class' update method
             return 'NO DATA FOUND FOR POSTGRES'
@@ -70,7 +70,8 @@ class Extract_Data:
                 timeStampList.append(time)
 
         
-        
+        #print(timeStampList )
+
         return timeStampList
 
 

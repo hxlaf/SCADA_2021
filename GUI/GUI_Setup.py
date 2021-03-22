@@ -44,10 +44,10 @@ class GUISetup(tk.Frame):
         self.dataList = [] ## list of current data from each sensor on the screen
 
         self.entryBoxList = [] ## list on entry boxes diaplyed on screen
-        self.column_place = 0
-        self.row_place = 0
+        self.column_place = 0 ## column place for each box
+        self.row_place = 0 ## row place for each box
 
-        self.pageNumber = pageNum
+        self.pageNumber = pageNum ## The Page number 
 
         ## Set the title of the window to the page number 
         self.winfo_toplevel().title("SPARKY")
@@ -198,6 +198,7 @@ class GUISetup(tk.Frame):
                 # inriment row for next sensor 
                 self.row_place = self.row_place + 1
                 # break loop once sensor is found
+                
                 break
 
 
@@ -326,15 +327,17 @@ class GUISetup(tk.Frame):
     def getNewData(self): 
 
         message = p.get_message() 
+        
         ## message = sensor:value
         if (message and (message['data'] != 1 )):
+            print("message "  + str(message))
             [sensor_key, sensor_value] = self.splitMsg(message['data'])
 
             for coordEntry in self.coordDict[sensor_key]:
                 self.placedata_on_screen(coordEntry, sensor_value, sensor_key)
 
         ## call this method after 1s to refresh data
-        self.after(1, self.getNewData)
+        self.after(100, self.getNewData)
 
       
 ## This method splits the sting from the postgres channel into sensorValue and sensorKey 
@@ -369,6 +372,7 @@ class GUISetup(tk.Frame):
         
         # insert new data in the entryBox
         self.entryBoxList[listIndex].insert(0, str(text))
+        print("done")
 
    
 
