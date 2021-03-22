@@ -327,6 +327,7 @@ class GUISetup(tk.Frame):
     def getNewData(self): 
 
         message = p.get_message() 
+        print("message "  + str(message))
         ## message = sensor:value
         if (message and (message['data'] != 1 )):
             [sensor_key, sensor_value] = self.splitMsg(message['data'])
