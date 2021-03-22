@@ -329,7 +329,7 @@ class GUISetup(tk.Frame):
 
                 itr = itr + 1
         # refresh data every 2 s
-        self.after(5000, self.refresh_sensors)
+        self.after(1000, self.refresh_sensors)
 
 
 ## This method is recursive in order to update and display changes in data
