@@ -9,7 +9,7 @@ import openpyxl
 import config
 
 
-def export(wb, sensorNames, sensorData, timestampBegin, timestampEnd, sampleRateDes, filePath='./defaultFileName'):
+def export(sensorNames, sensorData, timestampBegin, timestampEnd, sampleRateDes, filePath='./defaultFileName'):
     '''
     main method of Export_Data module
 
@@ -104,6 +104,8 @@ def processData(sensorNames, sensorData, timeStampBegin, timeStampEnd, sampleRat
         elif currSampleRate > sampleRateDes:
             processedData[sensorIdx] = decimateData(
                 sensorData[sensorIdx], sampleRateDes, currSampleRate)
+        else
+            processedData[sensorIdx] = shiftData(sensorData[sensorIdx])
 
     return processedData
 
@@ -132,3 +134,12 @@ def decimateData(data, sampleRateDes, currSampleRate):
 
     outputData = []
     return outputData
+
+def shiftData(data):
+    '''
+    '''
+
+    outputData = []
+    return outputData
+
+export(sensorNames=None, sensorData=None, timestampBegin=None, timestampEnd=None, sampleRateDes=1, filePath='./defaultFileName'
