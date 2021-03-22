@@ -1,5 +1,10 @@
 #!/usr/bin/python3
+import sys, os
 
+config_path = '/usr/etc/scada/config'
+sys.path.append(config_path)
+
+import psycopg2
 import openpyxl
 import config
 
@@ -22,7 +27,6 @@ def export(wb, sensorNames, sensorData, timestampBegin, timestampEnd, sampleRate
     - open new Excel Workbook and Sheet to write to
     - place header (x axis label) row with sensor id's
     - uses a loop structure to place data in Excel sheet
-    - create fileName with .xlsx
     - save notebook
 
     no return value
@@ -39,9 +43,13 @@ def export(wb, sensorNames, sensorData, timestampBegin, timestampEnd, sampleRate
             dummyList[i][j] = str(10*i + j)
 
     processedData = dummyList
+    sensorNames = dummyNames
     #####################################
 
     # processedData = processData(sensorData)
+
+    #TODO: Here we will generate an array of timestamps based on timeStampBegin, timeStampEnd, and sample rate
+    # and insert it in processedData as the first list i.e. first column in the Excel workbook
 
     wb = openpyxl.Workbook()
     ws = wb.active
@@ -50,14 +58,14 @@ def export(wb, sensorNames, sensorData, timestampBegin, timestampEnd, sampleRate
     headers = sensorNames
     # insert time heading on left side of row
     headers.insert(0, 'Timestamp')
+    #add headers to Excel sheet
+    ws.append(headers)
 
-    printData = processedData
-
-
+    #add real data to Excel sheet
     for row in zip(processedData):
         ws.append(row)
 
-    wb.save("defaultOutput.xlsx")
+    wb.save(filePath)
 
 
 def processData(sensorNames, sensorData, timeStampBegin, timeStampEnd, sampleRateDes):
@@ -102,6 +110,7 @@ def processData(sensorNames, sensorData, timeStampBegin, timeStampEnd, sampleRat
 
 def getSampleRates(sensorNames):
     '''
+    this needs to use postgres to retrieve the samplerates
 
     '''
     rates = []
