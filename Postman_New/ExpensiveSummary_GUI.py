@@ -28,6 +28,10 @@ class ExpensiveGUI(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
+        self.screenWidth = 200
+        self.screenHeight = 200
+
         ## TEST DisplayText 
         label = tk.Label(self, text = " YES ", font= TITLE_FONT)
         label.grid(row = 0, column = 2,  sticky = "e")
+

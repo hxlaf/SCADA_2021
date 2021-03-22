@@ -59,6 +59,7 @@ class Main_GUI(tk.Tk):
 
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
+        
 
         self.frames = {}
 
@@ -72,17 +73,21 @@ class Main_GUI(tk.Tk):
            
             self.frames[i] = frame
             frame.grid(row=0, column=0, sticky="nsew")
+            #frame.configure(bg = 'red') #  set background color 
             self.display_vars["frames"][i] = self.frames[i]
 
 
             i = i+1
         
         self.show_frame(0)
+        
             
 
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
+        #frame.getNewData()
+
 
 
 

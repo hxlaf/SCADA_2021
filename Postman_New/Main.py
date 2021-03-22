@@ -29,13 +29,15 @@ class Main(tk.Tk):
 
 
         self.cheapSummaryVars = {
-            "filterBy" : " "
+            "filterBy" : " ",
+            "session" : " "
         }
+        
         # self.screenWidth = self.winfo_screenwidth() # Get current width of canvas
         # self.screenHeight = self.winfo_screenheight() # Get current height of canvas
         
-        self.screenWidth = 200
-        self.screenHeight = 200
+        self.screenWidth = 700
+        self.screenHeight = 700
         
 
         # set screen to full size 
@@ -64,7 +66,7 @@ class Main(tk.Tk):
 
 
 
-    # create a new window 
+    # create a new window for Expensive GUI
     def new_window(self):
         self.newWindow = tk.Toplevel(self)
         frame = ExpensiveGUI(self.newWindow, self)
