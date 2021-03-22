@@ -293,33 +293,42 @@ class GUISetup(tk.Frame):
             itr = itr+1
             
         ## go to refresh sensor data method
-        self.getNewData()
+       # self.getNewData()
+        self.refresh_sensors()
             
 
 
-    # ## This method runs on a continuous loop to refresh the sensor data
-    # def refresh_sensors(self):
-    #     itr = 0 ## iterator for datalist index 
+    ## This method runs on a continuous loop to refresh the sensor data
+    def refresh_sensors(self):
+        itr = 0 ## iterator for datalist index 
 
-    #     # for a sensors in the list of sensors to be displayed
-    #     for sensor in self.sensorList:
-    #         old_data = self.dataList[itr]
+        # for a sensors in the list of sensors to be displayed
+        for sensor in self.sensorList:
+            old_data = self.dataList[itr]
             
-    #         sensorName = sensor.get('sensor')
-    #         new_data = database.getData(sensorName)      
-    #         # if the data has been updated
-    #         if(new_data != old_data):
-    #             self.dataList[itr] = new_data
-    #             self.placedata_on_screen(itr, new_data, sensor)
 
-    #         #Harry: I put this in for debugging
-    #         print('Iterator:' + str(itr))
-    #         print('Sensor:' + sensorName )
-    #         print('New Data:' + new_data)
+            message = p.get_message() 
+            ## message = sensor:value
+            if (message and (message['data'] != 1 )):
+                [sensor_key, sensor_value] = self.splitMsg(message['data'])
 
-    #         itr = itr + 1
-    #     # refresh data every 2 s
-    #     self.after(5000, self.refresh_sensors)
+            sensorName = sensor.get('sensor')
+            new_data = sensor_value     
+            # if the data has been updated
+            if(new_data != old_data):
+                self.dataList[itr] = new_data
+                #self.placedata_on_screen(itr, new_data, sensor)
+                for coordEntry in self.coordDict[sensor_key]:
+                    self.placedata_on_screen(coordEntry, sensor_value, sensor_key)
+
+            #Harry: I put this in for debugging
+            print('Iterator:' + str(itr))
+            print('Sensor:' + sensorName )
+            print('New Data:' + new_data)
+
+            itr = itr + 1
+        # refresh data every 2 s
+        self.after(5000, self.refresh_sensors)
 
 
 ## This method is recursive in order to update and display changes in data
