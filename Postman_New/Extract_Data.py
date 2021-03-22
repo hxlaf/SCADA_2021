@@ -70,7 +70,7 @@ class Extract_Data:
                 timeStampList.append(time)
 
         
-        print(timeStampList )
+        #print(timeStampList )
 
         return timeStampList
 
