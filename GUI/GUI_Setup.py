@@ -289,6 +289,7 @@ class GUISetup(tk.Frame):
             self.entryBoxList.append(entry_)
             self.coordDict[sensor].append(itr)
             self.unitList.append(unit) # append unit to unit list for use in replace_data_on_screen()
+            self.dataList.append(value)
 
             itr = itr+1
             
