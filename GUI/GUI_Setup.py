@@ -372,6 +372,7 @@ class GUISetup(tk.Frame):
         
         # insert new data in the entryBox
         self.entryBoxList[listIndex].insert(0, str(text))
+        print("done")
 
    
 
