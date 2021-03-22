@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-import sys, os
+# import sys, os
 
-config_path = '/usr/etc/scada/config'
-sys.path.append(config_path)
+# config_path = '/usr/etc/scada/config'
+# sys.path.append(config_path)
 
-import psycopg2
-import openpyxl
-import config
+# import psycopg2
+from openpyxl import Workbook
+# import config
 
 
 def export(sensorNames, sensorData, timestampBegin, timestampEnd, sampleRateDes, filePath='./defaultFileName'):
@@ -104,7 +104,7 @@ def processData(sensorNames, sensorData, timeStampBegin, timeStampEnd, sampleRat
         elif currSampleRate > sampleRateDes:
             processedData[sensorIdx] = decimateData(
                 sensorData[sensorIdx], sampleRateDes, currSampleRate)
-        else
+        else:
             processedData[sensorIdx] = shiftData(sensorData[sensorIdx])
 
     return processedData
@@ -137,9 +137,9 @@ def decimateData(data, sampleRateDes, currSampleRate):
 
 def shiftData(data):
     '''
-    '''
+    ''' 
 
     outputData = []
     return outputData
 
-export(sensorNames=None, sensorData=None, timestampBegin=None, timestampEnd=None, sampleRateDes=1, filePath='./defaultFileName'
+export(sensorNames=None, sensorData=None, timestampBegin=None, timestampEnd=None, sampleRateDes=1, filePath='./defaultFileName')
