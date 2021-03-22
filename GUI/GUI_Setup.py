@@ -44,10 +44,10 @@ class GUISetup(tk.Frame):
         self.dataList = [] ## list of current data from each sensor on the screen
 
         self.entryBoxList = [] ## list on entry boxes diaplyed on screen
-        self.column_place = 0
-        self.row_place = 0
+        self.column_place = 0 ## column place for each box
+        self.row_place = 0 ## row place for each box
 
-        self.pageNumber = pageNum
+        self.pageNumber = pageNum ## The Page number 
 
         ## Set the title of the window to the page number 
         self.winfo_toplevel().title("SPARKY")
@@ -198,6 +198,7 @@ class GUISetup(tk.Frame):
                 # inriment row for next sensor 
                 self.row_place = self.row_place + 1
                 # break loop once sensor is found
+                
                 break
 
 
