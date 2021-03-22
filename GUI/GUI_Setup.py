@@ -329,9 +329,14 @@ class GUISetup(tk.Frame):
         ## message = sensor:value
         if (message and (message['data'] != 1 )):
             [sensor_key, sensor_value] = self.splitMsg(message['data'])
+            print("message" + str(message))
+            start = time.time()
 
             for coordEntry in self.coordDict[sensor_key]:
                 self.placedata_on_screen(coordEntry, sensor_value, sensor_key)
+            
+            end = time.time()
+            print("time " + str(end - start))
 
         ## call this method after 1s to refresh data
         self.after(1, self.getNewData)
