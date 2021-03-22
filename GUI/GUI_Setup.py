@@ -348,8 +348,7 @@ class GUISetup(tk.Frame):
             end = time.time()
             print("time " + str(end - start))
 
-        ## call this method after 1s to refresh data
-        self.after(1, self.getNewData)
+
 
 
       
@@ -385,6 +384,9 @@ class GUISetup(tk.Frame):
         
         # insert new data in the entryBox
         self.entryBoxList[listIndex].insert(0, str(text))
+
+        ## call this method after 1s to refresh data
+        self.after(1, self.getNewData)
 
    
 
