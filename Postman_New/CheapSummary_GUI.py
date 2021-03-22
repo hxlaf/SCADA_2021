@@ -29,8 +29,11 @@ class CheapGUI(tk.Frame):
         self.controller = controller
         self.parent = parent
         
+        
         self.dropDownMenu()
+        self.listBox()
 
+        
 
 
 
@@ -38,7 +41,7 @@ class CheapGUI(tk.Frame):
         OPTIONS = [
             "Last Hour",
             "1 Day",
-            "1 Week",
+            "1 Week", 
             "1 Year", 
             "All"
         ] 
@@ -46,10 +49,49 @@ class CheapGUI(tk.Frame):
         var.set("---") # default value
 
         filterMenu = OptionMenu(self, var, *OPTIONS)
-        filterMenu.grid(row = 0, column = 1)
+        filterMenu.grid(row = 0, column = 0)
 
-        filterButton = tk.Button(self, text="Okay", command = lambda: self.updateScreen(var.get()))
-        filterButton.grid(row = 3, column = 3)
+        filterButton = tk.Button(self, text="Filter", command = lambda: self.updateScreen(var.get()))
+        filterButton.grid(row = 0, column = 1, sticky = "w")
+
+
+    def listBox(self): 
+        # create scroll bar
+        my_scrollbar = Scrollbar(self, orient = VERTICAL)
+        my_scrollbar.grid(column=2,row=7,  sticky= "ns")
+       
+        # create list box for session entries
+        my_listbox = tk.Listbox(self, exportselection=False)
+        
+        # configure scroll bar to list box
+        my_scrollbar.config(command= my_listbox.yview)
+
+        my_listbox.grid(column= 1, row = 7)
+        my_listbox.bind("<<ListboxSelect>>", self.show_entry)
+        
+
+        # added sessions to list for TESTING PURPOSES
+        my_list = ["session1", "session2", "session3"]
+        i = 0
+        while i < 20:
+            my_list.append("newSesh")
+            i= i+ 1
+        
+        for item in my_list: 
+            my_listbox.insert(END, item)
+
+
+    ## sets and shows the session clicked on by user
+    def show_entry(self, event):
+        listbox = event.widget
+        index = listbox.curselection()
+        value = listbox.get(index[0])
+        self.controller.cheapSummaryVars["session"] = value
+        print(value)
+
+
+   
+
 
     ## this method will remove sessions from the session box displayed on screen 
     ## depeding on which option the user selected frmo the options menu
@@ -69,18 +111,11 @@ class CheapGUI(tk.Frame):
         # moreDetailsButton = tk.Button(self, text="Okay", command = lambda: self.controller.new_frame("ExpensiveGUI"))
         # moreDetailsButton.grid(row = 3, column = 3)
         
-        
         ## NOTEE: you need () at the end of the method command !!!!
         moreDetailsButton = tk.Button(self, text="Show Details", command = lambda: self.controller.new_window()) 
 
-        moreDetailsButton.grid(row = 3, column = 3)
+        moreDetailsButton.grid(row = 3, column = 4)
 
-
-    # def new_window2(self):
-    #     self.newWindow2 = tk.Toplevel(self.parent)
-    #     self.app = ExpensiveGUI(self.newWindow2)
-
-        
 
 
 
