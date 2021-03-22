@@ -23,7 +23,7 @@ class Extract_Data:
 
     def __init__(self):
         self.sensorList = [] # list to hold the sensors from the config file. 
-
+    ##YUS
         self.getSensorList()
         name = self.sensorList[0]
         self.getTimeStamps(name)
