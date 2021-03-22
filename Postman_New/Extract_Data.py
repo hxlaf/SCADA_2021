@@ -4,7 +4,7 @@ import os
 import psycopg2
 config_path = '/usr/etc/scada/config'
 sys.path.append(config_path)
-import config
+#import config
 
 
 database = psycopg2.connect(
@@ -43,7 +43,7 @@ class Extract_Data:
         """, [sensorName])
 
         data = cursor.fetchall()
-        print("data " + str(data))
+        #print("data " + str(data))
         if len(data)==0:
             #If this is the case then there is an issue with the logger class' update method
             return 'NO DATA FOUND FOR POSTGRES'
