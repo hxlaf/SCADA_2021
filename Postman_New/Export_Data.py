@@ -5,7 +5,7 @@
 # sys.path.append(config_path)
 
 # import psycopg2
-from openpyxl import Workbook
+import openpyxl
 # import config
 
 
@@ -40,9 +40,10 @@ def export(sensorNames, sensorData, timestampBegin, timestampEnd, sampleRateDes,
 
     for i in range(5):
         for j in range(5):
-            dummyList[i][j] = str(10*i + j)
+            dummyList[i].append(str(10*i + j))
 
     processedData = dummyList
+    print ('dummyList: ' + str(dummyList))
     sensorNames = dummyNames
     #####################################
 
@@ -61,8 +62,11 @@ def export(sensorNames, sensorData, timestampBegin, timestampEnd, sampleRateDes,
     #add headers to Excel sheet
     ws.append(headers)
 
+    print("zipped: " + str(zip(processedData)))
+
     #add real data to Excel sheet
     for row in zip(processedData):
+        print('row:' + str(row))
         ws.append(row)
 
     wb.save(filePath)
