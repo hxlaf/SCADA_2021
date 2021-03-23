@@ -1562,13 +1562,16 @@ Controls:
     
 
 
-PostProcessing: 
-  - emulator_tsi_drive_state
-  - emulator_temperature
-  - emulator_sloop
-  session_delimeter: 
-    - session_start_delimeter: 
-    - session_end_delimeter:
+Post_Processing: 
+  session_delimiting:
+    input: emulator_tsi_drive_state
+    in_session_condition: 'input == "DRIVE"'
+
+  expensive_summary_data:
+    - emulator_tsi_drive_state
+    - emulator_temperature
+    - emulator_sloop
+
 
 EPAL:
   display_sensors:
