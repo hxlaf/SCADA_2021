@@ -61,7 +61,8 @@ class CheapGUI(tk.Frame):
         my_scrollbar.grid(column=2,row=7,  sticky= "ns")
        
         # create list box for session entries
-        my_listbox = tk.Listbox(self, exportselection=False)
+        #my_listbox = tk.Listbox(self, exportselection=False)
+        my_listbox = Listbox(self, yscrollcommand = my_scrollbar.set )
         
         # configure scroll bar to list box
         my_scrollbar.config(command= my_listbox.yview)

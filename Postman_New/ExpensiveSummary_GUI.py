@@ -28,10 +28,16 @@ class ExpensiveGUI(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        self.screenWidth = 200
-        self.screenHeight = 200
+        self.screenWidth = 700
+        self.screenHeight = 700
+
+        self.container = tk.Frame(self, width = self.screenWidth, height = self.screenHeight)
 
         ## TEST DisplayText 
         label = tk.Label(self, text = " YES ", font= TITLE_FONT)
         label.grid(row = 0, column = 2,  sticky = "e")
+
+        filterButton = tk.Button(self, text="Filter", command = lambda: self.updateScreen(var.get()))
+        filterButton.grid(row = 0, column = 4, sticky = "w")
+
 
