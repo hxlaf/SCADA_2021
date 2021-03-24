@@ -154,7 +154,7 @@ def getMin(self, data):
 # timeStamps = timeData[0]
 # durations = timeData[1]
 
-initialize_database('139.147.91.185')
+initialize_database('139.147.91.186')
 getDelimiter()
 timeData = getTimeStamps()
 timeStamps = timeData[0]
