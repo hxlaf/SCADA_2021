@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import sys, os
 
-config_path = '/usr/etc/scada/config'
+config_path = os.getcwd() + '/config'
 sys.path.append(config_path)
 
 import psycopg2
@@ -9,7 +9,7 @@ import openpyxl
 import config
 
 
-def export(sensorNames, sensorData, timestampBegin, timestampEnd, sampleRateDes, filePath='./defaultFileName'):
+def export(sensorNames, sensorData, timestampBegin, timestampEnd, samplePeriodDes, filePath='./defaultFileName'):
     '''
     main method of Export_Data module
 
@@ -18,12 +18,12 @@ def export(sensorNames, sensorData, timestampBegin, timestampEnd, sampleRateDes,
     - sensorData: a list of lists [[sensor1Data],[sensor2Data],[sensor3Data]] of all data falling between the given timestamps
     - timeStampBegin: timestamp of session start
     - timeStampEnd: timestamp of session end
-    - sampleRateDes: desired sample rate of the outputted data
+    - samplePeriodDes: desired sample Period of the outputted data
     - filePath: path/name of Excel file to save exported data to
 
     executes procedure
     - calls processData
-    - generate timestamp array for y axis label
+    - genePeriod timestamp array for y axis label
     - open new Excel Workbook and Sheet to write to
     - place header (x axis label) row with sensor id's
     - uses a loop structure to place data in Excel sheet
@@ -48,7 +48,7 @@ def export(sensorNames, sensorData, timestampBegin, timestampEnd, sampleRateDes,
 
     # processedData = processData(sensorData)
 
-    #TODO: Here we will generate an array of timestamps based on timeStampBegin, timeStampEnd, and sample rate
+    #TODO: Here we will genePeriod an array of timestamps based on timeStampBegin, timeStampEnd, and sample Period
     # and insert it in processedData as the first list i.e. first column in the Excel workbook
 
     wb = openpyxl.Workbook()
@@ -68,19 +68,19 @@ def export(sensorNames, sensorData, timestampBegin, timestampEnd, sampleRateDes,
     wb.save(filePath)
 
 
-def processData(sensorNames, sensorData, timeStampBegin, timeStampEnd, sampleRateDes):
+def processData(sensorNames, sensorData, timeStampBegin, timeStampEnd, samplePeriodDes):
     '''
     takes in 
     - sensorNames: a list [] of the sensors to be exported and
     - sensorData: a list of lists [[sensor1Data],[sensor2Data],[sensor3Data]] of all data falling between the given timestamps
     - timeStampBegin: timestamp of session start
     - timeStampEnd: timestamp of session end
-    - sampleRateDes: desired sample rate of the outputted data
+    - samplePeriodDes: desired sample Period of the outputted data
 
     executes procedure
-    - calls getSampleRates
-    - find data lower frequency than sampleRateDes and interpolate it
-    - find data higher frequency than sampleRateDes and decimate it
+    - calls getSamplePeriods
+    - find data lower frequency than samplePeriodDes and interpolate it
+    - find data higher frequency than samplePeriodDes and decimate it
     - after modifying each data set, put it into a corresponding list in the processedData data structure
 
 
@@ -90,36 +90,36 @@ def processData(sensorNames, sensorData, timeStampBegin, timeStampEnd, sampleRat
 
 
     '''
-    sampleRates = getSampleRates(sensorNames)
+    samplePeriods = getSamplePeriods(sensorNames)
 
-    # generates empty list of lists to store new (processed) data in
+    # genePeriods empty list of lists to store new (processed) data in
     processedData = [[] for _ in range(len(sensorNames))]
 
     for sensorIdx in sensorData:
-        currSampleRate = sampleRates[sensorIdx]
+        currSamplePeriod = samplePeriods[sensorIdx]
 
-        if currSampleRate < sampleRateDes:
+        if currSamplePeriod > samplePeriodDes:
             processedData[sensorIdx] = interpolateData(
-                sensorData[sensorIdx], sampleRateDes, currSampleRate)
-        elif currSampleRate > sampleRateDes:
+                sensorData[sensorIdx], samplePeriodDes, currSamplePeriod)
+        elif currSamplePeriod < samplePeriodDes:
             processedData[sensorIdx] = decimateData(
-                sensorData[sensorIdx], sampleRateDes, currSampleRate)
-        else
+                sensorData[sensorIdx], samplePeriodDes, currSamplePeriod)
+        else:
             processedData[sensorIdx] = shiftData(sensorData[sensorIdx])
 
     return processedData
 
 
-def getSampleRates(sensorNames):
+def getSamplePeriods(sensorNames):
     '''
-    this needs to use postgres to retrieve the samplerates
+    this needs to use postgres to retrieve the samplePeriods
 
     '''
-    rates = []
-    return rates
+    Periods = []
+    return Periods
 
 
-def interpolateData(data, sampleRateDes, currSampleRate):
+def interpolateData(data, samplePeriodDes, currSamplePeriod):
     '''
 
     '''
@@ -127,7 +127,7 @@ def interpolateData(data, sampleRateDes, currSampleRate):
     return outputData
 
 
-def decimateData(data, sampleRateDes, currSampleRate):
+def decimateData(data, samplePeriodDes, currSamplePeriod):
     '''
 
     '''
@@ -142,4 +142,5 @@ def shiftData(data):
     outputData = []
     return outputData
 
-export(sensorNames=None, sensorData=None, timestampBegin=None, timestampEnd=None, sampleRateDes=1, filePath='./defaultFileName'
+# export(sensorNames=None, sensorData=None, timestampBegin=None, timestampEnd=None, samplePeriodDes=1, filePath='./defaultFileName'
+
